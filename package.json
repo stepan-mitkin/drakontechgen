@@ -1,0 +1,26 @@
+{
+  "name": "drakontechgen",
+  "version": "1.0.0",
+  "description": "A code generator for DrakonTech",
+  "main": "src/main.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stepan-mitkin/drakontechgen.git"
+  },
+  "author": "Stepan Mitkin",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/stepan-mitkin/drakontechgen/issues"
+  },
+  "homepage": "https://github.com/stepan-mitkin/drakontechgen#readme",
+  "dependencies": {
+    "escodegen": "^2.1.0",
+    "esprima": "^4.0.1"
+  }
+}
