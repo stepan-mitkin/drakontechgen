@@ -3,6 +3,7 @@ const escodegen = require('escodegen')
 const fs = require('fs').promises;
 const path = require('path');
 const { createDrakonTechGenerator } = require("./drakontechgen")
+const {toTree} = require("drakongen")
 
 var success = undefined
 
@@ -107,6 +108,7 @@ async function main() {
     }
 
     var genOptions = {
+        toTree: toTree,
         escodegen: escodegen,
         esprima: esprima,
         name: options.name,

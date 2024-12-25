@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/stepan-mitkin/drakontechgen#readme",
   "dependencies": {
+    "drakongen": "^1.1.0",
     "escodegen": "^2.1.0",
     "esprima": "^4.0.1"
   }
