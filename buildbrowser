@@ -1,0 +1,3 @@
+#!/bin/bash
+
+browserify src/browser.js --outfile browser/drakontechgen.js
