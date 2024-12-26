@@ -1,7 +1,9 @@
+var secretValue;
 const {multiply} = require('./ops');
 secretValue = 23;
 var nextId = 1;
 function add(left, right) {
+    var result;
     result = addCore(left, right);
     return result;
 }
@@ -23,7 +25,8 @@ function complexOr(valueA, valueB, valueC) {
     }
 }
 function complexSilhouette(left, right) {
-    var _state_ = 'First';
+    var _state_, result;
+    _state_ = 'First';
     while (true) {
         switch (_state_) {
         case 'First':
@@ -59,6 +62,7 @@ function degenerateSelect(value) {
     }
 }
 function doWhile() {
+    var result;
     result = 0;
     while (true) {
         result += 3;
@@ -69,6 +73,7 @@ function doWhile() {
     return result;
 }
 function doWhileDo() {
+    var result;
     result = 0;
     while (true) {
         result += 7;
@@ -81,9 +86,10 @@ function doWhileDo() {
     return result;
 }
 function earlyExit(array, value) {
+    var i, index;
     index = -1;
     for (i = 0; i < array.length; i++) {
-        if (item[i] === value) {
+        if (array[i] === value) {
             index = i;
             break;
         }
@@ -95,6 +101,7 @@ function earlyExit(array, value) {
 function empty() {
 }
 function fibonacci(ordinal) {
+    var i, i_1, i_2, result;
     if (ordinal === 0 || ordinal === 1) {
         result = ordinal;
         return result;
@@ -125,23 +132,16 @@ function fizzBuzz(number) {
     }
 }
 function forEachUntil(array, action) {
-    for (var element of array) {
+    var element, mustExit;
+    for (element of array) {
         mustExit = action(element);
         if (mustExit) {
             break;
         }
     }
 }
-function forLoopDeclare(array) {
-    copy = {};
-    for (var i = 0; i < array.length; i += 2) {
-        key = array[i];
-        value = array[i + 1];
-        copy[key] = value;
-    }
-    return copy;
-}
 function forLoopNoDeclare(array) {
+    var copy, i, key, value;
     copy = {};
     for (i = 0; i < array.length; i += 2) {
         key = array[i];
@@ -151,18 +151,20 @@ function forLoopNoDeclare(array) {
     return copy;
 }
 function foreachLoopArray(array, value) {
+    var copy, item, value2;
     copy = [];
-    for (var item of array) {
+    for (item of array) {
         value2 = item + value;
         copy.push(value2);
     }
     return copy;
 }
 function foreachLoopObject(object, value) {
+    var _collection_2, copy, item, key, value2, wrapper;
     copy = {};
     wrapper = { collection: object };
     _collection_2 = wrapper.collection;
-    for (var key in _collection_2) {
+    for (key in _collection_2) {
         item = _collection_2[key];
         value2 = item + value;
         copy[key] = value2;
@@ -170,6 +172,7 @@ function foreachLoopObject(object, value) {
     return copy;
 }
 function generateId() {
+    var id;
     id = nextId;
     nextId = nextId + 1;
     return id;
@@ -184,6 +187,7 @@ function mul(left, right) {
     return multiply(left, right);
 }
 function questionMerge(left, right) {
+    var result;
     result = 0;
     if (left) {
         result += 10;
@@ -198,9 +202,11 @@ function questionMerge(left, right) {
     return result;
 }
 function scope3(array, sortProp, cutoff) {
+    var found, result;
     result = undefined;
-    var found = undefined;
+    found = undefined;
     array.sort((a, b) => {
+        var left, right;
         left = a[sortProp];
         right = b[sortProp];
         if (left < right) {
@@ -209,9 +215,11 @@ function scope3(array, sortProp, cutoff) {
         if (left > right) {
             return 1;
         }
+        a = 'what?';
         return 0;
     });
     forEachUntil(array, function (element) {
+        var e2;
         e2 = element * 2;
         if (e2 > cutoff) {
             result = e2;
@@ -226,6 +234,7 @@ function scope3(array, sortProp, cutoff) {
     };
 }
 function selectArrow() {
+    var result;
     result = 0;
     while (true) {
         if (result === 10) {
@@ -241,6 +250,7 @@ function selectArrow() {
     return result;
 }
 function selectShortCircuit(value) {
+    var _selectValue_5;
     _selectValue_5 = value + 5;
     if (_selectValue_5 === 10 || _selectValue_5 === 20) {
         return 'good';
@@ -263,6 +273,7 @@ function selectWithDefault(value) {
     }
 }
 function selectWithoutDefault(value) {
+    var _selectValue_7;
     _selectValue_7 = value + 5;
     if (_selectValue_7 === 10) {
         return 'ten';
@@ -292,8 +303,12 @@ function simpleOr(valueA, valueB, valueC) {
     }
 }
 function twoExits(array, value) {
+    var i, index, item;
+    if (!array) {
+        array = [];
+    }
     while (true) {
-        let i = 0;
+        i = 0;
         if (i < array.length) {
             item = array[i];
             if (item === value) {
@@ -310,6 +325,7 @@ function twoExits(array, value) {
     return index;
 }
 function whileDo() {
+    var result;
     result = 0;
     while (true) {
         if (result > 20) {
@@ -332,7 +348,6 @@ module.exports = {
     empty,
     fibonacci,
     fizzBuzz,
-    forLoopDeclare,
     forLoopNoDeclare,
     foreachLoopArray,
     foreachLoopObject,

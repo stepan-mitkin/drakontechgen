@@ -11,12 +11,12 @@
         "3": {
             "type": "action",
             "one": "5",
-            "content": "array.sort(\n    (a, b) => {\n        left = a[sortProp]\n        right = b[sortProp]\n        if (left < right) {\n            return -1\n        }\n        if (left > right) {\n            return 1\n        }\n        return 0\n    }\n)"
+            "content": "array.sort(\n    (a, b) => {\n        left = a[sortProp]\n        right = b[sortProp]\n        if (left < right) {\n            return -1\n        }\n        if (left > right) {\n            return 1\n        }\n        a = \"what?\"\n        return 0\n    }\n)"
         },
         "4": {
             "type": "action",
             "one": "3",
-            "content": "result = undefined\nvar found = undefined"
+            "content": "result = undefined\nfound = undefined"
         },
         "5": {
             "type": "action",

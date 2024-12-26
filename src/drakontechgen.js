@@ -1,5 +1,9 @@
 const { findFirst, addRange } = require("./tools")
 
+async function pause(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 function createDrakonTechGenerator(options) {
     var gAsts = {}
     var gBranches = {}
@@ -10,17 +14,6 @@ function createDrakonTechGenerator(options) {
     var scopes = {}
     var project = createScope(options.name, "module")
     var failed = false
-    var codeIcons = {
-        "action": true,
-        "loopbegin": true,
-        "select": true,
-        "case": true,
-        "question": true
-    }
-
-    function canHaveCode(item) {
-        return item.type in codeIcons
-    }
 
     function generateId(prefix) {
         var id = prefix + "_" + nextId
@@ -92,26 +85,18 @@ function createDrakonTechGenerator(options) {
 
     function addDeclaration(scope, name) {
         scope.declared[name] = true
-        scope.all[name] = "declared"
     }
 
     function addAssigned(scope, name) {
         scope.assignments[name] = true
-        scope.all[name] = "assigned"
     }
 
     function addArgument(fun, name) {
         fun.arguments.push(name)
-        var decl = {
-            name: name,
-            path: fun.path,
-            fun: fun.name,
-            type: "argument"
-        }
         if (name in fun.scope.declared) {
             reportError("Argument name is not unique", fun.path, "params", name)
         }
-        addDeclaration(fun.scope, decl)
+        addDeclaration(fun.scope, name)
     }
 
     function checkCancellation() {
@@ -417,7 +402,7 @@ function createDrakonTechGenerator(options) {
             } else {
                 simpleSilhouette = false
                 var firstName = tree.branches[0].name
-                functionBody.push(createDeclaration("_state_", createStringLiteral(firstName)))
+                functionBody.push(createExpression(createAssignment(createIdentifier("_state_"), createStringLiteral(firstName))))
                 var loop = createWhileTrue()
                 functionBody.push(loop)
                 var loopBody = loop.body.body
@@ -514,6 +499,15 @@ function createDrakonTechGenerator(options) {
             var treeStr = options.toTree(drakonJson, fun.name, fun.path, options.language)
             var tree = JSON.parse(treeStr)
             var ast = treeToAst(fun, tree)
+            try {
+                options.escodegen.generate(ast)
+            } catch (ex) {
+                console.log(ex.message)
+                console.log(fun.name, fun.path)    
+                console.log(JSON.stringify(ast, null, 4))            
+                reportError("Internal error", fun.path)
+                ast = createIdentifier("error")
+            }
             gAsts[fun.path] = ast
         } catch (ex) {
             console.log(ex)
@@ -529,10 +523,12 @@ function createDrakonTechGenerator(options) {
             .filter(part => !!part)
     }
 
-    function parseNormal(content) {
+    function parseNormal(content, itemId) {
         var wrapped = "async function _wpd_() {" + content + "\n}"
         var parsed = options.esprima.parseScript(wrapped, { loc: false })
-        return parsed.body[0].body.body
+        var result = parsed.body[0].body.body
+        result.forEach(node => {node.itemId = itemId})
+        return result
     }
 
     function parseItemContent(fun, item, parser) {
@@ -540,7 +536,7 @@ function createDrakonTechGenerator(options) {
         content = content.trim()
         if (content) {
             try {
-                item.content = parser(content)
+                item.content = parser(content, item.id)
             } catch (ex) {
                 reportError(ex.message, fun.path, item.id)
                 delete item.content
@@ -586,47 +582,72 @@ function createDrakonTechGenerator(options) {
         return undefined
     }
 
-    function buildSubscopesAssignment(scope, expr) {
+    function buildSubscopesAssignment(context, expr, itemId) {
         var left = expr.left
+        var right = expr.right
         if (left.type === "Identifier") {
-            addAssigned(scope, left.name)
+            addAssigned(context.scope, left.name)
         } else {
-            buildSubscopes(scope, left)
+            scanForAssignments(context, left, itemId)
         }
-        buildSubscopes(scope, expr.right)
+        scanForAssignments(context, right, itemId)
     }
 
-    function buildSubscopesInExpression(scope, obj) {
-        if (obj.expression.type === "AssignmentExpression") {
-            buildSubscopesAssignment(scope, obj.expression)
-        } else if (obj.expression.type === "SequenceExpression") {
-            for (var subexpr of obj.expression.expressions) {
-                if (subexpr.expression.type === "AssignmentExpression") {
-                    buildSubscopesAssignment(scope, subexpr.expression)
+    function buildSubscopesDeclaration(context, node, itemId) {
+        if (!context.scope.allowDeclare) {
+            reportError("Variable declarations allowed only in module and class constructors", context.fun.path, itemId)
+            return
+        }
+
+        for (var dec of node.declarations) {
+            if (dec.type === "VariableDeclarator") {
+                var id = dec.id
+                if (id.type === "Identifier") {
+                    addDeclaration(context.scope, id.name)
+                } else if (id.type === "ObjectPattern") {
+                    for (var prop of id.properties) {
+                        if (prop.key.type === "Identifier") {
+                            addDeclaration(context.scope, prop.key.name)
+                        }
+                    }
                 }
             }
         }
     }
 
-    function buildSubscopes(scope, obj) {
-        if (!obj) { return }
-        if (Array.isArray(obj)) {
-            for (var expr of obj) {
-                buildSubscopes(scope, expr)
+    function addFunctionParamsToScope(scope, node) {
+        if (node.params) {
+            for (var param of node.params) {
+                if (param.type === "Identifier") {
+                    addDeclaration(scope, param.name)
+                }
             }
-        } else if (typeof obj === "object" && obj.type) {
-            if (obj.type === "ArrowFunctionExpression" || obj.type === "FunctionExpression") {
-                var name = buildScopeName()
-                obj.scope = createScope(name, obj.type, scope.name)
-                buildSubscopes(obj.scope, obj.body)
-            } else if (obj.type === "ExpressionStatement") {
-                buildSubscopesInExpression(scope, obj)
-            } else if (obj.type === "VariableDeclaration") {
-                buildSubscopesInDeclaration(scope, obj)
+        }
+    }
+
+    function scanForAssignments(context, node, itemId) {
+        if (!node) { return }
+        if (Array.isArray(node)) {
+            for (var child of node) {
+                scanForAssignments(context, child, itemId)
+            }
+        } else if (typeof node === "object" && node.type) {
+            if (node.itemId) {
+                itemId = node.itemId
+            }
+            if ((node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression") && node.body.type === "BlockStatement") {
+                var name = generateId("scope")
+                node.scope = createScope(name, node.type, context.scope.name)
+                addFunctionParamsToScope(node.scope, node)
+                addVariableDeclarationsCore(node.scope, context.fun, node.body.body, itemId)
+            } else if (node.type === "AssignmentExpression") {
+                buildSubscopesAssignment(context, node, itemId)
+            } else if (node.type === "VariableDeclaration") {
+                buildSubscopesDeclaration(context, node, itemId)
             } else {
-                for (var key in obj) {
-                    var value = obj[key]
-                    buildSubscopes(scope, value)
+                for (var key in node) {
+                    var value = node[key]
+                    scanForAssignments(context, value, itemId)
                 }
             }
         }
@@ -644,20 +665,7 @@ function createDrakonTechGenerator(options) {
     function createForOf(variable, collectionExpr) {
         return {
             type: "ForOfStatement",
-            left: {
-                type: "VariableDeclaration",
-                declarations: [
-                    {
-                        type: "VariableDeclarator",
-                        id: {
-                            type: "Identifier",
-                            name: variable
-                        },
-                        init: null
-                    }
-                ],
-                kind: "var"
-            },
+            left: createIdentifier(variable),
             right: collectionExpr,
             body: createBlock()
         }
@@ -666,17 +674,7 @@ function createDrakonTechGenerator(options) {
     function createForIn(variable, collectionExpr) {
         return {
             type: "ForInStatement",
-            left: {
-                type: "VariableDeclaration",
-                declarations: [
-                    {
-                        type: "VariableDeclarator",
-                        id: createIdentifier(variable),
-                        init: null
-                    }
-                ],
-                kind: "var"
-            },
+            left: createIdentifier(variable),
             right: collectionExpr,
             body: createBlock(),
             each: false
@@ -763,6 +761,8 @@ function createDrakonTechGenerator(options) {
                         item.subtype = "array"
                         item.variable = first.name
                         item.content = createForOf(item.variable, second)
+                        item.content.itemId = item.id
+                        addAssigned(fun.scope, item.variable)
                     } else if (first.type === "SequenceExpression") {
                         if (first.expressions.length !== 2) {
                             reportBadLoop(fun, item)
@@ -778,6 +778,8 @@ function createDrakonTechGenerator(options) {
                                 item.valueVariable = var2.name
                                 insertActionBefore(fun, item.one, createGetValue(item.valueVariable, item.keyVariable, second))
                                 item.content = createForIn(item.keyVariable, second)
+                                item.content.itemId = item.id
+                                addAssigned(fun.scope, item.keyVariable)
                             }
                         }
                     }
@@ -787,6 +789,7 @@ function createDrakonTechGenerator(options) {
                     var test = stripExpression(item.content[1])
                     var update = stripExpression(item.content[2])
                     item.content = createFor(init, test, update)
+                    item.content.itemId = item.id
                     break
                 default:
                     reportBadLoop(fun, item)
@@ -832,6 +835,20 @@ function createDrakonTechGenerator(options) {
             kind: "var"
         }
     }
+
+    function createDeclarations(names) {
+        return {
+            type: "VariableDeclaration",
+            declarations: names.map(name => {
+                return {
+                    type: "VariableDeclarator",
+                    id: createIdentifier(name),
+                    init: null
+                }
+            }),
+            kind: "var"
+        }
+    }    
 
     function parseSelectContent(fun, item, parser) {
         parseItemContent(fun, item, parser)
@@ -1003,6 +1020,70 @@ function createDrakonTechGenerator(options) {
         return src
     }
 
+    function scanAsts() {
+        project.allowDeclare = true
+        if (project.moduleInit) {
+            addVariableDeclarations(project, project.moduleInit)
+        }
+        for (var name in project.functions) {
+            var fun = project.functions[name]
+            addVariableDeclarations(fun.scope, fun)
+        }
+    }
+
+    function addVariableDeclarations(scope, fun) {        
+        var ast = gAsts[fun.path]  
+        addVariableDeclarationsCore(scope, fun, ast.body.body, undefined)
+    }
+
+    function isDeclared(scope, name) {        
+        if (name in scope.all) {
+            return true
+        }
+
+        if (name in scope.declared) {
+            return true
+        }
+
+        if (scope.parent) {
+            var parent = scopes[scope.parent]
+            if (name in parent.assignments) {
+                return true
+            }
+            return isDeclared(parent, name)
+        }
+    }
+
+    function calculateAuto(scope) {
+        for (var name in scope.assignments) {
+            if (!isDeclared(scope, name)) {
+                scope.auto[name] = true
+            }
+        }
+
+        for (var name in scope.declared) {
+            scope.all[name] = "declared"
+        }
+
+        for (var name in scope.auto) {
+            scope.all[name] = "auto"
+        }
+    }
+
+    function addVariableDeclarationsCore(scope, fun, body, itemId) {        
+        var context = {
+            scope:scope,
+            fun:fun
+        }
+        scanForAssignments(context, body, itemId)
+        calculateAuto(scope)
+        var auto = Object.keys(scope.auto)
+        auto.sort()
+        if (auto.length !== 0) {
+            body.unshift(createDeclarations(auto))
+        }
+    }    
+
     async function run() {
         if (state !== "idle") {
             throw new Error("Invalid state " + state)
@@ -1015,10 +1096,17 @@ function createDrakonTechGenerator(options) {
                 return
             }
             buildAsts()
+            await pause(1)
             if (failed) {
                 return
             }
             checkCancellation()
+            scanAsts()
+            await pause(1)
+            if (failed) {
+                return
+            }
+            checkCancellation()            
             var src = generateSourceCode()
             await options.onData(src)
         } catch (ex) {
