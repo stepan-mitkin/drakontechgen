@@ -1,3 +1,6 @@
+const {multiply} = require('./ops');
+secretValue = 23;
+var nextId = 1;
 function add(left, right) {
     result = addCore(left, right);
     return result;

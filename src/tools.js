@@ -7,7 +7,11 @@ function findFirst(array, predicate) {
     return undefined
 }
 
+function addRange(target, source) {
+    source.forEach(item => target.push(item))
+}
 
 module.exports = {
-    findFirst
+    findFirst,
+    addRange
 }

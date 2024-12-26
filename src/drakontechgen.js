@@ -1,4 +1,4 @@
-const { findFirst } = require("./tools")
+const { findFirst, addRange } = require("./tools")
 
 function createDrakonTechGenerator(options) {
     var gAsts = {}
@@ -147,17 +147,20 @@ function createDrakonTechGenerator(options) {
 
     async function jsPreprocess() {
         var rootFolder = await options.getObjectByHandle(options.root)
-        var moduleInit = undefined
         for (var childPath of rootFolder.children) {
             var child = await options.getObjectByHandle(childPath)
             if (!child) { continue }
             if (isClass(child)) {
                 reportError("class not expected in the root folder", childPath)
             } else if (isModule(child)) {
-                moduleInit = child
+                project.moduleInit = child
             } else {
                 await traverseModuleItem(child)
             }
+        }
+        
+        if (project.moduleInit) {
+            parseItemsCore(project.moduleInit, parseNormal)
         }
 
         for (var name in project.functions) {
@@ -166,7 +169,10 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function buildAsts() {
+    function buildAsts() {        
+        if (project.moduleInit) {
+            buildAst(project.moduleInit)
+        }        
         for (var name in project.functions) {
             checkCancellation()
             buildAst(project.functions[name])
@@ -174,6 +180,7 @@ function createDrakonTechGenerator(options) {
     }
 
     function createFunction(name, arguments) {
+        if (!arguments) { arguments = []}
         return {
             type: "FunctionDeclaration",
             id: createIdentifier(name),
@@ -522,14 +529,18 @@ function createDrakonTechGenerator(options) {
             .filter(part => !!part)
     }
 
-    function parseItemContent(fun, item) {
+    function parseNormal(content) {
+        var wrapped = "async function _wpd_() {" + content + "\n}"
+        var parsed = options.esprima.parseScript(wrapped, { loc: false })
+        return parsed.body[0].body.body
+    }
+
+    function parseItemContent(fun, item, parser) {
         var content = item.content || ""
         content = content.trim()
         if (content) {
             try {
-                var wrapped = "async function _wpd_() {" + content + "\n}"
-                var parsed = options.esprima.parseScript(wrapped, { loc: false })
-                item.content = parsed.body[0].body.body
+                item.content = parser(content)
             } catch (ex) {
                 reportError(ex.message, fun.path, item.id)
                 delete item.content
@@ -621,8 +632,8 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function parseActionContent(fun, item) {
-        parseItemContent(fun, item)
+    function parseActionContent(fun, item, parser) {
+        parseItemContent(fun, item, parser)
     }
 
     function addLoopVar(scope, variable) {
@@ -728,8 +739,8 @@ function createDrakonTechGenerator(options) {
         fun.items[id] = item
     }
 
-    function parseLoopContent(fun, item) {
-        parseItemContent(fun, item)
+    function parseLoopContent(fun, item, parser) {
+        parseItemContent(fun, item, parser)
         if (ensureHasContent(fun, item)) {
             switch (item.content.length) {
                 case 2:
@@ -822,8 +833,8 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function parseSelectContent(fun, item) {
-        parseItemContent(fun, item)
+    function parseSelectContent(fun, item, parser) {
+        parseItemContent(fun, item, parser)
         if (!ensureHasContent(fun, item)) {
             return
         }
@@ -840,8 +851,8 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function parseCaseContent(fun, item) {
-        parseItemContent(fun, item)
+    function parseCaseContent(fun, item, parser) {
+        parseItemContent(fun, item, parser)
         if (item.two) {
             ensureHasContent(fun, item)
         }
@@ -850,8 +861,8 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function parseQuestionContent(fun, item) {
-        parseItemContent(fun, item)
+    function parseQuestionContent(fun, item, parser) {
+        parseItemContent(fun, item, parser)
         if (!ensureHasContent(fun, item)) { return }
         ensureExpression(fun, item)
     }
@@ -869,25 +880,29 @@ function createDrakonTechGenerator(options) {
         fun.arguments = []
         var params = parseParams(fun.params)
         params.forEach(param => addArgument(fun, param))
+        parseItemsCore(fun, parseNormal)
+    }
+
+    function parseItemsCore(fun, parser) {
         fun.items = fun.items || {}
         for (var itemId in fun.items) {
             var item = fun.items[itemId]
             item.id = itemId
             switch (item.type) {
                 case "action":
-                    parseActionContent(fun, item)
+                    parseActionContent(fun, item, parser)
                     break;
                 case "loopbegin":
-                    parseLoopContent(fun, item)
+                    parseLoopContent(fun, item, parser)
                     break;
                 case "select":
-                    parseSelectContent(fun, item)
+                    parseSelectContent(fun, item, parser)
                     break;
                 case "case":
-                    parseCaseContent(fun, item)
+                    parseCaseContent(fun, item, parser)
                     break;
                 case "question":
-                    parseQuestionContent(fun, item)
+                    parseQuestionContent(fun, item, parser)
                     break;
                 case "branch":
                 case "comment":
@@ -965,6 +980,10 @@ function createDrakonTechGenerator(options) {
 
     function generateSourceCode() {        
         var root = createRootNode()
+        if (project.moduleInit) {
+            var modAst = gAsts[project.moduleInit.path]
+            addRange(root.body, modAst.body.body)
+        }
         var names = Object.keys(project.functions)
         names.sort()
         var exported = []
