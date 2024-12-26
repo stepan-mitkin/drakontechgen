@@ -97,6 +97,7 @@ function earlyExit(array, value) {
     if (index !== -1) {
         array.splice(index, 1);
     }
+    return array;
 }
 function empty() {
 }
@@ -117,14 +118,14 @@ function fibonacci(ordinal) {
     }
 }
 function fizzBuzz(number) {
-    if (number % 3) {
-        if (number % 5) {
+    if (number % 3 === 0) {
+        if (number % 5 === 0) {
             return 'FizzBuzz';
         } else {
             return 'Fizz';
         }
     } else {
-        if (number % 5) {
+        if (number % 5 === 0) {
             return 'Buzz';
         } else {
             return undefined;
@@ -220,7 +221,7 @@ function scope3(array, sortProp, cutoff) {
     });
     forEachUntil(array, function (element) {
         var e2;
-        e2 = element * 2;
+        e2 = element.value * 2;
         if (e2 > cutoff) {
             result = e2;
             found = element;
@@ -307,8 +308,8 @@ function twoExits(array, value) {
     if (!array) {
         array = [];
     }
+    i = 0;
     while (true) {
-        i = 0;
         if (i < array.length) {
             item = array[i];
             if (item === value) {

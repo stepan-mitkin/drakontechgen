@@ -10,7 +10,7 @@
         },
         "3": {
             "type": "action",
-            "one": "1",
+            "one": "10",
             "content": "array.splice(index, 1)"
         },
         "4": {
@@ -43,9 +43,14 @@
         "9": {
             "type": "question",
             "one": "3",
-            "two": "1",
+            "two": "10",
             "flag1": 0,
             "content": "index === -1"
+        },
+        "10": {
+            "type": "action",
+            "one": "1",
+            "content": "return array"
         }
     },
     "keywords": {

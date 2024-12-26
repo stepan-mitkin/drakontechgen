@@ -21,7 +21,7 @@
         "5": {
             "type": "action",
             "one": "6",
-            "content": "forEachUntil(\n    array,\n    function (element) {\n        e2 = element * 2\n        if (e2 > cutoff) {\n            result = e2\n            found = element\n            return true\n        }\n        return false\n    }\n)"
+            "content": "forEachUntil(\n    array,\n    function (element) {\n        e2 = element.value * 2\n        if (e2 > cutoff) {\n            result = e2\n            found = element\n            return true\n        }\n        return false\n    }\n)"
         },
         "6": {
             "type": "action",
