@@ -1,6 +1,7 @@
 const { findFirst } = require("./tools")
 
 function createDrakonTechGenerator(options) {
+    var gAsts = {}
     var gBranches = {}
     var simpleSilhouette
     var nextId = 2
@@ -505,11 +506,9 @@ function createDrakonTechGenerator(options) {
             var drakonJson = JSON.stringify(fun, null, 4)
             var treeStr = options.toTree(drakonJson, fun.name, fun.path, options.language)
             var tree = JSON.parse(treeStr)
-            ast = treeToAst(fun, tree)
-            var src = options.escodegen.generate(ast)
-            console.log(src)
+            var ast = treeToAst(fun, tree)
+            gAsts[fun.path] = ast
         } catch (ex) {
-            console.log(JSON.stringify(ast, null, 4))
             console.log(ex)
             reportError(ex.message, fun.path, ex.nodeId)
         }
@@ -913,17 +912,96 @@ function createDrakonTechGenerator(options) {
         })
     }
 
+    function createRootNode() {
+        return {
+            type: "Program",
+            body: [],
+            sourceType: "module"
+        }
+    }
+
+    function createDotMember(obj, propertyName) {
+        return {
+            type: "MemberExpression",
+            computed: false,
+            object: obj,
+            property: createIdentifier(propertyName)
+        }
+    }
+
+    function createExportNode(exported) {
+        var properties = exported.map(name => [createIdentifier(name), createIdentifier(name)])
+        return createExpression(
+            {
+                type: "AssignmentExpression",
+                operator: "=",
+                left: createDotMember(createIdentifier("module"), "exports"),
+                right: createObjectExpression(properties)
+            }
+        )
+    }
+
+    function createInitProperty(key, value) {
+        return {
+            type: "Property",
+            key: key,
+            value: value,
+            computed: false,
+            kind: "init",
+            method: false,
+            shorthand: true
+        }
+    }
+
+    function createObjectExpression(properties) {
+        return {
+            type: "ObjectExpression",
+            properties: properties.map(prop => createInitProperty(
+                prop[0],
+                prop[1]
+                ))
+        }
+    }
+
+    function generateSourceCode() {        
+        var root = createRootNode()
+        var names = Object.keys(project.functions)
+        names.sort()
+        var exported = []
+        for (var name of names) {            
+            checkCancellation()
+            var fun = project.functions[name]
+            var ast = gAsts[fun.path]
+            root.body.push(ast)
+            if (fun.keywords.export) {
+                exported.push(name)
+            }
+        }
+        if (exported.length > 0) {
+            root.body.push(createExportNode(exported))
+        }
+        var src = options.escodegen.generate(root)
+        return src
+    }
+
     async function run() {
         if (state !== "idle") {
             throw new Error("Invalid state " + state)
         }
         try {
+            gAsts = {}
+            gBranches = {}
             await jsPreprocess()
             if (failed) {
                 return
             }
             buildAsts()
-            await options.onData(JSON.stringify(project, null, 4))
+            if (failed) {
+                return
+            }
+            checkCancellation()
+            var src = generateSourceCode()
+            await options.onData(src)
         } catch (ex) {
             if (ex.cancelled) {
                 reportError("Cancelled by user")

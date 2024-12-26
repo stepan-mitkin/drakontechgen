@@ -44,7 +44,7 @@ function parseCommandLine() {
 
     if (!options.output) {
         var parsed = path.parse(options.projectFolder)
-        options.output = path.join(options.projectFolder, parsed.name + ".json")
+        options.output = path.join(options.projectFolder, parsed.name + ".js")
     }
     options.name = path.parse(options.projectFolder).name
 
