@@ -1,6 +1,6 @@
 const { findFirst, addRange } = require("./tools")
 
-var verbose = false
+var verbose = true
 
 async function pause(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -41,8 +41,8 @@ function createDrakonTechGenerator(options) {
             algoprops: {},
             functions: {},
             classes: {},
-            computes: {},
-            assignments: {}
+            assignments: {},
+            computes: {}
         }
         scopes[name] = scope
         return scope
@@ -88,28 +88,28 @@ function createDrakonTechGenerator(options) {
         var name = folder.name
         if (name in scope.all) {
             reportError("Function name is not unique", folder.path, undefined, name)
-        }
+        }        
         createFunctionScope(folder, "function", scopeName, parentScope)
         scope.functions[name] = folder
         scope.all[name] = "function"
     }
 
-    function addAlgoprop(scope, folder, scopeName, parentScope) {
+    function addAlgoProp(scope, folder, scopeName, parentScope) {
         var name = folder.name
         if (name in scope.all) {
-            reportError("Algoprop name is not unique", folder.path, undefined, name)
+            reportError("Function name is not unique", folder.path, undefined, name)
         }
         createFunctionScope(folder, "algoprop", scopeName, parentScope)
         scope.algoprops[name] = folder
         scope.all[name] = "algoprop"
-    }    
+    }
 
     function addClass(folder, ctr) {        
         var name = folder.name
         if (name in project.all) {
             reportError("Class name is not unique", folder.path, undefined, name)
         }        
-        createFunctionScope(ctr, "class", name, project.name)
+        createFunctionScope(ctr, name, project.name)
         ctr.scope.allowDeclare = true
         ctr.isCtr = true
         ctr.name = name
@@ -160,7 +160,7 @@ function createDrakonTechGenerator(options) {
         } else if (isFunction(folder)) {
             addFunction(project, folder, folder.name, project.name)
         } else if (isAlgoprop(folder)) {
-            addAlgoprop(project, folder, folder.name, project.name)
+            addAlgoProp(project, folder, folder.name, project.name)
         }
     }
 
@@ -182,7 +182,7 @@ function createDrakonTechGenerator(options) {
             var scopeName = cls.name + "." + folder.name
             addFunction(scope, folder, scopeName, cls.name)
         } else if (isAlgoprop(folder)) {
-            addAlgoprop(scope, folder, scopeName, cls.name)
+            addAlgoProp(scope, folder, scopeName, cls.name)
         }
     }
 
@@ -204,8 +204,15 @@ function createDrakonTechGenerator(options) {
             parseItemsCore(project.moduleInit, parseNormal)
         }
 
-        parseFunctions(project.functions)
-        parseFunctions(project.algoprops)
+        for (var name in project.functions) {            
+            parseFunctionItems(project.functions[name])
+        }
+
+        
+        for (var name in project.algoprops) {
+            var algo = project.algoprops[name]
+            parseAlgoPropItems(algo)
+        }        
 
         for (var name in project.classes) {            
             parseClassItems(project.classes[name])
@@ -216,8 +223,12 @@ function createDrakonTechGenerator(options) {
         if (project.moduleInit) {
             buildAst(project.moduleInit)
         }        
-        buildAstsInFunctions(project.functions)
-        buildAstsInFunctions(project.algoprops)
+        for (var name in project.functions) {
+            buildAst(project.functions[name])
+        }
+        for (var name in project.algoprops) {
+            buildAst(project.algoprops[name])
+        }        
         for (var name in project.classes) {
             buildClassAst(project.classes[name])
         }
@@ -583,15 +594,13 @@ function createDrakonTechGenerator(options) {
     function buildClassAst(cls) {
         buildAst(cls)       
         var scope = cls.scope
-        buildAstsInFunctions(scope.functions)
-        buildAstsInFunctions(scope.algoprops)
-    }
-
-    function buildAstsInFunctions(functions) {
-        for (var name in functions) {
-            var fun = functions[name]            
+        for (var name in scope.functions) {
+            var fun = scope.functions[name]            
             buildAst(fun)
         }
+        for (var name in scope.algoprops) {
+            buildAst(scope.algoprops[name])
+        } 
     }
 
     function isExported(fun) {
@@ -665,15 +674,20 @@ function createDrakonTechGenerator(options) {
         return undefined
     }
 
+    function checkCanAssign(scope, name) {
+
+    }
+
     function buildSubscopesAssignment(context, expr, itemId) {
         var left = expr.left
         var right = expr.right
         if (left.type === "Identifier") {
+            checkCanAssign(context.scope, left.name)
             addAssigned(context.scope, left.name)
         } else {
-            scanForAssignments(context, left, itemId)
+            scanForAssignments(context, left, itemId, expr, "left")
         }
-        scanForAssignments(context, right, itemId)
+        scanForAssignments(context, right, itemId, expr, "right")
     }
 
     function buildSubscopesDeclaration(context, node, itemId) {
@@ -708,17 +722,42 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function scanForAssignments(context, node, itemId) {
+    function checkCompute(node) {
+
+    }
+
+    function tryGetComputed(node) {
+        if (node.type === "CallExpression" && node.callee.type === "Identifier" && node.callee.name === "compute") {
+            var args = node.arguments
+            if (args.length === 1) {
+                var arg = args[0]
+                if (arg.type === "Identifier") {
+                    return arg.name
+                }
+            }
+        }
+        return undefined
+    }
+
+    function scanForAssignments(context, node, itemId, parentNode, prop) {
         if (!node) { return }
         if (Array.isArray(node)) {
             for (var child of node) {
-                scanForAssignments(context, child, itemId)
+                scanForAssignments(context, child, itemId, parentNode, prop)
             }
         } else if (typeof node === "object" && node.type) {
             if (node.itemId) {
                 itemId = node.itemId
             }
-            if ((node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression") && node.body.type === "BlockStatement") {
+            
+            var comp = tryGetComputed(node)
+            if (comp) {
+                checkCompute(node)
+                context.scope.computes[comp] = true
+            }
+            if (node.type === "Identifier") {
+                console.log(parentNode.type, prop, node.name)
+            } else if ((node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression") && node.body.type === "BlockStatement") {
                 var name = generateId("scope")
                 node.scope = createScope(name, node.type, context.scope.name)
                 addFunctionParamsToScope(node.scope, node)
@@ -730,7 +769,7 @@ function createDrakonTechGenerator(options) {
             } else {
                 for (var key in node) {
                     var value = node[key]
-                    scanForAssignments(context, value, itemId)
+                    scanForAssignments(context, value, itemId, node, key)
                 }
             }
         }
@@ -979,6 +1018,14 @@ function createDrakonTechGenerator(options) {
         parseItemsCore(fun, parseNormal)
     }
 
+    function parseAlgoPropItems(algo) {
+        var params = parseParams(algo.params)
+        if (params.length !== 0) {
+            reportError("An algo-prop cannot have arguments", algo.path, "params")            
+        }
+        parseItemsCore(algo, parseNormal)
+    }
+
     function parseClassItems(cls) {
         if (cls.keywords && cls.keywords.async) {
             reportError("A class constructor cannot be async", cls.path)
@@ -986,14 +1033,14 @@ function createDrakonTechGenerator(options) {
         parseFunctionItems(cls)
 
         var scope = cls.scope
-        parseFunctions(scope.functions)
-        parseFunctions(scope.algoprops)
-    }
-
-    function parseFunctions(functions) {
-        for (var name in functions) {            
-            parseFunctionItems(functions[name])
+        for (var name in scope.functions) {
+            parseFunctionItems(scope.functions[name])
         }
+
+        for (var name in scope.algoprops) {
+            var algo = scope.algoprops[name]
+            parseAlgoPropItems(algo)
+        }        
     }
 
     function parseItemsCore(fun, parser) {
@@ -1095,10 +1142,9 @@ function createDrakonTechGenerator(options) {
         return "_calc_" + name
     }
 
-    function addAlgopropCode(scope, body) {
+    function addAlogPropCode(scope, body) {
         var names = Object.keys(scope.algoprops)
-        if (names.length === 0) { return }
-        names.sort()        
+        names.sort()
         body.push(createDeclarations(names))
         for (var name of names) {
             var algo = scope.algoprops[name]
@@ -1109,14 +1155,13 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-
     function generateSourceCode() {        
         var root = createRootNode()
         if (project.moduleInit) {
             var modAst = gAsts[project.moduleInit.path]
             addRange(root.body, modAst.body.body)
         }
-        addAlgopropCode(project, root.body)
+        addAlogPropCode(project, root.body)
         var names = Object.keys(project.functions)
         addRange(names, Object.keys(project.classes))
         names.sort()
@@ -1172,6 +1217,7 @@ function createDrakonTechGenerator(options) {
             addVariableDeclarations(project, project.moduleInit)
         }
         scanFunctionsAsts(project.functions);
+        scanFunctionsAsts(project.algoprops);
         for (var name in project.classes) {
             var cls = project.classes[name]
             scanClassAst(cls)
@@ -1188,6 +1234,7 @@ function createDrakonTechGenerator(options) {
     function scanClassAst(cls) {
         addVariableDeclarations(cls.scope, cls);
         scanFunctionsAsts(cls.scope.functions)
+        scanFunctionsAsts(cls.scope.algoprops)
     }
 
     function addVariableDeclarations(scope, fun) {        
@@ -1234,7 +1281,7 @@ function createDrakonTechGenerator(options) {
             scope:scope,
             fun:fun
         }
-        scanForAssignments(context, body, itemId)
+        scanForAssignments(context, body, itemId, {}, "")
         calculateAuto(scope)
         var auto = Object.keys(scope.auto)
         auto.sort()
