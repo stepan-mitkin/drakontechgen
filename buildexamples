@@ -1,3 +1,4 @@
 #!/bin/bash
 
 node src/main.js examples/green
+node src/main.js examples/classes
