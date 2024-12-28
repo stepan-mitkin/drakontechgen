@@ -1172,6 +1172,7 @@ function createDrakonTechGenerator(options) {
             addVariableDeclarations(project, project.moduleInit)
         }
         scanFunctionsAsts(project.functions);
+        scanFunctionsAsts(project.algoprops);
         for (var name in project.classes) {
             var cls = project.classes[name]
             scanClassAst(cls)
@@ -1188,6 +1189,7 @@ function createDrakonTechGenerator(options) {
     function scanClassAst(cls) {
         addVariableDeclarations(cls.scope, cls);
         scanFunctionsAsts(cls.scope.functions)
+        scanFunctionsAsts(cls.scope.algoprops)
     }
 
     function addVariableDeclarations(scope, fun) {        

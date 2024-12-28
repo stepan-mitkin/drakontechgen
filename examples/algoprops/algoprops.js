@@ -6,6 +6,7 @@ function _calc_red() {
     return 10;
 }
 function _calc_yellow() {
+    var x;
     x = orange + red;
     return orange * 2;
 }
