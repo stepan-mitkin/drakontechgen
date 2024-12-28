@@ -11,13 +11,14 @@ function GreyClass(value) {
     return self;
 }
 function YellowClass(name, color) {
-    var title;
     var self = {};
+    var title;
     title = 'Dr.';
     const greeting = 'Hello';
     function getFullInfo() {
+        var result;
         log('getFullInfo');
-        var result = {
+        result = {
             name: name,
             color: color,
             address: self.address
@@ -25,8 +26,10 @@ function YellowClass(name, color) {
         return result;
     }
     function greet() {
+        var message;
         log('greet');
-        return greeting + ', ' + title + ' ' + name + '!';
+        message = greeting + ', ' + title + ' ' + name + '!';
+        return message;
     }
     function log(message) {
         console.log('YellowClass', message);
