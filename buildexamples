@@ -2,3 +2,4 @@
 
 node src/main.js examples/green
 node src/main.js examples/classes
+node src/main.js examples/algoprops

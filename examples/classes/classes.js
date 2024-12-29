@@ -10,18 +10,25 @@ function GreyClass(value) {
     self.getValue = getValue;
     return self;
 }
-function YellowClass(name, color) {
+function YellowClass(name, color, arg1, arg2) {
     var self = {};
     var title;
     title = 'Dr.';
     const greeting = 'Hello';
+    const {x, y} = arg1;
+    var [a, b] = arg2;
     function getFullInfo() {
         var result;
         log('getFullInfo');
+        a = 1000;
         result = {
             name: name,
             color: color,
-            address: self.address
+            address: self.address,
+            a: a,
+            b: b,
+            x: x,
+            y: y
         };
         return result;
     }

@@ -1,5 +1,6 @@
 const { findFirst, addRange } = require("./tools")
 const { traverseAst } = require("./astScanner")
+const { topologicaSort } = require("./sort")
 
 var verbose = false
 
@@ -75,6 +76,10 @@ function createDrakonTechGenerator(options) {
 
     function isAlgoprop(folder) {
         return folder.type === "drakon" && folder.keywords && folder.keywords.algoprop
+    }
+
+    function isAsync(folder) {
+        return folder.type === "drakon" && folder.keywords && folder.keywords.async
     }
 
     function createFunctionScope(folder, type, scopeName, parentScope) {
@@ -729,7 +734,7 @@ function createDrakonTechGenerator(options) {
     }
 
     function isOwnEagerProperty(context, name) {
-        var algo = context.fun.scope.algoprops[name]
+        var algo = getOwnAlgoprop(context.fun, name)
         if (algo) {
             if (!isLazy(algo)) {
                 return true
@@ -755,13 +760,16 @@ function createDrakonTechGenerator(options) {
     }
 
     function getOwnAlgoprop(fun, name) {
-        var scope
-        if (fun.scope.parent) {
-            scope = scopes[fun.scope.parent]
-        } else {
-            scope = fun.scope
-        }
+        var scope = getParentScope(fun)
         return scope.algoprops[name]
+    }
+
+    function getParentScope(fun) {
+        if (fun.scope.parent) {
+            return scopes[fun.scope.parent]
+        } else {
+            return fun.scope
+        }
     }
 
     function computeAllowed(context, itemId, computeArg) {
@@ -803,21 +811,21 @@ function createDrakonTechGenerator(options) {
                 if (isNeutral(parentNode, property)) {
                     return self
                 }
+                if (isAlgoprop(fun) && isOwnEagerProperty(context, node.name)) {                    
+                    fun.dependencies[node.name] = true
+                }                
                 if (parentNode.type === "UpdateExpression") {
                     checkCanWriteTo(context, node.name, itemId, parentNode)
                 } else if (parentNode.type === "AssignmentExpression" && property === "left") {
                     checkCanWriteTo(context, node.name, itemId, parentNode)
                     addAssigned(context.scope, node.name)
-                } else {
-                    if (isAlgoprop(fun) && isOwnEagerProperty(context, node.name)) {
-                        fun.dependencies[node.name] = true
-                    }
                 }
             } else {
                 var computeArg = getComputeArgument(node)
                 if (computeArg) {
                     if (computeAllowed(context, itemId, computeArg)) {
-                        fun.computes[computeArg] = true
+                        var pscope = getParentScope(fun)
+                        pscope.computes[computeArg] = true
                     }
                 }
             }
@@ -840,6 +848,7 @@ function createDrakonTechGenerator(options) {
                 var computeArg = getComputeArgument(node)
                 if (computeArg) {
                     node.callee.name = buildComputeName(computeArg)
+                    node.arguments = []
                 }
             }
             return self
@@ -1111,7 +1120,6 @@ function createDrakonTechGenerator(options) {
     }
 
     function parseItemsCore(fun, parser) {
-        fun.computes = {}
         fun.dependencies = {}        
         fun.items = fun.items || {}
         for (var itemId in fun.items) {
@@ -1252,6 +1260,7 @@ function createDrakonTechGenerator(options) {
                 exported.push(name)
             }
         }
+        addRange(root.body, project.computeFunctions)
         if (exported.length > 0) {
             root.body.push(createExportNode(exported))
         }
@@ -1274,6 +1283,7 @@ function createDrakonTechGenerator(options) {
                 exported.push(name)
             }
         }
+        addRange(body, scope.computeFunctions)
         for (var name of exported) {
             body.push(createExpression(createAssignment(
                 createDotMember(
@@ -1306,13 +1316,84 @@ function createDrakonTechGenerator(options) {
         }
     }
 
-    function secondScanAst(scope, fun) {
+    function getAllDeps(scope, algo) {
+        var start = algo.name
+        var getAdjacentNodes = key => {
+            var current = scope.algoprops[key]
+            return Object.keys(current.dependencies)
+        }
+        var reportError = (key, message) => {
+            var current = scope.algoprops[key]
+            reportError("Detected a cycle in property dependencies", current.path, undefined, message)
+        }
+        var deps = topologicaSort(start, getAdjacentNodes, reportError)
+        return deps
+    }
+
+    function resolveAlgoprops(scope) {
+        for (var name in scope.algoprops) {
+            var algo = scope.algoprops[name]
+            var deps = getAllDeps(scope, algo)
+            algo.sortedDeps = deps            
+        }
+
+        scope.computeFunctions = []
+        var names = Object.keys(scope.computes)
+        names.sort()
+        for (var name of names) {            
+            var ast = buildComputeAst(scope, name)
+            scope.computeFunctions.push(ast)
+        }
+    }
+
+    function createCall(callee, arguments) {
+        arguments = arguments || []
+        return {
+            type: "CallExpression",
+            callee: callee,
+            arguments: arguments
+        }
+    }
+
+    function createAwait(argument) {
+        return {
+            type: "AwaitExpression",
+            argument: argument
+        }
+    }
+    
+
+    function buildComputeAst(scope, name) {
+        var fname = buildComputeName(name)
+        var ast = createFunction(fname)
+        var algo = scope.algoprops[name]
+        var as = false
+        for (var dep of algo.sortedDeps) {
+            var depAlgo = scope.algoprops[dep]
+            var call = createCall(createIdentifier(buildCalcName(dep)))
+            if (isAsync(depAlgo)) {
+                call = createAwait(call)
+                as = true
+            }
+            var calcLine = createExpression(createAssignment(createIdentifier(dep), call))            
+            ast.body.body.push(calcLine)
+        }
+        if (as) {
+            ast.async = true
+        }
+
+        return ast
+    }
+
+    function secondScanAst(scope, fun) {        
         var ast = gAsts[fun.path]
         var context = secondPass(fun, scope)
         traverseAst(context, ast, undefined, {}, undefined)
     }
 
     function secondScanAsts(scope, ctr) {
+        resolveAlgoprops(scope)
+
         if (ctr) {
             secondScanAst(scope, ctr)
         }
