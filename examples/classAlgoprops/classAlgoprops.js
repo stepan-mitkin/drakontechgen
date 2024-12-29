@@ -1,3 +1,30 @@
+function Lilla() {
+    var self = {};
+    var lower, total, upper;
+    function _calc_lower() {
+        return 20;
+    }
+    function _calc_total() {
+        _compute_lower();
+        return lower + upper;
+    }
+    function _calc_upper() {
+        return 10;
+    }
+    function getTotal() {
+        _compute_total();
+        return total;
+    }
+    function _compute_lower() {
+        lower = _calc_lower();
+    }
+    function _compute_total() {
+        upper = _calc_upper();
+        total = _calc_total();
+    }
+    self.getTotal = getTotal;
+    return self;
+}
 function Lime() {
     var self = {};
     var bar, foo;
@@ -61,6 +88,7 @@ function pause(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 module.exports = {
+    Lilla,
     Lime,
     Pink
 };

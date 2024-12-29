@@ -14,3 +14,10 @@ QUnit.test("Class algoprops", assert => {
     var value = pink.calculateYellow()   
     assert.equal(value, 520)
 })
+
+
+QUnit.test("Lazy algoprops", assert => {
+    var lilla = classAlgoprops.Lilla()
+    var value = lilla.getTotal()   
+    assert.equal(value, 30)
+})
