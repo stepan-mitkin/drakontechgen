@@ -175,6 +175,7 @@ function createDrakonTechGenerator(options) {
             var scopeName = cls.name + "." + folder.name
             addFunction(scope, folder, scopeName, cls.name)
         } else if (isAlgoprop(folder)) {
+            var scopeName = cls.name + "." + folder.name
             addAlgoprop(scope, folder, scopeName, cls.name)
         }
     }
@@ -1272,6 +1273,7 @@ function createDrakonTechGenerator(options) {
         var body = ast.body.body
         var scope = fun.scope
         body.unshift(createDeclaration("self", createObjectExpression([])))
+        addAlgopropCode(scope, body)
         var names = Object.keys(scope.functions)
         names.sort()
         var exported = []
