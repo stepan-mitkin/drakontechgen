@@ -742,7 +742,7 @@ function createDrakonTechGenerator(options) {
         if (node.type === "CallExpression") {
             var callee = node.callee
             if (callee.type === "Identifier" && callee.name === "compute") {
-                var args = callee.arguments
+                var args = node.arguments
                 if (args.length === 1) {
                     var arg = args[0]
                     if (arg.type === "Identifier") {
@@ -754,12 +754,22 @@ function createDrakonTechGenerator(options) {
         return undefined
     }
 
+    function getOwnAlgoprop(fun, name) {
+        var scope
+        if (fun.scope.parent) {
+            scope = scopes[fun.scope.parent]
+        } else {
+            scope = fun.scope
+        }
+        return scope.algoprops[name]
+    }
+
     function computeAllowed(context, itemId, computeArg) {
-        var algo = context.fun.scope.algoprops[computeArg]
+        var algo = getOwnAlgoprop(context.fun, computeArg)
         if (algo) {
             if (isLazy(algo)) {
                 return true
-            } else if (isAlgoprop(context.fun)) {
+            } else if (!isAlgoprop(context.fun)) {
                 return true
             } else {
                 reportError("Cannot compute a non-lazy algoprop inside an algoprop", context.fun.path, itemId)

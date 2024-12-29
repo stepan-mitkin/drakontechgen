@@ -11,7 +11,7 @@ function _calc_yellow() {
     return orange * 2;
 }
 function calculateYellow() {
-    compute(yellow);
+    _compute_yellow(yellow);
     return yellow;
 }
 module.exports = { calculateYellow };
