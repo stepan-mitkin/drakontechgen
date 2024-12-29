@@ -837,7 +837,7 @@ function createDrakonTechGenerator(options) {
 
     function secondPass(fun, scope) {
         var self = {}
-        self.visit = function (node) {
+        self.visit = function (node, itemId, parentNode, property) {
             if (node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression") {
                 if (node.body.type === "BlockStatement") {
                     addVariableDeclarationsCore(node.scope, node.body.body)
@@ -850,6 +850,14 @@ function createDrakonTechGenerator(options) {
                 if (computeArg) {
                     node.callee.name = buildComputeName(computeArg)
                     node.arguments = []
+                    var pscope = getParentScope(fun)
+                    var compAst = pscope.computeFunctions[computeArg]
+                    if (compAst && compAst.async && parentNode.type !== "AwaitExpression") {
+                        node.type = "AwaitExpression"
+                        node.argument = createCall(createIdentifier(buildComputeName(computeArg)))
+                        delete node.callee
+                        delete node.arguments
+                    }
                 }
             }
             return self
@@ -1261,12 +1269,21 @@ function createDrakonTechGenerator(options) {
                 exported.push(name)
             }
         }
-        addRange(root.body, project.computeFunctions)
+        addComputes(project, root.body)
         if (exported.length > 0) {
             root.body.push(createExportNode(exported))
         }
         var src = options.escodegen.generate(root)
         return src
+    }
+
+    function addComputes(scope, body) {
+        var names = Object.keys(scope.computeFunctions)
+        names.sort()
+        for (var name of names) {
+            var ast = scope.computeFunctions[name]
+            body.push(ast)
+        }
     }
 
     function addMembersToClass(fun, ast) {
@@ -1284,8 +1301,8 @@ function createDrakonTechGenerator(options) {
             if (isExported(fun)) {
                 exported.push(name)
             }
-        }
-        addRange(body, scope.computeFunctions)
+        }        
+        addComputes(scope, body)
         for (var name of exported) {
             body.push(createExpression(createAssignment(
                 createDotMember(
@@ -1339,12 +1356,12 @@ function createDrakonTechGenerator(options) {
             algo.sortedDeps = deps            
         }
 
-        scope.computeFunctions = []
+        scope.computeFunctions = {}
         var names = Object.keys(scope.computes)
         names.sort()
         for (var name of names) {            
             var ast = buildComputeAst(scope, name)
-            scope.computeFunctions.push(ast)
+            scope.computeFunctions[name] = ast
         }
     }
 

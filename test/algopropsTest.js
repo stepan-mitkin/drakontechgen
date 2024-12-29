@@ -11,6 +11,6 @@ QUnit.test("Module algoprops", assert => {
 
 QUnit.test("Class algoprops", assert => {
     var pink = classAlgoprops.Pink(250)
-    var value = pink.calculateYellow()    
+    var value = pink.calculateYellow()   
     assert.equal(value, 520)
 })

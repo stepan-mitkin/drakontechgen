@@ -1,3 +1,24 @@
+function Lime() {
+    var self = {};
+    var bar, foo;
+    function _calc_bar() {
+        return 5 + foo;
+    }
+    async function _calc_foo() {
+        await pause(1);
+        return 10;
+    }
+    async function getBar() {
+        await _compute_bar();
+        return bar;
+    }
+    async function _compute_bar() {
+        foo = await _calc_foo();
+        bar = _calc_bar();
+    }
+    self.getBar = getBar;
+    return self;
+}
 function Pink(redValue) {
     var self = {};
     var index, orange, red, yellow;
@@ -36,4 +57,10 @@ function Pink(redValue) {
     self.calculateYellow = calculateYellow;
     return self;
 }
-module.exports = { Pink };
+function pause(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+module.exports = {
+    Lime,
+    Pink
+};
