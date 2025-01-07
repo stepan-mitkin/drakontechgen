@@ -1,0 +1,69 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "console.log(\"primInput: in constructor\")"
+        },
+        "4": {
+            "type": "sinput",
+            "one": "9",
+            "content": "nudge(amount)"
+        },
+        "5": {
+            "type": "action",
+            "one": "7",
+            "content": "console.log(\"first nudge: \", amount)"
+        },
+        "6": {
+            "type": "action",
+            "one": "4",
+            "content": "total = 0"
+        },
+        "7": {
+            "type": "sinput",
+            "one": "10",
+            "two": "",
+            "content": "nudge(amount)"
+        },
+        "8": {
+            "type": "action",
+            "one": "11",
+            "two": "",
+            "content": "console.log(\"second nudge: \", amount)"
+        },
+        "9": {
+            "type": "action",
+            "one": "5",
+            "content": "total += amount"
+        },
+        "10": {
+            "type": "action",
+            "one": "8",
+            "content": "total += amount"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "content": "self.total = total + left + right"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": true,
+        "async": false,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "left\nright",
+    "type": "drakon"
+}

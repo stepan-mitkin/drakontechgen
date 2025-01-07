@@ -11,7 +11,24 @@ function addRange(target, source) {
     source.forEach(item => target.push(item))
 }
 
+function sortBy(array, property) {
+    array.sort((left, right) => compareBy(left, right, property))
+}
+
+function compareBy(leftObj, rightObj, property) {
+    var left = leftObj[property]
+    var right = rightObj[property]
+    if (left < right) {
+        return -1
+    }
+    if (left > right) {
+        return 1
+    }
+    return 0
+}
+
 module.exports = {
+    sortBy,
     findFirst,
     addRange
 }
