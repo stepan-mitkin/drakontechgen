@@ -195,6 +195,7 @@ function createDrakonTechGenerator(options) {
     function cutOutSubprogram(folder, firstItemId, targetFun) {
         var startBranch = {
             type: "branch",
+            content: "_start_",
             id: generateId("mi"),
             branchId: 0,
             one: firstItemId
@@ -237,7 +238,7 @@ function createDrakonTechGenerator(options) {
         while (id) {
             var caseItem = folder.items[id]
             collectInputsFromSInput(folder, inputs, caseItem, item.id)
-            id = item.two
+            id = caseItem.two
         }
     }
 
@@ -668,11 +669,11 @@ function createDrakonTechGenerator(options) {
             gBranches = {}
             for (var branch of tree.branches) {
                 if (!branch.name) {
-                    onError("Branch name cannot be empty", fun.path, branch.id)
+                    reportError("Branch name cannot be empty", fun.path, branch.id)
                     return funAst
                 }
                 if (branch.name in gBranches) {
-                    onError("Non-unique branch name", fun.path, branch.id)
+                    reportError("Non-unique branch name", fun.path, branch.id)
                     return funAst
                 }
                 gBranches[branch.name] = branch
@@ -774,11 +775,20 @@ function createDrakonTechGenerator(options) {
     }
 
     function putAst(fun, ast) {
-        gAsts[fun.scope.name] = ast
+        var key = getAstId(fun)
+        gAsts[key] = ast
+    }
+
+    function getAstId(fun) {
+        if (fun.scope) {
+            return fun.scope.name
+        }
+        return "module"
     }
 
     function getAst(fun) {
-        return gAsts[fun.scope.name]
+        var key = getAstId(fun)
+        return gAsts[key]
     }
 
     function buildAst(fun) {
@@ -1102,6 +1112,14 @@ function createDrakonTechGenerator(options) {
         parseItemContent(fun, item, parser)
     }
 
+    function parseSOutputContent(fun, item, parser) {
+        if (item.content) {
+            item.content = "setTimeout(() => {" + item.content + "}, 0);"
+        }
+        item.type = "action"
+        parseItemContent(fun, item, parser)
+    }
+
     function addLoopVar(scope, variable) {
         scope.loop[variable] = true
         scope.auto[variable] = true
@@ -1370,6 +1388,9 @@ function createDrakonTechGenerator(options) {
                 case "action":
                     parseActionContent(fun, item, parser)
                     break;
+                case "soutput":
+                    parseSOutputContent(fun, item, parser)
+                    break;                    
                 case "loopbegin":
                     parseLoopContent(fun, item, parser)
                     break;

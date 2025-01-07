@@ -1,0 +1,10 @@
+var machines = require("../examples/machines/machines")
+
+var obj = machines.silReceive(2, 3)
+obj.left(1)
+obj.right(2)
+obj.right(3)
+obj.left(4)
+obj.left(5)
+obj.print()
+console.log(obj)

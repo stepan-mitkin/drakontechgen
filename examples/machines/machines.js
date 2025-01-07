@@ -1,17 +1,14 @@
 function primInput(left, right) {
     var self = {};
     var total;
-    console.log('primInput: in constructor');
     total = 0;
     self.state = '4';
     function nudge_4(amount) {
         total += amount;
-        console.log('first nudge: ', amount);
         self.state = '7';
     }
     function nudge_7(amount) {
-        total += amount;
-        console.log('second nudge: ', amount);
+        total += amount * 2;
         self.total = total + left + right;
         self.state = undefined;
     }
@@ -28,4 +25,74 @@ function primInput(left, right) {
     self.nudge = nudge;
     return self;
 }
-module.exports = { primInput };
+function silReceive(arg1, arg2) {
+    var self = {};
+    var x;
+    x = arg1 + 2;
+    self.state = '11';
+    function left_11(value) {
+        arg1 += value;
+        arg1++;
+        self.state = '13';
+    }
+    function left_13(value) {
+        arg1 += value * 2;
+        x++;
+        self.state = '23';
+    }
+    function left_23(value) {
+        arg1 += value * 10;
+        self.state = '25';
+    }
+    function print_25() {
+        self.a1 = arg1 + x;
+        self.a2 = arg2;
+        self.state = '11';
+    }
+    function right_11(value) {
+        arg2 += value;
+        self.state = '13';
+    }
+    function right_13(value) {
+        arg2 += value * 2;
+        self.state = '11';
+    }
+    function left(value) {
+        switch (self.state) {
+        case '11':
+            return left_11(value);
+        case '13':
+            return left_13(value);
+        case '23':
+            return left_23(value);
+        default:
+            return undefined;
+        }
+    }
+    function print() {
+        switch (self.state) {
+        case '25':
+            return print_25();
+        default:
+            return undefined;
+        }
+    }
+    function right(value) {
+        switch (self.state) {
+        case '11':
+            return right_11(value);
+        case '13':
+            return right_13(value);
+        default:
+            return undefined;
+        }
+    }
+    self.left = left;
+    self.print = print;
+    self.right = right;
+    return self;
+}
+module.exports = {
+    primInput,
+    silReceive
+};

@@ -6,22 +6,12 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
-        },
-        "3": {
-            "type": "action",
-            "one": "6",
-            "content": "console.log(\"primInput: in constructor\")"
+            "one": "6"
         },
         "4": {
             "type": "sinput",
             "one": "9",
             "content": "nudge(amount)"
-        },
-        "5": {
-            "type": "action",
-            "one": "7",
-            "content": "console.log(\"first nudge: \", amount)"
         },
         "6": {
             "type": "action",
@@ -34,21 +24,15 @@
             "two": "",
             "content": "nudge(amount)"
         },
-        "8": {
-            "type": "action",
-            "one": "11",
-            "two": "",
-            "content": "console.log(\"second nudge: \", amount)"
-        },
         "9": {
             "type": "action",
-            "one": "5",
+            "one": "7",
             "content": "total += amount"
         },
         "10": {
             "type": "action",
-            "one": "8",
-            "content": "total += amount"
+            "one": "11",
+            "content": "total += (amount * 2)"
         },
         "11": {
             "type": "action",
