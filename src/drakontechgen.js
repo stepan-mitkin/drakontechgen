@@ -151,13 +151,10 @@ function createDrakonTechGenerator(options) {
         addClass(folder.name, folder.path, ctr)
         var firstItemId = collectInputs(folder, inputs)
         if (!firstItemId) {return}
-        var visited = {}
-        setBranchName(folder.items, firstItemId, visited, "")
         var br = folder.items[firstItemId]
         cutOutSubprogram(folder, br.one, ctr)
         for (var name in inputs) {
-            var input = inputs[name]
-            enrichInput(input, folder)
+            var input = inputs[name]            
             createHandler(ctr.scope, input, folder)            
         }
         ctr.machine = {
@@ -207,19 +204,26 @@ function createDrakonTechGenerator(options) {
         for (var id in folder.items) {
             var item = folder.items[id]
             item.id = id
+            if (item.type === "branch") {
+                branches.push(item)
+            }            
         }
+        if (branches.length === 0) {
+            return undefined
+        }
+        sortBy(branches, "branchId")
+        var firstItemId = branches[0].id
+        var visited = {}
+        setBranchName(folder.items, firstItemId, visited, "")
         for (var id in folder.items) {
             var item = folder.items[id]        
             if (isReceive(item)) {
                 collectInputsFromReceive(folder, inputs, item)
             } else if (item.type === "sinput") {
                 collectInputsFromSInput(folder, inputs, item, item.id)
-            } else if (item.type === "branch") {
-                branches.push(item)
             }
         }
-        sortBy(branches, "branchId")
-        return branches[0].id
+        return firstItemId
     }
 
     function isReceive(item) {
@@ -339,8 +343,9 @@ function createDrakonTechGenerator(options) {
     }
 
     function addInputItem(result, fromId, item) {
-        result.items.push({
-            from: fromId,            
+        result.items.push({            
+            from: fromId,
+            branchName: item.branchName,
             to: item.id
         })
     }
@@ -1659,13 +1664,6 @@ function createDrakonTechGenerator(options) {
             for (var name of inputs) {
                 addMethodExport(name, body)
             }            
-        }
-    }
-
-    function enrichInput(input, fun) {
-        for (var obj of input.items) {
-            var item = fun.items[obj.to]
-            obj.branchName = item.branchName
         }
     }
 
