@@ -27,7 +27,16 @@ function compareBy(leftObj, rightObj, property) {
     return 0
 }
 
+function clone(src) {
+    var target = {}
+    if (src) {
+        Object.assign(target, src)
+    }
+    return target
+}
+
 module.exports = {
+    clone,
     sortBy,
     findFirst,
     addRange

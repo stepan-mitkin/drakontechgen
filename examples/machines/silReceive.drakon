@@ -32,7 +32,7 @@
         },
         "10": {
             "type": "case",
-            "one": "18",
+            "one": "28",
             "two": "9",
             "content": "left(value)"
         },
@@ -119,6 +119,13 @@
             "type": "action",
             "one": "23",
             "content": "x++"
+        },
+        "28": {
+            "type": "question",
+            "one": "18",
+            "two": "19",
+            "flag1": 0,
+            "content": "value < 0"
         }
     },
     "keywords": {

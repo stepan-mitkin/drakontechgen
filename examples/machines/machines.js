@@ -31,9 +31,14 @@ function silReceive(arg1, arg2) {
     x = arg1 + 2;
     self.state = '11';
     function left_11(value) {
-        arg1 += value;
-        arg1++;
-        self.state = '13';
+        if (value < 0) {
+            arg2 += value;
+            self.state = '13';
+        } else {
+            arg1 += value;
+            arg1++;
+            self.state = '13';
+        }
     }
     function left_13(value) {
         arg1 += value * 2;

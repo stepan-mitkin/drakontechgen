@@ -1,4 +1,4 @@
-const { sortBy, findFirst, addRange } = require("./tools")
+const { sortBy, findFirst, addRange, clone } = require("./tools")
 const { traverseAst } = require("./astScanner")
 const { topologicaSort } = require("./sort")
 
@@ -224,11 +224,12 @@ function createDrakonTechGenerator(options) {
             targetFun.items[itemId] = stopItem
             return
         }
-        targetFun.items[itemId] = item
-        if (item.type === "end") {
-            item.type = "action"
-            item.content = "self.state = undefined"
+        var copy = clone(item)
+        if (copy.type === "end") {
+            copy.type = "action"
+            copy.content = "self.state = undefined"
         }
+        targetFun.items[itemId] = copy        
         copyNode(folder, item.one, visited, targetFun)
         copyNode(folder, item.two, visited, targetFun)
     }
