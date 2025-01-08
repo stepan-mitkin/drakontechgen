@@ -188,6 +188,12 @@ function createDrakonTechGenerator(options) {
         return replace(name, "__", "_")
     }
 
+    function createStateName(branchName, id) {
+        var name = branchName + "_" + id
+        return replace(name, "__", "_")        
+    }
+
+
     function createHandler(scope, input, folder) {
         for (var obj of input.items) {
             var name = createHandlerName(input, obj)
@@ -257,7 +263,7 @@ function createDrakonTechGenerator(options) {
             var stopItem = {
                 id: itemId,
                 type: "action",
-                content: "self.state = \"" + itemId + "\""
+                content: "self.state = \"" + createStateName(item.branchName, item.id) + "\""
             }
             targetFun.items[itemId] = stopItem
             return
@@ -1673,7 +1679,8 @@ function createDrakonTechGenerator(options) {
         var stateSwitch = createSwitch(createDotMember(createIdentifier("self"), "state"))
         output.push(stateSwitch)
         for (var obj of input.items) {
-            var cas = createCase(createStringLiteral(obj.from))
+            var stateName = createStateName(obj.branchName, obj.from)            
+            var cas = createCase(createStringLiteral(stateName))
             stateSwitch.cases.push(cas)
             var name = createHandlerName(input, obj)
             var call = createCall(
