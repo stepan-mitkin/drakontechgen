@@ -16,13 +16,13 @@
             "type": "branch",
             "one": "11",
             "branchId": 2,
-            "content": "Black"
+            "content": "Black state"
         },
         "6": {
             "type": "branch",
             "branchId": 3,
             "one": "20",
-            "content": "Inter"
+            "content": "Inter-transitional"
         },
         "9": {
             "type": "case",
@@ -45,7 +45,7 @@
             "type": "branch",
             "branchId": 4,
             "one": "13",
-            "content": "Red"
+            "content": "Red state"
         },
         "13": {
             "type": "select",
@@ -68,7 +68,7 @@
             "type": "branch",
             "branchId": 5,
             "one": "27",
-            "content": "Grey"
+            "content": "Grey state"
         },
         "18": {
             "type": "action",

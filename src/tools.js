@@ -35,7 +35,13 @@ function clone(src) {
     return target
 }
 
+function replace(str, before, after) {
+    var parts = str.split(before)
+    return parts.join(after)
+}
+
 module.exports = {
+    replace,
     clone,
     sortBy,
     findFirst,

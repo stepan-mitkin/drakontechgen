@@ -3,11 +3,11 @@ function primInput(left, right) {
     var total;
     total = 0;
     self.state = '4';
-    function nudge_4(amount) {
+    function nudge_start_4(amount) {
         total += amount;
         self.state = '7';
     }
-    function nudge_7(amount) {
+    function nudge_start_7(amount) {
         total += amount * 2;
         self.total = total + left + right;
         self.state = undefined;
@@ -15,9 +15,9 @@ function primInput(left, right) {
     function nudge(amount) {
         switch (self.state) {
         case '4':
-            return nudge_4(amount);
+            return nudge_start_4(amount);
         case '7':
-            return nudge_7(amount);
+            return nudge_start_7(amount);
         default:
             return undefined;
         }
@@ -30,7 +30,7 @@ function silReceive(arg1, arg2) {
     var x;
     x = arg1 + 2;
     self.state = '11';
-    function left_11(value) {
+    function left_Blackstate_11(value) {
         if (value < 0) {
             arg2 += value;
             self.state = '13';
@@ -40,36 +40,36 @@ function silReceive(arg1, arg2) {
             self.state = '13';
         }
     }
-    function left_13(value) {
+    function left_Greystate_23(value) {
+        arg1 += value * 10;
+        self.state = '25';
+    }
+    function left_Redstate_13(value) {
         arg1 += value * 2;
         x++;
         self.state = '23';
     }
-    function left_23(value) {
-        arg1 += value * 10;
-        self.state = '25';
-    }
-    function print_25() {
+    function print_Greystate_25() {
         self.a1 = arg1 + x;
         self.a2 = arg2;
         self.state = '11';
     }
-    function right_11(value) {
+    function right_Blackstate_11(value) {
         arg2 += value;
         self.state = '13';
     }
-    function right_13(value) {
+    function right_Redstate_13(value) {
         arg2 += value * 2;
         self.state = '11';
     }
     function left(value) {
         switch (self.state) {
         case '11':
-            return left_11(value);
+            return left_Blackstate_11(value);
         case '13':
-            return left_13(value);
+            return left_Redstate_13(value);
         case '23':
-            return left_23(value);
+            return left_Greystate_23(value);
         default:
             return undefined;
         }
@@ -77,7 +77,7 @@ function silReceive(arg1, arg2) {
     function print() {
         switch (self.state) {
         case '25':
-            return print_25();
+            return print_Greystate_25();
         default:
             return undefined;
         }
@@ -85,9 +85,9 @@ function silReceive(arg1, arg2) {
     function right(value) {
         switch (self.state) {
         case '11':
-            return right_11(value);
+            return right_Blackstate_11(value);
         case '13':
-            return right_13(value);
+            return right_Redstate_13(value);
         default:
             return undefined;
         }
