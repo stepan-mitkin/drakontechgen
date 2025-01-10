@@ -1,6 +1,6 @@
 {
   "name": "drakontechgen",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A code generator for DrakonTech",
   "main": "src/main.js",
   "directories": {

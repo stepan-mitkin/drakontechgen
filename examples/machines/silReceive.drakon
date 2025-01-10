@@ -95,16 +95,6 @@
             "one": "5",
             "content": "arg2 += value * 2"
         },
-        "23": {
-            "type": "sinput",
-            "one": "24",
-            "content": "left(value)"
-        },
-        "24": {
-            "type": "action",
-            "one": "25",
-            "content": "arg1 += value * 10"
-        },
         "25": {
             "type": "sinput",
             "one": "26",
@@ -117,7 +107,7 @@
         },
         "27": {
             "type": "action",
-            "one": "23",
+            "one": "25",
             "content": "x++"
         },
         "28": {

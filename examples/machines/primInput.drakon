@@ -18,21 +18,10 @@
             "one": "4",
             "content": "total = 0"
         },
-        "7": {
-            "type": "sinput",
-            "one": "10",
-            "two": "",
-            "content": "nudge(amount)"
-        },
         "9": {
             "type": "action",
-            "one": "7",
-            "content": "total += amount"
-        },
-        "10": {
-            "type": "action",
             "one": "11",
-            "content": "total += (amount * 2)"
+            "content": "total += amount"
         },
         "11": {
             "type": "action",

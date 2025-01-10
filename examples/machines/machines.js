@@ -2,22 +2,16 @@ function primInput(left, right) {
     var self = {};
     var total;
     total = 0;
-    self.state = '_start_4';
-    function nudge_start_4(amount) {
+    self.state = 'branch_0';
+    function branch_0_nudge(amount) {
         total += amount;
-        self.state = '_start_7';
-    }
-    function nudge_start_7(amount) {
-        total += amount * 2;
         self.total = total + left + right;
         self.state = undefined;
     }
     function nudge(amount) {
         switch (self.state) {
-        case '_start_4':
-            return nudge_start_4(amount);
-        case '_start_7':
-            return nudge_start_7(amount);
+        case 'branch_0':
+            return branch_0_nudge(amount);
         default:
             return undefined;
         }
@@ -29,65 +23,59 @@ function silReceive(arg1, arg2) {
     var self = {};
     var x;
     x = arg1 + 2;
-    self.state = 'Blackstate_11';
-    function left_Blackstate_11(value) {
+    self.state = 'Blackstate';
+    function Blackstate_left(value) {
         if (value < 0) {
             arg2 += value;
-            self.state = 'Redstate_13';
+            self.state = 'Redstate';
         } else {
             arg1 += value;
             arg1++;
-            self.state = 'Redstate_13';
+            self.state = 'Redstate';
         }
     }
-    function left_Greystate_23(value) {
-        arg1 += value * 10;
-        self.state = 'Greystate_25';
+    function Blackstate_right(value) {
+        arg2 += value;
+        self.state = 'Redstate';
     }
-    function left_Redstate_13(value) {
-        arg1 += value * 2;
-        x++;
-        self.state = 'Greystate_23';
-    }
-    function print_Greystate_25() {
+    function Greystate_print() {
         self.a1 = arg1 + x;
         self.a2 = arg2;
-        self.state = 'Blackstate_11';
+        self.state = 'Blackstate';
     }
-    function right_Blackstate_11(value) {
-        arg2 += value;
-        self.state = 'Redstate_13';
+    function Redstate_left(value) {
+        arg1 += value * 2;
+        x++;
+        self.state = 'Greystate';
     }
-    function right_Redstate_13(value) {
+    function Redstate_right(value) {
         arg2 += value * 2;
-        self.state = 'Blackstate_11';
+        self.state = 'Blackstate';
     }
     function left(value) {
         switch (self.state) {
-        case 'Blackstate_11':
-            return left_Blackstate_11(value);
-        case 'Redstate_13':
-            return left_Redstate_13(value);
-        case 'Greystate_23':
-            return left_Greystate_23(value);
+        case 'Blackstate':
+            return Blackstate_left(value);
+        case 'Redstate':
+            return Redstate_left(value);
         default:
             return undefined;
         }
     }
     function print() {
         switch (self.state) {
-        case 'Greystate_25':
-            return print_Greystate_25();
+        case 'Greystate':
+            return Greystate_print();
         default:
             return undefined;
         }
     }
     function right(value) {
         switch (self.state) {
-        case 'Blackstate_11':
-            return right_Blackstate_11(value);
-        case 'Redstate_13':
-            return right_Redstate_13(value);
+        case 'Blackstate':
+            return Blackstate_right(value);
+        case 'Redstate':
+            return Redstate_right(value);
         default:
             return undefined;
         }
