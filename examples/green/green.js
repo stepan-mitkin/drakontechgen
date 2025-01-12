@@ -292,6 +292,20 @@ function selectWithoutDefault(value) {
         }
     }
 }
+function sil2(value) {
+    var foo;
+    if (value >= 0) {
+        if (value % 10 === 0) {
+            foo = value * 10;
+        } else {
+            foo = value * 10;
+        }
+    } else {
+        foo = value * 10;
+    }
+    foo += 5;
+    return foo;
+}
 function simpleAnd(valueA, valueB, valueC) {
     if (valueA && valueB && valueC) {
         return true;
@@ -370,6 +384,7 @@ module.exports = {
     selectShortCircuit,
     selectWithDefault,
     selectWithoutDefault,
+    sil2,
     simpleAnd,
     simpleOr,
     slow,

@@ -1,4 +1,5 @@
 const {
+    sil2,
     add,
     complexAnd,
     complexOr,
@@ -79,6 +80,10 @@ QUnit.test("fibonacci", assert => {
     assert.equal(fibonacci(3), 2)    
     assert.equal(fibonacci(4), 3)    
     assert.equal(fibonacci(5), 5)    
+})
+
+QUnit.test("sil2", assert => {
+    assert.equal(sil2(2), 25)    
 })
 
 QUnit.test("fizzBuzz", assert => {      
