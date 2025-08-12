@@ -1,7 +1,8 @@
-const { createDrakonTechGenerator } = require("./drakontechgen")
+const { createDrakonTechGenerator, createClojureGenerator } = require("./drakontechgen")
 
 window.drakontechgen = {
-    buildGenerator: function (name, root, getObjectByHandle, onError, onData) {
+    buildGenerator: function (name, root, getObjectByHandle, onError, onData, language) {
+        language = language || "JS"
         var genOptions = {
             toTree: window.drakongen.toTree,
             escodegen: window.escodegen,
@@ -13,6 +14,10 @@ window.drakontechgen = {
             onData: onData
         }
 
-        return createDrakonTechGenerator(genOptions)
+        if (language === "JS") {
+            return createDrakonTechGenerator(genOptions)
+        } else {
+            return createClojureGenerator(genOptions)
+        } 
     }
 }

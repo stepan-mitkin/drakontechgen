@@ -2,7 +2,7 @@ const esprima = require('esprima')
 const escodegen = require('escodegen')
 const fs = require('fs').promises;
 const path = require('path');
-const { createDrakonTechGenerator } = require("./drakontechgen")
+const { createDrakonTechGenerator, createClojureGenerator } = require("./drakontechgen")
 const {toTree} = require("drakongen")
 
 var success = undefined
@@ -10,8 +10,9 @@ var success = undefined
 // Display usage summary
 function displayUsage() {
     console.log(`Usage:
-    drakontechgen <path>                        Read the project from <path> and output the JS-file the same folder
-    drakontechgen --output <output file> <path> Read the project from <path> and output the JS-file to the specified filename
+    drakontechgen <path>                        Read the project from <path> and output the generated file the same folder
+    drakontechgen <path> --language <language>  Read the project from <path> and set the output language (JS or clojure).
+    drakontechgen --output <output file> <path> Read the project from <path> and output the generated file to the specified filename
     drakontechgen                             Display this usage summary.`);
 }
 
@@ -23,12 +24,16 @@ function parseCommandLine() {
     }
 
     let options = {}
+    options.language = "JS"
 
     for (let i = 0; i < args.length; i++) {
         switch (args[i]) {
             case '--output':
                 options.output = args[++i];
                 break;
+            case '--language':
+                options.language = args[++i];
+                break;                
             default:
                 if (!options.projectFolder) {
                     options.projectFolder = args[i];
@@ -44,7 +49,13 @@ function parseCommandLine() {
 
     if (!options.output) {
         var parsed = path.parse(options.projectFolder)
-        options.output = path.join(options.projectFolder, parsed.name + ".js")
+        var ext
+        if (options.language === "JS") {
+            ext = ".js"            
+        } else {
+            ext = ".clj"
+        }
+        options.output = path.join(options.projectFolder, parsed.name + ext)
     }
     options.name = path.parse(options.projectFolder).name
 
@@ -106,7 +117,6 @@ async function main() {
         displayUsage();
         return;       
     }
-
     var genOptions = {
         toTree: toTree,
         escodegen: escodegen,
@@ -115,13 +125,21 @@ async function main() {
         root: options.projectFolder,
         getObjectByHandle: function(filepath) { return getObjectByHandle(filepath, genOptions) },
         onError: onError,
-        onData: async function(content) { 
+        onData: async function(content) {            
             await fs.writeFile(options.output, content, "utf-8")
             success = true
         }
     }
 
-    var generator = createDrakonTechGenerator(genOptions)
+    var generator
+    if (options.language === "JS") {
+        generator = createDrakonTechGenerator(genOptions)
+    } else if (options.language === "clojure") {
+        generator = createClojureGenerator(genOptions)
+    } else {
+        console.error("Unexpected language. --language must be JS or clojure")
+        return
+    }        
     await generator.run()
 
     if (!success) {
