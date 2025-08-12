@@ -247,20 +247,29 @@ function createClojureGenerator(options) {
 
 
 
-    function expandTreeItem(fun, body, next) {
+    function expandTreeItem(fun, body, next, tree, visited) {
         var newNode = next
         for (var i = body.length - 1; i >= 0; i--) {
             var oldNode = body[i]
             if (oldNode.type === "action") {
                 newNode = {
-                    type: "action",
+                    type: oldNode.type,
                     id: oldNode.id,
                     content: oldNode.content,
                     next: newNode
                 }
+            } else if (oldNode.type === "address") {
+                if (visited.indexOf(oldNode.content) !== -1) {
+                    reportError(tr("Cycle detected") + ": " + oldNode.content, fun.path, oldNode.id)
+                    return undefined                  
+                }                
+                var nextBranch = findFirst(tree.branches, br => {return br.name === oldNode.content})
+                var visited2 = visited.slice()
+                visited2.push(oldNode.content)
+                newNode = expandTreeItem(fun, nextBranch.body, newNode, tree, visited2)
             } else if (oldNode.type === "error") {
                 newNode = {
-                    type: "error",
+                    type: oldNode.type,
                     id: oldNode.id,
                     content: oldNode.content,
                     message: oldNode.message,
@@ -268,11 +277,11 @@ function createClojureGenerator(options) {
                 }           
             } else if (oldNode.type === "question") {
                 newNode = {
-                    type: "question",
+                    type: oldNode.type,
                     id: oldNode.id,
                     content: oldNode.content,                    
-                    yes: expandTreeItem(fun, oldNode.yes, newNode),
-                    no: expandTreeItem(fun, oldNode.no, newNode)
+                    yes: expandTreeItem(fun, oldNode.yes, newNode, tree, visited),
+                    no: expandTreeItem(fun, oldNode.no, newNode, tree, visited)
                 }
             } else if (oldNode.type === "end") {
                 // don't do anything
@@ -288,8 +297,9 @@ function createClojureGenerator(options) {
         if (tree.branches.length === 0) {return}
 
         var firstBranch = tree.branches[0]
-
-        var expanded = expandTreeItem(fun, firstBranch.body, undefined)
+        
+        var firstName = firstBranch.name
+        var expanded = expandTreeItem(fun, firstBranch.body, undefined, tree, [firstName])
         handleItem(fun, expanded, output)
     }
 
@@ -327,7 +337,7 @@ function createClojureGenerator(options) {
     function writeFunction(fun, output) {
         try {
             var tree = generateFunctionTree(fun)
-            console.log(JSON.stringify(tree, null, 2))
+            //console.log(JSON.stringify(tree, null, 2))
             var generated = generateClojure(fun, tree)
             output.push(generated)
             output.push("")            
