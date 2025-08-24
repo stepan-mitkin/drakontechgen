@@ -1,0 +1,5 @@
+{
+  "language": "clojure",
+  "outputFile": "../hello-drakon-clojure.cljc",
+  "mainFun": "a-print-of-fibonacci"
+}
