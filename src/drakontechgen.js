@@ -1,6 +1,7 @@
 const { sortBy, findFirst, addRange, clone, replace } = require("./tools")
 const { traverseAst } = require("./astScanner")
 const { topologicaSort } = require("./sort");
+const { lexClojure } = require("./clojurelexer");
 
 
 var verbose = false
@@ -88,35 +89,139 @@ function createClojureGenerator(options) {
         })
     }
 
-    function generateModuleInit(output) {
+    function writeModuleInit(output) {
         var fun = project.moduleInit
         if (!fun) { return }
-        try {
-            var tree = generateFunctionTree(fun)
-            var toutput = []
-            generateClojureBody(fun, tree, toutput)
-            var lines = []
-            for (var node of toutput) {
-                printClojureNode(node, lines, 0)
-            }
-            var generated = lines.join("\n")
-            output.push(generated)
-            output.push("")            
-        } catch (ex) {
-            console.log(ex)
-            reportError(ex.message, fun.path, ex.nodeId)            
-        }        
+        var lines = []
+        for (var node of fun.bodyNodes) {
+            printClojureNode(node, lines, 0)
+        }
+        var generated = lines.join("\n")
+        output.push(generated)
+        output.push("")
     }
 
-    async function generateSourceCode() {
-        var output = []
-        generateModuleInit(output)
-        var names = Object.keys(project.functions)
-        names.sort()
-        for (var name of names) {
-            var fun = project.functions[name]
-            writeFunction(fun, output)
+    function findDeclares() {
+        if (!project.moduleInit) { return [] }
+        var afterDeclare = false
+        var declares = []
+        for (var identifier of project.moduleInit.identifiers) {
+            if (afterDeclare) {
+                afterDeclare = false
+                declares.push(identifier)
+            } else if (identifier === "declare") {
+                afterDeclare = true
+            }
         }
+        return declares
+    }
+
+    function separateDeclared(declares, notDeclared, declared) {
+        for (var name in project.functions) {
+            if (declares.indexOf(name) === -1) {
+                notDeclared.push(name)
+            } else {
+                declared.push(name)
+            }
+        }
+    }
+
+    function sortByDependency(notDeclared) {
+        var graph = buildDependencyGraph(notDeclared)
+        var islands = findIslands(graph)
+        var unused = []
+        var sorted = []
+        for (var island of islands) {
+            if (island.length === 1) {
+                unused.push(island[0])
+            } else {
+                addRange(sorted, island)
+            }
+        }
+        unused.sort()
+        addRange(sorted, unused)
+        return sorted
+    }
+
+    function buildDependencyGraph(notDeclared) {
+        var graph = {}
+        for (var name of notDeclared) {
+            var adjucent = buildDependenciesForFunction(name, notDeclared)
+            graph[name] = adjucent
+        }
+        return graph
+    }
+
+    function buildDependenciesForFunction(name, notDeclared) {
+        var fun = project.functions[name]
+        var set = {}
+        for (var identifier of fun.identifiers) {
+            if (notDeclared.indexOf(identifier) !== -1) {
+                set[identifier] = true
+            }
+        }
+        var names = Object.keys(set)
+        names.sort()
+        return names
+    }
+
+    function findIslands(graph) {
+        var withDeps = []
+        var all = {}
+        for (var name in graph) {
+            var deps =  sortDepsForOneFun(graph, name)
+            all[name] = true
+            withDeps.push(deps)
+        }
+        withDeps.sort(compareByLength)
+        var islands = []
+        for (var items of withDeps) {
+            if (items[0] in all) {
+                for (var dep of items) {
+                    delete all[dep]
+                }
+                islands.push(items)
+            }
+        }
+        return islands
+    }
+
+    function compareByLength(a, b) {
+        return b.length - a.length;
+    }    
+
+    function sortDepsForOneFun(graph, name) {
+        var start = name
+        var getAdjacentNodes = key => {
+            return graph[key]
+        }
+        var reportGraphError = (key, message) => {
+            var fun = project.functions[key]
+            reportError("Detected a cycle in function dependencies: " + key, fun.path, undefined, message)
+        }
+        var deps = topologicaSort(start, getAdjacentNodes, reportGraphError)
+        return deps        
+    }
+
+    function generateSourceCode() {      
+        failed = false  
+        if (project.moduleInit) {
+            buildFunctionBody(project.moduleInit)
+        }
+        for (var name in project.functions) {
+            var fun = project.functions[name]
+            buildFunctionBody(fun)
+        }        
+        if (failed) { return "" }
+        var declares = findDeclares()
+        var notDeclared = []
+        var declared = []
+        separateDeclared(declares, notDeclared, declared)
+        notDeclared = sortByDependency(notDeclared)
+        var output = []
+        writeModuleInit(output)
+        notDeclared.forEach(name => writeFunction(name, output))
+        declared.forEach(name => writeFunction(name, output))
         return output.join("\n")
     }
 
@@ -160,8 +265,7 @@ function createClojureGenerator(options) {
     }
 
     function handleAction(fun, item, output) {
-        var content = item.content || ""
-        content = content.trim()        
+        var content = normalizeContent(item)
         if (content.startsWith("let ") || content.startsWith("let\t")) {
             handleLet(fun, item, content, output)
         } else {
@@ -238,10 +342,7 @@ function createClojureGenerator(options) {
     }
 
     function handleQuestion(fun, item, output) {
-        var condition = makeCondition(item.content)        
-        if (!condition.startsWith("(")) {
-            condition = "(" + condition + ")"
-        }
+        var condition = item.content
         var ifNode = createClojureNode("if")
         output.push(ifNode)
         ifNode.strings.push(condition)
@@ -261,6 +362,19 @@ function createClojureGenerator(options) {
         }
     }
 
+    function normalizeContent(item) {
+        var content = item.content || ""
+        content = content.trim()
+        return content
+    }
+
+    function buildQuestionContent(item) {
+        var condition = makeCondition(item.content)        
+        if (!condition.startsWith("(")) {
+            condition = "(" + condition + ")"
+        }
+        return condition
+    }
 
 
     function expandTreeItem(fun, body, next, tree, visited) {
@@ -274,6 +388,7 @@ function createClojureGenerator(options) {
                     content: oldNode.content,
                     next: newNode
                 }
+                newNode.tokens = lexClojure(newNode.content)
             } else if (oldNode.type === "address") {
                 if (visited.indexOf(oldNode.content) !== -1) {
                     reportError(tr("Cycle detected") + ": " + oldNode.content, fun.path, oldNode.id)
@@ -295,10 +410,11 @@ function createClojureGenerator(options) {
                 newNode = {
                     type: oldNode.type,
                     id: oldNode.id,
-                    content: oldNode.content,                    
+                    content: buildQuestionContent(oldNode),                    
                     yes: expandTreeItem(fun, oldNode.yes, newNode, tree, visited),
                     no: expandTreeItem(fun, oldNode.no, newNode, tree, visited)
                 }
+                newNode.tokens = lexClojure(newNode.content)
             } else if (oldNode.type === "end") {
                 // don't do anything
             } else {
@@ -309,6 +425,23 @@ function createClojureGenerator(options) {
         return newNode
     }
 
+
+    function collectIdentifiers(item, identifiers) {
+        if (!item) {
+            return
+        }
+        if (item.tokens) {
+            for (var token of item.tokens) {
+                if (token.type === "identifier") {
+                    identifiers.push(token.text)
+                }
+            }
+        }
+        collectIdentifiers(item.yes, identifiers)
+        collectIdentifiers(item.no, identifiers)
+        collectIdentifiers(item.next, identifiers)
+    }
+
     function generateClojureBody(fun, tree, output) {        
         if (tree.branches.length === 0) {return}
 
@@ -316,6 +449,8 @@ function createClojureGenerator(options) {
         
         var firstName = firstBranch.name
         var expanded = expandTreeItem(fun, firstBranch.body, undefined, tree, [firstName])
+        fun.identifiers = []
+        collectIdentifiers(expanded, fun.identifiers)
         handleItem(fun, expanded, output)
     }
 
@@ -339,28 +474,30 @@ function createClojureGenerator(options) {
         return "[" + params + "]"
     }
 
-    function generateClojure(fun, tree) {
-        //console.log(fun.name, JSON.stringify(tree, null, 4))        
-        var funNode = createClojureNode("defn")
-        funNode.strings.push(fun.name)
-        funNode.strings.push(makeArgumentList(fun))
-        generateClojureBody(fun, tree, funNode.children)
-        var lines = []
-        printClojureNode(funNode, lines, 0)        
-        return lines.join("\n")
-    }
-
-    function writeFunction(fun, output) {
+    function buildFunctionBody(fun) {
         try {
             var tree = generateFunctionTree(fun)
-            //console.log(JSON.stringify(tree, null, 2))
-            var generated = generateClojure(fun, tree)
-            output.push(generated)
-            output.push("")            
+            var bodyNodes = []       
+            generateClojureBody(fun, tree, bodyNodes)
+            fun.bodyNodes = bodyNodes
         } catch (ex) {
             console.log(ex)
             reportError(ex.message, fun.path, ex.nodeId)            
+            fun.bodyNodes = []
         }
+    }
+
+    function writeFunction(name, output) {
+        var fun = project.functions[name]
+        var funNode = createClojureNode("defn")
+        funNode.strings.push(fun.name)
+        funNode.strings.push(makeArgumentList(fun))
+        funNode.children = fun.bodyNodes
+        var lines = []
+        printClojureNode(funNode, lines, 0)        
+        var generated = lines.join("\n")
+        output.push(generated)
+        output.push("")
     }
 
     function generateFunctionTree(fun) {
@@ -393,7 +530,7 @@ function createClojureGenerator(options) {
         }
         try {
             await cljPreprosess()
-            var src = await generateSourceCode()
+            var src = generateSourceCode()
             await options.onData(src)
         } catch (ex) {
             if (ex.cancelled) {
@@ -2131,11 +2268,11 @@ function createDrakonTechGenerator(options) {
             var current = scope.algoprops[key]
             return Object.keys(current.dependencies)
         }
-        var reportError = (key, message) => {
+        var reportGraphError = (key, message) => {
             var current = scope.algoprops[key]
             reportError("Detected a cycle in property dependencies", current.path, undefined, message)
         }
-        var deps = topologicaSort(start, getAdjacentNodes, reportError)
+        var deps = topologicaSort(start, getAdjacentNodes, reportGraphError)
         return deps
     }
 

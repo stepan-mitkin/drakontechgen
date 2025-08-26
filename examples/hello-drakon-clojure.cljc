@@ -1,25 +1,34 @@
 (ns hello3.hello-drakon-clojure)
-(declare moo)
+(declare moo) (declare fibonacci)
 
 (defn a-print-of-fibonacci [n]
   (println (map fibonacci (range n))))
 
-(defn bar []
-  (foo))
+(defn f03 []
+  (println "f03"))
 
-(defn by-two [arg]
-  (* arg 2))
+(defn f02 []
+  (f03))
 
-(defn fibonacci [n]
-  (if (<= n 1)
-    (do
-      (println "trivial case, n =" n)
-      n)
-    (let [n-2 (fibonacci (- n 2)) n-1 (fibonacci (- n 1))]
-      (by-two (+ n-2 n-1)))))
+(defn f01 []
+  (f02))
 
 (defn foo []
   (moo))
+
+(defn bar []
+  (foo))
+
+(defn test-dependencies []
+  (bar))
+
+(defn run-me []
+  (f01)
+  (a-print-of-fibonacci 5)
+  (test-dependencies))
+
+(defn by-two [arg]
+  (* arg 2))
 
 (defn hello [first-name second-name]
   (println "hello")
@@ -27,9 +36,6 @@
 
 (defn hello-world []
   (println "Hello world!"))
-
-(defn moo []
-  (println "This is moo"))
 
 (defn no-content [])
 
@@ -64,5 +70,15 @@
     (let [result right]
       result)))
 
-(defn test-dependencies []
-  (bar))
+(defn fibonacci [n]
+  (if (<= n 1)
+    (do
+      (println "trivial case, n =" n)
+      n)
+    (let [n-2 (fibonacci (- n 2)) n-1 (fibonacci (- n 1))]
+      (by-two (+ n-2 n-1)))))
+
+(defn moo []
+  (println "This is moo"))
+
+(run-me)

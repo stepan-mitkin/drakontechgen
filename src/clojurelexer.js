@@ -238,7 +238,8 @@ function lexClojure(text) {
 
     // Main lexing procedure
     const lexer = createLexer();
-    
+
+    text = text || ""
     // Process each character in the input text
     for (let i = 0; i < text.length; i++) {
         pushNextSymbol(lexer, text[i]);
