@@ -5,3 +5,4 @@ node src/main.js examples/classes
 node src/main.js examples/algoprops
 node src/main.js examples/classAlgoprops
 node src/main.js examples/machines
+node src/main.js examples/hello-drakon-clojure --language clojure --output examples/hello-drakon-clojure.cljc --main run-me

@@ -7,7 +7,7 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "5"
+            "one": "3"
         },
         "3": {
             "type": "action",
@@ -18,11 +18,6 @@
             "type": "action",
             "one": "1",
             "content": "(test-dependencies)"
-        },
-        "5": {
-            "type": "action",
-            "one": "3",
-            "content": "(f01)"
         }
     }
 }

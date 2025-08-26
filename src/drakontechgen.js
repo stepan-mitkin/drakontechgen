@@ -203,6 +203,14 @@ function createClojureGenerator(options) {
         return deps        
     }
 
+    function addMain(output) {
+        if (!options.main) {return}
+        if (!(options.main in project.functions)) {
+            reportError("Main function " + options.main + " is not defined")
+        }
+        output.push("(" + options.main + ")")
+    }
+
     function generateSourceCode() {      
         failed = false  
         if (project.moduleInit) {
@@ -222,6 +230,7 @@ function createClojureGenerator(options) {
         writeModuleInit(output)
         notDeclared.forEach(name => writeFunction(name, output))
         declared.forEach(name => writeFunction(name, output))
+        addMain(output)
         return output.join("\n")
     }
 

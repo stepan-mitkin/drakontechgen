@@ -4,15 +4,6 @@
 (defn a-print-of-fibonacci [n]
   (println (map fibonacci (range n))))
 
-(defn f03 []
-  (println "f03"))
-
-(defn f02 []
-  (f03))
-
-(defn f01 []
-  (f02))
-
 (defn foo []
   (moo))
 
@@ -23,9 +14,17 @@
   (bar))
 
 (defn run-me []
-  (f01)
   (a-print-of-fibonacci 5)
   (test-dependencies))
+
+(defn f03 []
+  (println "f03"))
+
+(defn f02 []
+  (f03))
+
+(defn f01 []
+  (f02))
 
 (defn by-two [arg]
   (* arg 2))

@@ -12,6 +12,8 @@ function displayUsage() {
     console.log(`Usage:
     drakontechgen <path>                        Read the project from <path> and output the generated file the same folder
     drakontechgen <path> --language <language>  Read the project from <path> and set the output language (JS or clojure).
+    drakontechgen <path> --language clojure --main <main-fun>
+                                                Read the project from <path> and call the function <main-fun>.
     drakontechgen --output <output file> <path> Read the project from <path> and output the generated file to the specified filename
     drakontechgen                             Display this usage summary.`);
 }
@@ -28,6 +30,9 @@ function parseCommandLine() {
 
     for (let i = 0; i < args.length; i++) {
         switch (args[i]) {
+            case '--main':
+                options.main = args[++i];
+                break;            
             case '--output':
                 options.output = args[++i];
                 break;
@@ -123,6 +128,7 @@ async function main() {
         esprima: esprima,
         name: options.name,
         root: options.projectFolder,
+        main: options.main,
         getObjectByHandle: function(filepath) { return getObjectByHandle(filepath, genOptions) },
         onError: onError,
         onData: async function(content) {            
