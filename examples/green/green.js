@@ -184,6 +184,20 @@ function getSecret() {
 function hello() {
     console.log('Hello, world');
 }
+function inversedAnd(one, two, three) {
+    if (one === 1 || two === 2 || three === 3) {
+        return false;
+    } else {
+        return true;
+    }
+}
+function inversedOr(one, two, three) {
+    if (one === 1 && two === 2 && three === 3) {
+        return false;
+    } else {
+        return true;
+    }
+}
 function mul(left, right) {
     return multiply(left, right);
 }
@@ -377,6 +391,8 @@ module.exports = {
     generateId,
     getSecret,
     hello,
+    inversedAnd,
+    inversedOr,
     mul,
     questionMerge,
     scope3,
