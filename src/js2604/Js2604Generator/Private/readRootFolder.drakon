@@ -1,0 +1,126 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "27"
+        },
+        "5": {
+            "type": "loopend",
+            "one": "30",
+            "two": "",
+            "content": ""
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "9",
+            "two": "",
+            "content": "child; children"
+        },
+        "7": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "children = await readChildren(rootFolder)"
+        },
+        "9": {
+            "type": "question",
+            "one": "17",
+            "two": "10",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "10": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "await readModuleFolder(module, child)"
+        },
+        "16": {
+            "type": "action",
+            "one": "5",
+            "content": "addChild(rootFolder, child)"
+        },
+        "17": {
+            "type": "question",
+            "one": "16",
+            "two": "18",
+            "flag1": 0,
+            "content": "child.name === \"module\""
+        },
+        "18": {
+            "type": "action",
+            "one": "23",
+            "content": "enrichFolder(child)"
+        },
+        "19": {
+            "type": "action",
+            "one": "5",
+            "content": "module.items = child.items"
+        },
+        "22": {
+            "type": "question",
+            "one": "19",
+            "two": "26",
+            "flag1": 0,
+            "content": "child.params"
+        },
+        "23": {
+            "type": "question",
+            "one": "22",
+            "two": "24",
+            "flag1": 0,
+            "content": "child.keywords.async "
+        },
+        "24": {
+            "type": "action",
+            "one": "22",
+            "content": "reportError(\n    \"module cannot be async\",\n    child.path\n)"
+        },
+        "26": {
+            "type": "action",
+            "one": "19",
+            "content": "reportError(\n    \"module cannot have arguments\",\n    child.path\n)"
+        },
+        "27": {
+            "type": "action",
+            "one": "29",
+            "two": "",
+            "content": "rootFolder = await options.getObjectByHandle(\n    options.root\n)"
+        },
+        "28": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "content": "module.scope = createScope(\n    \"module\",\n    \"module\"\n)"
+        },
+        "29": {
+            "type": "action",
+            "one": "31",
+            "content": "module = createEmptyFunction(\"module\")"
+        },
+        "30": {
+            "type": "action",
+            "one": "1",
+            "content": "return module"
+        },
+        "31": {
+            "type": "action",
+            "one": "28",
+            "content": "module.type === \"module\""
+        }
+    }
+}

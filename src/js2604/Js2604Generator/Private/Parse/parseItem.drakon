@@ -1,0 +1,93 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "7"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "parseAction(folder, id, item)"
+        },
+        "4": {
+            "type": "case",
+            "one": "13",
+            "content": "\"select\"",
+            "two": "8"
+        },
+        "5": {
+            "type": "case",
+            "one": "12",
+            "two": "4",
+            "content": "\"question\""
+        },
+        "6": {
+            "type": "case",
+            "one": "3",
+            "two": "5",
+            "content": "\"action\""
+        },
+        "7": {
+            "type": "select",
+            "one": "6",
+            "content": "item.type"
+        },
+        "8": {
+            "one": "14",
+            "type": "case",
+            "two": "9",
+            "content": "\"case\""
+        },
+        "9": {
+            "one": "15",
+            "type": "case",
+            "two": "11",
+            "content": "\"loopbegin\""
+        },
+        "10": {
+            "one": "1",
+            "type": "case",
+            "two": null
+        },
+        "11": {
+            "one": "1",
+            "type": "case",
+            "two": "10",
+            "content": "\"soutput\""
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "parseQuestion(folder, id, item)"
+        },
+        "13": {
+            "type": "action",
+            "one": "1",
+            "content": "parseSelect(folder, id, item)"
+        },
+        "14": {
+            "type": "action",
+            "one": "1",
+            "content": "parseCase(folder, id, item)"
+        },
+        "15": {
+            "type": "action",
+            "one": "1",
+            "content": "parseLoop(folder, id, item)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nid\nitem"
+}

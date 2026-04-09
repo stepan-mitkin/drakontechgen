@@ -1,0 +1,70 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "parseArguments(folder)"
+        },
+        "5": {
+            "type": "action",
+            "one": "9",
+            "two": "",
+            "content": "normalizeAsync(folder)"
+        },
+        "6": {
+            "type": "loopend",
+            "one": "1",
+            "two": "",
+            "content": ""
+        },
+        "7": {
+            "type": "loopbegin",
+            "one": "11",
+            "two": "",
+            "content": "id; ids"
+        },
+        "8": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "parseItem(folder, id, item)"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "two": "",
+            "content": "folder.events = {}\nfolder.eventItems = []"
+        },
+        "10": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "content": "ids = Object.keys(folder.items)"
+        },
+        "11": {
+            "type": "action",
+            "one": "8",
+            "two": "",
+            "content": "item = folder.items[id]"
+        }
+    }
+}

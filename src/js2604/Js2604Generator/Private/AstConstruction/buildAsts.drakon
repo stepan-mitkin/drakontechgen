@@ -1,0 +1,48 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "1"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "6",
+            "flag1": 1,
+            "content": "folder.type === \"folder\""
+        },
+        "5": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "7",
+            "content": "name, child; folder.children"
+        },
+        "7": {
+            "type": "action",
+            "one": "5",
+            "content": "buildAsts(child)"
+        }
+    }
+}

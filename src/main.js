@@ -6,6 +6,7 @@ const {
   createDrakonTechGenerator,
   createClojureGenerator,
 } = require("./drakontechgen");
+const { Js2604Generator } = require("./js2604");
 const { toTree } = require("drakongen");
 
 var success = undefined;
@@ -57,7 +58,7 @@ function parseCommandLine() {
 
   if (!options.output) {
     var parsed = path.parse(options.projectFolder);
-    var ext;
+    var ext = ".js";
     if (options.language === "JS") {
       ext = ".js";
     } else {
@@ -148,10 +149,14 @@ async function main() {
   var generator;
   if (options.language === "JS") {
     generator = createDrakonTechGenerator(genOptions);
+  } else if (options.language === "JS2604") {
+    generator = Js2604Generator(genOptions);
   } else if (options.language === "clojure") {
     generator = createClojureGenerator(genOptions);
   } else {
-    console.error("Unexpected language. --language must be JS or clojure");
+    console.error(
+      "Unexpected language. --language must be JS, JS2604, or clojure",
+    );
     return;
   }
   await generator.run();

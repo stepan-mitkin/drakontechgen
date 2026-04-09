@@ -1,0 +1,71 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "parent\nfolder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "6"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "two": "",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "7",
+            "two": "",
+            "content": "child; children"
+        },
+        "6": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "children = await readChildren(folder)"
+        },
+        "7": {
+            "type": "question",
+            "one": "10",
+            "two": "8",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "8": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "content": "await readModuleFolder(parent, child)"
+        },
+        "9": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "content": "addChild(parent, child)"
+        },
+        "10": {
+            "type": "question",
+            "one": "9",
+            "two": "16",
+            "flag1": 0,
+            "content": "child.name === \"module\""
+        },
+        "16": {
+            "type": "action",
+            "one": "4",
+            "content": "reportError(\n    \"module is not expected in this folder\",\n    child.path\n)"
+        }
+    }
+}

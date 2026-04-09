@@ -1,0 +1,47 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "content": "names = splitTrim(folder.params, \"\\n\")"
+        },
+        "5": {
+            "type": "action",
+            "one": "7",
+            "content": "folder.argNames = names"
+        },
+        "6": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "7": {
+            "type": "loopbegin",
+            "one": "9",
+            "content": "name; names"
+        },
+        "9": {
+            "type": "action",
+            "one": "6",
+            "content": "addDeclaration(folder, name)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder"
+}

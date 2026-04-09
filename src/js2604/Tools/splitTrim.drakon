@@ -1,0 +1,42 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "parts = text.split(separator)"
+        },
+        "4": {
+            "type": "action",
+            "one": "3",
+            "content": "text = text || \"\""
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "content": "trimmed = parts.map(part => part.trim())"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "content": "return trimmed.filter(\n    part => Boolean(part)\n)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "text\nseparator"
+}

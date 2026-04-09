@@ -1,0 +1,37 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "options.onError(\n    {\n        message: message,\n        filename: filename,\n        nodeId: nodeId,\n        data: data\n    }\n)"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "content": "state = undefined "
+        },
+        "5": {
+            "type": "action",
+            "one": "3",
+            "content": "failed = true "
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "message\nfilename\nnodeId\ndata"
+}

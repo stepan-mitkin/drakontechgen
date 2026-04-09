@@ -1,0 +1,95 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "13"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "folder.children = childrenByName"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "3",
+            "two": "",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "18",
+            "two": "",
+            "content": "child; children"
+        },
+        "13": {
+            "type": "action",
+            "one": "16",
+            "content": "checkCancellation()"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "children = await readChildren(folder)"
+        },
+        "17": {
+            "type": "action",
+            "one": "5",
+            "content": "childrenByName = {}"
+        },
+        "18": {
+            "type": "question",
+            "one": "22",
+            "two": "19",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "19": {
+            "type": "action",
+            "one": "20",
+            "content": "await readFolder(child)"
+        },
+        "20": {
+            "type": "action",
+            "one": "4",
+            "content": "childrenByName[child.name] = child"
+        },
+        "22": {
+            "type": "question",
+            "one": "24",
+            "two": "23",
+            "flag1": 1,
+            "content": "child.keywords"
+        },
+        "23": {
+            "type": "action",
+            "one": "24",
+            "content": "child.keywords = {}"
+        },
+        "24": {
+            "type": "question",
+            "one": "20",
+            "two": "25",
+            "flag1": 1,
+            "content": "child.items"
+        },
+        "25": {
+            "type": "action",
+            "one": "20",
+            "content": "child.items = {}"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder"
+}

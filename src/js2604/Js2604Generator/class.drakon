@@ -1,4 +1,5 @@
 {
+    "type": "drakon",
     "items": {
         "1": {
             "type": "end"
@@ -6,37 +7,31 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "6"
+            "one": "3"
         },
-        "4": {
-            "type": "sinput",
-            "one": "9",
-            "content": "nudge(amount)"
-        },
-        "6": {
+        "3": {
             "type": "action",
             "one": "4",
-            "content": "total = 0"
+            "content": "state = \"idle\""
         },
-        "9": {
+        "4": {
             "type": "action",
-            "one": "11",
-            "content": "total += amount"
+            "one": "5",
+            "content": "failed = false "
         },
-        "11": {
+        "5": {
             "type": "action",
             "one": "1",
-            "content": "me.total = total + left + right"
+            "content": "nextId = 2"
         }
     },
     "keywords": {
-        "function": false,
-        "machine": true,
+        "function": true,
+        "machine": false,
         "async": false,
         "export": true,
         "algoprop": false,
         "lazy": false
     },
-    "params": "left\nright",
-    "type": "drakon"
+    "params": "options"
 }

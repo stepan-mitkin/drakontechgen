@@ -1,0 +1,104 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "5",
+            "content": "Init"
+        },
+        "5": {
+            "type": "question",
+            "one": "7",
+            "two": "6",
+            "flag1": 1,
+            "content": "state === \"idle\""
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "throw new Error(\"Invalid state\")"
+        },
+        "7": {
+            "type": "action",
+            "one": "9",
+            "content": "state = \"started\""
+        },
+        "8": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 6,
+            "content": "Exit"
+        },
+        "9": {
+            "type": "branch",
+            "one": "31",
+            "branchId": 2,
+            "content": "Read project"
+        },
+        "23": {
+            "type": "branch",
+            "branchId": 5,
+            "one": "25",
+            "content": "Build source code"
+        },
+        "24": {
+            "type": "action",
+            "one": "8",
+            "content": "await options.onData(content)"
+        },
+        "25": {
+            "type": "action",
+            "one": "24",
+            "content": "content = JSON.stringify(\n    module,\n    null ,\n    4\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "36",
+            "content": "module = await readRootFolder()"
+        },
+        "35": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "37",
+            "content": "Parse items"
+        },
+        "36": {
+            "type": "question",
+            "one": "35",
+            "two": "8",
+            "flag1": 0,
+            "content": "failed"
+        },
+        "37": {
+            "type": "action",
+            "one": "38",
+            "content": "parseItems(module)"
+        },
+        "38": {
+            "type": "question",
+            "one": "39",
+            "two": "8",
+            "flag1": 0,
+            "content": "failed"
+        },
+        "39": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "23",
+            "content": "Build AST"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": ""
+}
