@@ -7,22 +7,17 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "4"
+            "one": "3"
         },
         "3": {
             "type": "action",
-            "one": "5",
-            "content": "expr.loopInternal = true "
+            "one": "4",
+            "content": "folder.scope.locals[variable] = true "
         },
         "4": {
             "type": "action",
-            "one": "3",
-            "content": "expr = createAssignment(\n    createIdentifier(valueVar),\n    createComputedMember(\n        collection,\n        keyVar\n    )\n)"
-        },
-        "5": {
-            "type": "action",
             "one": "1",
-            "content": "return expr"
+            "content": "addDeclaration(folder, variable)"
         }
     },
     "keywords": {
@@ -33,5 +28,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "valueVar\nkeyVar\ncollection"
+    "params": "folder\nvariable"
 }

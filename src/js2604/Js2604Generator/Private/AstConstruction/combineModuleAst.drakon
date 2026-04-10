@@ -1,0 +1,75 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "module",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Branch1"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "program = createProgram()"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "9",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "7",
+            "content": "step; initBody"
+        },
+        "6": {
+            "type": "action",
+            "one": "5",
+            "content": "initBody = getFunBody(module.ast)"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "content": "program.body.push(step)"
+        },
+        "8": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "9": {
+            "type": "branch",
+            "one": "11",
+            "branchId": 2,
+            "content": "Branch2"
+        },
+        "10": {
+            "type": "loopend",
+            "one": "8",
+            "content": ""
+        },
+        "11": {
+            "type": "loopbegin",
+            "one": "13",
+            "content": "name, child; module.children"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return program"
+        },
+        "13": {
+            "type": "action",
+            "one": "10",
+            "content": "program.body.push(child.ast)"
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "name\nargs",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return {\n    type: \"FunctionDeclaration\",\n    id: createIdentifier(name),\n    params: args.map(createIdentifier),\n    body: createBlock(),\n    generator: false ,\n    expression: false ,\n    async : false \n}"
+        },
+        "4": {
+            "type": "action",
+            "one": "3",
+            "content": "args = args || []"
+        }
+    }
+}

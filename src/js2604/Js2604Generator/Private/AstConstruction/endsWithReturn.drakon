@@ -1,0 +1,58 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "caseBody",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "5",
+            "flag1": 1,
+            "content": "caseBody.length === 0"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "content": "last = caseBody[caseBody.length - 1]"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 0,
+            "content": "last.type === \"ReturnStatement\""
+        },
+        "7": {
+            "type": "question",
+            "one": "9",
+            "two": "8",
+            "flag1": 0,
+            "content": "last.type === \"ThrowStatement\""
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        }
+    }
+}

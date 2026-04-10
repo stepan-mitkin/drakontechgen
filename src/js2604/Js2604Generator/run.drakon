@@ -42,18 +42,13 @@
         "23": {
             "type": "branch",
             "branchId": 5,
-            "one": "25",
+            "one": "41",
             "content": "Build source code"
         },
         "24": {
             "type": "action",
             "one": "8",
-            "content": "await options.onData(content)"
-        },
-        "25": {
-            "type": "action",
-            "one": "24",
-            "content": "content = JSON.stringify(\n    module,\n    null ,\n    4\n)"
+            "content": "await options.onData(src)"
         },
         "31": {
             "type": "action",
@@ -88,8 +83,30 @@
         "39": {
             "type": "branch",
             "branchId": 4,
-            "one": "23",
+            "one": "40",
             "content": "Build AST"
+        },
+        "40": {
+            "type": "action",
+            "one": "42",
+            "content": "buildModuleAst(module)"
+        },
+        "41": {
+            "type": "action",
+            "one": "24",
+            "content": "src = options.escodegen.generate(ast)"
+        },
+        "42": {
+            "type": "question",
+            "one": "43",
+            "two": "8",
+            "flag1": 0,
+            "content": "failed"
+        },
+        "43": {
+            "type": "action",
+            "one": "23",
+            "content": "ast = combineModuleAst(module)"
         }
     },
     "keywords": {

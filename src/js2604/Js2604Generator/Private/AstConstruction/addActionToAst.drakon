@@ -1,13 +1,8 @@
 {
     "keywords": {
-        "function": true,
-        "machine": false,
-        "async": false,
-        "export": false,
-        "algoprop": false,
-        "lazy": false
+        "function": true
     },
-    "params": "folder",
+    "params": "step\nbody",
     "type": "drakon",
     "items": {
         "1": {
@@ -18,16 +13,12 @@
             "branchId": 0,
             "one": "4"
         },
-        "3": {
-            "type": "action",
-            "one": "1"
-        },
         "4": {
             "type": "question",
-            "one": "3",
-            "two": "6",
+            "one": "6",
+            "two": "1",
             "flag1": 1,
-            "content": "folder.type === \"folder\""
+            "content": "step.content"
         },
         "5": {
             "type": "loopend",
@@ -37,12 +28,12 @@
         "6": {
             "type": "loopbegin",
             "one": "7",
-            "content": "name, child; folder.children"
+            "content": "expr; step.content"
         },
         "7": {
             "type": "action",
             "one": "5",
-            "content": "buildAsts(child)"
+            "content": "body.push(expr)"
         }
     }
 }

@@ -43,7 +43,7 @@
         },
         "10": {
             "type": "action",
-            "one": "11",
+            "one": "17",
             "content": "varName = generateId(\"_selectValue\")"
         },
         "11": {
@@ -72,6 +72,11 @@
             "type": "action",
             "one": "1",
             "content": "folder.eventItems.push(id)"
+        },
+        "17": {
+            "type": "action",
+            "one": "11",
+            "content": "addLocal(folder, varName)"
         }
     },
     "keywords": {

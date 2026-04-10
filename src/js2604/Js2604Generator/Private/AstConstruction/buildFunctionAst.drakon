@@ -1,0 +1,124 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "fun",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "13",
+            "content": "Create function object"
+        },
+        "12": {
+            "type": "action",
+            "one": "18",
+            "content": "functionBody = funAst.body.body"
+        },
+        "13": {
+            "type": "action",
+            "one": "14",
+            "content": "funAst = createFunction(\n    fun.name,\n    fun.arguments \n)"
+        },
+        "14": {
+            "type": "question",
+            "one": "12",
+            "two": "15",
+            "flag1": 0,
+            "content": "fun.keywords.async "
+        },
+        "15": {
+            "type": "action",
+            "one": "12",
+            "content": "funAst.async  = true "
+        },
+        "17": {
+            "type": "branch",
+            "one": "32",
+            "branchId": 4,
+            "content": "Exit"
+        },
+        "18": {
+            "type": "branch",
+            "one": "19",
+            "branchId": 2,
+            "content": "Drakon to tree"
+        },
+        "19": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "content": "drakonJson = JSON.stringify(\n    fun,\n    null ,\n    4\n)"
+        },
+        "20": {
+            "type": "action",
+            "one": "21",
+            "two": "",
+            "content": "treeStr = options.toTree(\n    drakonJson,\n    fun.name,\n    fun.path,\n    options.language\n)"
+        },
+        "21": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "content": "tree = JSON.parse(treeStr)"
+        },
+        "22": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "27",
+            "content": "Primitive or silhouette?"
+        },
+        "23": {
+            "type": "action",
+            "one": "1",
+            "content": "fun.ast = funAst"
+        },
+        "24": {
+            "type": "case",
+            "one": "29",
+            "two": ""
+        },
+        "25": {
+            "type": "case",
+            "one": "28",
+            "two": "24",
+            "content": "1"
+        },
+        "26": {
+            "type": "case",
+            "one": "17",
+            "two": "25",
+            "content": "0"
+        },
+        "27": {
+            "type": "select",
+            "one": "26",
+            "two": "",
+            "content": "tree.branches.length"
+        },
+        "28": {
+            "type": "action",
+            "one": "17",
+            "content": "convertNodesToAst(\n    tree.branches[0].body,\n    functionBody\n)"
+        },
+        "29": {
+            "type": "action",
+            "one": "17",
+            "content": "convertSilhouetteToAst(\n    fun,\n    tree,\n    functionBody\n)"
+        },
+        "32": {
+            "type": "action",
+            "one": "23",
+            "content": "try {\n    options.escodegen.generate(funAst)\n} catch (ex) {\n    console.log(\"---------------\")\n    console.log(ex)\n    console.log(\n        JSON.stringify(funAst, null , 4)\n    )\n}"
+        }
+    }
+}

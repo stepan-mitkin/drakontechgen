@@ -1,10 +1,32 @@
 const {sortBy, findFirst, addRange, clone, replace} = require('./tools');
 function Js2604Generator(options) {
     var self = {};
-    var failed, nextId, state;
+    var failed, gBranches, gSimpleSilhouette, nextId, state;
     state = 'idle';
     failed = false;
     nextId = 2;
+    gSimpleSilhouette = true;
+    gBranches = {};
+    function addActionToAst(step, body) {
+        var _collection_2, expr;
+        if (step.content) {
+            _collection_2 = step.content;
+            for (expr of _collection_2) {
+                body.push(expr);
+            }
+        }
+    }
+    function addAddressToAst(step, body) {
+        var assi, nextBranch, statement;
+        if (gSimpleSilhouette) {
+            nextBranch = gBranches[step.content];
+            convertNodesToAst(nextBranch.body, body);
+        } else {
+            assi = createAssignment(createIdentifier('_state_'), createStringLiteral(step.content));
+            statement = createExpression(assi);
+            body.push(statement);
+        }
+    }
     function addChild(parent, folder) {
         var scope;
         if (folder.name in parent.children) {
@@ -19,18 +41,111 @@ function Js2604Generator(options) {
     function addDeclaration(folder, name) {
         folder.scope.declarations[name] = true;
     }
+    function addErrorToAst(step, body) {
+        var expr, message;
+        if (step.content) {
+            message = createPlus(createStringLiteral(step.message + ': '), step.content);
+        } else {
+            message = createStringLiteral(step.message);
+        }
+        expr = createThrow(message);
+        body.push(expr);
+    }
+    function addLocal(folder, variable) {
+        folder.scope.locals[variable] = true;
+        addDeclaration(folder, variable);
+    }
+    function addLoopToAst(step, body) {
+        var node;
+        if (step.content) {
+            node = step.content;
+        } else {
+            node = createWhileTrue();
+        }
+        convertNodesToAst(step.body, node.body.body);
+        body.push(node);
+    }
     function addLoopVar(folder, variable) {
         folder.scope.loop[variable] = true;
         addDeclaration(folder, variable);
     }
-    function buildAsts(folder) {
-        var _collection_2, child, name;
-        if (folder.type !== 'folder') {
-            _collection_2 = folder.children;
-            for (name in _collection_2) {
-                child = _collection_2[name];
-                buildAsts(child);
+    function addQuestionToAst(step, body) {
+        var content, node;
+        content = decodeQuestionContent(step.content);
+        node = createIfNode(content);
+        convertNodesToAst(step.yes, node.consequent.body);
+        if (step.no.length > 0) {
+            node.alternate = createBlock();
+            convertNodesToAst(step.no, node.alternate.body);
+        }
+        body.push(node);
+    }
+    function buildComplexSilhouette(fun, tree, functionBody) {
+        var _collection_4, branch, branchState, caseBody, caseClause, defClause, end, firstName, lastBranch, loop, loopBody, ordinal, select;
+        branchState = '_branch_';
+        addLocal(fun, branchState);
+        firstName = tree.branches[0].name;
+        pushAssi(branchState, createStringLiteral(firstName), functionBody);
+        loop = createWhileTrue();
+        functionBody.push(loop);
+        loopBody = loop.body.body;
+        select = createSwitch(createIdentifier(branchState));
+        loopBody.push(select);
+        ordinal = 0;
+        end = hasEnd(fun);
+        _collection_4 = tree.branches;
+        for (branch of _collection_4) {
+            caseClause = createCase(createStringLiteral(branch.name));
+            select.cases.push(caseClause);
+            caseBody = caseClause.consequent;
+            lastBranch = ordinal === tree.branches.length - 1 && end;
+            if (lastBranch) {
+                pushAssi(branchState, createIdentifier('undefined'), caseBody);
             }
+            convertNodesToAst(branch.body, caseBody);
+            if (!endsWithReturn(caseBody)) {
+                caseBody.push(createBreak());
+            }
+            ordinal++;
+        }
+        defClause = createCase(null);
+        defClause.consequent.push(createReturn(null));
+        select.cases.push(defClause);
+    }
+    function buildFunctionAst(fun) {
+        var _selectValue_6, drakonJson, funAst, functionBody, tree, treeStr;
+        funAst = createFunction(fun.name, fun.arguments);
+        if (fun.keywords.async) {
+            funAst.async = true;
+        }
+        functionBody = funAst.body.body;
+        drakonJson = JSON.stringify(fun, null, 4);
+        treeStr = options.toTree(drakonJson, fun.name, fun.path, options.language);
+        tree = JSON.parse(treeStr);
+        _selectValue_6 = tree.branches.length;
+        if (_selectValue_6 !== 0) {
+            if (_selectValue_6 === 1) {
+                convertNodesToAst(tree.branches[0].body, functionBody);
+            } else {
+                convertSilhouetteToAst(fun, tree, functionBody);
+            }
+        }
+        try {
+            options.escodegen.generate(funAst);
+        } catch (ex) {
+            console.log('---------------');
+            console.log(ex);
+            console.log(JSON.stringify(funAst, null, 4));
+        }
+        fun.ast = funAst;
+    }
+    function buildModuleAst(folder) {
+        var _collection_8, child, name;
+        buildFunctionAst(folder);
+        _collection_8 = folder.children;
+        for (name in _collection_8) {
+            child = _collection_8[name];
+            buildFunctionAst(child);
         }
     }
     function checkCancellation() {
@@ -40,6 +155,82 @@ function Js2604Generator(options) {
             error.cancelled = true;
             throw error;
         }
+    }
+    function combineModuleAst(module) {
+        var _collection_11, child, initBody, name, program, step;
+        program = createProgram();
+        initBody = getFunBody(module.ast);
+        for (step of initBody) {
+            program.body.push(step);
+        }
+        _collection_11 = module.children;
+        for (name in _collection_11) {
+            child = _collection_11[name];
+            program.body.push(child.ast);
+        }
+        return program;
+    }
+    function convertNodesToAst(steps, body) {
+        var _selectValue_14, step;
+        for (step of steps) {
+            _selectValue_14 = step.type;
+            if (_selectValue_14 === 'action') {
+                addActionToAst(step, body);
+            } else {
+                if (_selectValue_14 === 'question') {
+                    addQuestionToAst(step, body);
+                } else {
+                    if (_selectValue_14 === 'loop') {
+                        addLoopToAst(step, body);
+                    } else {
+                        if (_selectValue_14 === 'error') {
+                            addErrorToAst(step, body);
+                        } else {
+                            if (_selectValue_14 === 'break') {
+                                body.push(createBreak());
+                            } else {
+                                if (_selectValue_14 === 'address') {
+                                    addAddressToAst(step, body);
+                                } else {
+                                    throw new Error('Unexpected step type: ' + step.type);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function convertSilhouetteToAst(fun, tree, functionBody) {
+        var _collection_16, branch;
+        gBranches = {};
+        _collection_16 = tree.branches;
+        for (branch of _collection_16) {
+            if (!branch.name) {
+                reportError('Branch name cannot be empty', fun.path, branch.id);
+                return;
+            }
+            if (branch.name in gBranches) {
+                reportError('Non-unique branch name', fun.path, branch.id);
+                return;
+            }
+            gBranches[branch.name] = branch;
+        }
+        if (isSimpleSilhouette(tree.branches)) {
+            gSimpleSilhouette = true;
+            convertNodesToAst(tree.branches[0].body, functionBody);
+        } else {
+            gSimpleSilhouette = false;
+            buildComplexSilhouette(fun, tree, functionBody);
+        }
+    }
+    function createAnd(left, right) {
+        return {
+            type: 'LogicalExpression',
+            operator: '&&',
+            left: left,
+            right: right
+        };
     }
     function createAssignment(identifier, expression) {
         return {
@@ -55,12 +246,32 @@ function Js2604Generator(options) {
             body: []
         };
     }
+    function createBreak() {
+        return {
+            type: 'BreakStatement',
+            label: null
+        };
+    }
+    function createCase(value) {
+        return {
+            type: 'SwitchCase',
+            test: value,
+            consequent: []
+        };
+    }
     function createComputedMember(obj, prop) {
         return {
             type: 'MemberExpression',
             computed: true,
             object: obj,
             property: createIdentifier(prop)
+        };
+    }
+    function createDeclaration(vars) {
+        return {
+            type: 'VariableDeclaration',
+            declarations: vars.map(createVariableDeclaration),
+            kind: 'var'
         };
     }
     function createEmptyFunction(name) {
@@ -70,6 +281,14 @@ function Js2604Generator(options) {
             items: {},
             keywords: { 'function': true },
             children: {}
+        };
+    }
+    function createEqual(left, right) {
+        return {
+            type: 'BinaryExpression',
+            operator: '===',
+            left: left,
+            right: right
         };
     }
     function createExpression(expression) {
@@ -104,9 +323,21 @@ function Js2604Generator(options) {
             body: createBlock()
         };
     }
+    function createFunction(name, args) {
+        args = args || [];
+        return {
+            type: 'FunctionDeclaration',
+            id: createIdentifier(name),
+            params: args.map(createIdentifier),
+            body: createBlock(),
+            generator: false,
+            expression: false,
+            async: false
+        };
+    }
     function createGetValue(valueVar, keyVar, collection) {
         var expr;
-        expr = createAssignment(valueVar, createComputedMember(collection, keyVar));
+        expr = createAssignment(createIdentifier(valueVar), createComputedMember(collection, keyVar));
         expr.loopInternal = true;
         return expr;
     }
@@ -116,6 +347,48 @@ function Js2604Generator(options) {
             name: name
         };
     }
+    function createIfNode(content) {
+        return {
+            type: 'IfStatement',
+            test: content,
+            consequent: createBlock()
+        };
+    }
+    function createNot(operand) {
+        return {
+            type: 'UnaryExpression',
+            operator: '!',
+            argument: operand
+        };
+    }
+    function createOr(left, right) {
+        return {
+            type: 'LogicalExpression',
+            operator: '||',
+            left: left,
+            right: right
+        };
+    }
+    function createPlus(left, right) {
+        return {
+            type: 'BinaryExpression',
+            operator: '+',
+            left: left,
+            right: right
+        };
+    }
+    function createProgram() {
+        return {
+            type: 'Program',
+            body: []
+        };
+    }
+    function createReturn(value) {
+        return {
+            type: 'ReturnStatement',
+            argument: value
+        };
+    }
     function createScope(type, name) {
         return {
             _type: 'scope',
@@ -123,8 +396,97 @@ function Js2604Generator(options) {
             name: name,
             declarations: {},
             loop: {},
+            locals: {},
             children: {}
         };
+    }
+    function createStringLiteral(value) {
+        return {
+            type: 'Literal',
+            value: value,
+            raw: JSON.stringify(value)
+        };
+    }
+    function createSwitch(value) {
+        return {
+            type: 'SwitchStatement',
+            discriminant: value,
+            cases: []
+        };
+    }
+    function createThrow(message) {
+        return {
+            type: 'ThrowStatement',
+            argument: {
+                type: 'NewExpression',
+                callee: createIdentifier('Error'),
+                arguments: [message]
+            }
+        };
+    }
+    function createVariableDeclaration(variable) {
+        return {
+            type: 'VariableDeclarator',
+            id: createIdentifier(variable),
+            init: null
+        };
+    }
+    function createWhileTrue() {
+        return {
+            type: 'WhileStatement',
+            test: {
+                type: 'Literal',
+                value: true,
+                raw: 'true'
+            },
+            body: createBlock()
+        };
+    }
+    function decodeQuestionContent(content) {
+        var _selectValue_18, decoded, left, right;
+        _selectValue_18 = content.operator;
+        if (_selectValue_18 === 'not') {
+            decoded = decodeQuestionContent(content.operand);
+            if (decoded.type === 'BinaryExpression' && decoded.operator === '===') {
+                decoded.operator = '!==';
+                return decoded;
+            } else {
+                return createNot(decodeQuestionContent(content.operand));
+            }
+        } else {
+            if (_selectValue_18 === 'and') {
+                left = decodeQuestionContent(content.left);
+                right = decodeQuestionContent(content.right);
+                return createAnd(left, right);
+            } else {
+                if (_selectValue_18 === 'or') {
+                    left = decodeQuestionContent(content.left);
+                    right = decodeQuestionContent(content.right);
+                    return createOr(left, right);
+                } else {
+                    if (_selectValue_18 === 'equal') {
+                        left = decodeQuestionContent(content.left);
+                        right = decodeQuestionContent(content.right);
+                        return createEqual(left, right);
+                    } else {
+                        return content;
+                    }
+                }
+            }
+        }
+    }
+    function endsWithReturn(caseBody) {
+        var last;
+        if (caseBody.length === 0) {
+            return false;
+        } else {
+            last = caseBody[caseBody.length - 1];
+            if (last.type === 'ReturnStatement' || last.type === 'ThrowStatement') {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
     function enrichFolder(folder) {
         if (!folder.keywords) {
@@ -175,8 +537,22 @@ function Js2604Generator(options) {
             return undefined;
         }
     }
+    function getFunBody(fun) {
+        return fun.body.body;
+    }
+    function hasEnd(fun) {
+        var _collection_20, id, item;
+        _collection_20 = fun.items;
+        for (id in _collection_20) {
+            item = _collection_20[id];
+            if (item.type === 'end') {
+                return true;
+            }
+        }
+        return false;
+    }
     function insertActionBefore(folder, beforeId, expression) {
-        var _collection_12, existingItem, id, item, itemId;
+        var _collection_32, existingItem, id, item, itemId;
         id = generateId('_item_');
         item = {
             id: id,
@@ -184,9 +560,9 @@ function Js2604Generator(options) {
             content: [createExpression(expression)],
             one: beforeId
         };
-        _collection_12 = folder.items;
-        for (itemId in _collection_12) {
-            existingItem = _collection_12[itemId];
+        _collection_32 = folder.items;
+        for (itemId in _collection_32) {
+            existingItem = _collection_32[itemId];
             if (existingItem.one === beforeId) {
                 existingItem.one = id;
             }
@@ -195,6 +571,19 @@ function Js2604Generator(options) {
             }
         }
         folder.items[id] = item;
+    }
+    function isSimpleSilhouette(branches) {
+        var branch, i;
+        for (i = 0; i < branches.length; i++) {
+            branch = branches[i];
+            if (branch.refs > 1) {
+                if (i === branches.length - 1) {
+                    return simpleBranch(branch);
+                }
+                return false;
+            }
+        }
+        return true;
     }
     function normalizeAsync(folder) {
         if (folder.keywords.machine || folder.keywords.async) {
@@ -208,7 +597,7 @@ function Js2604Generator(options) {
     function parseArguments(folder) {
         var name, names;
         names = splitTrim(folder.params, '\n');
-        folder.argNames = names;
+        folder.arguments = names;
         for (name of names) {
             addDeclaration(folder, name);
         }
@@ -235,6 +624,7 @@ function Js2604Generator(options) {
                     second = expr2.expression;
                     if (second.type !== 'Identifier') {
                         varName = generateId('_collection');
+                        addLocal(folder, varName);
                         oldContent = second;
                         second = createIdentifier(varName);
                         newContent = createAssignment(createIdentifier(varName), oldContent);
@@ -288,24 +678,24 @@ function Js2604Generator(options) {
         }
     }
     function parseItem(folder, id, item) {
-        var _selectValue_5;
-        _selectValue_5 = item.type;
-        if (_selectValue_5 === 'action') {
+        var _selectValue_23;
+        _selectValue_23 = item.type;
+        if (_selectValue_23 === 'action') {
             parseAction(folder, id, item);
         } else {
-            if (_selectValue_5 === 'question') {
+            if (_selectValue_23 === 'question') {
                 parseQuestion(folder, id, item);
             } else {
-                if (_selectValue_5 === 'select') {
+                if (_selectValue_23 === 'select') {
                     parseSelect(folder, id, item);
                 } else {
-                    if (_selectValue_5 === 'case') {
+                    if (_selectValue_23 === 'case') {
                         parseCase(folder, id, item);
                     } else {
-                        if (_selectValue_5 === 'loopbegin') {
+                        if (_selectValue_23 === 'loopbegin') {
                             parseLoop(folder, id, item);
                         } else {
-                            if (_selectValue_5 === 'soutput') {
+                            if (_selectValue_23 === 'soutput') {
                             }
                         }
                     }
@@ -329,12 +719,12 @@ function Js2604Generator(options) {
         }
     }
     function parseItems(folder) {
-        var _collection_7, child, name;
+        var _collection_25, child, name;
         if (folder.type === 'drakon') {
             parseItemsInFunction(folder);
-            _collection_7 = folder.children;
-            for (name in _collection_7) {
-                child = _collection_7[name];
+            _collection_25 = folder.children;
+            for (name in _collection_25) {
+                child = _collection_25[name];
                 parseItems(child);
             }
         }
@@ -352,14 +742,14 @@ function Js2604Generator(options) {
         }
     }
     function parseLoop(folder, id, item) {
-        var _selectValue_10, init, test, update;
+        var _selectValue_28, init, test, update;
         parseItemContent(folder, id, item);
         if (ensureHasContent(folder, id, item)) {
-            _selectValue_10 = item.content.length;
-            if (_selectValue_10 === 2) {
+            _selectValue_28 = item.content.length;
+            if (_selectValue_28 === 2) {
                 parseForEachLoop(folder, id, item);
             } else {
-                if (_selectValue_10 === 3) {
+                if (_selectValue_28 === 3) {
                     init = stripExpression(item.content[0]);
                     test = stripExpression(item.content[1]);
                     update = stripExpression(item.content[2]);
@@ -398,17 +788,21 @@ function Js2604Generator(options) {
                 }
             } else {
                 varName = generateId('_selectValue');
+                addLocal(folder, varName);
                 item.content = createIdentifier(varName);
                 newContent = createAssignment(createIdentifier(varName), expr);
                 insertActionBefore(folder, id, newContent);
             }
         }
     }
+    function pushAssi(variable, value, body) {
+        body.push(createExpression(createAssignment(createIdentifier(variable), value)));
+    }
     async function readChildren(folder) {
-        var _collection_15, child, childPath, result;
+        var _collection_30, child, childPath, result;
         result = [];
-        _collection_15 = folder.children;
-        for (childPath of _collection_15) {
+        _collection_30 = folder.children;
+        for (childPath of _collection_30) {
             child = await options.getObjectByHandle(childPath);
             if (child) {
                 result.push(child);
@@ -493,7 +887,7 @@ function Js2604Generator(options) {
         });
     }
     async function run() {
-        var _state_, content, module;
+        var _state_, ast, module, src;
         _state_ = 'Init';
         while (true) {
             switch (_state_) {
@@ -521,11 +915,17 @@ function Js2604Generator(options) {
                 }
                 break;
             case 'Build AST':
-                _state_ = 'Build source code';
+                buildModuleAst(module);
+                if (failed) {
+                    _state_ = 'Exit';
+                } else {
+                    ast = combineModuleAst(module);
+                    _state_ = 'Build source code';
+                }
                 break;
             case 'Build source code':
-                content = JSON.stringify(module, null, 4);
-                await options.onData(content);
+                src = options.escodegen.generate(ast);
+                await options.onData(src);
                 _state_ = 'Exit';
                 break;
             case 'Exit':
@@ -534,6 +934,13 @@ function Js2604Generator(options) {
             default:
                 return;
             }
+        }
+    }
+    function simpleBranch(branch) {
+        if (branch.body.length === 0 || branch.body.length === 1 && branch.body[0].type === 'action') {
+            return true;
+        } else {
+            return false;
         }
     }
     function stop() {

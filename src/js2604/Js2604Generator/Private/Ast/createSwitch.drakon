@@ -12,7 +12,7 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "return {\n    _type: \"scope\",\n    type: type,\n    name: name,\n    declarations: {},\n    loop: {},\n    locals: {},\n    children: {}\n}"
+            "content": "return {\n    type: \"SwitchStatement\",\n    discriminant: value,\n    cases: []\n}"
         }
     },
     "keywords": {
@@ -23,5 +23,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "type\nname"
+    "params": "value"
 }

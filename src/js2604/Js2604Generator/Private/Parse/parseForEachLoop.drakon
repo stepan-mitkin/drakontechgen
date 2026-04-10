@@ -48,7 +48,7 @@
         },
         "10": {
             "type": "action",
-            "one": "11",
+            "one": "48",
             "content": "varName = generateId(\"_collection\")"
         },
         "11": {
@@ -191,6 +191,11 @@
             "one": "15",
             "two": "",
             "content": "addLoopVar(folder, item.valueVariable)"
+        },
+        "48": {
+            "type": "action",
+            "one": "11",
+            "content": "addLocal(folder, varName)"
         }
     },
     "keywords": {

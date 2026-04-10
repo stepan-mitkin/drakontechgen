@@ -1,0 +1,54 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "step\nbody",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "nextBranch = gBranches[step.content]"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "6",
+            "flag1": 1,
+            "content": "gSimpleSilhouette"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "content": "convertNodesToAst(nextBranch.body, body)"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "assi = createAssignment(\n    createIdentifier(\"_state_\"),\n    createStringLiteral(step.content),\n)"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "statement = createExpression(assi)"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "body.push(statement)"
+        }
+    }
+}

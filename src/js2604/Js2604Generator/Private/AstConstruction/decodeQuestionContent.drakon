@@ -1,0 +1,146 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "content",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "7"
+        },
+        "4": {
+            "type": "case",
+            "one": "22",
+            "content": "\"or\"",
+            "two": "8"
+        },
+        "5": {
+            "type": "case",
+            "one": "19",
+            "two": "4",
+            "content": "\"and\""
+        },
+        "6": {
+            "type": "case",
+            "one": "11",
+            "two": "5",
+            "content": "\"not\""
+        },
+        "7": {
+            "type": "select",
+            "one": "6",
+            "content": "content.operator"
+        },
+        "8": {
+            "one": "25",
+            "type": "case",
+            "two": "9",
+            "content": "\"equal\""
+        },
+        "9": {
+            "one": "10",
+            "type": "case",
+            "two": null
+        },
+        "10": {
+            "type": "action",
+            "one": "1",
+            "content": "return content"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "decoded = decodeQuestionContent(\n    content.operand\n)"
+        },
+        "12": {
+            "type": "question",
+            "one": "18",
+            "two": "15",
+            "flag1": 0,
+            "content": "decoded.type === \"BinaryExpression\""
+        },
+        "15": {
+            "type": "question",
+            "one": "18",
+            "two": "16",
+            "flag1": 0,
+            "content": "decoded.operator === \"===\""
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "decoded.operator = \"!==\""
+        },
+        "17": {
+            "type": "action",
+            "one": "1",
+            "content": "return decoded"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "content": "return createNot(\n    decodeQuestionContent(\n        content.operand\n    )\n)"
+        },
+        "19": {
+            "type": "action",
+            "one": "20",
+            "content": "left = decodeQuestionContent(\n    content.left\n)"
+        },
+        "20": {
+            "type": "action",
+            "one": "21",
+            "content": "right = decodeQuestionContent(\n    content.right\n)"
+        },
+        "21": {
+            "type": "action",
+            "one": "1",
+            "content": "return createAnd(left, right)"
+        },
+        "22": {
+            "type": "action",
+            "one": "23",
+            "two": "",
+            "content": "left = decodeQuestionContent(\n    content.left\n)"
+        },
+        "23": {
+            "type": "action",
+            "one": "24",
+            "two": "",
+            "content": "right = decodeQuestionContent(\n    content.right\n)"
+        },
+        "24": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "return createOr(left, right)"
+        },
+        "25": {
+            "type": "action",
+            "one": "26",
+            "two": "",
+            "content": "left = decodeQuestionContent(\n    content.left\n)"
+        },
+        "26": {
+            "type": "action",
+            "one": "27",
+            "two": "",
+            "content": "right = decodeQuestionContent(\n    content.right\n)"
+        },
+        "27": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "return createEqual(left, right)"
+        }
+    }
+}

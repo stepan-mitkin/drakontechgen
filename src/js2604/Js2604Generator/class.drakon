@@ -21,8 +21,20 @@
         },
         "5": {
             "type": "action",
-            "one": "1",
+            "one": "6",
             "content": "nextId = 2"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "content": "gSimpleSilhouette = true "
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "gBranches = {}"
         }
     },
     "keywords": {

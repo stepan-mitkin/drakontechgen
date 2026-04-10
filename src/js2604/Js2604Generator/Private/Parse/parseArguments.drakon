@@ -17,7 +17,7 @@
         "5": {
             "type": "action",
             "one": "7",
-            "content": "folder.argNames = names"
+            "content": "folder.arguments  = names"
         },
         "6": {
             "type": "loopend",
