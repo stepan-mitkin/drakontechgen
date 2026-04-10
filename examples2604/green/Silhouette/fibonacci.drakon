@@ -50,7 +50,7 @@
         "10": {
             "type": "action",
             "one": "1",
-            "content": "return result"
+            "content": "return\nresult"
         },
         "11": {
             "type": "loopend",
@@ -80,11 +80,12 @@
     },
     "type": "drakon",
     "keywords": {
-        "export": true,
-        "function": true,
-        "scenario": false,
+        "function": false,
+        "machine": false,
         "async": false,
-        "algoprop": false
+        "export": true,
+        "algoprop": false,
+        "lazy": false
     },
     "params": "ordinal"
 }

@@ -16,7 +16,7 @@
         "4": {
             "type": "action",
             "one": "3",
-            "content": "result = undefined\nfound = undefined"
+            "content": "result = undefined ;\nfound = undefined "
         },
         "5": {
             "type": "action",

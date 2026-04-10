@@ -16,7 +16,7 @@
         "4": {
             "type": "action",
             "one": "1",
-            "content": "secretValue = 23\nvar nextId = 1"
+            "content": "secretValue = 23;\nvar\nnextId = 1"
         }
     },
     "type": "drakon"

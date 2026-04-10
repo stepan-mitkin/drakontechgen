@@ -1,0 +1,99 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "4": {
+            "type": "question",
+            "one": "14",
+            "two": "6",
+            "flag1": 1,
+            "content": "Array.isArray(obj)"
+        },
+        "5": {
+            "type": "question",
+            "one": "4",
+            "two": "1",
+            "flag1": 1,
+            "content": "obj"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "1",
+            "flag1": 1,
+            "content": " typeof obj === \"object\""
+        },
+        "7": {
+            "type": "question",
+            "one": "16",
+            "two": "1",
+            "flag1": 1,
+            "content": "obj.type"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "recurse = visitor(obj)"
+        },
+        "9": {
+            "type": "question",
+            "one": "11",
+            "two": "1",
+            "flag1": 1,
+            "content": "recurse"
+        },
+        "10": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "11": {
+            "type": "loopbegin",
+            "one": "12",
+            "content": "key, value; obj"
+        },
+        "12": {
+            "type": "action",
+            "one": "10",
+            "content": "traverseAst(value, visitor)"
+        },
+        "13": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "14": {
+            "type": "loopbegin",
+            "one": "15",
+            "content": "item; obj"
+        },
+        "15": {
+            "type": "action",
+            "one": "13",
+            "content": "traverseAst(item, visitor)"
+        },
+        "16": {
+            "type": "question",
+            "one": "8",
+            "two": "8",
+            "flag1": 1,
+            "content": "obj.itemId"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "obj\nvisitor"
+}

@@ -38,7 +38,7 @@
         "6": {
             "type": "action",
             "one": "7",
-            "content": "assi = createAssignment(\n    createIdentifier(\"_state_\"),\n    createStringLiteral(step.content),\n)"
+            "content": "assi = createAssignment(\n    createIdentifier(\"_branch_\"),\n    createStringLiteral(step.content),\n)"
         },
         "7": {
             "type": "action",

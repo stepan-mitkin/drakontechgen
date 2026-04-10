@@ -11,13 +11,8 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
-            "content": "scope.loop[variable] = true "
-        },
-        "4": {
-            "type": "action",
             "one": "1",
-            "content": "addDeclaration(scope, variable)"
+            "content": "return {\n    parent: parent,\n    name: name,\n    path: path || \"\",\n    scope: scope,\n    body: body,\n    canAssign: canAssign || false ,\n    canDeclare: canDeclare || false \n}"
         }
     },
     "keywords": {
@@ -28,5 +23,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "scope\nvariable"
+    "params": "parent\nname\npath\nscope\nbody\ncanAssign\ncanDeclare"
 }

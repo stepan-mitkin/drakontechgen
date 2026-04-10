@@ -1,0 +1,47 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "module",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "content": "rootStep = createScopeStep(\n    undefined ,\n    \"module\",\n    module.path,\n    module.scope,\n    getFunBody(module.ast),\n    true ,\n    true \n)"
+        },
+        "4": {
+            "type": "action",
+            "one": "6",
+            "content": "addDeclarationsInFunction(rootStep)"
+        },
+        "5": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "7",
+            "content": "name, child; module.children"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "funStep = createScopeStep(\n    rootStep,\n    name,\n    child.path,\n    child.scope,\n    getFunBody(child.ast),\n    true ,\n    false \n)"
+        },
+        "8": {
+            "type": "action",
+            "one": "5",
+            "content": "addDeclarationsInFunction(funStep)"
+        }
+    }
+}

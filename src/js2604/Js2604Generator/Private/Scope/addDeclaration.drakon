@@ -12,7 +12,7 @@
         "4": {
             "type": "action",
             "one": "1",
-            "content": "folder.scope.declarations[name] = true "
+            "content": "scope.declarations[name] = true "
         }
     },
     "keywords": {
@@ -23,5 +23,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "folder\nname"
+    "params": "scope\nname"
 }

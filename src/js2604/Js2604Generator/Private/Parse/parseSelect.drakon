@@ -76,7 +76,7 @@
         "17": {
             "type": "action",
             "one": "11",
-            "content": "addLocal(folder, varName)"
+            "content": "addLocal(folder.scope, varName)"
         }
     },
     "keywords": {

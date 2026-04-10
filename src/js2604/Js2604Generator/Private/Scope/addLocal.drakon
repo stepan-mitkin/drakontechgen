@@ -12,12 +12,12 @@
         "3": {
             "type": "action",
             "one": "4",
-            "content": "folder.scope.locals[variable] = true "
+            "content": "scope.locals[variable] = true "
         },
         "4": {
             "type": "action",
             "one": "1",
-            "content": "addDeclaration(folder, variable)"
+            "content": "addDeclaration(scope, variable)"
         }
     },
     "keywords": {
@@ -28,5 +28,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "folder\nvariable"
+    "params": "scope\nvariable"
 }

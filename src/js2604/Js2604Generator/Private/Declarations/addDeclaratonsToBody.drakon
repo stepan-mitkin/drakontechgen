@@ -1,0 +1,54 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "step",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "locals = Object.keys(step.scope.locals)"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "loop = Object.keys(step.scope.loop)"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "content": "allVars = locals.concat(loop)"
+        },
+        "7": {
+            "type": "question",
+            "one": "8",
+            "two": "1",
+            "flag1": 0,
+            "content": "allVars.length === 0"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "two": "",
+            "content": "allVars.sort()"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "step.body.unshift(\n    createDeclaration(allVars)\n)"
+        }
+    }
+}

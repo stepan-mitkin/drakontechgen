@@ -159,7 +159,7 @@
         "29": {
             "type": "action",
             "one": "3",
-            "content": "addLocal(fun, branchState)"
+            "content": "addLocal(fun.scope, branchState)"
         },
         "30": {
             "type": "action",
