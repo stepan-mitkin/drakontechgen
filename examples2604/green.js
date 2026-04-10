@@ -84,6 +84,8 @@ async function slow() {
     await pause(1000);
     console.log('slow', 'end');
 }
+function empty() {
+}
 function earlyExit(array, value) {
     var i, index;
     index = -1;
@@ -128,6 +130,18 @@ function forLoopNoDeclare(array) {
         copy[key] = value;
     }
     return copy;
+}
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
+}
+function getSecret() {
+    return secretValue;
+}
+function hello() {
+    console.log('Hello, world');
 }
 function add(left, right) {
     var result;
@@ -333,8 +347,7 @@ function fibonacci(ordinal) {
     var i, i_1, i_2, result;
     if (ordinal === 0 || ordinal === 1) {
         result = ordinal;
-        return;
-        result;
+        return result;
     } else {
         i_2 = 0;
         i_1 = 1;
@@ -343,8 +356,7 @@ function fibonacci(ordinal) {
             i_2 = i_1;
             i_1 = result;
         }
-        return;
-        result;
+        return result;
     }
 }
 function sil2(value) {
@@ -361,3 +373,39 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
+function solution() {
+}
+module.exports = {
+    doWhile,
+    doWhileDo,
+    selectArrow,
+    twoExits,
+    whileDo,
+    slow,
+    empty,
+    earlyExit,
+    foreachLoopArray,
+    foreachLoopObject,
+    forLoopNoDeclare,
+    generateId,
+    getSecret,
+    hello,
+    add,
+    mul,
+    complexAnd,
+    complexOr,
+    fizzBuzz,
+    inversedAnd,
+    inversedOr,
+    questionMerge,
+    simpleAnd,
+    simpleOr,
+    scope3,
+    degenerateSelect,
+    selectShortCircuit,
+    selectWithDefault,
+    selectWithoutDefault,
+    complexSilhouette,
+    fibonacci,
+    sil2
+};

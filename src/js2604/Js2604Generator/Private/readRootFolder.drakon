@@ -52,7 +52,7 @@
         "16": {
             "type": "action",
             "one": "5",
-            "content": "addChild(rootFolder, child)"
+            "content": "addChild(module, child)"
         },
         "17": {
             "type": "question",

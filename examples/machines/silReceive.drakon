@@ -103,7 +103,7 @@
         "26": {
             "type": "action",
             "one": "5",
-            "content": "me.a1 = arg1 + x\nme.a2 = arg2"
+            "content": "self.a1 = arg1 + x\nself.a2 = arg2"
         },
         "27": {
             "type": "action",

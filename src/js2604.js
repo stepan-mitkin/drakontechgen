@@ -8,10 +8,10 @@ function Js2604Generator(options) {
     gSimpleSilhouette = true;
     gBranches = {};
     function addActionToAst(step, body) {
-        var _collection_2, expr;
+        var _collection_5, expr;
         if (step.content) {
-            _collection_2 = step.content;
-            for (expr of _collection_2) {
+            _collection_5 = step.content;
+            for (expr of _collection_5) {
                 body.push(expr);
             }
         }
@@ -69,6 +69,23 @@ function Js2604Generator(options) {
         expr = createThrow(message);
         body.push(expr);
     }
+    function addExports(module, src) {
+        var _collection_2, child, code, exportSrc, exported, name, parsed;
+        exported = [];
+        _collection_2 = module.children;
+        for (name in _collection_2) {
+            child = _collection_2[name];
+            if (child.keywords.export) {
+                exported.push(child.name);
+            }
+        }
+        if (exported.length !== 0) {
+            code = 'module.exports = {' + exported.join(', ') + '}';
+            parsed = options.esprima.parseScript(code, { loc: false });
+            exportSrc = options.escodegen.generate(parsed);
+            return src + '\n' + exportSrc;
+        }
+    }
     function addLocal(scope, variable) {
         scope.locals[variable] = true;
         addDeclaration(scope, variable);
@@ -99,18 +116,18 @@ function Js2604Generator(options) {
         body.push(node);
     }
     function addVariableDeclarations(module) {
-        var _collection_23, child, funStep, name, rootStep;
+        var _collection_26, child, funStep, name, rootStep;
         rootStep = createScopeStep(undefined, 'module', module.path, module.scope, getFunBody(module.ast), true, true);
         addDeclarationsInFunction(rootStep);
-        _collection_23 = module.children;
-        for (name in _collection_23) {
-            child = _collection_23[name];
+        _collection_26 = module.children;
+        for (name in _collection_26) {
+            child = _collection_26[name];
             funStep = createScopeStep(rootStep, name, child.path, child.scope, getFunBody(child.ast), true, false);
             addDeclarationsInFunction(funStep);
         }
     }
     function buildComplexSilhouette(fun, tree, functionBody) {
-        var _collection_4, branch, branchState, caseBody, caseClause, defClause, end, firstName, lastBranch, loop, loopBody, ordinal, select;
+        var _collection_7, branch, branchState, caseBody, caseClause, defClause, end, firstName, lastBranch, loop, loopBody, ordinal, select;
         branchState = '_branch_';
         addLocal(fun.scope, branchState);
         firstName = tree.branches[0].name;
@@ -122,8 +139,8 @@ function Js2604Generator(options) {
         loopBody.push(select);
         ordinal = 0;
         end = hasEnd(fun);
-        _collection_4 = tree.branches;
-        for (branch of _collection_4) {
+        _collection_7 = tree.branches;
+        for (branch of _collection_7) {
             caseClause = createCase(createStringLiteral(branch.name));
             select.cases.push(caseClause);
             caseBody = caseClause.consequent;
@@ -142,7 +159,7 @@ function Js2604Generator(options) {
         select.cases.push(defClause);
     }
     function buildFunctionAst(fun) {
-        var _selectValue_6, drakonJson, funAst, functionBody, tree, treeStr;
+        var _selectValue_9, drakonJson, funAst, functionBody, tree, treeStr;
         funAst = createFunction(fun.name, fun.arguments);
         if (fun.keywords.async) {
             funAst.async = true;
@@ -151,9 +168,9 @@ function Js2604Generator(options) {
         drakonJson = JSON.stringify(fun, null, 4);
         treeStr = options.toTree(drakonJson, fun.name, fun.path, options.language);
         tree = JSON.parse(treeStr);
-        _selectValue_6 = tree.branches.length;
-        if (_selectValue_6 !== 0) {
-            if (_selectValue_6 === 1) {
+        _selectValue_9 = tree.branches.length;
+        if (_selectValue_9 !== 0) {
+            if (_selectValue_9 === 1) {
                 convertNodesToAst(tree.branches[0].body, functionBody);
             } else {
                 convertSilhouetteToAst(fun, tree, functionBody);
@@ -169,11 +186,11 @@ function Js2604Generator(options) {
         fun.ast = funAst;
     }
     function buildModuleAst(folder) {
-        var _collection_8, child, name;
+        var _collection_11, child, name;
         buildFunctionAst(folder);
-        _collection_8 = folder.children;
-        for (name in _collection_8) {
-            child = _collection_8[name];
+        _collection_11 = folder.children;
+        for (name in _collection_11) {
+            child = _collection_11[name];
             buildFunctionAst(child);
         }
     }
@@ -186,39 +203,39 @@ function Js2604Generator(options) {
         }
     }
     function combineModuleAst(module) {
-        var _collection_11, child, initBody, name, program, step;
+        var _collection_14, child, initBody, name, program, step;
         program = createProgram();
         initBody = getFunBody(module.ast);
         for (step of initBody) {
             program.body.push(step);
         }
-        _collection_11 = module.children;
-        for (name in _collection_11) {
-            child = _collection_11[name];
+        _collection_14 = module.children;
+        for (name in _collection_14) {
+            child = _collection_14[name];
             program.body.push(child.ast);
         }
         return program;
     }
     function convertNodesToAst(steps, body) {
-        var _selectValue_14, step;
+        var _selectValue_17, step;
         for (step of steps) {
-            _selectValue_14 = step.type;
-            if (_selectValue_14 === 'action') {
+            _selectValue_17 = step.type;
+            if (_selectValue_17 === 'action') {
                 addActionToAst(step, body);
             } else {
-                if (_selectValue_14 === 'question') {
+                if (_selectValue_17 === 'question') {
                     addQuestionToAst(step, body);
                 } else {
-                    if (_selectValue_14 === 'loop') {
+                    if (_selectValue_17 === 'loop') {
                         addLoopToAst(step, body);
                     } else {
-                        if (_selectValue_14 === 'error') {
+                        if (_selectValue_17 === 'error') {
                             addErrorToAst(step, body);
                         } else {
-                            if (_selectValue_14 === 'break') {
+                            if (_selectValue_17 === 'break') {
                                 body.push(createBreak());
                             } else {
-                                if (_selectValue_14 === 'address') {
+                                if (_selectValue_17 === 'address') {
                                     addAddressToAst(step, body);
                                 } else {
                                     throw new Error('Unexpected step type: ' + step.type);
@@ -231,10 +248,10 @@ function Js2604Generator(options) {
         }
     }
     function convertSilhouetteToAst(fun, tree, functionBody) {
-        var _collection_16, branch;
+        var _collection_19, branch;
         gBranches = {};
-        _collection_16 = tree.branches;
-        for (branch of _collection_16) {
+        _collection_19 = tree.branches;
+        for (branch of _collection_19) {
             if (!branch.name) {
                 reportError('Branch name cannot be empty', fun.path, branch.id);
                 return;
@@ -308,7 +325,7 @@ function Js2604Generator(options) {
             type: 'drakon',
             name: name,
             items: {},
-            keywords: { 'function': true },
+            keywords: {},
             children: {}
         };
     }
@@ -441,10 +458,10 @@ function Js2604Generator(options) {
         };
     }
     function createScopeStepForLambda(step, node) {
-        var _collection_26, nextScope, nextStep, param;
+        var _collection_29, nextScope, nextStep, param;
         nextScope = createScope('lambda', 'lambda');
-        _collection_26 = node.params;
-        for (param of _collection_26) {
+        _collection_29 = node.params;
+        for (param of _collection_29) {
             if (param.type === 'Identifier') {
                 addDeclaration(nextScope, param.name);
             }
@@ -496,9 +513,9 @@ function Js2604Generator(options) {
         };
     }
     function decodeQuestionContent(content) {
-        var _selectValue_18, decoded, left, right;
-        _selectValue_18 = content.operator;
-        if (_selectValue_18 === 'not') {
+        var _selectValue_21, decoded, left, right;
+        _selectValue_21 = content.operator;
+        if (_selectValue_21 === 'not') {
             decoded = decodeQuestionContent(content.operand);
             if (decoded.type === 'BinaryExpression' && decoded.operator === '===') {
                 decoded.operator = '!==';
@@ -507,17 +524,17 @@ function Js2604Generator(options) {
                 return createNot(decodeQuestionContent(content.operand));
             }
         } else {
-            if (_selectValue_18 === 'and') {
+            if (_selectValue_21 === 'and') {
                 left = decodeQuestionContent(content.left);
                 right = decodeQuestionContent(content.right);
                 return createAnd(left, right);
             } else {
-                if (_selectValue_18 === 'or') {
+                if (_selectValue_21 === 'or') {
                     left = decodeQuestionContent(content.left);
                     right = decodeQuestionContent(content.right);
                     return createOr(left, right);
                 } else {
-                    if (_selectValue_18 === 'equal') {
+                    if (_selectValue_21 === 'equal') {
                         left = decodeQuestionContent(content.left);
                         right = decodeQuestionContent(content.right);
                         return createEqual(left, right);
@@ -572,20 +589,20 @@ function Js2604Generator(options) {
         }
     }
     function extractVariablesFromDeclaration(node, scope) {
-        var _collection_28, _collection_32, _collection_34, _selectValue_30, decl, item, prop;
-        _collection_28 = node.declarations;
-        for (decl of _collection_28) {
+        var _collection_31, _collection_35, _collection_37, _selectValue_33, decl, item, prop;
+        _collection_31 = node.declarations;
+        for (decl of _collection_31) {
             if (decl.type === 'VariableDeclarator') {
-                _selectValue_30 = decl.id.type;
-                if (_selectValue_30 === 'ObjectPattern') {
-                    _collection_34 = decl.id.properties;
-                    for (prop of _collection_34) {
+                _selectValue_33 = decl.id.type;
+                if (_selectValue_33 === 'ObjectPattern') {
+                    _collection_37 = decl.id.properties;
+                    for (prop of _collection_37) {
                         tryAddIdentifier(scope, prop.key);
                     }
                 } else {
-                    if (_selectValue_30 === 'ArrayPattern') {
-                        _collection_32 = decl.id.elements;
-                        for (item of _collection_32) {
+                    if (_selectValue_33 === 'ArrayPattern') {
+                        _collection_35 = decl.id.elements;
+                        for (item of _collection_35) {
                             tryAddIdentifier(scope, item);
                         }
                     } else {
@@ -618,10 +635,10 @@ function Js2604Generator(options) {
         return fun.body.body;
     }
     function hasEnd(fun) {
-        var _collection_20, id, item;
-        _collection_20 = fun.items;
-        for (id in _collection_20) {
-            item = _collection_20[id];
+        var _collection_23, id, item;
+        _collection_23 = fun.items;
+        for (id in _collection_23) {
+            item = _collection_23[id];
             if (item.type === 'end') {
                 return true;
             }
@@ -629,7 +646,7 @@ function Js2604Generator(options) {
         return false;
     }
     function insertActionBefore(folder, beforeId, expression) {
-        var _collection_48, existingItem, id, item, itemId;
+        var _collection_51, existingItem, id, item, itemId;
         id = generateId('_item_');
         item = {
             id: id,
@@ -637,9 +654,9 @@ function Js2604Generator(options) {
             content: [createExpression(expression)],
             one: beforeId
         };
-        _collection_48 = folder.items;
-        for (itemId in _collection_48) {
-            existingItem = _collection_48[itemId];
+        _collection_51 = folder.items;
+        for (itemId in _collection_51) {
+            existingItem = _collection_51[itemId];
             if (existingItem.one === beforeId) {
                 existingItem.one = id;
             }
@@ -683,6 +700,8 @@ function Js2604Generator(options) {
         if (folder.keywords.machine || folder.keywords.async) {
             delete folder.keywords.machine;
             folder.keywords.async = true;
+        } else {
+            folder.keywords.async = false;
         }
     }
     function parseAction(folder, id, item) {
@@ -772,24 +791,24 @@ function Js2604Generator(options) {
         }
     }
     function parseItem(folder, id, item) {
-        var _selectValue_39;
-        _selectValue_39 = item.type;
-        if (_selectValue_39 === 'action') {
+        var _selectValue_42;
+        _selectValue_42 = item.type;
+        if (_selectValue_42 === 'action') {
             parseAction(folder, id, item);
         } else {
-            if (_selectValue_39 === 'question') {
+            if (_selectValue_42 === 'question') {
                 parseQuestion(folder, id, item);
             } else {
-                if (_selectValue_39 === 'select') {
+                if (_selectValue_42 === 'select') {
                     parseSelect(folder, id, item);
                 } else {
-                    if (_selectValue_39 === 'case') {
+                    if (_selectValue_42 === 'case') {
                         parseCase(folder, id, item);
                     } else {
-                        if (_selectValue_39 === 'loopbegin') {
+                        if (_selectValue_42 === 'loopbegin') {
                             parseLoop(folder, id, item);
                         } else {
-                            if (_selectValue_39 === 'soutput') {
+                            if (_selectValue_42 === 'soutput') {
                             }
                         }
                     }
@@ -813,12 +832,12 @@ function Js2604Generator(options) {
         }
     }
     function parseItems(folder) {
-        var _collection_41, child, name;
+        var _collection_44, child, name;
         if (folder.type === 'drakon') {
             parseItemsInFunction(folder);
-            _collection_41 = folder.children;
-            for (name in _collection_41) {
-                child = _collection_41[name];
+            _collection_44 = folder.children;
+            for (name in _collection_44) {
+                child = _collection_44[name];
                 parseItems(child);
             }
         }
@@ -836,14 +855,14 @@ function Js2604Generator(options) {
         }
     }
     function parseLoop(folder, id, item) {
-        var _selectValue_44, init, test, update;
+        var _selectValue_47, init, test, update;
         parseItemContent(folder, id, item);
         if (ensureHasContent(folder, id, item)) {
-            _selectValue_44 = item.content.length;
-            if (_selectValue_44 === 2) {
+            _selectValue_47 = item.content.length;
+            if (_selectValue_47 === 2) {
                 parseForEachLoop(folder, id, item);
             } else {
-                if (_selectValue_44 === 3) {
+                if (_selectValue_47 === 3) {
                     init = stripExpression(item.content[0]);
                     test = stripExpression(item.content[1]);
                     update = stripExpression(item.content[2]);
@@ -893,10 +912,10 @@ function Js2604Generator(options) {
         body.push(createExpression(createAssignment(createIdentifier(variable), value)));
     }
     async function readChildren(folder) {
-        var _collection_46, child, childPath, result;
+        var _collection_49, child, childPath, result;
         result = [];
-        _collection_46 = folder.children;
-        for (childPath of _collection_46) {
+        _collection_49 = folder.children;
+        for (childPath of _collection_49) {
             child = await options.getObjectByHandle(childPath);
             if (child) {
                 result.push(child);
@@ -960,7 +979,7 @@ function Js2604Generator(options) {
                     }
                     module.items = child.items;
                 } else {
-                    addChild(rootFolder, child);
+                    addChild(module, child);
                 }
             }
         }
@@ -1020,6 +1039,7 @@ function Js2604Generator(options) {
                 break;
             case 'Build source code':
                 src = options.escodegen.generate(ast);
+                src = addExports(module, src);
                 await options.onData(src);
                 _state_ = 'Exit';
                 break;
@@ -1032,12 +1052,12 @@ function Js2604Generator(options) {
         }
     }
     function scanForAssignments(step, node) {
-        var _selectValue_36, nextStep, varName;
+        var _selectValue_39, nextStep, varName;
         if (node.itemId) {
             step.itemId = node.itemId;
         }
-        _selectValue_36 = node.type;
-        if (_selectValue_36 === 'AssignmentExpression') {
+        _selectValue_39 = node.type;
+        if (_selectValue_39 === 'AssignmentExpression') {
             if (node.left.type === 'Identifier') {
                 varName = node.left.name;
                 if (!isDeclared(step, varName)) {
@@ -1046,7 +1066,7 @@ function Js2604Generator(options) {
             }
             return true;
         } else {
-            if (_selectValue_36 === 'VariableDeclaration') {
+            if (_selectValue_39 === 'VariableDeclaration') {
                 if (step.canDeclare) {
                     extractVariablesFromDeclaration(node, step.scope);
                 } else {
@@ -1054,7 +1074,7 @@ function Js2604Generator(options) {
                 }
                 return true;
             } else {
-                if ((_selectValue_36 === 'FunctionExpression' || _selectValue_36 === 'ArrowFunctionExpression') && node.body.type === 'BlockStatement') {
+                if ((_selectValue_39 === 'FunctionExpression' || _selectValue_39 === 'ArrowFunctionExpression') && node.body.type === 'BlockStatement') {
                     nextStep = createScopeStepForLambda(step, node);
                     addDeclarationsInFunction(nextStep);
                     return false;

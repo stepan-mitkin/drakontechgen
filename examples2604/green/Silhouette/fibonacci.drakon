@@ -50,7 +50,7 @@
         "10": {
             "type": "action",
             "one": "1",
-            "content": "return\nresult"
+            "content": "return result"
         },
         "11": {
             "type": "loopend",

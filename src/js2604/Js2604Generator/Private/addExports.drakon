@@ -1,0 +1,71 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "module\nsrc",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "exported = []"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "8",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "name, child; module.children"
+        },
+        "6": {
+            "type": "question",
+            "one": "4",
+            "two": "7",
+            "flag1": 0,
+            "content": "child.keywords.export "
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "content": "exported.push(child.name)"
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "1",
+            "flag1": 0,
+            "content": "exported.length === 0"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "content": "code = \"module.exports = {\" + exported.join(\n    \", \"\n) + \"}\""
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "content": "parsed = options.esprima.parseScript(\n    code,\n    {loc: false }\n)"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "exportSrc = options.escodegen.generate(\n    parsed\n)"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return src + \"\\n\" + exportSrc"
+        }
+    }
+}

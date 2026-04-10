@@ -30,9 +30,9 @@ const {
   inversedOr,
   whileDo,
   inversedAnd,
-} = require("../examples/green/green");
+} = require("../examples2604/green");
 
-QUnit.module("Functions");
+QUnit.module("Functions 2604");
 
 QUnit.test("add", (assert) => {
   empty();

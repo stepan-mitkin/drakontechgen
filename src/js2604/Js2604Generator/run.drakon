@@ -93,7 +93,7 @@
         },
         "41": {
             "type": "action",
-            "one": "24",
+            "one": "45",
             "content": "src = options.escodegen.generate(ast)"
         },
         "42": {
@@ -112,6 +112,11 @@
             "type": "action",
             "one": "43",
             "content": "addVariableDeclarations(module)"
+        },
+        "45": {
+            "type": "action",
+            "one": "24",
+            "content": "src = addExports(module, src)"
         }
     },
     "keywords": {

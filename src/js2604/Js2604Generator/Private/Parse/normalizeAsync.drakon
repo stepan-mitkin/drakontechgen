@@ -24,7 +24,7 @@
         "5": {
             "type": "question",
             "one": "3",
-            "two": "1",
+            "two": "7",
             "flag1": 1,
             "content": "folder.keywords.async "
         },
@@ -32,6 +32,11 @@
             "type": "action",
             "one": "1",
             "content": "folder.keywords.async  = true "
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "content": "folder.keywords.async  = false "
         }
     },
     "keywords": {
