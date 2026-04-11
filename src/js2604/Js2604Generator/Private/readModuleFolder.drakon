@@ -15,12 +15,13 @@
         },
         "2": {
             "type": "branch",
-            "branchId": 0,
-            "one": "6"
+            "branchId": 3,
+            "one": "5",
+            "content": "Normal folder"
         },
         "4": {
             "type": "loopend",
-            "one": "1",
+            "one": "18",
             "two": "",
             "content": ""
         },
@@ -30,15 +31,9 @@
             "two": "",
             "content": "child; children"
         },
-        "6": {
-            "type": "action",
-            "one": "5",
-            "two": "",
-            "content": "children = await readChildren(folder)"
-        },
         "7": {
             "type": "question",
-            "one": "10",
+            "one": "9",
             "two": "8",
             "flag1": 0,
             "content": "child.type === \"folder\""
@@ -55,17 +50,195 @@
             "two": "",
             "content": "addChild(parent, child)"
         },
-        "10": {
-            "type": "question",
-            "one": "9",
-            "two": "16",
-            "flag1": 0,
-            "content": "child.name === \"module\""
+        "18": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 6,
+            "content": "Exit"
         },
-        "16": {
+        "19": {
+            "type": "branch",
+            "one": "56",
+            "branchId": 5,
+            "content": "Holo class"
+        },
+        "20": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "22",
+            "content": "Read children"
+        },
+        "22": {
             "type": "action",
-            "one": "4",
-            "content": "reportError(\n    \"module is not expected in this folder\",\n    child.path\n)"
+            "one": "23",
+            "two": "",
+            "content": "children = await readChildren(folder)"
+        },
+        "23": {
+            "type": "action",
+            "one": "36",
+            "content": "cls = findClassDiagram(children)"
+        },
+        "36": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "38",
+            "content": "Is it a class?"
+        },
+        "37": {
+            "type": "question",
+            "one": "42",
+            "two": "39",
+            "flag1": 0,
+            "content": "className"
+        },
+        "38": {
+            "type": "action",
+            "one": "37",
+            "two": "",
+            "content": "className = tryGetHoloClassName(\n    folder.name\n)"
+        },
+        "39": {
+            "type": "question",
+            "one": "43",
+            "two": "19",
+            "flag1": 0,
+            "content": "cls"
+        },
+        "42": {
+            "type": "question",
+            "one": "2",
+            "two": "44",
+            "flag1": 0,
+            "content": "cls"
+        },
+        "43": {
+            "type": "action",
+            "one": "19",
+            "two": "",
+            "content": "cls = createEmptyFunction(\"class\")"
+        },
+        "44": {
+            "type": "action",
+            "one": "45",
+            "two": "",
+            "content": "className = folder.name"
+        },
+        "45": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "47",
+            "content": "Class"
+        },
+        "46": {
+            "type": "loopend",
+            "one": "64",
+            "two": "",
+            "content": ""
+        },
+        "47": {
+            "type": "loopbegin",
+            "one": "48",
+            "two": "",
+            "content": "child; children"
+        },
+        "48": {
+            "type": "question",
+            "one": "54",
+            "two": "49",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "49": {
+            "type": "action",
+            "one": "46",
+            "two": "",
+            "content": "await readClassFolder(cls, child)"
+        },
+        "50": {
+            "type": "action",
+            "one": "46",
+            "two": "",
+            "content": "addChild(cls, child)"
+        },
+        "54": {
+            "type": "question",
+            "one": "50",
+            "two": "46",
+            "flag1": 0,
+            "content": "child.name === \"class\""
+        },
+        "55": {
+            "type": "loopend",
+            "one": "68",
+            "two": "",
+            "content": ""
+        },
+        "56": {
+            "type": "loopbegin",
+            "one": "57",
+            "two": "",
+            "content": "child; children"
+        },
+        "57": {
+            "type": "question",
+            "one": "62",
+            "two": "58",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "58": {
+            "type": "action",
+            "one": "55",
+            "two": "",
+            "content": "await readHoloFolder(parent, child)"
+        },
+        "59": {
+            "type": "action",
+            "one": "55",
+            "two": "",
+            "content": "addChild(cls, child)"
+        },
+        "62": {
+            "type": "question",
+            "one": "63",
+            "two": "55",
+            "flag1": 0,
+            "content": "child.name === \"class\""
+        },
+        "63": {
+            "type": "action",
+            "one": "59",
+            "content": "child.keywords.export  = true "
+        },
+        "64": {
+            "type": "action",
+            "one": "65",
+            "two": "",
+            "content": "cls.type = \"class\"\ncls.name = className"
+        },
+        "65": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "content": "addChild(parent, cls)"
+        },
+        "66": {
+            "type": "action",
+            "one": "67",
+            "two": "",
+            "content": "cls.type = \"class\"\ncls.name = className"
+        },
+        "67": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "content": "addChild(parent, cls)"
+        },
+        "68": {
+            "type": "action",
+            "one": "66",
+            "content": "cls.keywords.export  = true "
         }
     }
 }

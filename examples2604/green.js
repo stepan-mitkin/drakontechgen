@@ -416,8 +416,6 @@ function getSecret() {
 function hello() {
     console.log('Hello, world');
 }
-function solution() {
-}
 module.exports = {
     doWhile,
     doWhileDo,

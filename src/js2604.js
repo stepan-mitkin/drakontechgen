@@ -1,13 +1,14 @@
 const {sortBy, findFirst, addRange, clone, replace} = require('./tools');
 function Js2604Generator(options) {
     var self = {};
-    var failed, gBranches, gDropAddress, gSimpleSilhouette, nextId, state;
+    var failed, gBranches, gDebugAst, gDropAddress, gSimpleSilhouette, nextId, state;
     state = 'idle';
     failed = false;
     nextId = 2;
     gSimpleSilhouette = true;
     gDropAddress = false;
     gBranches = {};
+    gDebugAst = true;
     function addActionToAst(step, body) {
         var _collection_2, expr;
         if (step.content) {
@@ -52,6 +53,17 @@ function Js2604Generator(options) {
         traverseAst(step.body, visitor);
         addDeclaratonsToBody(step);
     }
+    function addDeclarationsRecursive(step, folder) {
+        var _collection_26, canDeclare, child, childStep, name;
+        addDeclarationsInFunction(step);
+        _collection_26 = folder.children;
+        for (name in _collection_26) {
+            child = _collection_26[name];
+            canDeclare = child.type === 'class';
+            childStep = createScopeStep(step, name, child.path, child.scope, getFunBody(child.ast), true, canDeclare);
+            addDeclarationsRecursive(childStep, child);
+        }
+    }
     function addDeclaratonsToBody(step) {
         var allVars, locals, loop;
         locals = Object.keys(step.scope.locals);
@@ -73,11 +85,11 @@ function Js2604Generator(options) {
         body.push(expr);
     }
     function addExports(module, src) {
-        var _collection_49, child, code, exportSrc, exported, name, parsed;
+        var _collection_52, child, code, exportSrc, exported, name, parsed;
         exported = [];
-        _collection_49 = module.children;
-        for (name in _collection_49) {
-            child = _collection_49[name];
+        _collection_52 = module.children;
+        for (name in _collection_52) {
+            child = _collection_52[name];
             if (child.keywords.export) {
                 exported.push(child.name);
             }
@@ -119,15 +131,9 @@ function Js2604Generator(options) {
         body.push(node);
     }
     function addVariableDeclarations(module) {
-        var _collection_23, child, funStep, name, rootStep;
+        var rootStep;
         rootStep = createScopeStep(undefined, 'module', module.path, module.scope, getFunBody(module.ast), true, true);
-        addDeclarationsInFunction(rootStep);
-        _collection_23 = module.children;
-        for (name in _collection_23) {
-            child = _collection_23[name];
-            funStep = createScopeStep(rootStep, name, child.path, child.scope, getFunBody(child.ast), true, false);
-            addDeclarationsInFunction(funStep);
-        }
+        addDeclarationsRecursive(rootStep, module);
     }
     function buildComplexSilhouette(fun, tree, functionBody) {
         var _collection_4, branch, branchState, caseBody, caseClause, defClause, end, firstName, lastBranch, loop, loopBody, ordinal, select;
@@ -187,12 +193,14 @@ function Js2604Generator(options) {
                 convertSilhouetteToAst(fun, tree, functionBody);
             }
         }
-        try {
-            options.escodegen.generate(funAst);
-        } catch (ex) {
-            console.log('---------------');
-            console.log(ex);
-            console.log(JSON.stringify(funAst, null, 4));
+        if (gDebugAst) {
+            try {
+                options.escodegen.generate(funAst);
+            } catch (ex) {
+                console.log('---------------');
+                console.log(ex);
+                console.log(JSON.stringify(funAst, null, 4));
+            }
         }
         fun.ast = funAst;
     }
@@ -202,7 +210,7 @@ function Js2604Generator(options) {
         _collection_8 = folder.children;
         for (name in _collection_8) {
             child = _collection_8[name];
-            buildFunctionAst(child);
+            buildModuleAst(child);
         }
     }
     function checkCancellation() {
@@ -213,42 +221,68 @@ function Js2604Generator(options) {
             throw error;
         }
     }
+    function combineClassAst(folder) {
+        var _collection_11, child, exported, initBody, name, stm;
+        initBody = getFunBody(folder.ast);
+        stm = 'var self = {_type_:"' + folder.name + '"}';
+        initBody.unshift(parseStatement(stm));
+        exported = [];
+        _collection_11 = folder.children;
+        for (name in _collection_11) {
+            child = _collection_11[name];
+            initBody.push(child.ast);
+            if (child.keywords.export) {
+                exported.push(name);
+            }
+        }
+        exported.sort();
+        for (name of exported) {
+            initBody.push(parseStatement('self.' + name + ' = ' + name));
+        }
+        initBody.push(parseStatement('return self'));
+        return folder.ast;
+    }
     function combineModuleAst(module) {
-        var _collection_11, child, initBody, name, program, step;
+        var _collection_14, child, childAst, initBody, name, program, step;
         program = createProgram();
         initBody = getFunBody(module.ast);
         for (step of initBody) {
             program.body.push(step);
         }
-        _collection_11 = module.children;
-        for (name in _collection_11) {
-            child = _collection_11[name];
-            program.body.push(child.ast);
+        _collection_14 = module.children;
+        for (name in _collection_14) {
+            child = _collection_14[name];
+            if (child.type === 'class') {
+                childAst = combineClassAst(child);
+            } else {
+                childAst = child.ast;
+            }
+            program.body.push(childAst);
         }
         return program;
     }
     function convertNodesToAst(steps, body) {
-        var _selectValue_14, step;
+        var _selectValue_17, step;
         for (step of steps) {
-            _selectValue_14 = step.type;
-            if (_selectValue_14 === 'action') {
+            _selectValue_17 = step.type;
+            if (_selectValue_17 === 'action') {
                 addActionToAst(step, body);
             } else {
-                if (_selectValue_14 === 'question') {
+                if (_selectValue_17 === 'question') {
                     addQuestionToAst(step, body);
                 } else {
-                    if (_selectValue_14 === 'loop') {
+                    if (_selectValue_17 === 'loop') {
                         addLoopToAst(step, body);
                     } else {
-                        if (_selectValue_14 === 'error') {
+                        if (_selectValue_17 === 'error') {
                             addErrorToAst(step, body);
                         } else {
-                            if (_selectValue_14 === 'break') {
+                            if (_selectValue_17 === 'break') {
                                 if (!endsWithReturn(body)) {
                                     body.push(createBreak());
                                 }
                             } else {
-                                if (_selectValue_14 === 'address') {
+                                if (_selectValue_17 === 'address') {
                                     if (!endsWithReturn(body)) {
                                         addAddressToAst(step, body);
                                     }
@@ -263,10 +297,10 @@ function Js2604Generator(options) {
         }
     }
     function convertSilhouetteToAst(fun, tree, functionBody) {
-        var _collection_16, branch, catchBranch, catchNode;
+        var _collection_19, branch, catchBranch, catchNode;
         gBranches = {};
-        _collection_16 = tree.branches;
-        for (branch of _collection_16) {
+        _collection_19 = tree.branches;
+        for (branch of _collection_19) {
             if (!branch.name) {
                 reportError('Branch name cannot be empty', fun.path, branch.id);
                 return;
@@ -482,10 +516,10 @@ function Js2604Generator(options) {
         };
     }
     function createScopeStepForLambda(step, node) {
-        var _collection_26, nextScope, nextStep, param;
+        var _collection_29, nextScope, nextStep, param;
         nextScope = createScope('lambda', 'lambda');
-        _collection_26 = node.params;
-        for (param of _collection_26) {
+        _collection_29 = node.params;
+        for (param of _collection_29) {
             if (param.type === 'Identifier') {
                 addDeclaration(nextScope, param.name);
             }
@@ -558,9 +592,9 @@ function Js2604Generator(options) {
         };
     }
     function decodeQuestionContent(content) {
-        var _selectValue_18, decoded, left, right;
-        _selectValue_18 = content.operator;
-        if (_selectValue_18 === 'not') {
+        var _selectValue_21, decoded, left, right;
+        _selectValue_21 = content.operator;
+        if (_selectValue_21 === 'not') {
             decoded = decodeQuestionContent(content.operand);
             if (decoded.type === 'BinaryExpression' && decoded.operator === '===') {
                 decoded.operator = '!==';
@@ -569,17 +603,17 @@ function Js2604Generator(options) {
                 return createNot(decodeQuestionContent(content.operand));
             }
         } else {
-            if (_selectValue_18 === 'and') {
+            if (_selectValue_21 === 'and') {
                 left = decodeQuestionContent(content.left);
                 right = decodeQuestionContent(content.right);
                 return createAnd(left, right);
             } else {
-                if (_selectValue_18 === 'or') {
+                if (_selectValue_21 === 'or') {
                     left = decodeQuestionContent(content.left);
                     right = decodeQuestionContent(content.right);
                     return createOr(left, right);
                 } else {
-                    if (_selectValue_18 === 'equal') {
+                    if (_selectValue_21 === 'equal') {
                         left = decodeQuestionContent(content.left);
                         right = decodeQuestionContent(content.right);
                         return createEqual(left, right);
@@ -634,20 +668,20 @@ function Js2604Generator(options) {
         }
     }
     function extractVariablesFromDeclaration(node, scope) {
-        var _collection_28, _collection_32, _collection_34, _selectValue_30, decl, item, prop;
-        _collection_28 = node.declarations;
-        for (decl of _collection_28) {
+        var _collection_31, _collection_35, _collection_37, _selectValue_33, decl, item, prop;
+        _collection_31 = node.declarations;
+        for (decl of _collection_31) {
             if (decl.type === 'VariableDeclarator') {
-                _selectValue_30 = decl.id.type;
-                if (_selectValue_30 === 'ObjectPattern') {
-                    _collection_34 = decl.id.properties;
-                    for (prop of _collection_34) {
+                _selectValue_33 = decl.id.type;
+                if (_selectValue_33 === 'ObjectPattern') {
+                    _collection_37 = decl.id.properties;
+                    for (prop of _collection_37) {
                         tryAddIdentifier(scope, prop.key);
                     }
                 } else {
-                    if (_selectValue_30 === 'ArrayPattern') {
-                        _collection_32 = decl.id.elements;
-                        for (item of _collection_32) {
+                    if (_selectValue_33 === 'ArrayPattern') {
+                        _collection_35 = decl.id.elements;
+                        for (item of _collection_35) {
                             tryAddIdentifier(scope, item);
                         }
                     } else {
@@ -656,6 +690,21 @@ function Js2604Generator(options) {
                 }
             }
         }
+    }
+    function findClassDiagram(folders) {
+        var cls, folder;
+        cls = undefined;
+        for (folder of folders) {
+            if (folder.name === 'class') {
+                enrichFolder(folder);
+                cls = folder;
+            } else {
+                if (folder.name === 'module') {
+                    reportError('module is not expected in this folder', folder.path);
+                }
+            }
+        }
+        return cls;
     }
     function generateId(prefix) {
         var id;
@@ -680,10 +729,10 @@ function Js2604Generator(options) {
         return fun.body.body;
     }
     function hasEnd(fun) {
-        var _collection_20, id, item;
-        _collection_20 = fun.items;
-        for (id in _collection_20) {
-            item = _collection_20[id];
+        var _collection_23, id, item;
+        _collection_23 = fun.items;
+        for (id in _collection_23) {
+            item = _collection_23[id];
             if (item.type === 'end') {
                 return true;
             }
@@ -691,7 +740,7 @@ function Js2604Generator(options) {
         return false;
     }
     function insertActionBefore(folder, beforeId, expression) {
-        var _collection_46, existingItem, id, item, itemId;
+        var _collection_49, existingItem, id, item, itemId;
         id = generateId('_item_');
         item = {
             id: id,
@@ -699,9 +748,9 @@ function Js2604Generator(options) {
             content: [createExpression(expression)],
             one: beforeId
         };
-        _collection_46 = folder.items;
-        for (itemId in _collection_46) {
-            existingItem = _collection_46[itemId];
+        _collection_49 = folder.items;
+        for (itemId in _collection_49) {
+            existingItem = _collection_49[itemId];
             if (existingItem.one === beforeId) {
                 existingItem.one = id;
             }
@@ -740,6 +789,13 @@ function Js2604Generator(options) {
             }
         }
         return true;
+    }
+    function mustStop() {
+        if (!failed && state) {
+            return false;
+        } else {
+            return true;
+        }
     }
     function normalizeAsync(folder) {
         if (folder.keywords.machine || folder.keywords.async) {
@@ -836,24 +892,24 @@ function Js2604Generator(options) {
         }
     }
     function parseItem(folder, id, item) {
-        var _selectValue_39;
-        _selectValue_39 = item.type;
-        if (_selectValue_39 === 'action') {
+        var _selectValue_42;
+        _selectValue_42 = item.type;
+        if (_selectValue_42 === 'action') {
             parseAction(folder, id, item);
         } else {
-            if (_selectValue_39 === 'question') {
+            if (_selectValue_42 === 'question') {
                 parseQuestion(folder, id, item);
             } else {
-                if (_selectValue_39 === 'select') {
+                if (_selectValue_42 === 'select') {
                     parseSelect(folder, id, item);
                 } else {
-                    if (_selectValue_39 === 'case') {
+                    if (_selectValue_42 === 'case') {
                         parseCase(folder, id, item);
                     } else {
-                        if (_selectValue_39 === 'loopbegin') {
+                        if (_selectValue_42 === 'loopbegin') {
                             parseLoop(folder, id, item);
                         } else {
-                            if (_selectValue_39 === 'soutput') {
+                            if (_selectValue_42 === 'soutput') {
                             }
                         }
                     }
@@ -877,14 +933,12 @@ function Js2604Generator(options) {
         }
     }
     function parseItems(folder) {
-        var _collection_41, child, name;
-        if (folder.type === 'drakon') {
-            parseItemsInFunction(folder);
-            _collection_41 = folder.children;
-            for (name in _collection_41) {
-                child = _collection_41[name];
-                parseItems(child);
-            }
+        var _collection_44, child, name;
+        parseItemsInFunction(folder);
+        _collection_44 = folder.children;
+        for (name in _collection_44) {
+            child = _collection_44[name];
+            parseItems(child);
         }
     }
     function parseItemsInFunction(folder) {
@@ -900,14 +954,14 @@ function Js2604Generator(options) {
         }
     }
     function parseLoop(folder, id, item) {
-        var _selectValue_44, init, test, update;
+        var _selectValue_47, init, test, update;
         parseItemContent(folder, id, item);
         if (ensureHasContent(folder, id, item)) {
-            _selectValue_44 = item.content.length;
-            if (_selectValue_44 === 2) {
+            _selectValue_47 = item.content.length;
+            if (_selectValue_47 === 2) {
                 parseForEachLoop(folder, id, item);
             } else {
-                if (_selectValue_44 === 3) {
+                if (_selectValue_47 === 3) {
                     init = stripExpression(item.content[0]);
                     test = stripExpression(item.content[1]);
                     update = stripExpression(item.content[2]);
@@ -953,20 +1007,44 @@ function Js2604Generator(options) {
             }
         }
     }
+    function parseStatement(code) {
+        var parsed, wrapped;
+        wrapped = 'async function wrp() { ' + code + '\n}';
+        parsed = options.esprima.parseScript(wrapped, { loc: false });
+        return parsed.body[0].body.body[0];
+    }
     function pushAssi(variable, value, body) {
         body.push(createExpression(createAssignment(createIdentifier(variable), value)));
     }
     async function readChildren(folder) {
-        var _collection_52, child, childPath, result;
+        var _collection_55, child, childPath, result;
         result = [];
-        _collection_52 = folder.children;
-        for (childPath of _collection_52) {
+        _collection_55 = folder.children;
+        for (childPath of _collection_55) {
             child = await options.getObjectByHandle(childPath);
             if (child) {
+                if (child.name === 'solution') {
+                    console.log(child);
+                }
                 result.push(child);
             }
         }
         return result;
+    }
+    async function readClassFolder(parent, folder) {
+        var child, children, cls;
+        children = await readChildren(folder);
+        cls = findClassDiagram(children);
+        if (cls) {
+            reportError('class is not expected here', cls.path);
+        }
+        for (child of children) {
+            if (child.type === 'folder') {
+                await readClassFolder(parent, child);
+            } else {
+                addChild(parent, child);
+            }
+        }
     }
     async function readFolder(folder) {
         var child, children, childrenByName;
@@ -988,18 +1066,94 @@ function Js2604Generator(options) {
         }
         folder.children = childrenByName;
     }
-    async function readModuleFolder(parent, folder) {
-        var child, children;
+    async function readHoloFolder(parent, folder) {
+        var child, children, cls;
         children = await readChildren(folder);
+        cls = findClassDiagram(children);
+        if (cls) {
+            reportError('class is not expected here', cls.path);
+        }
         for (child of children) {
             if (child.type === 'folder') {
-                await readModuleFolder(parent, child);
+                await readHoloFolder(parent, child);
             } else {
-                if (child.name === 'module') {
-                    reportError('module is not expected in this folder', child.path);
+                addChild(parent, child);
+            }
+        }
+    }
+    async function readModuleFolder(parent, folder) {
+        var _state_, child, children, className, cls;
+        _state_ = 'Read children';
+        while (true) {
+            switch (_state_) {
+            case 'Read children':
+                children = await readChildren(folder);
+                cls = findClassDiagram(children);
+                _state_ = 'Is it a class?';
+                break;
+            case 'Is it a class?':
+                className = tryGetHoloClassName(folder.name);
+                if (className) {
+                    if (!cls) {
+                        cls = createEmptyFunction('class');
+                    }
+                    _state_ = 'Holo class';
                 } else {
-                    addChild(parent, child);
+                    if (cls) {
+                        className = folder.name;
+                        _state_ = 'Class';
+                    } else {
+                        _state_ = 'Normal folder';
+                    }
                 }
+                break;
+            case 'Normal folder':
+                for (child of children) {
+                    if (child.type === 'folder') {
+                        await readModuleFolder(parent, child);
+                    } else {
+                        addChild(parent, child);
+                    }
+                }
+                _state_ = 'Exit';
+                break;
+            case 'Class':
+                for (child of children) {
+                    if (child.type === 'folder') {
+                        await readClassFolder(cls, child);
+                    } else {
+                        if (child.name !== 'class') {
+                            addChild(cls, child);
+                        }
+                    }
+                }
+                cls.type = 'class';
+                cls.name = className;
+                addChild(parent, cls);
+                _state_ = 'Exit';
+                break;
+            case 'Holo class':
+                for (child of children) {
+                    if (child.type === 'folder') {
+                        await readHoloFolder(parent, child);
+                    } else {
+                        if (child.name !== 'class') {
+                            child.keywords.export = true;
+                            addChild(cls, child);
+                        }
+                    }
+                }
+                cls.keywords.export = true;
+                cls.type = 'class';
+                cls.name = className;
+                addChild(parent, cls);
+                _state_ = 'Exit';
+                break;
+            case 'Exit':
+                _state_ = undefined;
+                break;
+            default:
+                return;
             }
         }
     }
@@ -1014,17 +1168,21 @@ function Js2604Generator(options) {
             if (child.type === 'folder') {
                 await readModuleFolder(module, child);
             } else {
-                if (child.name === 'module') {
-                    enrichFolder(child);
-                    if (child.keywords.async) {
-                        reportError('module cannot be async', child.path);
-                    }
-                    if (child.params) {
-                        reportError('module cannot have arguments', child.path);
-                    }
-                    module.items = child.items;
+                if (child.name === 'class') {
+                    reportError('class is not expected here', child.path);
                 } else {
-                    addChild(module, child);
+                    if (child.name === 'module') {
+                        enrichFolder(child);
+                        if (child.keywords.async) {
+                            reportError('module cannot be async', child.path);
+                        }
+                        if (child.params) {
+                            reportError('module cannot have arguments', child.path);
+                        }
+                        module.items = child.items;
+                    } else {
+                        addChild(module, child);
+                    }
                 }
             }
         }
@@ -1058,7 +1216,7 @@ function Js2604Generator(options) {
                 break;
             case 'Read project':
                 module = await readRootFolder();
-                if (failed) {
+                if (mustStop()) {
                     _state_ = 'Exit';
                 } else {
                     _state_ = 'Parse items';
@@ -1066,7 +1224,8 @@ function Js2604Generator(options) {
                 break;
             case 'Parse items':
                 parseItems(module);
-                if (failed) {
+                await pause(1);
+                if (mustStop()) {
                     _state_ = 'Exit';
                 } else {
                     _state_ = 'Build AST';
@@ -1074,12 +1233,18 @@ function Js2604Generator(options) {
                 break;
             case 'Build AST':
                 buildModuleAst(module);
-                if (failed) {
+                await pause(1);
+                if (mustStop()) {
                     _state_ = 'Exit';
                 } else {
                     addVariableDeclarations(module);
                     ast = combineModuleAst(module);
-                    _state_ = 'Build source code';
+                    await pause(1);
+                    if (mustStop()) {
+                        _state_ = 'Exit';
+                    } else {
+                        _state_ = 'Build source code';
+                    }
                 }
                 break;
             case 'Build source code':
@@ -1097,12 +1262,12 @@ function Js2604Generator(options) {
         }
     }
     function scanForAssignments(step, node) {
-        var _selectValue_36, nextStep, varName;
+        var _selectValue_39, nextStep, varName;
         if (node.itemId) {
             step.itemId = node.itemId;
         }
-        _selectValue_36 = node.type;
-        if (_selectValue_36 === 'AssignmentExpression') {
+        _selectValue_39 = node.type;
+        if (_selectValue_39 === 'AssignmentExpression') {
             if (node.left.type === 'Identifier') {
                 varName = node.left.name;
                 if (!isDeclared(step, varName)) {
@@ -1111,7 +1276,7 @@ function Js2604Generator(options) {
             }
             return true;
         } else {
-            if (_selectValue_36 === 'CallExpression') {
+            if (_selectValue_39 === 'CallExpression') {
                 if (node.callee.type === 'Identifier' && node.callee.name === 'getHandlerData') {
                     node.type = 'Identifier';
                     node.name = '_handlerData_';
@@ -1122,7 +1287,7 @@ function Js2604Generator(options) {
                     return true;
                 }
             } else {
-                if (_selectValue_36 === 'VariableDeclaration') {
+                if (_selectValue_39 === 'VariableDeclaration') {
                     if (step.canDeclare) {
                         extractVariablesFromDeclaration(node, step.scope);
                     } else {
@@ -1130,7 +1295,7 @@ function Js2604Generator(options) {
                     }
                     return true;
                 } else {
-                    if ((_selectValue_36 === 'FunctionExpression' || _selectValue_36 === 'ArrowFunctionExpression') && node.body.type === 'BlockStatement') {
+                    if ((_selectValue_39 === 'FunctionExpression' || _selectValue_39 === 'ArrowFunctionExpression') && node.body.type === 'BlockStatement') {
                         nextStep = createScopeStepForLambda(step, node);
                         addDeclarationsInFunction(nextStep);
                         return false;
@@ -1181,6 +1346,13 @@ function Js2604Generator(options) {
     function tryAddIdentifier(scope, item) {
         if (item.type === 'Identifier') {
             addDeclaration(scope, item.name);
+        }
+    }
+    function tryGetHoloClassName(name) {
+        if (name.startsWith('class ')) {
+            return name.substring('class '.length);
+        } else {
+            return undefined;
         }
     }
     self.run = run;

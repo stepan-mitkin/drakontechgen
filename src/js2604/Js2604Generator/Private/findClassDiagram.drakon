@@ -1,0 +1,71 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folders",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "8"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "7",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "folder; folders"
+        },
+        "6": {
+            "type": "question",
+            "one": "10",
+            "two": "13",
+            "flag1": 0,
+            "content": "folder.name === \"class\""
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "content": "return cls"
+        },
+        "8": {
+            "type": "action",
+            "one": "5",
+            "content": "cls = undefined "
+        },
+        "9": {
+            "type": "action",
+            "one": "4",
+            "content": "cls = folder"
+        },
+        "10": {
+            "type": "question",
+            "one": "4",
+            "two": "12",
+            "flag1": 0,
+            "content": "folder.name === \"module\""
+        },
+        "12": {
+            "type": "action",
+            "one": "4",
+            "content": "reportError(\n    \"module is not expected in this folder\",\n    folder.path\n)"
+        },
+        "13": {
+            "type": "action",
+            "one": "9",
+            "content": "enrichFolder(folder)"
+        }
+    }
+}

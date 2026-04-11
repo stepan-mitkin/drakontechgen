@@ -1,0 +1,52 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "step\nfolder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "addDeclarationsInFunction(step)"
+        },
+        "5": {
+            "type": "loopend",
+            "one": "1",
+            "two": "",
+            "content": ""
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "10",
+            "two": "",
+            "content": "name, child; folder.children"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "two": "",
+            "content": "childStep = createScopeStep(\n    step,\n    name,\n    child.path,\n    child.scope,\n    getFunBody(child.ast),\n    true ,\n    canDeclare\n)"
+        },
+        "8": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "addDeclarationsRecursive(\n    childStep,\n    child\n)"
+        },
+        "10": {
+            "type": "action",
+            "one": "7",
+            "content": "canDeclare = child.type === \"class\""
+        }
+    }
+}

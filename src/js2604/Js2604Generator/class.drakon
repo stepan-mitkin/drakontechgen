@@ -32,7 +32,7 @@
         },
         "7": {
             "type": "action",
-            "one": "1",
+            "one": "9",
             "two": "",
             "content": "gBranches = {}"
         },
@@ -40,6 +40,11 @@
             "type": "action",
             "one": "7",
             "content": "gDropAddress = false "
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "content": "gDebugAst = true "
         }
     },
     "keywords": {

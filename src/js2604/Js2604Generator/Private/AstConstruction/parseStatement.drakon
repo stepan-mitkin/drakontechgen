@@ -7,7 +7,7 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "folder",
+    "params": "code",
     "type": "drakon",
     "items": {
         "1": {
@@ -21,22 +21,17 @@
         "3": {
             "type": "action",
             "one": "5",
-            "content": "buildFunctionAst(folder)"
+            "content": "wrapped = \"async function wrp() { \" + code\n+ \"\\n}\""
         },
         "4": {
-            "type": "loopend",
+            "type": "action",
             "one": "1",
-            "content": ""
+            "content": "return parsed.body[0].body.body[0]"
         },
         "5": {
-            "type": "loopbegin",
-            "one": "6",
-            "content": "name, child; folder.children"
-        },
-        "6": {
             "type": "action",
             "one": "4",
-            "content": "buildModuleAst(child)"
+            "content": "parsed = options.esprima.parseScript(\n    wrapped,\n    {loc: false }\n)"
         }
     }
 }

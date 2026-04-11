@@ -7,7 +7,7 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "folder",
+    "params": "name",
     "type": "drakon",
     "items": {
         "1": {
@@ -16,27 +16,24 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
-        },
-        "3": {
-            "type": "action",
-            "one": "5",
-            "content": "buildFunctionAst(folder)"
+            "one": "4"
         },
         "4": {
-            "type": "loopend",
-            "one": "1",
-            "content": ""
+            "type": "question",
+            "one": "6",
+            "two": "5",
+            "flag1": 0,
+            "content": "name.startsWith(\"class \")"
         },
         "5": {
-            "type": "loopbegin",
-            "one": "6",
-            "content": "name, child; folder.children"
+            "type": "action",
+            "one": "1",
+            "content": "return name.substring(\"class \".length)"
         },
         "6": {
             "type": "action",
-            "one": "4",
-            "content": "buildModuleAst(child)"
+            "one": "1",
+            "content": "return undefined "
         }
     }
 }

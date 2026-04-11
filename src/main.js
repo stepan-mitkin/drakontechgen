@@ -91,7 +91,7 @@ async function getObjectByHandle(filepath) {
       children: goodNames.map((file) => path.join(filepath, file)),
     };
   } else {
-    if (parsed.ext === ".drakon" || parsed.ext === ".json") {
+    if (parsed.ext === ".drakon") {
       try {
         var content = await fs.readFile(filepath, "utf-8");
         var obj = JSON.parse(content);

@@ -1,0 +1,89 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "parent\nfolder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "5",
+            "content": "Normal folder"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "18",
+            "two": "",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "7",
+            "two": "",
+            "content": "child; children"
+        },
+        "7": {
+            "type": "question",
+            "one": "9",
+            "two": "8",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "8": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "content": "await readHoloFolder(parent, child)"
+        },
+        "9": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "content": "addChild(parent, child)"
+        },
+        "18": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "20": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "22",
+            "content": "Read children"
+        },
+        "22": {
+            "type": "action",
+            "one": "23",
+            "two": "",
+            "content": "children = await readChildren(folder)"
+        },
+        "23": {
+            "type": "action",
+            "one": "64",
+            "content": "cls = findClassDiagram(children)"
+        },
+        "64": {
+            "type": "question",
+            "one": "2",
+            "two": "65",
+            "flag1": 0,
+            "content": "cls"
+        },
+        "65": {
+            "type": "action",
+            "one": "2",
+            "content": "reportError(\n    \"class is not expected here\",\n    cls.path\n)"
+        }
+    }
+}

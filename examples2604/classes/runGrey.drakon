@@ -11,13 +11,18 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
-            "content": "grey = GreyClass(42)"
+            "one": "5",
+            "content": "grey = GreyClass()"
         },
         "4": {
             "type": "action",
             "one": "1",
             "content": "return grey.getValue()"
+        },
+        "5": {
+            "type": "action",
+            "one": "4",
+            "content": "grey.init(42)"
         }
     },
     "keywords": {

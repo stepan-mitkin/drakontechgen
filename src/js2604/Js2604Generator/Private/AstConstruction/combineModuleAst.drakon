@@ -12,7 +12,7 @@
             "type": "branch",
             "branchId": 1,
             "one": "3",
-            "content": "Branch1"
+            "content": "Module init"
         },
         "3": {
             "type": "action",
@@ -49,7 +49,7 @@
             "type": "branch",
             "one": "11",
             "branchId": 2,
-            "content": "Branch2"
+            "content": "Classes and functions"
         },
         "10": {
             "type": "loopend",
@@ -58,7 +58,7 @@
         },
         "11": {
             "type": "loopbegin",
-            "one": "13",
+            "one": "14",
             "content": "name, child; module.children"
         },
         "12": {
@@ -66,10 +66,27 @@
             "one": "1",
             "content": "return program"
         },
-        "13": {
+        "14": {
+            "type": "question",
+            "one": "16",
+            "two": "15",
+            "flag1": 0,
+            "content": "child.type === \"class\""
+        },
+        "15": {
+            "type": "action",
+            "one": "17",
+            "content": "childAst = combineClassAst(child)"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "childAst = child.ast"
+        },
+        "17": {
             "type": "action",
             "one": "10",
-            "content": "program.body.push(child.ast)"
+            "content": "program.body.push(childAst)"
         }
     }
 }

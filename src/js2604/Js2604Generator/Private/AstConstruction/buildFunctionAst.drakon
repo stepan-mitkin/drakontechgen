@@ -43,7 +43,7 @@
         },
         "17": {
             "type": "branch",
-            "one": "32",
+            "one": "34",
             "branchId": 4,
             "content": "Exit"
         },
@@ -115,15 +115,22 @@
             "one": "17",
             "content": "convertSilhouetteToAst(\n    fun,\n    tree,\n    functionBody\n)"
         },
-        "32": {
-            "type": "action",
-            "one": "23",
-            "content": "try {\n    options.escodegen.generate(funAst)\n} catch (ex) {\n    console.log(\"---------------\")\n    console.log(ex)\n    console.log(\n        JSON.stringify(funAst, null , 4)\n    )\n}"
-        },
         "33": {
             "type": "action",
             "one": "20",
             "content": "genOptions = {secondary: \"catch\"}"
+        },
+        "34": {
+            "type": "question",
+            "one": "23",
+            "two": "35",
+            "flag1": 0,
+            "content": "gDebugAst"
+        },
+        "35": {
+            "type": "action",
+            "one": "23",
+            "content": "try {\n    options.escodegen.generate(funAst)\n} catch (ex) {\n    console.log(\"---------------\")\n    console.log(ex)\n    console.log(\n        JSON.stringify(funAst, null , 4)\n    )\n}"
         }
     }
 }
