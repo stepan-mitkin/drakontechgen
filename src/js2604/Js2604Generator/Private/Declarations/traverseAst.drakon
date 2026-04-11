@@ -32,7 +32,7 @@
         },
         "7": {
             "type": "question",
-            "one": "16",
+            "one": "8",
             "two": "1",
             "flag1": 1,
             "content": "obj.type"
@@ -78,13 +78,6 @@
             "type": "action",
             "one": "13",
             "content": "traverseAst(item, visitor)"
-        },
-        "16": {
-            "type": "question",
-            "one": "8",
-            "two": "8",
-            "flag1": 1,
-            "content": "obj.itemId"
         }
     },
     "keywords": {

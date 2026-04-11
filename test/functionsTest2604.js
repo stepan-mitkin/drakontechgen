@@ -30,6 +30,8 @@ const {
   inversedOr,
   whileDo,
   inversedAnd,
+  complexCatch,
+  simpleCatch,
 } = require("../examples2604/green");
 
 QUnit.module("Functions 2604");
@@ -192,4 +194,11 @@ QUnit.test("inversedOr", (assert) => {
 
 QUnit.test("inversedAnd", (assert) => {
   assert.equal(inversedAnd(4, 5, 6), true);
+});
+
+QUnit.test("catch", (assert) => {
+  assert.equal(simpleCatch(new Date(2026, 4, 11)), 1778450400000);
+  assert.equal(simpleCatch(undefined), -1);
+  assert.equal(complexCatch(new Date(2026, 4, 11)), 1778450400000000);
+  assert.equal(complexCatch(undefined), -1);
 });

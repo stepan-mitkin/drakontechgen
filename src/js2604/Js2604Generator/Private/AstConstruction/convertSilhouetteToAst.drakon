@@ -27,18 +27,18 @@
         "4": {
             "type": "branch",
             "one": "1",
-            "branchId": 3,
+            "branchId": 4,
             "content": "Exit"
         },
         "5": {
             "type": "branch",
-            "one": "15",
-            "branchId": 2,
+            "one": "23",
+            "branchId": 3,
             "content": "Which silhouette type?"
         },
         "6": {
             "type": "loopend",
-            "one": "5",
+            "one": "29",
             "content": ""
         },
         "7": {
@@ -111,6 +111,60 @@
             "type": "action",
             "one": "17",
             "content": "gSimpleSilhouette = false "
+        },
+        "23": {
+            "type": "action",
+            "one": "15",
+            "content": "gDropAddress = false "
+        },
+        "29": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "30",
+            "content": "Catch branch"
+        },
+        "30": {
+            "type": "question",
+            "one": "31",
+            "two": "5",
+            "flag1": 1,
+            "content": "tree.secondary"
+        },
+        "31": {
+            "type": "action",
+            "one": "32",
+            "two": "",
+            "content": "gDropAddress = true "
+        },
+        "32": {
+            "type": "action",
+            "one": "33",
+            "two": "",
+            "content": "catchNode = createTryCatch(\n    \"_handlerData_\"\n)"
+        },
+        "33": {
+            "type": "action",
+            "one": "35",
+            "two": "",
+            "content": "functionBody.push(catchNode)"
+        },
+        "34": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "content": "convertNodesToAst(\n    catchBranch.body,\n    catchNode.handler.body.body\n)"
+        },
+        "35": {
+            "type": "action",
+            "one": "34",
+            "two": "",
+            "content": "catchBranch = tree.branches[\n    tree.secondary\n]"
+        },
+        "36": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "functionBody = catchNode.block.body"
         }
     }
 }

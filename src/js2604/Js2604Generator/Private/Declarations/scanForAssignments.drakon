@@ -21,7 +21,7 @@
         "6": {
             "type": "case",
             "one": "8",
-            "two": "23",
+            "two": "28",
             "content": "\"AssignmentExpression\""
         },
         "7": {
@@ -131,6 +131,46 @@
             "type": "action",
             "one": "24",
             "content": "extractVariablesFromDeclaration(\n    node,\n    step.scope\n)"
+        },
+        "28": {
+            "one": "30",
+            "type": "case",
+            "two": "23",
+            "content": "\"CallExpression\""
+        },
+        "29": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "30": {
+            "type": "question",
+            "one": "29",
+            "two": "31",
+            "flag1": 0,
+            "content": "node.callee.type === \"Identifier\""
+        },
+        "31": {
+            "type": "question",
+            "one": "29",
+            "two": "33",
+            "flag1": 0,
+            "content": "node.callee.name === \"getHandlerData\""
+        },
+        "32": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "content": "node.type = \"Identifier\"\nnode.name = \"_handlerData_\""
+        },
+        "34": {
+            "type": "action",
+            "one": "32",
+            "content": "delete node.callee\ndelete node.arguments "
         }
     },
     "keywords": {

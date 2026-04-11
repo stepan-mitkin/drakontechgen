@@ -58,13 +58,13 @@
             "content": "\"error\""
         },
         "11": {
-            "one": "19",
+            "one": "22",
             "type": "case",
             "two": "12",
             "content": "\"break\""
         },
         "12": {
-            "one": "20",
+            "one": "23",
             "type": "case",
             "two": "13",
             "content": "\"address\""
@@ -108,6 +108,20 @@
             "type": "action",
             "one": "4",
             "content": "addAddressToAst(step, body)"
+        },
+        "22": {
+            "type": "question",
+            "one": "19",
+            "two": "4",
+            "flag1": 0,
+            "content": "endsWithReturn(body)"
+        },
+        "23": {
+            "type": "question",
+            "one": "20",
+            "two": "4",
+            "flag1": 0,
+            "content": "endsWithReturn(body)"
         }
     }
 }

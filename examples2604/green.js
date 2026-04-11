@@ -84,7 +84,48 @@ async function slow() {
     await pause(1000);
     console.log('slow', 'end');
 }
-function empty() {
+function complexCatch(arg) {
+    var _branch_, result;
+    try {
+        _branch_ = 'Do';
+        while (true) {
+            switch (_branch_) {
+            case 'Do':
+                result = arg.getTime();
+                if (result >= 0) {
+                    _branch_ = 'One more';
+                } else {
+                    _branch_ = 'Exit';
+                }
+                break;
+            case 'One more':
+                result *= 1000;
+                _branch_ = 'Exit';
+                break;
+            case 'Exit':
+                _branch_ = undefined;
+                if (!result) {
+                    result += 1;
+                }
+                return result;
+            default:
+                return;
+            }
+        }
+    } catch (_handlerData_) {
+        console.log(_handlerData_.message);
+        return -1;
+    }
+}
+function simpleCatch(arg) {
+    var result;
+    try {
+        result = arg.getTime();
+        return result;
+    } catch (_handlerData_) {
+        console.log(_handlerData_.message);
+        return -1;
+    }
 }
 function earlyExit(array, value) {
     var i, index;
@@ -99,6 +140,16 @@ function earlyExit(array, value) {
         array.splice(index, 1);
     }
     return array;
+}
+function forLoopNoDeclare(array) {
+    var copy, i, key, value;
+    copy = {};
+    for (i = 0; i < array.length; i += 2) {
+        key = array[i];
+        value = array[i + 1];
+        copy[key] = value;
+    }
+    return copy;
 }
 function foreachLoopArray(array, value) {
     var copy, item, value2;
@@ -120,28 +171,6 @@ function foreachLoopObject(object, value) {
         copy[key] = value2;
     }
     return copy;
-}
-function forLoopNoDeclare(array) {
-    var copy, i, key, value;
-    copy = {};
-    for (i = 0; i < array.length; i += 2) {
-        key = array[i];
-        value = array[i + 1];
-        copy[key] = value;
-    }
-    return copy;
-}
-function generateId() {
-    var id;
-    id = nextId;
-    nextId = nextId + 1;
-    return id;
-}
-function getSecret() {
-    return secretValue;
-}
-function hello() {
-    console.log('Hello, world');
 }
 function add(left, right) {
     var result;
@@ -373,6 +402,20 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
+function empty() {
+}
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
+}
+function getSecret() {
+    return secretValue;
+}
+function hello() {
+    console.log('Hello, world');
+}
 function solution() {
 }
 module.exports = {
@@ -382,14 +425,12 @@ module.exports = {
     twoExits,
     whileDo,
     slow,
-    empty,
+    complexCatch,
+    simpleCatch,
     earlyExit,
+    forLoopNoDeclare,
     foreachLoopArray,
     foreachLoopObject,
-    forLoopNoDeclare,
-    generateId,
-    getSecret,
-    hello,
     add,
     mul,
     complexAnd,
@@ -407,5 +448,9 @@ module.exports = {
     selectWithoutDefault,
     complexSilhouette,
     fibonacci,
-    sil2
+    sil2,
+    empty,
+    generateId,
+    getSecret,
+    hello
 };

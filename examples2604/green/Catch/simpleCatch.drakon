@@ -6,49 +6,50 @@
         },
         "2": {
             "type": "branch",
-            "branchId": 0,
-            "one": "3"
+            "branchId": 1,
+            "one": "3",
+            "content": "Do"
         },
         "3": {
             "type": "action",
             "one": "4",
-            "content": "state = \"idle\""
+            "content": "result = arg.getTime()"
         },
         "4": {
-            "type": "action",
-            "one": "5",
-            "content": "failed = false "
+            "type": "branch",
+            "one": "6",
+            "branchId": 3,
+            "content": "Exit"
         },
         "5": {
-            "type": "action",
-            "one": "6",
-            "content": "nextId = 2"
+            "type": "branch",
+            "one": "8",
+            "branchId": 2,
+            "content": "catch"
         },
         "6": {
             "type": "action",
-            "one": "8",
-            "two": "",
-            "content": "gSimpleSilhouette = true "
+            "one": "1",
+            "content": "return result"
         },
         "7": {
             "type": "action",
-            "one": "1",
-            "two": "",
-            "content": "gBranches = {}"
+            "one": "4",
+            "content": "return -1"
         },
         "8": {
             "type": "action",
             "one": "7",
-            "content": "gDropAddress = false "
+            "content": "console.log(getHandlerData().message)"
         }
     },
     "keywords": {
-        "function": true,
+        "function": false,
         "machine": false,
         "async": false,
         "export": true,
         "algoprop": false,
         "lazy": false
     },
-    "params": "options"
+    "params": "arg"
 }

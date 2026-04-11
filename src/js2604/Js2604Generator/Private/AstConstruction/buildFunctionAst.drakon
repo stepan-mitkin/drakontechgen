@@ -55,7 +55,7 @@
         },
         "19": {
             "type": "action",
-            "one": "20",
+            "one": "33",
             "two": "",
             "content": "drakonJson = JSON.stringify(\n    fun,\n    null ,\n    4\n)"
         },
@@ -63,7 +63,7 @@
             "type": "action",
             "one": "21",
             "two": "",
-            "content": "treeStr = options.toTree(\n    drakonJson,\n    fun.name,\n    fun.path,\n    options.language\n)"
+            "content": "try {\n    treeStr = options.toTree(\n        drakonJson,\n        fun.name,\n        fun.path,\n        options.language,\n        genOptions\n    )\n} catch (ex) {\n    reportError(\n        ex.message,\n        fun.path,\n        ex.nodeId\n    )\n    return \n}"
         },
         "21": {
             "type": "action",
@@ -119,6 +119,11 @@
             "type": "action",
             "one": "23",
             "content": "try {\n    options.escodegen.generate(funAst)\n} catch (ex) {\n    console.log(\"---------------\")\n    console.log(ex)\n    console.log(\n        JSON.stringify(funAst, null , 4)\n    )\n}"
+        },
+        "33": {
+            "type": "action",
+            "one": "20",
+            "content": "genOptions = {secondary: \"catch\"}"
         }
     }
 }
