@@ -128,20 +128,47 @@ function Js2604Generator(options) {
         }
     }
     function addExports(module, src) {
-        var _collection_66, child, code, exportSrc, exported, name, parsed;
-        exported = [];
-        _collection_66 = module.children;
-        for (name in _collection_66) {
-            child = _collection_66[name];
-            if (child.keywords.export) {
-                exported.push(child.name);
+        var _collection_66, _state_, child, code, exportSrc, exported, name, parsed;
+        _state_ = 'Build export list';
+        while (true) {
+            switch (_state_) {
+            case 'Build export list':
+                exported = [];
+                _collection_66 = module.children;
+                for (name in _collection_66) {
+                    child = _collection_66[name];
+                    if (child.keywords.export) {
+                        exported.push(child.name);
+                    }
+                }
+                if (exported.length === 0) {
+                    _state_ = 'Exit';
+                } else {
+                    _state_ = 'Branch2';
+                }
+                break;
+            case 'Branch2':
+                if (isIife()) {
+                    code = exported.map(name => 'window.' + name + '=' + name).join('\n');
+                    parsed = options.esprima.parseScript(code, { loc: false });
+                    exportSrc = options.escodegen.generate(parsed);
+                    return src + '\n' + exportSrc;
+                } else {
+                    if (!isUnit()) {
+                        code = 'module.exports = {' + exported.join(', ') + '}';
+                        parsed = options.esprima.parseScript(code, { loc: false });
+                        exportSrc = options.escodegen.generate(parsed);
+                        return src + '\n' + exportSrc;
+                    }
+                }
+                _state_ = 'Exit';
+                break;
+            case 'Exit':
+                _state_ = undefined;
+                break;
+            default:
+                return;
             }
-        }
-        if (exported.length !== 0) {
-            code = 'module.exports = {' + exported.join(', ') + '}';
-            parsed = options.esprima.parseScript(code, { loc: false });
-            exportSrc = options.escodegen.generate(parsed);
-            return src + '\n' + exportSrc;
         }
     }
     function addInputEvent(folder, item, id) {
@@ -994,6 +1021,13 @@ function Js2604Generator(options) {
             }
         }
     }
+    function isIife() {
+        if (options.settings && options.settings.iife) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     function isSimpleSilhouette(branches) {
         var branch, i;
         for (i = 0; i < branches.length; i++) {
@@ -1006,6 +1040,13 @@ function Js2604Generator(options) {
             }
         }
         return true;
+    }
+    function isUnit() {
+        if (options.settings && options.settings.unit) {
+            return true;
+        } else {
+            return false;
+        }
     }
     function linesToContent(folder, id, lines) {
         var dummyItem, src;
@@ -1139,7 +1180,9 @@ function Js2604Generator(options) {
                         if (_selectValue_54 === 'loopbegin') {
                             parseLoop(folder, id, item);
                         } else {
-                            if (_selectValue_54 !== 'soutput') {
+                            if (_selectValue_54 === 'soutput') {
+                                parseOutput(folder, id, item);
+                            } else {
                                 if (_selectValue_54 === 'sinput') {
                                     parseSInput(folder, id, item);
                                 }
@@ -1215,6 +1258,13 @@ function Js2604Generator(options) {
             node.itemId = id;
         }
         return result;
+    }
+    function parseOutput(folder, id, item) {
+        if (item.content) {
+            item.content = 'setTimeout(() => {' + item.content + '}, 0);';
+        }
+        item.type = 'action';
+        parseItemContent(folder, id, item);
     }
     function parseQuestion(folder, id, item) {
         parseItemContent(folder, id, item);

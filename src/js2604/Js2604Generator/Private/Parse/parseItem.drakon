@@ -55,7 +55,7 @@
             "two": null
         },
         "11": {
-            "one": "1",
+            "one": "18",
             "type": "case",
             "two": "16",
             "content": "\"soutput\""
@@ -90,6 +90,11 @@
             "type": "action",
             "one": "1",
             "content": "parseSInput(folder, id, item)"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "content": "parseOutput(folder, id, item)"
         }
     },
     "keywords": {
