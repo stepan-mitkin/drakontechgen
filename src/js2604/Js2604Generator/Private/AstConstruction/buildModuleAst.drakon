@@ -20,8 +20,8 @@
         },
         "3": {
             "type": "action",
-            "one": "5",
-            "content": "buildFunctionAst(folder)"
+            "one": "8",
+            "content": "folder.ast = buildFunctionAst(folder)"
         },
         "4": {
             "type": "loopend",
@@ -30,13 +30,45 @@
         },
         "5": {
             "type": "loopbegin",
-            "one": "6",
-            "content": "name, child; folder.children"
+            "one": "9",
+            "content": "name; names"
         },
         "6": {
             "type": "action",
             "one": "4",
             "content": "buildModuleAst(child)"
+        },
+        "7": {
+            "type": "question",
+            "one": "6",
+            "two": "11",
+            "flag1": 0,
+            "content": "child.isMachine"
+        },
+        "8": {
+            "type": "action",
+            "one": "10",
+            "content": "names = Object.keys(folder.children)"
+        },
+        "9": {
+            "type": "action",
+            "one": "7",
+            "content": "child = folder.children[name]"
+        },
+        "10": {
+            "type": "action",
+            "one": "5",
+            "content": "names.sort()"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "buildMachineAst(folder, child)"
+        },
+        "12": {
+            "type": "action",
+            "one": "4",
+            "content": "buildLauncherAst(child)"
         }
     }
 }

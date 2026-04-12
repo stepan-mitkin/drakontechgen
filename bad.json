@@ -1,0 +1,1117 @@
+{
+    "type": "FunctionDeclaration",
+    "id": {
+        "type": "Identifier",
+        "name": "silReceive"
+    },
+    "params": [
+        {
+            "type": "Identifier",
+            "name": "arg1"
+        },
+        {
+            "type": "Identifier",
+            "name": "arg2"
+        }
+    ],
+    "body": {
+        "type": "BlockStatement",
+        "body": [
+            {
+                "type": "ExpressionStatement",
+                "expression": {
+                    "type": "AssignmentExpression",
+                    "operator": "=",
+                    "left": {
+                        "type": "Identifier",
+                        "name": "_branch_"
+                    },
+                    "right": {
+                        "type": "Literal",
+                        "value": "Init",
+                        "raw": "\"Init\""
+                    }
+                }
+            },
+            {
+                "type": "WhileStatement",
+                "test": {
+                    "type": "Literal",
+                    "value": true,
+                    "raw": "true"
+                },
+                "body": {
+                    "type": "BlockStatement",
+                    "body": [
+                        {
+                            "type": "SwitchStatement",
+                            "discriminant": {
+                                "type": "Identifier",
+                                "name": "_branch_"
+                            },
+                            "cases": [
+                                {
+                                    "type": "SwitchCase",
+                                    "test": {
+                                        "type": "Literal",
+                                        "value": "Init",
+                                        "raw": "\"Init\""
+                                    },
+                                    "consequent": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "x"
+                                                },
+                                                "right": {
+                                                    "type": "BinaryExpression",
+                                                    "operator": "+",
+                                                    "left": {
+                                                        "type": "Identifier",
+                                                        "name": "arg1"
+                                                    },
+                                                    "right": {
+                                                        "type": "Literal",
+                                                        "value": 2,
+                                                        "raw": "2"
+                                                    }
+                                                }
+                                            },
+                                            "itemId": "3"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_branch_"
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "Black state",
+                                                    "raw": "\"Black state\""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "BreakStatement",
+                                            "label": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "SwitchCase",
+                                    "test": {
+                                        "type": "Literal",
+                                        "value": "Black state",
+                                        "raw": "\"Black state\""
+                                    },
+                                    "consequent": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": [
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "MemberExpression",
+                                                            "computed": false,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "me"
+                                                            },
+                                                            "property": {
+                                                                "type": "Identifier",
+                                                                "name": "state"
+                                                            }
+                                                        },
+                                                        "right": {
+                                                            "type": "Literal",
+                                                            "value": "11",
+                                                            "raw": "\"11\""
+                                                        }
+                                                    },
+                                                    "itemId": "11"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "MemberExpression",
+                                                            "computed": false,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "me"
+                                                            },
+                                                            "property": {
+                                                                "type": "Identifier",
+                                                                "name": "_busy"
+                                                            }
+                                                        },
+                                                        "right": {
+                                                            "type": "Literal",
+                                                            "value": false,
+                                                            "raw": "false"
+                                                        }
+                                                    },
+                                                    "itemId": "11"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "Identifier",
+                                                            "name": "_event_"
+                                                        },
+                                                        "right": {
+                                                            "type": "AwaitExpression",
+                                                            "argument": {
+                                                                "type": "NewExpression",
+                                                                "callee": {
+                                                                    "type": "Identifier",
+                                                                    "name": "Promise"
+                                                                },
+                                                                "arguments": [
+                                                                    {
+                                                                        "type": "ArrowFunctionExpression",
+                                                                        "id": null,
+                                                                        "params": [
+                                                                            {
+                                                                                "type": "Identifier",
+                                                                                "name": "accept"
+                                                                            }
+                                                                        ],
+                                                                        "body": {
+                                                                            "type": "BlockStatement",
+                                                                            "body": [
+                                                                                {
+                                                                                    "type": "ExpressionStatement",
+                                                                                    "expression": {
+                                                                                        "type": "AssignmentExpression",
+                                                                                        "operator": "=",
+                                                                                        "left": {
+                                                                                            "type": "MemberExpression",
+                                                                                            "computed": false,
+                                                                                            "object": {
+                                                                                                "type": "Identifier",
+                                                                                                "name": "me"
+                                                                                            },
+                                                                                            "property": {
+                                                                                                "type": "Identifier",
+                                                                                                "name": "_accept"
+                                                                                            }
+                                                                                        },
+                                                                                        "right": {
+                                                                                            "type": "Identifier",
+                                                                                            "name": "accept"
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "generator": false,
+                                                                        "expression": false,
+                                                                        "async": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "itemId": "11"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "Identifier",
+                                                            "name": "_eventType"
+                                                        },
+                                                        "right": {
+                                                            "type": "MemberExpression",
+                                                            "computed": true,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "_event_"
+                                                            },
+                                                            "property": {
+                                                                "type": "Literal",
+                                                                "value": 0,
+                                                                "raw": "0"
+                                                            }
+                                                        }
+                                                    },
+                                                    "itemId": "11"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "IfStatement",
+                                            "test": {
+                                                "type": "BinaryExpression",
+                                                "operator": "===",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_eventType_"
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "left",
+                                                    "raw": "\"left\""
+                                                }
+                                            },
+                                            "consequent": {
+                                                "type": "BlockStatement",
+                                                "body": [
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "value"
+                                                            },
+                                                            "right": {
+                                                                "type": "MemberExpression",
+                                                                "computed": true,
+                                                                "object": {
+                                                                    "type": "Identifier",
+                                                                    "name": "_event_"
+                                                                },
+                                                                "property": {
+                                                                    "type": "Literal",
+                                                                    "value": 1,
+                                                                    "raw": "1"
+                                                                }
+                                                            }
+                                                        },
+                                                        "itemId": "10"
+                                                    },
+                                                    {
+                                                        "type": "IfStatement",
+                                                        "test": {
+                                                            "type": "BinaryExpression",
+                                                            "operator": "<",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "value"
+                                                            },
+                                                            "right": {
+                                                                "type": "Literal",
+                                                                "value": 0,
+                                                                "raw": "0"
+                                                            }
+                                                        },
+                                                        "consequent": {
+                                                            "type": "BlockStatement",
+                                                            "body": [
+                                                                {
+                                                                    "type": "ExpressionStatement",
+                                                                    "expression": {
+                                                                        "type": "AssignmentExpression",
+                                                                        "operator": "+=",
+                                                                        "left": {
+                                                                            "type": "Identifier",
+                                                                            "name": "arg2"
+                                                                        },
+                                                                        "right": {
+                                                                            "type": "Identifier",
+                                                                            "name": "value"
+                                                                        }
+                                                                    },
+                                                                    "itemId": "19"
+                                                                },
+                                                                {
+                                                                    "type": "ExpressionStatement",
+                                                                    "expression": {
+                                                                        "type": "AssignmentExpression",
+                                                                        "operator": "=",
+                                                                        "left": {
+                                                                            "type": "Identifier",
+                                                                            "name": "_branch_"
+                                                                        },
+                                                                        "right": {
+                                                                            "type": "Literal",
+                                                                            "value": "Red state",
+                                                                            "raw": "\"Red state\""
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        "alternate": {
+                                                            "type": "BlockStatement",
+                                                            "body": [
+                                                                {
+                                                                    "type": "ExpressionStatement",
+                                                                    "expression": {
+                                                                        "type": "AssignmentExpression",
+                                                                        "operator": "+=",
+                                                                        "left": {
+                                                                            "type": "Identifier",
+                                                                            "name": "arg1"
+                                                                        },
+                                                                        "right": {
+                                                                            "type": "Identifier",
+                                                                            "name": "value"
+                                                                        }
+                                                                    },
+                                                                    "itemId": "18"
+                                                                },
+                                                                {
+                                                                    "type": "ExpressionStatement",
+                                                                    "expression": {
+                                                                        "type": "AssignmentExpression",
+                                                                        "operator": "=",
+                                                                        "left": {
+                                                                            "type": "Identifier",
+                                                                            "name": "_branch_"
+                                                                        },
+                                                                        "right": {
+                                                                            "type": "Literal",
+                                                                            "value": "Inter-transitional",
+                                                                            "raw": "\"Inter-transitional\""
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "alternate": {
+                                                "type": "BlockStatement",
+                                                "body": [
+                                                    {
+                                                        "type": "IfStatement",
+                                                        "test": {
+                                                            "type": "BinaryExpression",
+                                                            "operator": "!==",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "_eventType_"
+                                                            },
+                                                            "right": {
+                                                                "type": "CallExpression",
+                                                                "callee": {
+                                                                    "type": "Identifier",
+                                                                    "name": "right"
+                                                                },
+                                                                "arguments": [
+                                                                    {
+                                                                        "type": "Identifier",
+                                                                        "name": "value"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        "consequent": {
+                                                            "type": "BlockStatement",
+                                                            "body": [
+                                                                {
+                                                                    "type": "ThrowStatement",
+                                                                    "argument": {
+                                                                        "type": "NewExpression",
+                                                                        "callee": {
+                                                                            "type": "Identifier",
+                                                                            "name": "Error"
+                                                                        },
+                                                                        "arguments": [
+                                                                            {
+                                                                                "type": "BinaryExpression",
+                                                                                "operator": "+",
+                                                                                "left": {
+                                                                                    "type": "Literal",
+                                                                                    "value": "Unexpected case value: ",
+                                                                                    "raw": "\"Unexpected case value: \""
+                                                                                },
+                                                                                "right": {
+                                                                                    "type": "Identifier",
+                                                                                    "name": "_eventType_"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "+=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "arg2"
+                                                            },
+                                                            "right": {
+                                                                "type": "Identifier",
+                                                                "name": "value"
+                                                            }
+                                                        },
+                                                        "itemId": "19"
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "_branch_"
+                                                            },
+                                                            "right": {
+                                                                "type": "Literal",
+                                                                "value": "Red state",
+                                                                "raw": "\"Red state\""
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "type": "BreakStatement",
+                                            "label": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "SwitchCase",
+                                    "test": {
+                                        "type": "Literal",
+                                        "value": "Inter-transitional",
+                                        "raw": "\"Inter-transitional\""
+                                    },
+                                    "consequent": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "UpdateExpression",
+                                                "operator": "++",
+                                                "argument": {
+                                                    "type": "Identifier",
+                                                    "name": "arg1"
+                                                },
+                                                "prefix": false
+                                            },
+                                            "itemId": "20"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_branch_"
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "Red state",
+                                                    "raw": "\"Red state\""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "BreakStatement",
+                                            "label": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "SwitchCase",
+                                    "test": {
+                                        "type": "Literal",
+                                        "value": "Red state",
+                                        "raw": "\"Red state\""
+                                    },
+                                    "consequent": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": [
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "MemberExpression",
+                                                            "computed": false,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "me"
+                                                            },
+                                                            "property": {
+                                                                "type": "Identifier",
+                                                                "name": "state"
+                                                            }
+                                                        },
+                                                        "right": {
+                                                            "type": "Literal",
+                                                            "value": "13",
+                                                            "raw": "\"13\""
+                                                        }
+                                                    },
+                                                    "itemId": "13"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "MemberExpression",
+                                                            "computed": false,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "me"
+                                                            },
+                                                            "property": {
+                                                                "type": "Identifier",
+                                                                "name": "_busy"
+                                                            }
+                                                        },
+                                                        "right": {
+                                                            "type": "Literal",
+                                                            "value": false,
+                                                            "raw": "false"
+                                                        }
+                                                    },
+                                                    "itemId": "13"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "Identifier",
+                                                            "name": "_event_"
+                                                        },
+                                                        "right": {
+                                                            "type": "AwaitExpression",
+                                                            "argument": {
+                                                                "type": "NewExpression",
+                                                                "callee": {
+                                                                    "type": "Identifier",
+                                                                    "name": "Promise"
+                                                                },
+                                                                "arguments": [
+                                                                    {
+                                                                        "type": "ArrowFunctionExpression",
+                                                                        "id": null,
+                                                                        "params": [
+                                                                            {
+                                                                                "type": "Identifier",
+                                                                                "name": "accept"
+                                                                            }
+                                                                        ],
+                                                                        "body": {
+                                                                            "type": "BlockStatement",
+                                                                            "body": [
+                                                                                {
+                                                                                    "type": "ExpressionStatement",
+                                                                                    "expression": {
+                                                                                        "type": "AssignmentExpression",
+                                                                                        "operator": "=",
+                                                                                        "left": {
+                                                                                            "type": "MemberExpression",
+                                                                                            "computed": false,
+                                                                                            "object": {
+                                                                                                "type": "Identifier",
+                                                                                                "name": "me"
+                                                                                            },
+                                                                                            "property": {
+                                                                                                "type": "Identifier",
+                                                                                                "name": "_accept"
+                                                                                            }
+                                                                                        },
+                                                                                        "right": {
+                                                                                            "type": "Identifier",
+                                                                                            "name": "accept"
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "generator": false,
+                                                                        "expression": false,
+                                                                        "async": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "itemId": "13"
+                                                },
+                                                {
+                                                    "type": "ExpressionStatement",
+                                                    "expression": {
+                                                        "type": "AssignmentExpression",
+                                                        "operator": "=",
+                                                        "left": {
+                                                            "type": "Identifier",
+                                                            "name": "_eventType"
+                                                        },
+                                                        "right": {
+                                                            "type": "MemberExpression",
+                                                            "computed": true,
+                                                            "object": {
+                                                                "type": "Identifier",
+                                                                "name": "_event_"
+                                                            },
+                                                            "property": {
+                                                                "type": "Literal",
+                                                                "value": 0,
+                                                                "raw": "0"
+                                                            }
+                                                        }
+                                                    },
+                                                    "itemId": "13"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "IfStatement",
+                                            "test": {
+                                                "type": "BinaryExpression",
+                                                "operator": "===",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_eventType_"
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "left",
+                                                    "raw": "\"left\""
+                                                }
+                                            },
+                                            "consequent": {
+                                                "type": "BlockStatement",
+                                                "body": [
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "value"
+                                                            },
+                                                            "right": {
+                                                                "type": "MemberExpression",
+                                                                "computed": true,
+                                                                "object": {
+                                                                    "type": "Identifier",
+                                                                    "name": "_event_"
+                                                                },
+                                                                "property": {
+                                                                    "type": "Literal",
+                                                                    "value": 1,
+                                                                    "raw": "1"
+                                                                }
+                                                            }
+                                                        },
+                                                        "itemId": "14"
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "+=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "arg1"
+                                                            },
+                                                            "right": {
+                                                                "type": "BinaryExpression",
+                                                                "operator": "*",
+                                                                "left": {
+                                                                    "type": "Identifier",
+                                                                    "name": "value"
+                                                                },
+                                                                "right": {
+                                                                    "type": "Literal",
+                                                                    "value": 2,
+                                                                    "raw": "2"
+                                                                }
+                                                            }
+                                                        },
+                                                        "itemId": "21"
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "_branch_"
+                                                            },
+                                                            "right": {
+                                                                "type": "Literal",
+                                                                "value": "Grey state",
+                                                                "raw": "\"Grey state\""
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "alternate": {
+                                                "type": "BlockStatement",
+                                                "body": [
+                                                    {
+                                                        "type": "IfStatement",
+                                                        "test": {
+                                                            "type": "BinaryExpression",
+                                                            "operator": "!==",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "_eventType_"
+                                                            },
+                                                            "right": {
+                                                                "type": "CallExpression",
+                                                                "callee": {
+                                                                    "type": "Identifier",
+                                                                    "name": "right"
+                                                                },
+                                                                "arguments": [
+                                                                    {
+                                                                        "type": "Identifier",
+                                                                        "name": "value"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        "consequent": {
+                                                            "type": "BlockStatement",
+                                                            "body": [
+                                                                {
+                                                                    "type": "ThrowStatement",
+                                                                    "argument": {
+                                                                        "type": "NewExpression",
+                                                                        "callee": {
+                                                                            "type": "Identifier",
+                                                                            "name": "Error"
+                                                                        },
+                                                                        "arguments": [
+                                                                            {
+                                                                                "type": "BinaryExpression",
+                                                                                "operator": "+",
+                                                                                "left": {
+                                                                                    "type": "Literal",
+                                                                                    "value": "Unexpected case value: ",
+                                                                                    "raw": "\"Unexpected case value: \""
+                                                                                },
+                                                                                "right": {
+                                                                                    "type": "Identifier",
+                                                                                    "name": "_eventType_"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "+=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "arg2"
+                                                            },
+                                                            "right": {
+                                                                "type": "BinaryExpression",
+                                                                "operator": "*",
+                                                                "left": {
+                                                                    "type": "Identifier",
+                                                                    "name": "value"
+                                                                },
+                                                                "right": {
+                                                                    "type": "Literal",
+                                                                    "value": 2,
+                                                                    "raw": "2"
+                                                                }
+                                                            }
+                                                        },
+                                                        "itemId": "22"
+                                                    },
+                                                    {
+                                                        "type": "ExpressionStatement",
+                                                        "expression": {
+                                                            "type": "AssignmentExpression",
+                                                            "operator": "=",
+                                                            "left": {
+                                                                "type": "Identifier",
+                                                                "name": "_branch_"
+                                                            },
+                                                            "right": {
+                                                                "type": "Literal",
+                                                                "value": "Black state",
+                                                                "raw": "\"Black state\""
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "type": "BreakStatement",
+                                            "label": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "SwitchCase",
+                                    "test": {
+                                        "type": "Literal",
+                                        "value": "Grey state",
+                                        "raw": "\"Grey state\""
+                                    },
+                                    "consequent": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "UpdateExpression",
+                                                "operator": "++",
+                                                "argument": {
+                                                    "type": "Identifier",
+                                                    "name": "x"
+                                                },
+                                                "prefix": false
+                                            },
+                                            "itemId": "27"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "MemberExpression",
+                                                    "computed": false,
+                                                    "object": {
+                                                        "type": "Identifier",
+                                                        "name": "me"
+                                                    },
+                                                    "property": {
+                                                        "type": "Identifier",
+                                                        "name": "state"
+                                                    }
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "25",
+                                                    "raw": "\"25\""
+                                                }
+                                            },
+                                            "itemId": "25"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "MemberExpression",
+                                                    "computed": false,
+                                                    "object": {
+                                                        "type": "Identifier",
+                                                        "name": "me"
+                                                    },
+                                                    "property": {
+                                                        "type": "Identifier",
+                                                        "name": "_busy"
+                                                    }
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": false,
+                                                    "raw": "false"
+                                                }
+                                            },
+                                            "itemId": "25"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_event_"
+                                                },
+                                                "right": {
+                                                    "type": "AwaitExpression",
+                                                    "argument": {
+                                                        "type": "NewExpression",
+                                                        "callee": {
+                                                            "type": "Identifier",
+                                                            "name": "Promise"
+                                                        },
+                                                        "arguments": [
+                                                            {
+                                                                "type": "ArrowFunctionExpression",
+                                                                "id": null,
+                                                                "params": [
+                                                                    {
+                                                                        "type": "Identifier",
+                                                                        "name": "accept"
+                                                                    }
+                                                                ],
+                                                                "body": {
+                                                                    "type": "BlockStatement",
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "ExpressionStatement",
+                                                                            "expression": {
+                                                                                "type": "AssignmentExpression",
+                                                                                "operator": "=",
+                                                                                "left": {
+                                                                                    "type": "MemberExpression",
+                                                                                    "computed": false,
+                                                                                    "object": {
+                                                                                        "type": "Identifier",
+                                                                                        "name": "me"
+                                                                                    },
+                                                                                    "property": {
+                                                                                        "type": "Identifier",
+                                                                                        "name": "_accept"
+                                                                                    }
+                                                                                },
+                                                                                "right": {
+                                                                                    "type": "Identifier",
+                                                                                    "name": "accept"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "generator": false,
+                                                                "expression": false,
+                                                                "async": false
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "itemId": "25"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "MemberExpression",
+                                                    "computed": false,
+                                                    "object": {
+                                                        "type": "Identifier",
+                                                        "name": "me"
+                                                    },
+                                                    "property": {
+                                                        "type": "Identifier",
+                                                        "name": "a1"
+                                                    }
+                                                },
+                                                "right": {
+                                                    "type": "BinaryExpression",
+                                                    "operator": "+",
+                                                    "left": {
+                                                        "type": "Identifier",
+                                                        "name": "arg1"
+                                                    },
+                                                    "right": {
+                                                        "type": "Identifier",
+                                                        "name": "x"
+                                                    }
+                                                }
+                                            },
+                                            "itemId": "26"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "MemberExpression",
+                                                    "computed": false,
+                                                    "object": {
+                                                        "type": "Identifier",
+                                                        "name": "me"
+                                                    },
+                                                    "property": {
+                                                        "type": "Identifier",
+                                                        "name": "a2"
+                                                    }
+                                                },
+                                                "right": {
+                                                    "type": "Identifier",
+                                                    "name": "arg2"
+                                                }
+                                            },
+                                            "itemId": "26"
+                                        },
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "AssignmentExpression",
+                                                "operator": "=",
+                                                "left": {
+                                                    "type": "Identifier",
+                                                    "name": "_branch_"
+                                                },
+                                                "right": {
+                                                    "type": "Literal",
+                                                    "value": "Black state",
+                                                    "raw": "\"Black state\""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "BreakStatement",
+                                            "label": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "SwitchCase",
+                                    "test": null,
+                                    "consequent": [
+                                        {
+                                            "type": "ReturnStatement",
+                                            "argument": null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "generator": false,
+    "expression": false,
+    "async": true
+}

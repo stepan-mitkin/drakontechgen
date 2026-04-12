@@ -2,3 +2,4 @@
 
 node src/main.js examples2604/green --language JS2604 --output examples2604/green.js
 node src/main.js examples2604/classes --language JS2604 --output examples2604/classes.js
+node src/main.js examples2604/machines --language JS2604 --output examples2604/machines.js

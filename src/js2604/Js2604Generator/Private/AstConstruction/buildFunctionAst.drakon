@@ -80,7 +80,7 @@
         "23": {
             "type": "action",
             "one": "1",
-            "content": "fun.ast = funAst"
+            "content": "return funAst"
         },
         "24": {
             "type": "case",

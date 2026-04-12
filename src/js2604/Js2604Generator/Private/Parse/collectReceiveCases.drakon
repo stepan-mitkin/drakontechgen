@@ -1,0 +1,53 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "folder\nitem",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "content": "item.cases = []"
+        },
+        "4": {
+            "type": "action",
+            "one": "9",
+            "content": "current = item.one"
+        },
+        "6": {
+            "type": "question",
+            "one": "1",
+            "two": "7",
+            "flag1": 0,
+            "content": "current"
+        },
+        "7": {
+            "type": "action",
+            "one": "10",
+            "content": "item.cases.push(current)"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "current = caseItem.two"
+        },
+        "9": {
+            "type": "arrow-loop",
+            "one": "6"
+        },
+        "10": {
+            "type": "action",
+            "one": "8",
+            "content": "caseItem = folder.items[current]"
+        }
+    }
+}

@@ -1,0 +1,82 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "folder\nid\nitem",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "12"
+        },
+        "4": {
+            "type": "question",
+            "one": "5",
+            "two": "6",
+            "flag1": 1,
+            "content": "item.content.type === \"CallExpression\""
+        },
+        "5": {
+            "type": "question",
+            "one": "9",
+            "two": "6",
+            "flag1": 1,
+            "content": "item.content.callee.type === \"Identifier\""
+        },
+        "6": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "content": "reportError(\n    \"A function call expression expected here\",\n    folder.path,\n    id\n)"
+        },
+        "8": {
+            "type": "loopend",
+            "one": "15",
+            "content": ""
+        },
+        "9": {
+            "type": "loopbegin",
+            "one": "10",
+            "content": "arg; item.content.arguments "
+        },
+        "10": {
+            "type": "question",
+            "one": "8",
+            "two": "11",
+            "flag1": 1,
+            "content": "arg.type === \"Identifier\""
+        },
+        "11": {
+            "type": "action",
+            "one": "17",
+            "two": "",
+            "content": "reportError(\n    \"This call expression expects variables\",\n    folder.path,\n    id\n)"
+        },
+        "12": {
+            "type": "question",
+            "one": "4",
+            "two": "6",
+            "flag1": 1,
+            "content": "item.content"
+        },
+        "15": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "17": {
+            "type": "action",
+            "one": "8",
+            "content": "return false "
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        }
+    }
+}

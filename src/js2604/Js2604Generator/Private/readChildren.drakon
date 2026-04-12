@@ -21,7 +21,7 @@
         },
         "8": {
             "type": "question",
-            "one": "14",
+            "one": "12",
             "two": "6",
             "flag1": 1,
             "content": "child"
@@ -45,18 +45,6 @@
             "type": "action",
             "one": "6",
             "content": "result.push(child)"
-        },
-        "13": {
-            "type": "action",
-            "one": "12",
-            "content": "console.log(child)"
-        },
-        "14": {
-            "type": "question",
-            "one": "13",
-            "two": "12",
-            "flag1": 1,
-            "content": "child.name === \"solution\""
         }
     },
     "keywords": {

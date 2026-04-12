@@ -1,0 +1,48 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nitem\nid",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "question",
+            "one": "6",
+            "two": "1",
+            "flag1": 1,
+            "content": "ensureCall(folder, id, item)"
+        },
+        "5": {
+            "type": "question",
+            "one": "7",
+            "two": "1",
+            "flag1": 1,
+            "content": "name"
+        },
+        "6": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "content": "name = addEventSignature(\n    folder,\n    id,\n    item\n)"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "rewriteEventInput(folder, id, item, name)"
+        }
+    }
+}

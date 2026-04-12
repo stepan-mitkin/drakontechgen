@@ -1,0 +1,47 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "14",
+            "content": "id = generateId(\"_item_\")"
+        },
+        "4": {
+            "type": "action",
+            "one": "13",
+            "content": "item = {\n    id: id,\n    type: \"action\",\n    content: content,\n    one: before.one,\n}"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "content": "folder.items[id] = item"
+        },
+        "13": {
+            "type": "action",
+            "one": "11",
+            "content": "before.one = id"
+        },
+        "14": {
+            "type": "action",
+            "one": "4",
+            "content": "before = folder.items[existingId]"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nexistingId\ncontent"
+}

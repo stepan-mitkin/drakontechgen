@@ -32,7 +32,7 @@
         },
         "6": {
             "type": "loopend",
-            "one": "1",
+            "one": "12",
             "two": "",
             "content": ""
         },
@@ -52,7 +52,7 @@
             "type": "action",
             "one": "10",
             "two": "",
-            "content": "folder.events = {}\nfolder.eventItems = []"
+            "content": "folder.eventItems = []"
         },
         "10": {
             "type": "action",
@@ -65,6 +65,11 @@
             "one": "8",
             "two": "",
             "content": "item = folder.items[id]"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "setUpMachine(folder)"
         }
     }
 }

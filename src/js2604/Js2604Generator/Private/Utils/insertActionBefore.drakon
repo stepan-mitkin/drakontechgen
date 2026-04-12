@@ -11,13 +11,13 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
+            "one": "12",
             "content": "id = generateId(\"_item_\")"
         },
         "4": {
             "type": "action",
             "one": "6",
-            "content": "item = {\n    id: id,\n    type: \"action\",\n    content: [\n        createExpression(expression)\n    ],\n    one: beforeId,\n}"
+            "content": "item = {\n    id: id,\n    type: \"action\",\n    content: content,\n    one: beforeId,\n}"
         },
         "5": {
             "type": "loopend",
@@ -57,6 +57,23 @@
             "type": "action",
             "one": "1",
             "content": "folder.items[id] = item"
+        },
+        "12": {
+            "type": "question",
+            "one": "14",
+            "two": "15",
+            "flag1": 0,
+            "content": "Array.isArray(expression)"
+        },
+        "14": {
+            "type": "action",
+            "one": "4",
+            "content": "content = [createExpression(expression)]"
+        },
+        "15": {
+            "type": "action",
+            "one": "4",
+            "content": "content = expression"
         }
     },
     "keywords": {
