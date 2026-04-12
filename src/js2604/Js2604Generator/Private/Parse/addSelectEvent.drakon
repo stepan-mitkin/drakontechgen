@@ -52,7 +52,7 @@
         },
         "12": {
             "type": "branch",
-            "one": "14",
+            "one": "22",
             "branchId": 2,
             "content": "Cases"
         },
@@ -80,7 +80,7 @@
         },
         "18": {
             "type": "question",
-            "one": "20",
+            "one": "23",
             "two": "13",
             "flag1": 1,
             "content": "name"
@@ -99,6 +99,16 @@
             "type": "action",
             "one": "10",
             "content": "content = linesToContent(\n    folder,\n    id,\n    lines\n)"
+        },
+        "22": {
+            "type": "action",
+            "one": "14",
+            "content": "item.eventNames = []"
+        },
+        "23": {
+            "type": "action",
+            "one": "20",
+            "content": "item.eventNames.push(name)"
         }
     }
 }

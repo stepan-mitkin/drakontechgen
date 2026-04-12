@@ -65,7 +65,7 @@
         "20": {
             "type": "action",
             "one": "19",
-            "content": "stm = \"var self = {_type_:\\\"\" + folder.name\n+ \"\\\"}\""
+            "content": "stm = \"var self = {_type:\\\"\" + folder.name\n+ \"\\\"}\""
         },
         "21": {
             "type": "action",

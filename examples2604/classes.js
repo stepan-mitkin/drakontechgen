@@ -1,5 +1,5 @@
 function YellowClass(name, color, arg1, arg2) {
-    var self = { _type_: 'YellowClass' };
+    var self = { _type: 'YellowClass' };
     var title;
     title = 'Dr.';
     const greeting = 'Hello';
@@ -50,7 +50,7 @@ function smarterAdd(left, right) {
     return (left + right) * 2;
 }
 function GreyClass() {
-    var self = { _type_: 'GreyClass' };
+    var self = { _type: 'GreyClass' };
     function getValue() {
         log('getValue');
         return smarterAdd(self.value, 20);

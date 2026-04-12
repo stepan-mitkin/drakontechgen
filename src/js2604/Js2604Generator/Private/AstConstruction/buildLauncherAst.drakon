@@ -18,14 +18,42 @@
             "branchId": 0,
             "one": "4"
         },
-        "3": {
-            "type": "action",
-            "one": "1"
-        },
         "4": {
             "type": "action",
-            "one": "3",
+            "one": "10",
             "content": "fun.ast = createFunction(\n    fun.name,\n    fun.arguments \n)"
+        },
+        "5": {
+            "type": "action",
+            "one": "7",
+            "content": "functionBody = fun.ast.body.body"
+        },
+        "6": {
+            "type": "action",
+            "one": "9",
+            "two": "",
+            "content": "functionBody.push(\n    parseStatement(\n        \"_obj_ = \" + name + \"(\" + argstr\n        + \")\"\n    )\n)"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "name = makeCreateName(fun.name)"
+        },
+        "8": {
+            "type": "action",
+            "one": "6",
+            "content": "argstr = fun.arguments .join(\", \")"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "functionBody.push(\n    parseStatement(\"return _obj_.run()\")\n)"
+        },
+        "10": {
+            "type": "action",
+            "one": "5",
+            "content": "fun.scope = createScope(\n    \"function\",\n    fun.name\n)"
         }
     }
 }

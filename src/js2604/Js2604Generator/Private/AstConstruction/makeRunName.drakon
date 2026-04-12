@@ -11,14 +11,15 @@
         },
         "3": {
             "type": "action",
-            "one": "1"
+            "one": "1",
+            "content": "return name + \"_run\""
         }
     },
     "keywords": {
-        "function": false,
+        "function": true,
         "machine": false,
         "async": false,
-        "export": true,
+        "export": false,
         "algoprop": false,
         "lazy": false
     },

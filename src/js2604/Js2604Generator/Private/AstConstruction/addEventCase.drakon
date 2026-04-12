@@ -1,0 +1,67 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "fun\nevent\nitemId\nsw",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "content": "cs = createCase(\n    createStringLiteral(itemId)\n)"
+        },
+        "4": {
+            "type": "action",
+            "one": "6",
+            "content": "sw.cases.push(cs)"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "content": "cs.consequent.push(\n    createReturn(\n        createIdentifier(\"true\")\n    )\n)"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "cs.consequent.push(\n    parseStatement(\"_args_=[]\")\n)"
+        },
+        "7": {
+            "type": "action",
+            "one": "9",
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_args_.push(\\\"\" + event.name + \"\\\")\"\n    )\n)"
+        },
+        "8": {
+            "type": "loopend",
+            "one": "13",
+            "content": ""
+        },
+        "9": {
+            "type": "loopbegin",
+            "one": "11",
+            "content": "arg; event.args"
+        },
+        "11": {
+            "type": "action",
+            "one": "8",
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_args_.push(\" + arg + \")\"\n    )\n)"
+        },
+        "12": {
+            "type": "action",
+            "one": "5",
+            "content": "cs.consequent.push(\n    parseStatement(\"me._accept(_args_)\")\n)"
+        },
+        "13": {
+            "type": "action",
+            "one": "12",
+            "content": "cs.consequent.push(\n    parseStatement(\"me._busy =true\")\n)"
+        }
+    }
+}

@@ -11,16 +11,17 @@
         },
         "3": {
             "type": "action",
-            "one": "1"
+            "one": "1",
+            "content": "return {\n    type: \"MemberExpression\",\n    computed: false ,\n    object: obj,\n    property: createIdentifier(prop)\n}"
         }
     },
     "keywords": {
-        "function": false,
+        "function": true,
         "machine": false,
         "async": false,
-        "export": true,
+        "export": false,
         "algoprop": false,
         "lazy": false
     },
-    "params": "name"
+    "params": "obj\nprop"
 }

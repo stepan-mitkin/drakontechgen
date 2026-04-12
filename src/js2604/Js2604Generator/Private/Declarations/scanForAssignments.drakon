@@ -67,7 +67,7 @@
         "15": {
             "one": "22",
             "type": "case",
-            "two": "4",
+            "two": "35",
             "content": "\"ArrowFunctionExpression\""
         },
         "16": {
@@ -171,6 +171,12 @@
             "type": "action",
             "one": "32",
             "content": "delete node.callee\ndelete node.arguments "
+        },
+        "35": {
+            "one": "22",
+            "type": "case",
+            "two": "4",
+            "content": "\"FunctionDeclaration\""
         }
     },
     "keywords": {

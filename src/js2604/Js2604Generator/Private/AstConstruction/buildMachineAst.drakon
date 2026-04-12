@@ -22,12 +22,12 @@
         "3": {
             "type": "action",
             "one": "26",
-            "content": "runAst.id.name = \"run\"\nrunAst.params = []"
+            "content": "runAst.id.name = makeRunName(fun.name)\nrunAst.params = []"
         },
         "4": {
             "type": "branch",
             "one": "28",
-            "branchId": 4,
+            "branchId": 5,
             "content": "Exit"
         },
         "11": {
@@ -76,7 +76,7 @@
         },
         "21": {
             "type": "action",
-            "one": "3",
+            "one": "45",
             "content": "runAst = buildFunctionAst(fun)"
         },
         "22": {
@@ -92,8 +92,8 @@
         },
         "27": {
             "type": "action",
-            "one": "4",
-            "content": "functionBody.push(\n    parseStatement(\"me.run=run\")\n)"
+            "one": "37",
+            "content": "functionBody.push(\n    parseStatement(\n        \"me.run=\" + makeRunName(fun.name)\n    )\n)"
         },
         "28": {
             "type": "action",
@@ -129,6 +129,47 @@
             "one": "34",
             "two": "",
             "content": "addDeclaration(ctr.scope, name)"
+        },
+        "37": {
+            "type": "action",
+            "one": "38",
+            "content": "functionBody.push(\n    parseStatement(\n        \"me.stop=function() {me.state=undefined;}\"\n    )\n)"
+        },
+        "38": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "40",
+            "content": "Event methods"
+        },
+        "39": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "40": {
+            "type": "loopbegin",
+            "one": "41",
+            "content": "eventName, evt; fun.events"
+        },
+        "41": {
+            "type": "action",
+            "one": "39",
+            "content": "createEventMethod(\n    fun,\n    eventName,\n    functionBody\n)"
+        },
+        "42": {
+            "type": "action",
+            "one": "3",
+            "content": "runAst.body.body.unshift(\n    parseStatement(guard.join(\"\"))\n)"
+        },
+        "45": {
+            "type": "action",
+            "one": "46",
+            "content": "guard = [\n    \"if(me.state!==\\\"created\\\")\",\n    \"{throw new Error(\\\"run() can be called only once\\\");}\"\n]"
+        },
+        "46": {
+            "type": "action",
+            "one": "42",
+            "content": "runAst.body.body.unshift(\n    parseStatement(\n        \"me.state=\\\"started\\\"\"\n    )\n)"
         }
     }
 }
