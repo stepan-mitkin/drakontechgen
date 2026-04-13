@@ -21,7 +21,7 @@
         "4": {
             "type": "action",
             "one": "1",
-            "content": "return dependencies.map(\n    dep => \"var \" + dep + \";\"\n).join(\"\\n\")"
+            "content": "return dependencies.map(\n    dep => \"var \" + dep + \";\"\n).join(\"\\n\") + \"\\n\""
         }
     }
 }

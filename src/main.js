@@ -135,7 +135,7 @@ async function main() {
     name: options.name,
     root: options.projectFolder,
     main: options.main,
-    settings: { unit: true },
+    settings: { iife: true, unit: false, dependencies: "depX\ndepA" },
     getObjectByHandle: function (filepath) {
       return getObjectByHandle(filepath, genOptions);
     },

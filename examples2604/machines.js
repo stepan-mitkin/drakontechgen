@@ -1,5 +1,12 @@
 function machines() {
-var unit;
+var unit = {};
+var depA;
+var depX;
+function primInput(left, right) {
+    var _obj_;
+    _obj_ = primInput_create(left, right);
+    return _obj_.run();
+}
 function Red(name) {
     var self = { _type: 'Red' };
     function getValue() {
@@ -59,11 +66,6 @@ function Red(name) {
     self.machineMethod = machineMethod;
     self.machineMethod_create = machineMethod_create;
     return self;
-}
-function primInput(left, right) {
-    var _obj_;
-    _obj_ = primInput_create(left, right);
-    return _obj_.run();
 }
 function silReceive(arg1, arg2) {
     var _obj_;
@@ -274,10 +276,30 @@ function silReceive_create(arg1, arg2) {
     };
     return me;
 }
-unit.Red = Red;
 unit.primInput = primInput;
+unit.Red = Red;
 unit.silReceive = silReceive;
 unit.primInput_create = primInput_create;
 unit.silReceive_create = silReceive_create;
+Object.defineProperty(unit, 'depA', {
+    get: function () {
+        return depA;
+    },
+    set: function (newValue) {
+        depA = newValue;
+    },
+    enumerable: true,
+    configurable: true
+});
+Object.defineProperty(unit, 'depX', {
+    get: function () {
+        return depX;
+    },
+    set: function (newValue) {
+        depX = newValue;
+    },
+    enumerable: true,
+    configurable: true
+});
 return unit;
 }

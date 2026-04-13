@@ -105,13 +105,38 @@
         },
         "33": {
             "type": "action",
-            "one": "34",
+            "one": "35",
             "content": "lines = exported.map(\n    name => \"unit.\" + name + \"=\" + name\n)"
         },
         "34": {
             "type": "action",
             "one": "30",
             "content": "code = lines.join(\"\\n\")"
+        },
+        "35": {
+            "type": "action",
+            "one": "38",
+            "content": "deps = getDependencies()"
+        },
+        "37": {
+            "type": "loopend",
+            "one": "34",
+            "content": ""
+        },
+        "38": {
+            "type": "loopbegin",
+            "one": "40",
+            "content": "dep; deps"
+        },
+        "39": {
+            "type": "action",
+            "one": "37",
+            "content": "lines.push(line)"
+        },
+        "40": {
+            "type": "action",
+            "one": "39",
+            "content": "line = \"Object.defineProperty(unit,'\" + dep\n+ \"',{get:function(){return \" + dep + \";},set:function(newValue){\"\n+ dep + \"=newValue;},enumerable:true,configurable:true});\""
         }
     }
 }

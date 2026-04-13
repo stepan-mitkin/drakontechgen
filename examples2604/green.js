@@ -1,5 +1,7 @@
 function green() {
-var unit;
+var unit = {};
+var depA;
+var depX;
 var secretValue;
 const {multiply} = require('./ops');
 secretValue = 23;
@@ -129,6 +131,8 @@ function simpleCatch(arg) {
         return -1;
     }
 }
+function empty() {
+}
 function earlyExit(array, value) {
     var i, index;
     index = -1;
@@ -142,16 +146,6 @@ function earlyExit(array, value) {
         array.splice(index, 1);
     }
     return array;
-}
-function forLoopNoDeclare(array) {
-    var copy, i, key, value;
-    copy = {};
-    for (i = 0; i < array.length; i += 2) {
-        key = array[i];
-        value = array[i + 1];
-        copy[key] = value;
-    }
-    return copy;
 }
 function foreachLoopArray(array, value) {
     var copy, item, value2;
@@ -173,6 +167,28 @@ function foreachLoopObject(object, value) {
         copy[key] = value2;
     }
     return copy;
+}
+function forLoopNoDeclare(array) {
+    var copy, i, key, value;
+    copy = {};
+    for (i = 0; i < array.length; i += 2) {
+        key = array[i];
+        value = array[i + 1];
+        copy[key] = value;
+    }
+    return copy;
+}
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
+}
+function getSecret() {
+    return secretValue;
+}
+function hello() {
+    console.log('Hello, world');
 }
 function add(left, right) {
     var result;
@@ -404,20 +420,6 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
-function empty() {
-}
-function generateId() {
-    var id;
-    id = nextId;
-    nextId = nextId + 1;
-    return id;
-}
-function getSecret() {
-    return secretValue;
-}
-function hello() {
-    console.log('Hello, world');
-}
 unit.doWhile = doWhile;
 unit.doWhileDo = doWhileDo;
 unit.selectArrow = selectArrow;
@@ -426,10 +428,14 @@ unit.whileDo = whileDo;
 unit.slow = slow;
 unit.complexCatch = complexCatch;
 unit.simpleCatch = simpleCatch;
+unit.empty = empty;
 unit.earlyExit = earlyExit;
-unit.forLoopNoDeclare = forLoopNoDeclare;
 unit.foreachLoopArray = foreachLoopArray;
 unit.foreachLoopObject = foreachLoopObject;
+unit.forLoopNoDeclare = forLoopNoDeclare;
+unit.generateId = generateId;
+unit.getSecret = getSecret;
+unit.hello = hello;
 unit.add = add;
 unit.mul = mul;
 unit.complexAnd = complexAnd;
@@ -448,9 +454,25 @@ unit.selectWithoutDefault = selectWithoutDefault;
 unit.complexSilhouette = complexSilhouette;
 unit.fibonacci = fibonacci;
 unit.sil2 = sil2;
-unit.empty = empty;
-unit.generateId = generateId;
-unit.getSecret = getSecret;
-unit.hello = hello;
+Object.defineProperty(unit, 'depA', {
+    get: function () {
+        return depA;
+    },
+    set: function (newValue) {
+        depA = newValue;
+    },
+    enumerable: true,
+    configurable: true
+});
+Object.defineProperty(unit, 'depX', {
+    get: function () {
+        return depX;
+    },
+    set: function (newValue) {
+        depX = newValue;
+    },
+    enumerable: true,
+    configurable: true
+});
 return unit;
 }

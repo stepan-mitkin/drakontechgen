@@ -162,7 +162,7 @@
         "53": {
             "type": "action",
             "one": "24",
-            "content": "src = \"function \" + options.name + \"() {\\nvar unit;\\n\"\n+ deps + src + \"\\nreturn unit;\\n}\";"
+            "content": "src = \"function \" + options.name + \"() {\\nvar unit = {};\\n\"\n+ deps + src + \"\\nreturn unit;\\n}\";"
         },
         "54": {
             "type": "action",

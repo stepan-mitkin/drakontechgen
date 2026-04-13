@@ -15,8 +15,8 @@
         },
         "3": {
             "type": "action",
-            "one": "1",
-            "content": "return splitTrim(\n    options.settings.dependencies,\n    \"\\n\"\n)"
+            "one": "7",
+            "content": "deps = splitTrim(\n    options.settings.dependencies,\n    \"\\n\"\n)"
         },
         "4": {
             "type": "question",
@@ -36,6 +36,16 @@
             "type": "action",
             "one": "1",
             "content": "return []"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "deps.sort()"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "return deps"
         }
     }
 }

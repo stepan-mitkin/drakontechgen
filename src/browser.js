@@ -28,7 +28,7 @@ window.drakontechgen = {
       settings: settings,
     };
 
-    if (language === "JS") {
+    if (language.startsWith("JS")) {
       return createDrakonTechGenerator(genOptions);
     } else {
       return createClojureGenerator(genOptions);
