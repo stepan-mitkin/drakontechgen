@@ -1,7 +1,4 @@
-function classes() {
-var unit = {};
-var depA;
-var depX;
+(function() {
 function log(message) {
     console.log('GreyClass', message);
 }
@@ -72,28 +69,7 @@ function YellowClass(name, color, arg1, arg2) {
     self.setTitle = setTitle;
     return self;
 }
-unit.GreyClass = GreyClass;
-unit.runGrey = runGrey;
-unit.YellowClass = YellowClass;
-Object.defineProperty(unit, 'depA', {
-    get: function () {
-        return depA;
-    },
-    set: function (newValue) {
-        depA = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-Object.defineProperty(unit, 'depX', {
-    get: function () {
-        return depX;
-    },
-    set: function (newValue) {
-        depX = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-return unit;
-}
+window.GreyClass = GreyClass;
+window.runGrey = runGrey;
+window.YellowClass = YellowClass;
+})();

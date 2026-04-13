@@ -1,7 +1,4 @@
-function machines() {
-var unit = {};
-var depA;
-var depX;
+(function() {
 function primInput(left, right) {
     var _obj_;
     _obj_ = primInput_create(left, right);
@@ -276,30 +273,9 @@ function silReceive_create(arg1, arg2) {
     };
     return me;
 }
-unit.primInput = primInput;
-unit.Red = Red;
-unit.silReceive = silReceive;
-unit.primInput_create = primInput_create;
-unit.silReceive_create = silReceive_create;
-Object.defineProperty(unit, 'depA', {
-    get: function () {
-        return depA;
-    },
-    set: function (newValue) {
-        depA = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-Object.defineProperty(unit, 'depX', {
-    get: function () {
-        return depX;
-    },
-    set: function (newValue) {
-        depX = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-return unit;
-}
+window.primInput = primInput;
+window.Red = Red;
+window.silReceive = silReceive;
+window.primInput_create = primInput_create;
+window.silReceive_create = silReceive_create;
+})();

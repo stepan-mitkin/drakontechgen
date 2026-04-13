@@ -1,7 +1,4 @@
-function green() {
-var unit = {};
-var depA;
-var depX;
+(function() {
 var secretValue;
 const {multiply} = require('./ops');
 secretValue = 23;
@@ -420,59 +417,38 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
-unit.doWhile = doWhile;
-unit.doWhileDo = doWhileDo;
-unit.selectArrow = selectArrow;
-unit.twoExits = twoExits;
-unit.whileDo = whileDo;
-unit.slow = slow;
-unit.complexCatch = complexCatch;
-unit.simpleCatch = simpleCatch;
-unit.empty = empty;
-unit.earlyExit = earlyExit;
-unit.foreachLoopArray = foreachLoopArray;
-unit.foreachLoopObject = foreachLoopObject;
-unit.forLoopNoDeclare = forLoopNoDeclare;
-unit.generateId = generateId;
-unit.getSecret = getSecret;
-unit.hello = hello;
-unit.add = add;
-unit.mul = mul;
-unit.complexAnd = complexAnd;
-unit.complexOr = complexOr;
-unit.fizzBuzz = fizzBuzz;
-unit.inversedAnd = inversedAnd;
-unit.inversedOr = inversedOr;
-unit.questionMerge = questionMerge;
-unit.simpleAnd = simpleAnd;
-unit.simpleOr = simpleOr;
-unit.scope3 = scope3;
-unit.degenerateSelect = degenerateSelect;
-unit.selectShortCircuit = selectShortCircuit;
-unit.selectWithDefault = selectWithDefault;
-unit.selectWithoutDefault = selectWithoutDefault;
-unit.complexSilhouette = complexSilhouette;
-unit.fibonacci = fibonacci;
-unit.sil2 = sil2;
-Object.defineProperty(unit, 'depA', {
-    get: function () {
-        return depA;
-    },
-    set: function (newValue) {
-        depA = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-Object.defineProperty(unit, 'depX', {
-    get: function () {
-        return depX;
-    },
-    set: function (newValue) {
-        depX = newValue;
-    },
-    enumerable: true,
-    configurable: true
-});
-return unit;
-}
+window.doWhile = doWhile;
+window.doWhileDo = doWhileDo;
+window.selectArrow = selectArrow;
+window.twoExits = twoExits;
+window.whileDo = whileDo;
+window.slow = slow;
+window.complexCatch = complexCatch;
+window.simpleCatch = simpleCatch;
+window.empty = empty;
+window.earlyExit = earlyExit;
+window.foreachLoopArray = foreachLoopArray;
+window.foreachLoopObject = foreachLoopObject;
+window.forLoopNoDeclare = forLoopNoDeclare;
+window.generateId = generateId;
+window.getSecret = getSecret;
+window.hello = hello;
+window.add = add;
+window.mul = mul;
+window.complexAnd = complexAnd;
+window.complexOr = complexOr;
+window.fizzBuzz = fizzBuzz;
+window.inversedAnd = inversedAnd;
+window.inversedOr = inversedOr;
+window.questionMerge = questionMerge;
+window.simpleAnd = simpleAnd;
+window.simpleOr = simpleOr;
+window.scope3 = scope3;
+window.degenerateSelect = degenerateSelect;
+window.selectShortCircuit = selectShortCircuit;
+window.selectWithDefault = selectWithDefault;
+window.selectWithoutDefault = selectWithoutDefault;
+window.complexSilhouette = complexSilhouette;
+window.fibonacci = fibonacci;
+window.sil2 = sil2;
+})();
