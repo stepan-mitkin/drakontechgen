@@ -135,7 +135,7 @@ async function main() {
     name: options.name,
     root: options.projectFolder,
     main: options.main,
-    //settings: { iife: true },
+    settings: { unit: true },
     getObjectByHandle: function (filepath) {
       return getObjectByHandle(filepath, genOptions);
     },

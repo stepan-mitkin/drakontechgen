@@ -1,3 +1,5 @@
+function green() {
+var unit;
 var secretValue;
 const {multiply} = require('./ops');
 secretValue = 23;
@@ -416,39 +418,39 @@ function getSecret() {
 function hello() {
     console.log('Hello, world');
 }
-module.exports = {
-    doWhile,
-    doWhileDo,
-    selectArrow,
-    twoExits,
-    whileDo,
-    slow,
-    complexCatch,
-    simpleCatch,
-    earlyExit,
-    forLoopNoDeclare,
-    foreachLoopArray,
-    foreachLoopObject,
-    add,
-    mul,
-    complexAnd,
-    complexOr,
-    fizzBuzz,
-    inversedAnd,
-    inversedOr,
-    questionMerge,
-    simpleAnd,
-    simpleOr,
-    scope3,
-    degenerateSelect,
-    selectShortCircuit,
-    selectWithDefault,
-    selectWithoutDefault,
-    complexSilhouette,
-    fibonacci,
-    sil2,
-    empty,
-    generateId,
-    getSecret,
-    hello
-};
+unit.doWhile = doWhile;
+unit.doWhileDo = doWhileDo;
+unit.selectArrow = selectArrow;
+unit.twoExits = twoExits;
+unit.whileDo = whileDo;
+unit.slow = slow;
+unit.complexCatch = complexCatch;
+unit.simpleCatch = simpleCatch;
+unit.earlyExit = earlyExit;
+unit.forLoopNoDeclare = forLoopNoDeclare;
+unit.foreachLoopArray = foreachLoopArray;
+unit.foreachLoopObject = foreachLoopObject;
+unit.add = add;
+unit.mul = mul;
+unit.complexAnd = complexAnd;
+unit.complexOr = complexOr;
+unit.fizzBuzz = fizzBuzz;
+unit.inversedAnd = inversedAnd;
+unit.inversedOr = inversedOr;
+unit.questionMerge = questionMerge;
+unit.simpleAnd = simpleAnd;
+unit.simpleOr = simpleOr;
+unit.scope3 = scope3;
+unit.degenerateSelect = degenerateSelect;
+unit.selectShortCircuit = selectShortCircuit;
+unit.selectWithDefault = selectWithDefault;
+unit.selectWithoutDefault = selectWithoutDefault;
+unit.complexSilhouette = complexSilhouette;
+unit.fibonacci = fibonacci;
+unit.sil2 = sil2;
+unit.empty = empty;
+unit.generateId = generateId;
+unit.getSecret = getSecret;
+unit.hello = hello;
+return unit;
+}

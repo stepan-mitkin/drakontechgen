@@ -1,3 +1,5 @@
+function classes() {
+var unit;
 function YellowClass(name, color, arg1, arg2) {
     var self = { _type: 'YellowClass' };
     var title;
@@ -68,8 +70,8 @@ function runGrey() {
     grey.init(42);
     return grey.getValue();
 }
-module.exports = {
-    YellowClass,
-    GreyClass,
-    runGrey
-};
+unit.YellowClass = YellowClass;
+unit.GreyClass = GreyClass;
+unit.runGrey = runGrey;
+return unit;
+}

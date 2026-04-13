@@ -128,7 +128,7 @@ function Js2604Generator(options) {
         }
     }
     function addExports(module, src) {
-        var _collection_66, _state_, child, code, exportSrc, exported, name, parsed;
+        var _collection_66, _state_, child, code, exportSrc, exported, lines, name, parsed;
         _state_ = 'Build export list';
         while (true) {
             switch (_state_) {
@@ -150,17 +150,17 @@ function Js2604Generator(options) {
             case 'Branch2':
                 if (isIife()) {
                     code = exported.map(name => 'window.' + name + '=' + name).join('\n');
-                    parsed = options.esprima.parseScript(code, { loc: false });
-                    exportSrc = options.escodegen.generate(parsed);
-                    return src + '\n' + exportSrc;
                 } else {
-                    if (!isUnit()) {
+                    if (isUnit()) {
+                        lines = exported.map(name => 'unit.' + name + '=' + name);
+                        code = lines.join('\n');
+                    } else {
                         code = 'module.exports = {' + exported.join(', ') + '}';
-                        parsed = options.esprima.parseScript(code, { loc: false });
-                        exportSrc = options.escodegen.generate(parsed);
-                        return src + '\n' + exportSrc;
                     }
                 }
+                parsed = options.esprima.parseScript(code, { loc: false });
+                exportSrc = options.escodegen.generate(parsed);
+                return src + '\n' + exportSrc;
                 _state_ = 'Exit';
                 break;
             case 'Exit':
@@ -938,6 +938,18 @@ function Js2604Generator(options) {
         nextId++;
         return id;
     }
+    function getDepDeclarations() {
+        var dependencies;
+        dependencies = getDependencies();
+        return dependencies.map(dep => 'var ' + dep + ';').join('\n');
+    }
+    function getDependencies() {
+        if (options.settings && options.settings.dependencies) {
+            return splitTrim(options.settings.dependencies, '\n');
+        } else {
+            return [];
+        }
+    }
     function getExpression(item) {
         var expr;
         if (item.content && item.content.length === 1) {
@@ -1510,7 +1522,7 @@ function Js2604Generator(options) {
         item.type = 'action';
     }
     async function run() {
-        var _state_, ast, module, src;
+        var _state_, ast, deps, module, src;
         _state_ = 'Init';
         while (true) {
             switch (_state_) {
@@ -1557,6 +1569,14 @@ function Js2604Generator(options) {
             case 'Build source code':
                 src = options.escodegen.generate(ast);
                 src = addExports(module, src);
+                if (isIife()) {
+                    src = '(function() {\n' + src + '\n})();';
+                } else {
+                    if (isUnit()) {
+                        deps = getDepDeclarations();
+                        src = 'function ' + options.name + '() {\nvar unit;\n' + deps + src + '\nreturn unit;\n}';
+                    }
+                }
                 await options.onData(src);
                 _state_ = 'Exit';
                 break;

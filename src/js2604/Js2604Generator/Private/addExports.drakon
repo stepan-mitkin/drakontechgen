@@ -69,34 +69,16 @@
         },
         "21": {
             "type": "question",
-            "one": "13",
+            "one": "33",
             "two": "22",
             "flag1": 1,
             "content": "isUnit()"
         },
         "22": {
             "type": "action",
-            "one": "23",
+            "one": "30",
             "two": "",
             "content": "code = \"module.exports = {\" + exported.join(\n    \", \"\n) + \"}\""
-        },
-        "23": {
-            "type": "action",
-            "one": "24",
-            "two": "",
-            "content": "parsed = options.esprima.parseScript(\n    code,\n    {loc: false }\n)"
-        },
-        "24": {
-            "type": "action",
-            "one": "25",
-            "two": "",
-            "content": "exportSrc = options.escodegen.generate(\n    parsed\n)"
-        },
-        "25": {
-            "type": "action",
-            "one": "13",
-            "two": "",
-            "content": "return src + \"\\n\" + exportSrc"
         },
         "28": {
             "type": "action",
@@ -120,6 +102,16 @@
             "one": "13",
             "two": "",
             "content": "return src + \"\\n\" + exportSrc"
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "content": "lines = exported.map(\n    name => \"unit.\" + name + \"=\" + name\n)"
+        },
+        "34": {
+            "type": "action",
+            "one": "30",
+            "content": "code = lines.join(\"\\n\")"
         }
     }
 }

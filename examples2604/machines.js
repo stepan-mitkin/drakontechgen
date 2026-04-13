@@ -1,3 +1,5 @@
+function machines() {
+var unit;
 function Red(name) {
     var self = { _type: 'Red' };
     function getValue() {
@@ -272,10 +274,10 @@ function silReceive_create(arg1, arg2) {
     };
     return me;
 }
-module.exports = {
-    Red,
-    primInput,
-    silReceive,
-    primInput_create,
-    silReceive_create
-};
+unit.Red = Red;
+unit.primInput = primInput;
+unit.silReceive = silReceive;
+unit.primInput_create = primInput_create;
+unit.silReceive_create = silReceive_create;
+return unit;
+}
