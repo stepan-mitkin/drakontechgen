@@ -32,6 +32,7 @@ const {
   inversedAnd,
   complexCatch,
   simpleCatch,
+  noDublicates,
 } = require("../examples2604/green");
 
 QUnit.module("Functions 2604");
@@ -202,3 +203,11 @@ QUnit.test("catch", (assert) => {
   assert.equal(complexCatch(new Date(2026, 4, 11)), 1778450400000000);
   assert.equal(complexCatch(undefined), -1);
 });
+
+QUnit.test("noDublicates", (assert) => {
+  assert.equal(noDublicates(2, 3), 1010);
+  assert.equal(noDublicates(-2, 3), 1010);
+  assert.equal(noDublicates(-2, -3), -1);
+});
+
+
