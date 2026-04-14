@@ -27,7 +27,7 @@
         },
         "5": {
             "type": "action",
-            "one": "3",
+            "one": "8",
             "content": "node = step.content"
         },
         "6": {
@@ -39,6 +39,16 @@
             "type": "action",
             "one": "1",
             "content": "body.push(node)"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "node = clone(step.content)"
+        },
+        "9": {
+            "type": "action",
+            "one": "3",
+            "content": "node.body = createBlock()"
         }
     }
 }

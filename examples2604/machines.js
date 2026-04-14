@@ -1,9 +1,4 @@
 (function() {
-function primInput(left, right) {
-    var _obj_;
-    _obj_ = primInput_create(left, right);
-    return _obj_.run();
-}
 function Red(name) {
     var self = { _type: 'Red' };
     function getValue() {
@@ -63,6 +58,11 @@ function Red(name) {
     self.machineMethod = machineMethod;
     self.machineMethod_create = machineMethod_create;
     return self;
+}
+function primInput(left, right) {
+    var _obj_;
+    _obj_ = primInput_create(left, right);
+    return _obj_.run();
 }
 function silReceive(arg1, arg2) {
     var _obj_;
@@ -273,8 +273,8 @@ function silReceive_create(arg1, arg2) {
     };
     return me;
 }
-window.primInput = primInput;
 window.Red = Red;
+window.primInput = primInput;
 window.silReceive = silReceive;
 window.primInput_create = primInput_create;
 window.silReceive_create = silReceive_create;

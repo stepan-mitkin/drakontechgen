@@ -128,8 +128,6 @@ function simpleCatch(arg) {
         return -1;
     }
 }
-function empty() {
-}
 function earlyExit(array, value) {
     var i, index;
     index = -1;
@@ -143,6 +141,16 @@ function earlyExit(array, value) {
         array.splice(index, 1);
     }
     return array;
+}
+function forLoopNoDeclare(array) {
+    var copy, i, key, value;
+    copy = {};
+    for (i = 0; i < array.length; i += 2) {
+        key = array[i];
+        value = array[i + 1];
+        copy[key] = value;
+    }
+    return copy;
 }
 function foreachLoopArray(array, value) {
     var copy, item, value2;
@@ -164,28 +172,6 @@ function foreachLoopObject(object, value) {
         copy[key] = value2;
     }
     return copy;
-}
-function forLoopNoDeclare(array) {
-    var copy, i, key, value;
-    copy = {};
-    for (i = 0; i < array.length; i += 2) {
-        key = array[i];
-        value = array[i + 1];
-        copy[key] = value;
-    }
-    return copy;
-}
-function generateId() {
-    var id;
-    id = nextId;
-    nextId = nextId + 1;
-    return id;
-}
-function getSecret() {
-    return secretValue;
-}
-function hello() {
-    console.log('Hello, world');
 }
 function add(left, right) {
     var result;
@@ -417,6 +403,20 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
+function empty() {
+}
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
+}
+function getSecret() {
+    return secretValue;
+}
+function hello() {
+    console.log('Hello, world');
+}
 window.doWhile = doWhile;
 window.doWhileDo = doWhileDo;
 window.selectArrow = selectArrow;
@@ -425,14 +425,10 @@ window.whileDo = whileDo;
 window.slow = slow;
 window.complexCatch = complexCatch;
 window.simpleCatch = simpleCatch;
-window.empty = empty;
 window.earlyExit = earlyExit;
+window.forLoopNoDeclare = forLoopNoDeclare;
 window.foreachLoopArray = foreachLoopArray;
 window.foreachLoopObject = foreachLoopObject;
-window.forLoopNoDeclare = forLoopNoDeclare;
-window.generateId = generateId;
-window.getSecret = getSecret;
-window.hello = hello;
 window.add = add;
 window.mul = mul;
 window.complexAnd = complexAnd;
@@ -451,4 +447,8 @@ window.selectWithoutDefault = selectWithoutDefault;
 window.complexSilhouette = complexSilhouette;
 window.fibonacci = fibonacci;
 window.sil2 = sil2;
+window.empty = empty;
+window.generateId = generateId;
+window.getSecret = getSecret;
+window.hello = hello;
 })();

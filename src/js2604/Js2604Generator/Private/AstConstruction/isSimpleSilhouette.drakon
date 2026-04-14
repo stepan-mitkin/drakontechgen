@@ -35,7 +35,7 @@
         },
         "6": {
             "type": "action",
-            "one": "7",
+            "one": "18",
             "content": "branch = branches[i]"
         },
         "7": {
@@ -48,19 +48,24 @@
         "8": {
             "type": "question",
             "one": "10",
-            "two": "9",
+            "two": "22",
             "flag1": 0,
             "content": "i === branches.length - 1"
-        },
-        "9": {
-            "type": "action",
-            "one": "10",
-            "content": "return simpleBranch(branch)"
         },
         "10": {
             "type": "action",
             "one": "4",
             "content": "return false "
+        },
+        "18": {
+            "type": "action",
+            "one": "7",
+            "content": "console.log(\n    branches.length,\n    i,\n    branch.refs,\n    branch.name\n)"
+        },
+        "22": {
+            "type": "action",
+            "one": "4",
+            "content": "return simpleBranch(branch)"
         }
     }
 }

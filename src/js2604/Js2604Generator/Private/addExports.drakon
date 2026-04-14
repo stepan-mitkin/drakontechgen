@@ -44,7 +44,7 @@
         "8": {
             "type": "question",
             "one": "14",
-            "two": "13",
+            "two": "41",
             "flag1": 0,
             "content": "exported.length === 0"
         },
@@ -137,6 +137,11 @@
             "type": "action",
             "one": "39",
             "content": "line = \"Object.defineProperty(unit,'\" + dep\n+ \"',{get:function(){return \" + dep + \";},set:function(newValue){\"\n+ dep + \"=newValue;},enumerable:true,configurable:true});\""
+        },
+        "41": {
+            "type": "action",
+            "one": "13",
+            "content": "return src"
         }
     }
 }

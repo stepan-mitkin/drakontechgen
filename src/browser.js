@@ -2,6 +2,7 @@ const {
   createDrakonTechGenerator,
   createClojureGenerator,
 } = require("./drakontechgen");
+const { Js2604Generator } = require("./js2604");
 
 window.drakontechgen = {
   buildGenerator: function (
@@ -28,8 +29,10 @@ window.drakontechgen = {
       settings: settings,
     };
 
-    if (language.startsWith("JS")) {
+    if (language === "JS") {
       return createDrakonTechGenerator(genOptions);
+    } else if (language === "JS2604") {
+      return Js2604Generator(genOptions);
     } else {
       return createClojureGenerator(genOptions);
     }
