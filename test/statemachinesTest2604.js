@@ -6,11 +6,13 @@ function pause(milliseconds) {
 
 QUnit.module("State machines 2604");
 
-QUnit.test("primInput", (assert) => {
+QUnit.test("primInput", async (assert) => {
   var obj = machines.primInput_create(2, 3);
-  obj.run();
+  var promise = obj.run();
   obj.nudge(10);
   assert.equal(obj.total, 15);
+  var result = await promise;
+  assert.equal(result, 15);
 });
 
 QUnit.test("silReceive", (assert) => {

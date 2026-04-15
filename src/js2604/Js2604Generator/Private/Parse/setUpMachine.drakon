@@ -24,39 +24,20 @@
             "type": "branch",
             "one": "19",
             "branchId": 2,
-            "content": "Not async"
+            "content": "Async"
         },
         "6": {
             "type": "question",
-            "one": "13",
-            "two": "18",
-            "flag1": 0,
-            "content": "folder.keywords.async "
-        },
-        "13": {
-            "type": "question",
             "one": "5",
-            "two": "15",
-            "flag1": 0,
-            "content": "folder.keywords.machine"
-        },
-        "14": {
-            "type": "action",
-            "one": "18",
-            "two": "",
-            "content": "folder.keywords.async  = true "
-        },
-        "15": {
-            "type": "action",
-            "one": "14",
-            "two": "",
-            "content": "delete folder.keywords.machine"
+            "two": "18",
+            "flag1": 1,
+            "content": "folder.keywords.async "
         },
         "18": {
             "type": "branch",
             "branchId": 3,
             "one": "23",
-            "content": "Async"
+            "content": "Not async"
         },
         "19": {
             "type": "question",
@@ -68,7 +49,7 @@
         "20": {
             "type": "action",
             "one": "4",
-            "content": "reportError(\n    \"events are not allowed in non-async functions\",\n    folder.path,\n    folder.eventItems[0]\n)"
+            "content": "reportError(\n    \"events are not allowed in async functions\",\n    folder.path,\n    folder.eventItems[0]\n)"
         },
         "21": {
             "type": "loopend",

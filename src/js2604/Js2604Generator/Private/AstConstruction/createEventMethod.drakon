@@ -75,7 +75,7 @@
         },
         "25": {
             "type": "loopend",
-            "one": "5",
+            "one": "33",
             "content": ""
         },
         "26": {
@@ -109,6 +109,23 @@
             "type": "action",
             "one": "26",
             "content": "body.push(sw)"
+        },
+        "32": {
+            "type": "action",
+            "one": "5",
+            "content": "def.consequent.push(createBreak())"
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "two": "",
+            "content": "def = createCase(null )"
+        },
+        "34": {
+            "type": "action",
+            "one": "32",
+            "two": "",
+            "content": "sw.cases.push(def)"
         }
     }
 }

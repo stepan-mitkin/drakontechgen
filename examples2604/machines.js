@@ -58,6 +58,8 @@ function Red(name) {
                 me._busy = true;
                 _topGen_.next(_args_);
                 break;
+            default:
+                break;
             }
         };
         return me;
@@ -88,6 +90,7 @@ function primInput_create(left, right) {
         amount = _event_[1];
         total += amount;
         me.total = total + left + right;
+        _topResolve_(me.total);
     }
     function primInput_run() {
         if (me.state !== 'created') {
@@ -117,6 +120,8 @@ function primInput_create(left, right) {
             _args_.push(amount);
             me._busy = true;
             _topGen_.next(_args_);
+            break;
+        default:
             break;
         }
     };
@@ -179,6 +184,9 @@ function silReceive_create(arg1, arg2) {
                         throw new Error('Unexpected case value: ' + _eventType_);
                     }
                     value = _event_[1];
+                    if (value === '7777') {
+                        _topReject_(new Error('Bad right value'));
+                    }
                     arg2 += value * 2;
                     _branch_ = 'Black state';
                 }
@@ -235,6 +243,8 @@ function silReceive_create(arg1, arg2) {
             me._busy = true;
             _topGen_.next(_args_);
             break;
+        default:
+            break;
         }
     };
     me.right = function (value) {
@@ -257,6 +267,8 @@ function silReceive_create(arg1, arg2) {
             me._busy = true;
             _topGen_.next(_args_);
             break;
+        default:
+            break;
         }
     };
     me.print = function (what) {
@@ -271,6 +283,8 @@ function silReceive_create(arg1, arg2) {
             _args_.push(what);
             me._busy = true;
             _topGen_.next(_args_);
+            break;
+        default:
             break;
         }
     };

@@ -28,7 +28,7 @@
     "keywords": {
         "function": false,
         "machine": false,
-        "async": true,
+        "async": false,
         "export": true,
         "algoprop": false,
         "lazy": false

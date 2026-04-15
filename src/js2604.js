@@ -502,6 +502,7 @@ function Js2604Generator(options) {
         addLocal(ctr.scope, '_topReject_');
         me = 'me = {_type:"' + fun.originalName + '",_busy:true,state:"created"}';
         functionBody.push(parseStatement(me));
+        replaceReturnInMachine(fun);
         mainAst = buildFunctionAst(fun);
         mainAst.id.name = makeMainName(fun.name);
         mainAst.params = [];
@@ -618,6 +619,20 @@ function Js2604Generator(options) {
             }
         }
     }
+    function convertReturnToResolve(stm, fun) {
+        var arg;
+        arg = stm.argument;
+        delete stm.argument;
+        stm.type = 'ExpressionStatement';
+        stm.expression = {
+            'type': 'CallExpression',
+            'callee': {
+                'type': 'Identifier',
+                'name': fun
+            },
+            'arguments': [arg]
+        };
+    }
     function convertSilhouetteToAst(fun, tree, functionBody) {
         var _collection_26, branch, catchBranch, catchNode;
         gBranches = {};
@@ -651,7 +666,7 @@ function Js2604Generator(options) {
         }
     }
     function createEventMethod(fun, eventName, functionBody) {
-        var _collection_28, body, event, eventItem, funAst, itemId, sw;
+        var _collection_28, body, def, event, eventItem, funAst, itemId, sw;
         event = fun.events[eventName];
         funAst = createFunction(eventName, event.args);
         delete funAst.id;
@@ -667,6 +682,9 @@ function Js2604Generator(options) {
                 addEventCase(fun, event, itemId, sw);
             }
         }
+        def = createCase(null);
+        sw.cases.push(def);
+        def.consequent.push(createBreak());
         functionBody.push(createExpression(createAssignment(createMember(createIdentifier('me'), eventName), funAst)));
     }
     function decodeQuestionContent(content) {
@@ -758,6 +776,26 @@ function Js2604Generator(options) {
         parsed = options.esprima.parseScript(wrapped, { loc: false });
         return parsed.body[0].body.body[0];
     }
+    function replaceReturnInMachine(fun) {
+        var _collection_35, _collection_38, _selectValue_40, id, item, stm;
+        _collection_35 = fun.items;
+        for (id in _collection_35) {
+            item = _collection_35[id];
+            if (item.type === 'action' && item.content) {
+                _collection_38 = item.content;
+                for (stm of _collection_38) {
+                    _selectValue_40 = stm.type;
+                    if (_selectValue_40 === 'ReturnStatement') {
+                        convertReturnToResolve(stm, '_topResolve_');
+                    } else {
+                        if (_selectValue_40 === 'ThrowStatement') {
+                            convertReturnToResolve(stm, '_topReject_');
+                        }
+                    }
+                }
+            }
+        }
+    }
     function simpleBranch(branch) {
         if (branch.body.length === 0 || branch.body.length === 1 && branch.body[0].type === 'action') {
             return true;
@@ -791,11 +829,11 @@ function Js2604Generator(options) {
         addDeclaratonsToBody(step);
     }
     function addDeclarationsRecursive(step, folder) {
-        var _collection_35, canDeclare, child, childStep, name;
+        var _collection_42, canDeclare, child, childStep, name;
         addDeclarationsInFunction(step);
-        _collection_35 = folder.children;
-        for (name in _collection_35) {
-            child = _collection_35[name];
+        _collection_42 = folder.children;
+        for (name in _collection_42) {
+            child = _collection_42[name];
             canDeclare = child.type === 'class';
             childStep = createScopeStep(step, name, child.path, child.scope, getFunBody(child.ast), true, canDeclare);
             addDeclarationsRecursive(childStep, child);
@@ -828,10 +866,10 @@ function Js2604Generator(options) {
         };
     }
     function createScopeStepForLambda(step, node) {
-        var _collection_38, nextScope, nextStep, param;
+        var _collection_45, nextScope, nextStep, param;
         nextScope = createScope('lambda', 'lambda');
-        _collection_38 = node.params;
-        for (param of _collection_38) {
+        _collection_45 = node.params;
+        for (param of _collection_45) {
             if (param.type === 'Identifier') {
                 addDeclaration(nextScope, param.name);
             }
@@ -841,20 +879,20 @@ function Js2604Generator(options) {
         return nextStep;
     }
     function extractVariablesFromDeclaration(node, scope) {
-        var _collection_40, _collection_44, _collection_46, _selectValue_42, decl, item, prop;
-        _collection_40 = node.declarations;
-        for (decl of _collection_40) {
+        var _collection_47, _collection_51, _collection_53, _selectValue_49, decl, item, prop;
+        _collection_47 = node.declarations;
+        for (decl of _collection_47) {
             if (decl.type === 'VariableDeclarator') {
-                _selectValue_42 = decl.id.type;
-                if (_selectValue_42 === 'ObjectPattern') {
-                    _collection_46 = decl.id.properties;
-                    for (prop of _collection_46) {
+                _selectValue_49 = decl.id.type;
+                if (_selectValue_49 === 'ObjectPattern') {
+                    _collection_53 = decl.id.properties;
+                    for (prop of _collection_53) {
                         tryAddIdentifier(scope, prop.key);
                     }
                 } else {
-                    if (_selectValue_42 === 'ArrayPattern') {
-                        _collection_44 = decl.id.elements;
-                        for (item of _collection_44) {
+                    if (_selectValue_49 === 'ArrayPattern') {
+                        _collection_51 = decl.id.elements;
+                        for (item of _collection_51) {
                             tryAddIdentifier(scope, item);
                         }
                     } else {
@@ -880,12 +918,12 @@ function Js2604Generator(options) {
         }
     }
     function scanForAssignments(step, node) {
-        var _selectValue_48, nextStep, varName;
+        var _selectValue_55, nextStep, varName;
         if (node.itemId) {
             step.itemId = node.itemId;
         }
-        _selectValue_48 = node.type;
-        if (_selectValue_48 === 'AssignmentExpression') {
+        _selectValue_55 = node.type;
+        if (_selectValue_55 === 'AssignmentExpression') {
             if (node.left.type === 'Identifier') {
                 varName = node.left.name;
                 if (!isDeclared(step, varName)) {
@@ -894,7 +932,7 @@ function Js2604Generator(options) {
             }
             return true;
         } else {
-            if (_selectValue_48 === 'CallExpression') {
+            if (_selectValue_55 === 'CallExpression') {
                 if (node.callee.type === 'Identifier' && node.callee.name === 'getHandlerData') {
                     node.type = 'Identifier';
                     node.name = '_handlerData_';
@@ -905,7 +943,7 @@ function Js2604Generator(options) {
                     return true;
                 }
             } else {
-                if (_selectValue_48 === 'VariableDeclaration') {
+                if (_selectValue_55 === 'VariableDeclaration') {
                     if (step.canDeclare) {
                         extractVariablesFromDeclaration(node, step.scope);
                     } else {
@@ -913,7 +951,7 @@ function Js2604Generator(options) {
                     }
                     return true;
                 } else {
-                    if ((_selectValue_48 === 'FunctionExpression' || _selectValue_48 === 'ArrowFunctionExpression' || _selectValue_48 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
+                    if ((_selectValue_55 === 'FunctionExpression' || _selectValue_55 === 'ArrowFunctionExpression' || _selectValue_55 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
                         nextStep = createScopeStepForLambda(step, node);
                         addDeclarationsInFunction(nextStep);
                         return false;
@@ -1017,7 +1055,7 @@ function Js2604Generator(options) {
         }
     }
     function addSelectEvent(folder, item, id) {
-        var _collection_51, caseId, caseItem, content, lines, name;
+        var _collection_58, caseId, caseItem, content, lines, name;
         addLocal(folder.scope, '_eventType_');
         addLocal(folder.scope, '_event_');
         item.content = createIdentifier('_eventType_');
@@ -1030,8 +1068,8 @@ function Js2604Generator(options) {
         content = linesToContent(folder, id, lines);
         insertActionBefore(folder, id, content);
         item.eventNames = [];
-        _collection_51 = item.cases;
-        for (caseId of _collection_51) {
+        _collection_58 = item.cases;
+        for (caseId of _collection_58) {
             caseItem = folder.items[caseId];
             if (ensureCall(folder, caseId, caseItem)) {
                 name = addEventSignature(folder, caseId, caseItem);
@@ -1043,11 +1081,11 @@ function Js2604Generator(options) {
         }
     }
     function assignEventArguments(folder, name, lines) {
-        var _collection_53, arg, counter, eventInfo;
+        var _collection_60, arg, counter, eventInfo;
         eventInfo = folder.events[name];
         counter = 1;
-        _collection_53 = eventInfo.args;
-        for (arg of _collection_53) {
+        _collection_60 = eventInfo.args;
+        for (arg of _collection_60) {
             lines.push(arg + ' = _event_[' + counter + ']');
             counter++;
         }
@@ -1067,10 +1105,10 @@ function Js2604Generator(options) {
         }
     }
     function ensureCall(folder, id, item) {
-        var _collection_55, arg;
+        var _collection_62, arg;
         if (item.content && (item.content.type === 'CallExpression' && item.content.callee.type === 'Identifier')) {
-            _collection_55 = item.content.arguments;
-            for (arg of _collection_55) {
+            _collection_62 = item.content.arguments;
+            for (arg of _collection_62) {
                 if (arg.type !== 'Identifier') {
                     reportError('This call expression expects variables', folder.path, id);
                     return false;
@@ -1171,27 +1209,27 @@ function Js2604Generator(options) {
         }
     }
     function parseItem(folder, id, item) {
-        var _selectValue_57;
-        _selectValue_57 = item.type;
-        if (_selectValue_57 === 'action') {
+        var _selectValue_64;
+        _selectValue_64 = item.type;
+        if (_selectValue_64 === 'action') {
             parseAction(folder, id, item);
         } else {
-            if (_selectValue_57 === 'question') {
+            if (_selectValue_64 === 'question') {
                 parseQuestion(folder, id, item);
             } else {
-                if (_selectValue_57 === 'select') {
+                if (_selectValue_64 === 'select') {
                     parseSelect(folder, id, item);
                 } else {
-                    if (_selectValue_57 === 'case') {
+                    if (_selectValue_64 === 'case') {
                         parseCase(folder, id, item);
                     } else {
-                        if (_selectValue_57 === 'loopbegin') {
+                        if (_selectValue_64 === 'loopbegin') {
                             parseLoop(folder, id, item);
                         } else {
-                            if (_selectValue_57 === 'soutput') {
+                            if (_selectValue_64 === 'soutput') {
                                 parseOutput(folder, id, item);
                             } else {
-                                if (_selectValue_57 === 'sinput') {
+                                if (_selectValue_64 === 'sinput') {
                                     parseSInput(folder, id, item);
                                 }
                             }
@@ -1217,11 +1255,11 @@ function Js2604Generator(options) {
         }
     }
     function parseItems(folder) {
-        var _collection_59, child, name;
+        var _collection_66, child, name;
         parseItemsInFunction(folder);
-        _collection_59 = folder.children;
-        for (name in _collection_59) {
-            child = _collection_59[name];
+        _collection_66 = folder.children;
+        for (name in _collection_66) {
+            child = _collection_66[name];
             parseItems(child);
         }
     }
@@ -1238,14 +1276,14 @@ function Js2604Generator(options) {
         setUpMachine(folder);
     }
     function parseLoop(folder, id, item) {
-        var _selectValue_62, init, test, update;
+        var _selectValue_69, init, test, update;
         parseItemContent(folder, id, item);
         if (ensureHasContent(folder, id, item)) {
-            _selectValue_62 = item.content.length;
-            if (_selectValue_62 === 2) {
+            _selectValue_69 = item.content.length;
+            if (_selectValue_69 === 2) {
                 parseForEachLoop(folder, id, item);
             } else {
-                if (_selectValue_62 === 3) {
+                if (_selectValue_69 === 3) {
                     init = stripExpression(item.content[0]);
                     test = stripExpression(item.content[1]);
                     update = stripExpression(item.content[2]);
@@ -1330,11 +1368,15 @@ function Js2604Generator(options) {
         item.type = 'action';
     }
     function setUpMachine(folder) {
-        var _collection_64, id, item;
+        var _collection_71, id, item;
         if (folder.keywords.async) {
+            if (folder.eventItems.length !== 0) {
+                reportError('events are not allowed in async functions', folder.path, folder.eventItems[0]);
+            }
+        } else {
             folder.events = {};
-            _collection_64 = folder.eventItems;
-            for (id of _collection_64) {
+            _collection_71 = folder.eventItems;
+            for (id of _collection_71) {
                 item = folder.items[id];
                 if (item.type === 'select') {
                     addSelectEvent(folder, item, id);
@@ -1346,36 +1388,13 @@ function Js2604Generator(options) {
                 folder.isMachine = true;
                 folder.originalName = folder.name;
             }
-        } else {
-            if (folder.keywords.machine) {
-                delete folder.keywords.machine;
-                folder.keywords.async = true;
-                folder.events = {};
-                _collection_64 = folder.eventItems;
-                for (id of _collection_64) {
-                    item = folder.items[id];
-                    if (item.type === 'select') {
-                        addSelectEvent(folder, item, id);
-                    } else {
-                        addInputEvent(folder, item, id);
-                    }
-                }
-                if (!(folder.eventItems.length !== 0)) {
-                    folder.isMachine = true;
-                    folder.originalName = folder.name;
-                }
-            } else {
-                if (folder.eventItems.length !== 0) {
-                    reportError('events are not allowed in non-async functions', folder.path, folder.eventItems[0]);
-                }
-            }
         }
     }
     async function readChildren(folder) {
-        var _collection_66, child, childPath, result;
+        var _collection_73, child, childPath, result;
         result = [];
-        _collection_66 = folder.children;
-        for (childPath of _collection_66) {
+        _collection_73 = folder.children;
+        for (childPath of _collection_73) {
             child = await options.getObjectByHandle(childPath);
             if (child) {
                 if (child.type !== 'folder') {
@@ -1574,7 +1593,7 @@ function Js2604Generator(options) {
         folder.items[id] = item;
     }
     function insertActionBefore(folder, beforeId, expression) {
-        var _collection_68, content, existingItem, id, item, itemId;
+        var _collection_75, content, existingItem, id, item, itemId;
         id = generateId('_item_');
         if (Array.isArray(expression)) {
             content = expression;
@@ -1587,9 +1606,9 @@ function Js2604Generator(options) {
             content: content,
             one: beforeId
         };
-        _collection_68 = folder.items;
-        for (itemId in _collection_68) {
-            existingItem = _collection_68[itemId];
+        _collection_75 = folder.items;
+        for (itemId in _collection_75) {
+            existingItem = _collection_75[itemId];
             if (existingItem.one === beforeId) {
                 existingItem.one = id;
             }

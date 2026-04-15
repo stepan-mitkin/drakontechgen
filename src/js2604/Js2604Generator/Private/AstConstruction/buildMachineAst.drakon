@@ -15,14 +15,14 @@
         },
         "2": {
             "type": "branch",
-            "branchId": 3,
-            "one": "21",
+            "branchId": 4,
+            "one": "49",
             "content": "Run"
         },
         "4": {
             "type": "branch",
             "one": "28",
-            "branchId": 5,
+            "branchId": 6,
             "content": "Exit"
         },
         "11": {
@@ -69,11 +69,6 @@
             "two": "",
             "content": "ctr.keywords.export  = true "
         },
-        "21": {
-            "type": "action",
-            "one": "47",
-            "content": "mainAst = buildFunctionAst(fun)"
-        },
         "22": {
             "type": "branch",
             "branchId": 2,
@@ -92,7 +87,7 @@
         },
         "29": {
             "type": "action",
-            "one": "2",
+            "one": "60",
             "two": "",
             "content": "functionBody.push(parseStatement(me))"
         },
@@ -127,7 +122,7 @@
         },
         "38": {
             "type": "branch",
-            "branchId": 4,
+            "branchId": 5,
             "one": "40",
             "content": "Event methods"
         },
@@ -155,18 +150,6 @@
             "type": "action",
             "one": "42",
             "content": "guard = [\n    \"if(me.state!==\\\"created\\\")\",\n    \"{throw new Error(\\\"run() can be called only once\\\");}\"\n]"
-        },
-        "47": {
-            "type": "action",
-            "one": "48",
-            "two": "",
-            "content": "mainAst.id.name = makeMainName(fun.name)\nmainAst.params = []\nmainAst.async  = false ;\nmainAst.generator = true "
-        },
-        "48": {
-            "type": "action",
-            "one": "49",
-            "two": "",
-            "content": "functionBody.push(mainAst)"
         },
         "49": {
             "type": "action",
@@ -216,6 +199,35 @@
             "type": "action",
             "one": "57",
             "content": "runAst.body.body.push(\n    parseStatement(\"_topGen_.next()\")\n)"
+        },
+        "60": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "64",
+            "content": "Main"
+        },
+        "61": {
+            "type": "action",
+            "one": "62",
+            "two": "",
+            "content": "mainAst = buildFunctionAst(fun)"
+        },
+        "62": {
+            "type": "action",
+            "one": "63",
+            "two": "",
+            "content": "mainAst.id.name = makeMainName(fun.name)\nmainAst.params = []\nmainAst.async  = false ;\nmainAst.generator = true "
+        },
+        "63": {
+            "type": "action",
+            "one": "2",
+            "two": "",
+            "content": "functionBody.push(mainAst)"
+        },
+        "64": {
+            "type": "action",
+            "one": "61",
+            "content": "replaceReturnInMachine(fun)"
         }
     }
 }

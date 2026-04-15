@@ -25,14 +25,19 @@
         },
         "11": {
             "type": "action",
-            "one": "1",
+            "one": "12",
             "content": "me.total = total + left + right"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return me.total"
         }
     },
     "keywords": {
         "function": false,
         "machine": false,
-        "async": true,
+        "async": false,
         "export": true,
         "algoprop": false,
         "lazy": false

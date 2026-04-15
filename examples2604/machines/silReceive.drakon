@@ -60,7 +60,7 @@
         },
         "15": {
             "type": "case",
-            "one": "22",
+            "one": "30",
             "two": null,
             "content": "right(value)"
         },
@@ -121,12 +121,24 @@
             "type": "action",
             "one": "26",
             "content": "console.log(what)"
+        },
+        "30": {
+            "type": "question",
+            "one": "22",
+            "two": "31",
+            "flag1": 0,
+            "content": "value === \"7777\""
+        },
+        "31": {
+            "type": "action",
+            "one": "22",
+            "content": "throw new Error(\"Bad right value\")"
         }
     },
     "keywords": {
         "function": false,
         "machine": false,
-        "async": true,
+        "async": false,
         "export": true,
         "algoprop": false,
         "lazy": false
