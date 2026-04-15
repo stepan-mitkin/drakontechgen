@@ -28,7 +28,7 @@
             "type": "action",
             "one": "13",
             "two": "",
-            "content": "lines = [\n    \"me.state = \\\"\" + id + \"\\\"\",\n    \"me._busy = false\",\n    \"_event_ = await new Promise(accept => { me._accept = accept })\"\n]"
+            "content": "lines = [\n    \"me.state = \\\"\" + id + \"\\\"\",\n    \"me._busy = false\",\n    \"_event_ = yield\"\n]"
         },
         "11": {
             "type": "action",

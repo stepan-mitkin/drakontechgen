@@ -19,11 +19,6 @@
             "one": "21",
             "content": "Run"
         },
-        "3": {
-            "type": "action",
-            "one": "26",
-            "content": "runAst.id.name = makeRunName(fun.name)\nrunAst.params = []"
-        },
         "4": {
             "type": "branch",
             "one": "28",
@@ -76,19 +71,14 @@
         },
         "21": {
             "type": "action",
-            "one": "45",
-            "content": "runAst = buildFunctionAst(fun)"
+            "one": "47",
+            "content": "mainAst = buildFunctionAst(fun)"
         },
         "22": {
             "type": "branch",
             "branchId": 2,
-            "one": "30",
+            "one": "52",
             "content": "Me object"
-        },
-        "26": {
-            "type": "action",
-            "one": "27",
-            "content": "functionBody.push(runAst)"
         },
         "27": {
             "type": "action",
@@ -158,18 +148,74 @@
         },
         "42": {
             "type": "action",
-            "one": "3",
-            "content": "runAst.body.body.unshift(\n    parseStatement(guard.join(\"\"))\n)"
+            "one": "50",
+            "content": "runAst.body.body.push(\n    parseStatement(guard.join(\"\"))\n)"
         },
         "45": {
             "type": "action",
-            "one": "46",
+            "one": "42",
             "content": "guard = [\n    \"if(me.state!==\\\"created\\\")\",\n    \"{throw new Error(\\\"run() can be called only once\\\");}\"\n]"
         },
-        "46": {
+        "47": {
             "type": "action",
-            "one": "42",
-            "content": "runAst.body.body.unshift(\n    parseStatement(\n        \"me.state=\\\"started\\\"\"\n    )\n)"
+            "one": "48",
+            "two": "",
+            "content": "mainAst.id.name = makeMainName(fun.name)\nmainAst.params = []\nmainAst.async  = false ;\nmainAst.generator = true "
+        },
+        "48": {
+            "type": "action",
+            "one": "49",
+            "two": "",
+            "content": "functionBody.push(mainAst)"
+        },
+        "49": {
+            "type": "action",
+            "one": "51",
+            "content": "runAst = createFunction(\n    makeRunName(fun.name)\n)"
+        },
+        "50": {
+            "type": "action",
+            "one": "55",
+            "content": "runAst.body.body.push(\n    parseStatement(\n        \"me.state=\\\"started\\\"\"\n    )\n)"
+        },
+        "51": {
+            "type": "action",
+            "one": "45",
+            "two": "",
+            "content": "functionBody.push(runAst)"
+        },
+        "52": {
+            "type": "action",
+            "one": "53",
+            "two": "",
+            "content": "addLocal(ctr.scope, \"_topGen_\")"
+        },
+        "53": {
+            "type": "action",
+            "one": "54",
+            "two": "",
+            "content": "addLocal(ctr.scope, \"_topResolve_\")"
+        },
+        "54": {
+            "type": "action",
+            "one": "30",
+            "two": "",
+            "content": "addLocal(ctr.scope, \"_topReject_\")"
+        },
+        "55": {
+            "type": "action",
+            "one": "58",
+            "content": "runAst.body.body.push(\n    parseStatement(\n        \"_topGen_ = \" + makeMainName(\n            fun.name\n        ) + \"()\"\n    )\n)"
+        },
+        "57": {
+            "type": "action",
+            "one": "27",
+            "content": "runAst.body.body.push(\n    parseStatement(\n        \"return new Promise((resolve, reject) => {\"\n        + \"_topResolve_ = resolve;_topReject_=reject;})\"\n    )\n)"
+        },
+        "58": {
+            "type": "action",
+            "one": "57",
+            "content": "runAst.body.body.push(\n    parseStatement(\"_topGen_.next()\")\n)"
         }
     }
 }

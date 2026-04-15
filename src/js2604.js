@@ -378,8 +378,8 @@ function Js2604Generator(options) {
             cs.consequent.push(parseStatement('_args_.push(' + arg + ')'));
         }
         cs.consequent.push(parseStatement('me._busy =true'));
-        cs.consequent.push(parseStatement('me._accept(_args_)'));
-        cs.consequent.push(createReturn(createIdentifier('true')));
+        cs.consequent.push(parseStatement('_topGen_.next(_args_)'));
+        cs.consequent.push(createBreak());
     }
     function addLoopToAst(step, body) {
         var node;
@@ -484,7 +484,7 @@ function Js2604Generator(options) {
         functionBody.push(parseStatement('return _obj_.run()'));
     }
     function buildMachineAst(parent, fun) {
-        var _collection_13, _collection_15, ctr, eventName, evt, functionBody, guard, me, name, runAst;
+        var _collection_13, _collection_15, ctr, eventName, evt, functionBody, guard, mainAst, me, name, runAst;
         ctr = createEmptyFunction(makeCreateName(fun.name));
         ctr.arguments = fun.arguments.slice();
         if (fun.keywords.export) {
@@ -497,18 +497,28 @@ function Js2604Generator(options) {
         }
         ctr.ast = createFunction(ctr.name, ctr.arguments);
         functionBody = ctr.ast.body.body;
+        addLocal(ctr.scope, '_topGen_');
+        addLocal(ctr.scope, '_topResolve_');
+        addLocal(ctr.scope, '_topReject_');
         me = 'me = {_type:"' + fun.originalName + '",_busy:true,state:"created"}';
         functionBody.push(parseStatement(me));
-        runAst = buildFunctionAst(fun);
+        mainAst = buildFunctionAst(fun);
+        mainAst.id.name = makeMainName(fun.name);
+        mainAst.params = [];
+        mainAst.async = false;
+        mainAst.generator = true;
+        functionBody.push(mainAst);
+        runAst = createFunction(makeRunName(fun.name));
+        functionBody.push(runAst);
         guard = [
             'if(me.state!=="created")',
             '{throw new Error("run() can be called only once");}'
         ];
-        runAst.body.body.unshift(parseStatement('me.state="started"'));
-        runAst.body.body.unshift(parseStatement(guard.join('')));
-        runAst.id.name = makeRunName(fun.name);
-        runAst.params = [];
-        functionBody.push(runAst);
+        runAst.body.body.push(parseStatement(guard.join('')));
+        runAst.body.body.push(parseStatement('me.state="started"'));
+        runAst.body.body.push(parseStatement('_topGen_ = ' + makeMainName(fun.name) + '()'));
+        runAst.body.body.push(parseStatement('_topGen_.next()'));
+        runAst.body.body.push(parseStatement('return new Promise((resolve, reject) => {' + '_topResolve_ = resolve;_topReject_=reject;})'));
         functionBody.push(parseStatement('me.run=' + makeRunName(fun.name)));
         functionBody.push(parseStatement('me.stop=function() {me.state=undefined;}'));
         _collection_15 = fun.events;
@@ -657,7 +667,6 @@ function Js2604Generator(options) {
                 addEventCase(fun, event, itemId, sw);
             }
         }
-        addDefaultReturnNull(sw);
         functionBody.push(createExpression(createAssignment(createMember(createIdentifier('me'), eventName), funAst)));
     }
     function decodeQuestionContent(content) {
@@ -736,6 +745,9 @@ function Js2604Generator(options) {
     }
     function makeCreateName(name) {
         return name + '_create';
+    }
+    function makeMainName(name) {
+        return name + '_main';
     }
     function makeRunName(name) {
         return name + '_run';
@@ -1012,7 +1024,7 @@ function Js2604Generator(options) {
         lines = [
             'me.state = "' + id + '"',
             'me._busy = false',
-            '_event_ = await new Promise(accept => { me._accept = accept })',
+            '_event_ = yield',
             '_eventType_ = _event_[0]'
         ];
         content = linesToContent(folder, id, lines);
@@ -1311,7 +1323,7 @@ function Js2604Generator(options) {
         lines = [
             'me.state = "' + id + '"',
             'me._busy = false',
-            '_event_ = await new Promise(accept => { me._accept = accept })'
+            '_event_ = yield'
         ];
         assignEventArguments(folder, name, lines);
         item.content = linesToContent(folder, id, lines);

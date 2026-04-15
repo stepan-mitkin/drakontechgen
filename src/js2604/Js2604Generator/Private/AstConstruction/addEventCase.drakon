@@ -26,7 +26,7 @@
         "5": {
             "type": "action",
             "one": "1",
-            "content": "cs.consequent.push(\n    createReturn(\n        createIdentifier(\"true\")\n    )\n)"
+            "content": "cs.consequent.push(createBreak())"
         },
         "6": {
             "type": "action",
@@ -56,7 +56,7 @@
         "12": {
             "type": "action",
             "one": "5",
-            "content": "cs.consequent.push(\n    parseStatement(\"me._accept(_args_)\")\n)"
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_topGen_.next(_args_)\"\n    )\n)"
         },
         "13": {
             "type": "action",
