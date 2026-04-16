@@ -80,7 +80,7 @@
         "23": {
             "type": "question",
             "one": "10",
-            "two": "24",
+            "two": "30",
             "flag1": 0,
             "content": "child.keywords.export "
         },
@@ -107,7 +107,12 @@
         "28": {
             "type": "action",
             "one": "26",
-            "content": "initBody.push(\n    parseStatement(\n        \"self.\" + name + \" = \" + name\n    )\n)"
+            "content": "initBody.push(\n    parseStatement(\n        \"self.\" + name + \" = \" + makeMethodName(\n            folder.name,\n            name\n        )\n    )\n)"
+        },
+        "30": {
+            "type": "action",
+            "one": "24",
+            "content": "child.ast.id.name = makeMethodName(\n    folder.name,\n    name\n)"
         }
     }
 }

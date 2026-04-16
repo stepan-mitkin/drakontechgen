@@ -20,63 +20,13 @@
         },
         "5": {
             "type": "loopbegin",
-            "one": "6",
+            "one": "22",
             "content": "id, item; fun.items"
         },
-        "6": {
-            "type": "question",
-            "one": "7",
-            "two": "4",
-            "flag1": 1,
-            "content": "item.type === \"action\""
-        },
-        "7": {
-            "type": "question",
-            "one": "9",
-            "two": "4",
-            "flag1": 1,
-            "content": "item.content"
-        },
-        "8": {
-            "type": "loopend",
+        "22": {
+            "type": "action",
             "one": "4",
-            "content": ""
-        },
-        "9": {
-            "type": "loopbegin",
-            "one": "14",
-            "content": "stm; item.content"
-        },
-        "11": {
-            "type": "case",
-            "one": "8"
-        },
-        "12": {
-            "type": "case",
-            "one": "17",
-            "two": "11",
-            "content": "\"ThrowStatement\""
-        },
-        "13": {
-            "type": "case",
-            "one": "15",
-            "two": "12",
-            "content": "\"ReturnStatement\""
-        },
-        "14": {
-            "type": "select",
-            "one": "13",
-            "content": "stm.type"
-        },
-        "15": {
-            "type": "action",
-            "one": "8",
-            "content": "convertReturnToResolve(\n    stm,\n    \"_topResolve_\"\n)"
-        },
-        "17": {
-            "type": "action",
-            "one": "8",
-            "content": "convertReturnToResolve(\n    stm,\n    \"_topReject_\"\n)"
+            "content": "replaceReturnInAction(item)"
         }
     }
 }

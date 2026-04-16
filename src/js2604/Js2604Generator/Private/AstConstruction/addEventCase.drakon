@@ -1,8 +1,13 @@
 {
     "keywords": {
-        "function": true
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
     },
-    "params": "fun\nevent\nitemId\nsw",
+    "params": "event\ncs",
     "type": "drakon",
     "items": {
         "1": {
@@ -11,17 +16,7 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
-        },
-        "3": {
-            "type": "action",
-            "one": "4",
-            "content": "cs = createCase(\n    createStringLiteral(itemId)\n)"
-        },
-        "4": {
-            "type": "action",
-            "one": "6",
-            "content": "sw.cases.push(cs)"
+            "one": "6"
         },
         "5": {
             "type": "action",

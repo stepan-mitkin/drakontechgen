@@ -1,19 +1,14 @@
-function primInput(left, right) {
-    var _obj_;
-    _obj_ = primInput_create(left, right);
-    return _obj_.run();
-}
 function Red(name) {
     var self = { _type: 'Red' };
-    function getValue() {
+    function Red_getValue() {
         return name + ': ' + self.value;
     }
-    function machineMethod(foo) {
+    function Red_machineMethod(foo) {
         var _obj_;
         _obj_ = machineMethod_create(foo);
         return _obj_.run();
     }
-    function machineMethod_create(foo) {
+    function Red_machineMethod_create(foo) {
         var _topGen_, _topReject_, _topResolve_, me;
         me = {
             _type: 'machineMethod',
@@ -28,6 +23,7 @@ function Red(name) {
             moo = _event_[1];
             me.hello = moo;
             self.value = foo + moo;
+            _topResolve();
         }
         function machineMethod_run() {
             if (me.state !== 'created') {
@@ -64,10 +60,15 @@ function Red(name) {
         };
         return me;
     }
-    self.getValue = getValue;
-    self.machineMethod = machineMethod;
-    self.machineMethod_create = machineMethod_create;
+    self.getValue = Red_getValue;
+    self.machineMethod = Red_machineMethod;
+    self.machineMethod_create = Red_machineMethod_create;
     return self;
+}
+function primInput(left, right) {
+    var _obj_;
+    _obj_ = primInput_create(left, right);
+    return _obj_.run();
 }
 function silReceive(arg1, arg2) {
     var _obj_;
@@ -91,6 +92,7 @@ function primInput_create(left, right) {
         total += amount;
         me.total = total + left + right;
         _topResolve_(me.total);
+        return;
     }
     function primInput_run() {
         if (me.state !== 'created') {
@@ -186,6 +188,7 @@ function silReceive_create(arg1, arg2) {
                     value = _event_[1];
                     if (value === '7777') {
                         _topReject_(new Error('Bad right value'));
+                        return;
                     }
                     arg2 += value * 2;
                     _branch_ = 'Black state';
@@ -206,6 +209,7 @@ function silReceive_create(arg1, arg2) {
                 return;
             }
         }
+        _topResolve();
     }
     function silReceive_run() {
         if (me.state !== 'created') {
@@ -230,12 +234,6 @@ function silReceive_create(arg1, arg2) {
         }
         switch (me.state) {
         case '11':
-            _args_ = [];
-            _args_.push('left');
-            _args_.push(value);
-            me._busy = true;
-            _topGen_.next(_args_);
-            break;
         case '13':
             _args_ = [];
             _args_.push('left');
@@ -254,12 +252,6 @@ function silReceive_create(arg1, arg2) {
         }
         switch (me.state) {
         case '11':
-            _args_ = [];
-            _args_.push('right');
-            _args_.push(value);
-            me._busy = true;
-            _topGen_.next(_args_);
-            break;
         case '13':
             _args_ = [];
             _args_.push('right');
@@ -291,8 +283,8 @@ function silReceive_create(arg1, arg2) {
     return me;
 }
 module.exports = {
-    primInput,
     Red,
+    primInput,
     silReceive,
     primInput_create,
     silReceive_create

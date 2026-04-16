@@ -75,7 +75,7 @@
         },
         "25": {
             "type": "loopend",
-            "one": "33",
+            "one": "37",
             "content": ""
         },
         "26": {
@@ -85,7 +85,7 @@
         },
         "27": {
             "type": "question",
-            "one": "29",
+            "one": "35",
             "two": "25",
             "flag1": 0,
             "content": "eventItem.eventNames.indexOf(eventName) ===\n-1"
@@ -94,11 +94,6 @@
             "type": "action",
             "one": "27",
             "content": "eventItem = fun.items[itemId]"
-        },
-        "29": {
-            "type": "action",
-            "one": "25",
-            "content": "addEventCase(fun, event, itemId, sw)"
         },
         "30": {
             "type": "action",
@@ -126,6 +121,23 @@
             "one": "32",
             "two": "",
             "content": "sw.cases.push(def)"
+        },
+        "35": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "content": "cs = createCase(\n    createStringLiteral(itemId)\n)"
+        },
+        "36": {
+            "type": "action",
+            "one": "25",
+            "two": "",
+            "content": "sw.cases.push(cs)"
+        },
+        "37": {
+            "type": "action",
+            "one": "33",
+            "content": "addEventCase(event, cs)"
         }
     }
 }

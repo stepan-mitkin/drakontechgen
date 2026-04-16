@@ -148,8 +148,6 @@ function simpleCatch(arg) {
         return -1;
     }
 }
-function empty() {
-}
 function earlyExit(array, value) {
     var i, index;
     index = -1;
@@ -163,6 +161,16 @@ function earlyExit(array, value) {
         array.splice(index, 1);
     }
     return array;
+}
+function forLoopNoDeclare(array) {
+    var copy, i, key, value;
+    copy = {};
+    for (i = 0; i < array.length; i += 2) {
+        key = array[i];
+        value = array[i + 1];
+        copy[key] = value;
+    }
+    return copy;
 }
 function foreachLoopArray(array, value) {
     var copy, item, value2;
@@ -184,28 +192,6 @@ function foreachLoopObject(object, value) {
         copy[key] = value2;
     }
     return copy;
-}
-function forLoopNoDeclare(array) {
-    var copy, i, key, value;
-    copy = {};
-    for (i = 0; i < array.length; i += 2) {
-        key = array[i];
-        value = array[i + 1];
-        copy[key] = value;
-    }
-    return copy;
-}
-function generateId() {
-    var id;
-    id = nextId;
-    nextId = nextId + 1;
-    return id;
-}
-function getSecret() {
-    return secretValue;
-}
-function hello() {
-    console.log('Hello, world');
 }
 function add(left, right) {
     var result;
@@ -437,6 +423,20 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
+function empty() {
+}
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
+}
+function getSecret() {
+    return secretValue;
+}
+function hello() {
+    console.log('Hello, world');
+}
 module.exports = {
     doWhile,
     doWhileDo,
@@ -447,14 +447,10 @@ module.exports = {
     noDublicates,
     complexCatch,
     simpleCatch,
-    empty,
     earlyExit,
+    forLoopNoDeclare,
     foreachLoopArray,
     foreachLoopObject,
-    forLoopNoDeclare,
-    generateId,
-    getSecret,
-    hello,
     add,
     mul,
     complexAnd,
@@ -472,5 +468,9 @@ module.exports = {
     selectWithoutDefault,
     complexSilhouette,
     fibonacci,
-    sil2
+    sil2,
+    empty,
+    generateId,
+    getSecret,
+    hello
 };

@@ -208,7 +208,7 @@
         },
         "61": {
             "type": "action",
-            "one": "62",
+            "one": "65",
             "two": "",
             "content": "mainAst = buildFunctionAst(fun)"
         },
@@ -228,6 +228,11 @@
             "type": "action",
             "one": "61",
             "content": "replaceReturnInMachine(fun)"
+        },
+        "65": {
+            "type": "action",
+            "one": "62",
+            "content": "addResolveAtEnd(mainAst)"
         }
     }
 }
