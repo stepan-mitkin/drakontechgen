@@ -182,12 +182,12 @@ function foreachLoopArray(array, value) {
     return copy;
 }
 function foreachLoopObject(object, value) {
-    var _collection_2, copy, item, key, value2, wrapper;
+    var _collection_41, copy, item, key, value2, wrapper;
     copy = {};
     wrapper = { collection: object };
-    _collection_2 = wrapper.collection;
-    for (key in _collection_2) {
-        item = _collection_2[key];
+    _collection_41 = wrapper.collection;
+    for (key in _collection_41) {
+        item = _collection_41[key];
         value2 = item + value;
         copy[key] = value2;
     }
@@ -325,13 +325,13 @@ function degenerateSelect(value) {
     }
 }
 function selectShortCircuit(value) {
-    var _selectValue_5;
-    _selectValue_5 = value + 5;
-    if (_selectValue_5 === 10 || _selectValue_5 === 20) {
+    var _selectValue_44;
+    _selectValue_44 = value + 5;
+    if (_selectValue_44 === 10 || _selectValue_44 === 20) {
         return 'good';
     } else {
-        if (_selectValue_5 !== 30) {
-            throw new Error('Unexpected case value: ' + _selectValue_5);
+        if (_selectValue_44 !== 30) {
+            throw new Error('Unexpected case value: ' + _selectValue_44);
         }
         return 'bad';
     }
@@ -348,16 +348,16 @@ function selectWithDefault(value) {
     }
 }
 function selectWithoutDefault(value) {
-    var _selectValue_7;
-    _selectValue_7 = value + 5;
-    if (_selectValue_7 === 10) {
+    var _selectValue_46;
+    _selectValue_46 = value + 5;
+    if (_selectValue_46 === 10) {
         return 'ten';
     } else {
-        if (_selectValue_7 === 20) {
+        if (_selectValue_46 === 20) {
             return 'twenty';
         } else {
-            if (_selectValue_7 !== 30) {
-                throw new Error('Unexpected case value: ' + _selectValue_7);
+            if (_selectValue_46 !== 30) {
+                throw new Error('Unexpected case value: ' + _selectValue_46);
             }
             return 'thirty';
         }

@@ -43,8 +43,13 @@
         },
         "9": {
             "type": "action",
+            "one": "10",
+            "content": "gDebugAst = false "
+        },
+        "10": {
+            "type": "action",
             "one": "1",
-            "content": "gDebugAst = true "
+            "content": "gById = {}"
         }
     },
     "keywords": {

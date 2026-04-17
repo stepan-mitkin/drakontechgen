@@ -98,7 +98,7 @@
         },
         "28": {
             "type": "action",
-            "one": "7",
+            "one": "34",
             "two": "",
             "content": "module.scope = createScope(\n    \"module\",\n    \"module\"\n)"
         },
@@ -128,6 +128,11 @@
             "type": "action",
             "one": "5",
             "content": "reportError(\n    \"class is not expected here\",\n    child.path\n)"
+        },
+        "34": {
+            "type": "action",
+            "one": "7",
+            "content": "generateFunctionId(module)"
         }
     }
 }

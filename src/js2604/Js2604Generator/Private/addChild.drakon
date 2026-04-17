@@ -16,19 +16,12 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "8"
+            "one": "19"
         },
         "3": {
             "type": "action",
             "one": "10",
             "content": "scope = createScope(\n    \"function\",\n    folder.name\n)"
-        },
-        "8": {
-            "type": "question",
-            "one": "12",
-            "two": "9",
-            "flag1": 0,
-            "content": "folder.name in parent.children"
         },
         "9": {
             "type": "action",
@@ -42,13 +35,30 @@
         },
         "11": {
             "type": "action",
-            "one": "1",
+            "one": "18",
             "content": "parent.children[folder.name] = folder"
         },
         "12": {
             "type": "action",
             "one": "3",
             "content": "enrichFolder(folder)"
+        },
+        "18": {
+            "type": "action",
+            "one": "21",
+            "content": "folder.parent = parent.id"
+        },
+        "19": {
+            "type": "question",
+            "one": "12",
+            "two": "9",
+            "flag1": 1,
+            "content": "isFunctionNameUnique(parent, folder.name)"
+        },
+        "21": {
+            "type": "action",
+            "one": "1",
+            "content": "generateFunctionId(folder)"
         }
     }
 }

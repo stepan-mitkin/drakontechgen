@@ -53,14 +53,14 @@
         "18": {
             "type": "branch",
             "one": "1",
-            "branchId": 6,
+            "branchId": 7,
             "content": "Exit"
         },
         "19": {
             "type": "branch",
-            "one": "56",
+            "one": "84",
             "branchId": 5,
-            "content": "Holo class"
+            "content": "Holo class - subfolders"
         },
         "20": {
             "type": "branch",
@@ -127,12 +127,12 @@
         "45": {
             "type": "branch",
             "branchId": 4,
-            "one": "47",
+            "one": "80",
             "content": "Class"
         },
         "46": {
             "type": "loopend",
-            "one": "64",
+            "one": "18",
             "two": "",
             "content": ""
         },
@@ -166,11 +166,11 @@
             "one": "50",
             "two": "46",
             "flag1": 0,
-            "content": "child.name === \"class\""
+            "content": "child.name === className"
         },
         "55": {
             "type": "loopend",
-            "one": "68",
+            "one": "69",
             "two": "",
             "content": ""
         },
@@ -182,7 +182,7 @@
         },
         "57": {
             "type": "question",
-            "one": "62",
+            "one": "55",
             "two": "58",
             "flag1": 0,
             "content": "child.type === \"folder\""
@@ -193,51 +193,78 @@
             "two": "",
             "content": "await readModuleFolder(parent, child)"
         },
-        "59": {
+        "69": {
+            "type": "branch",
+            "branchId": 6,
+            "one": "71",
+            "content": "Holo class - public methods"
+        },
+        "70": {
+            "type": "loopend",
+            "one": "18",
+            "two": "",
+            "content": ""
+        },
+        "71": {
+            "type": "loopbegin",
+            "one": "72",
+            "two": "",
+            "content": "child; children"
+        },
+        "72": {
+            "type": "question",
+            "one": "75",
+            "two": "70",
+            "flag1": 0,
+            "content": "child.type === \"folder\""
+        },
+        "74": {
             "type": "action",
-            "one": "55",
+            "one": "70",
             "two": "",
             "content": "addChild(cls, child)"
         },
-        "62": {
+        "75": {
             "type": "question",
-            "one": "63",
-            "two": "55",
+            "one": "76",
+            "two": "70",
             "flag1": 0,
-            "content": "child.name === \"class\""
+            "content": "child.name === className"
         },
-        "63": {
+        "76": {
             "type": "action",
-            "one": "59",
+            "one": "74",
+            "two": "",
             "content": "child.keywords.export  = true "
         },
-        "64": {
+        "80": {
             "type": "action",
-            "one": "65",
+            "one": "81",
             "two": "",
             "content": "cls.type = \"class\"\ncls.name = className"
         },
-        "65": {
+        "81": {
             "type": "action",
-            "one": "18",
+            "one": "47",
             "two": "",
             "content": "addChild(parent, cls)"
         },
-        "66": {
+        "82": {
             "type": "action",
-            "one": "67",
+            "one": "83",
             "two": "",
             "content": "cls.type = \"class\"\ncls.name = className"
         },
-        "67": {
+        "83": {
             "type": "action",
-            "one": "18",
+            "one": "56",
             "two": "",
             "content": "addChild(parent, cls)"
         },
-        "68": {
+        "84": {
             "type": "action",
-            "one": "66",
+            "one": "82",
+            "two": "",
             "content": "cls.keywords.export  = true "
         }
     }

@@ -1,14 +1,14 @@
 function Red(name) {
     var self = { _type: 'Red' };
-    function Red_getValue() {
+    function getValue() {
         return name + ': ' + self.value;
     }
-    function Red_machineMethod(foo) {
+    function machineMethod(foo) {
         var _obj_;
-        _obj_ = Red_machineMethod_create(foo);
+        _obj_ = machineMethod_create(foo);
         return _obj_.run();
     }
-    function Red_machineMethod_create(foo) {
+    function machineMethod_create(foo) {
         var _topGen_, _topReject_, _topResolve_, me;
         me = {
             _type: 'machineMethod',
@@ -60,9 +60,9 @@ function Red(name) {
         };
         return me;
     }
-    self.getValue = Red_getValue;
-    self.machineMethod = Red_machineMethod;
-    self.machineMethod_create = Red_machineMethod_create;
+    self.getValue = getValue;
+    self.machineMethod = machineMethod;
+    self.machineMethod_create = machineMethod_create;
     return self;
 }
 function primInput(left, right) {
