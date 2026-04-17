@@ -386,6 +386,9 @@ function Js2604Generator(options) {
             ordinal++;
         }
         defClause = createCase(null);
+        if (fun.isMachine) {
+            defClause.consequent.push(parseStatement('_topResolve_()'));
+        }
         defClause.consequent.push(createReturn(null));
         select.cases.push(defClause);
     }
@@ -402,7 +405,7 @@ function Js2604Generator(options) {
             treeStr = options.toTree(drakonJson, fun.name, fun.path, options.language, genOptions);
         } catch (ex) {
             reportError(ex.message, fun.path, ex.nodeId);
-            return;
+            return funAst;
         }
         tree = JSON.parse(treeStr);
         _selectValue_8 = tree.branches.length;
@@ -424,12 +427,17 @@ function Js2604Generator(options) {
         }
         return funAst;
     }
-    function buildLauncherAst(fun) {
-        var argstr, functionBody, name;
+    function buildLauncherAst(fun, className) {
+        var argstr, functionBody, name, originalName;
         fun.ast = createFunction(fun.name, fun.arguments);
         fun.scope = createScope('function', fun.name);
         functionBody = fun.ast.body.body;
-        name = makeCreateName(fun.name);
+        if (className) {
+            originalName = makeMethodName(className, fun.name);
+        } else {
+            originalName = fun.name;
+        }
+        name = makeCreateName(originalName);
         argstr = fun.arguments.join(', ');
         functionBody.push(parseStatement('_obj_ = ' + name + '(' + argstr + ')'));
         functionBody.push(parseStatement('return _obj_.run()'));
@@ -482,7 +490,7 @@ function Js2604Generator(options) {
         functionBody.push(parseStatement('return me'));
     }
     function buildModuleAst(folder) {
-        var child, name, names;
+        var child, className, name, names;
         folder.ast = buildFunctionAst(folder);
         names = Object.keys(folder.children);
         names.sort();
@@ -490,7 +498,12 @@ function Js2604Generator(options) {
             child = folder.children[name];
             if (child.isMachine) {
                 buildMachineAst(folder, child);
-                buildLauncherAst(child);
+                if (folder.type === 'class') {
+                    className = folder.name;
+                } else {
+                    className = undefined;
+                }
+                buildLauncherAst(child, className);
             } else {
                 buildModuleAst(child);
             }
@@ -563,7 +576,7 @@ function Js2604Generator(options) {
                                         addAddressToAst(step, body);
                                     }
                                 } else {
-                                    throw new Error('Unexpected step type: ' + step.type);
+                                    console.log('Unexpected step type: ' + step.type);
                                 }
                             }
                         }
@@ -787,6 +800,7 @@ function Js2604Generator(options) {
             child = _collection_39[name];
             canDeclare = child.type === 'class';
             childStep = createScopeStep(step, name, child.path, child.scope, getFunBody(child.ast), true, canDeclare);
+            childStep.canAwait = child.keywords.async;
             addDeclarationsRecursive(childStep, child);
         }
     }
@@ -902,12 +916,20 @@ function Js2604Generator(options) {
                     }
                     return true;
                 } else {
-                    if ((_selectValue_52 === 'FunctionExpression' || _selectValue_52 === 'ArrowFunctionExpression' || _selectValue_52 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
-                        nextStep = createScopeStepForLambda(step, node);
-                        addDeclarationsInFunction(nextStep);
-                        return false;
-                    } else {
+                    if (_selectValue_52 === 'AwaitExpression') {
+                        if (!step.canAwait) {
+                            reportError('await is allowed only in async functions', step.path, step.itemId);
+                        }
                         return true;
+                    } else {
+                        if ((_selectValue_52 === 'FunctionExpression' || _selectValue_52 === 'ArrowFunctionExpression' || _selectValue_52 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
+                            nextStep = createScopeStepForLambda(step, node);
+                            nextStep.canAwait = node.async;
+                            addDeclarationsInFunction(nextStep);
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }
@@ -1149,6 +1171,10 @@ function Js2604Generator(options) {
                             } else {
                                 if (_selectValue_61 === 'sinput') {
                                     parseSInput(folder, id, item);
+                                } else {
+                                    if (_selectValue_61 === 'pause') {
+                                        parsePause(folder, id, item);
+                                    }
                                 }
                             }
                         }
@@ -1229,6 +1255,13 @@ function Js2604Generator(options) {
         }
         item.type = 'action';
         parseItemContent(folder, id, item);
+    }
+    function parsePause(folder, id, item) {
+        if (item.content) {
+            item.content = 'await new Promise(resolve=>setTimeout(resolve,' + item.content + '))';
+            parseAction(folder, id, item);
+        }
+        item.type = 'action';
     }
     function parseQuestion(folder, id, item) {
         parseItemContent(folder, id, item);

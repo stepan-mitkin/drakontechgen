@@ -83,7 +83,7 @@
         "16": {
             "one": "17",
             "type": "case",
-            "two": "10",
+            "two": "19",
             "content": "\"sinput\""
         },
         "17": {
@@ -95,6 +95,17 @@
             "type": "action",
             "one": "1",
             "content": "parseOutput(folder, id, item)"
+        },
+        "19": {
+            "one": "21",
+            "type": "case",
+            "two": "10",
+            "content": "\"pause\""
+        },
+        "21": {
+            "type": "action",
+            "one": "1",
+            "content": "parsePause(folder, id, item)"
         }
     },
     "keywords": {

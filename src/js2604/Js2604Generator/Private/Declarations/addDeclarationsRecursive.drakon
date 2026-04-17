@@ -33,7 +33,7 @@
         },
         "7": {
             "type": "action",
-            "one": "8",
+            "one": "11",
             "two": "",
             "content": "childStep = createScopeStep(\n    step,\n    name,\n    child.path,\n    child.scope,\n    getFunBody(child.ast),\n    true ,\n    canDeclare\n)"
         },
@@ -47,6 +47,11 @@
             "type": "action",
             "one": "7",
             "content": "canDeclare = child.type === \"class\""
+        },
+        "11": {
+            "type": "action",
+            "one": "8",
+            "content": "childStep.canAwait = child.keywords.async\n"
         }
     }
 }

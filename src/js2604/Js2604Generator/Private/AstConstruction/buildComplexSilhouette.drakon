@@ -153,7 +153,7 @@
         },
         "28": {
             "type": "action",
-            "one": "30",
+            "one": "33",
             "content": "defClause = createCase(null )"
         },
         "29": {
@@ -177,6 +177,18 @@
             "two": "26",
             "flag1": 0,
             "content": "branch.name === \"catch\""
+        },
+        "33": {
+            "type": "question",
+            "one": "34",
+            "two": "30",
+            "flag1": 1,
+            "content": "fun.isMachine"
+        },
+        "34": {
+            "type": "action",
+            "one": "30",
+            "content": "defClause.consequent.push(\n    parseStatement(\"_topResolve_()\")\n)"
         }
     }
 }

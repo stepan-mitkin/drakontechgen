@@ -63,7 +63,7 @@
             "type": "action",
             "one": "21",
             "two": "",
-            "content": "try {\n    treeStr = options.toTree(\n        drakonJson,\n        fun.name,\n        fun.path,\n        options.language,\n        genOptions\n    )\n} catch (ex) {\n    reportError(\n        ex.message,\n        fun.path,\n        ex.nodeId\n    )\n    return \n}"
+            "content": "try {\n    treeStr = options.toTree(\n        drakonJson,\n        fun.name,\n        fun.path,\n        options.language,\n        genOptions\n    )\n} catch (ex) {\n    reportError(\n        ex.message,\n        fun.path,\n        ex.nodeId\n    )\n    return funAst\n}"
         },
         "21": {
             "type": "action",

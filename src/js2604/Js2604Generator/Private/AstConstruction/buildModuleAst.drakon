@@ -62,13 +62,30 @@
         },
         "11": {
             "type": "action",
-            "one": "12",
+            "one": "14",
             "content": "buildMachineAst(folder, child)"
         },
         "12": {
             "type": "action",
             "one": "4",
-            "content": "buildLauncherAst(child)"
+            "content": "buildLauncherAst(child, className)"
+        },
+        "14": {
+            "type": "question",
+            "one": "17",
+            "two": "18",
+            "flag1": 0,
+            "content": "folder.type === \"class\""
+        },
+        "17": {
+            "type": "action",
+            "one": "12",
+            "content": "className = undefined "
+        },
+        "18": {
+            "type": "action",
+            "one": "12",
+            "content": "className = folder.name"
         }
     }
 }

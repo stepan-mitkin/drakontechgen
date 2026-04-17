@@ -77,7 +77,7 @@
         "14": {
             "type": "action",
             "one": "4",
-            "content": "throw new Error(\n    \"Unexpected step type: \" + step.type\n)"
+            "content": "console.log(\n    \"Unexpected step type: \" + step.type\n)"
         },
         "15": {
             "type": "action",

@@ -1,13 +1,13 @@
 {
     "keywords": {
-        "function": true,
+        "function": false,
         "machine": false,
         "async": false,
         "export": false,
         "algoprop": false,
         "lazy": false
     },
-    "params": "fun",
+    "params": "fun\nclassName",
     "type": "drakon",
     "items": {
         "1": {
@@ -25,7 +25,7 @@
         },
         "5": {
             "type": "action",
-            "one": "7",
+            "one": "13",
             "content": "functionBody = fun.ast.body.body"
         },
         "6": {
@@ -37,7 +37,7 @@
         "7": {
             "type": "action",
             "one": "8",
-            "content": "name = makeCreateName(fun.name)"
+            "content": "name = makeCreateName(originalName)"
         },
         "8": {
             "type": "action",
@@ -54,6 +54,23 @@
             "type": "action",
             "one": "5",
             "content": "fun.scope = createScope(\n    \"function\",\n    fun.name\n)"
+        },
+        "12": {
+            "type": "action",
+            "one": "7",
+            "content": "originalName = fun.name"
+        },
+        "13": {
+            "type": "question",
+            "one": "12",
+            "two": "14",
+            "flag1": 0,
+            "content": "className"
+        },
+        "14": {
+            "type": "action",
+            "one": "7",
+            "content": "originalName = makeMethodName(\n    className,\n    fun.name\n)"
         }
     }
 }

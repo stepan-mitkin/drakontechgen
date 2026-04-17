@@ -5,7 +5,7 @@ function Red(name) {
     }
     function Red_machineMethod(foo) {
         var _obj_;
-        _obj_ = machineMethod_create(foo);
+        _obj_ = Red_machineMethod_create(foo);
         return _obj_.run();
     }
     function Red_machineMethod_create(foo) {
@@ -23,7 +23,7 @@ function Red(name) {
             moo = _event_[1];
             me.hello = moo;
             self.value = foo + moo;
-            _topResolve();
+            _topResolve_();
         }
         function machineMethod_run() {
             if (me.state !== 'created') {
@@ -206,10 +206,11 @@ function silReceive_create(arg1, arg2) {
                 _branch_ = 'Black state';
                 break;
             default:
+                _topResolve_();
                 return;
             }
         }
-        _topResolve();
+        _topResolve_();
     }
     function silReceive_run() {
         if (me.state !== 'created') {
