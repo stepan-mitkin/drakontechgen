@@ -72,7 +72,7 @@
         "22": {
             "type": "branch",
             "branchId": 2,
-            "one": "52",
+            "one": "66",
             "content": "Me object"
         },
         "27": {
@@ -87,7 +87,7 @@
         },
         "29": {
             "type": "action",
-            "one": "60",
+            "one": "68",
             "two": "",
             "content": "functionBody.push(parseStatement(me))"
         },
@@ -197,7 +197,7 @@
         },
         "58": {
             "type": "action",
-            "one": "57",
+            "one": "67",
             "content": "runAst.body.body.push(\n    parseStatement(\"_topGen_.next()\")\n)"
         },
         "60": {
@@ -233,6 +233,27 @@
             "type": "action",
             "one": "62",
             "content": "addResolveAtEnd(mainAst)"
+        },
+        "66": {
+            "type": "action",
+            "one": "52",
+            "two": "",
+            "content": "addLocal(ctr.scope, \"_earlyPromise_\")"
+        },
+        "67": {
+            "type": "action",
+            "one": "57",
+            "content": "runAst.body.body.push(\n    parseStatement(\n        \"if (_earlyPromise_){return _earlyPromise_;}\"\n    )\n)"
+        },
+        "68": {
+            "type": "action",
+            "one": "69",
+            "content": "functionBody.push(\n    parseStatement(\n        \"_topResolve_ = function(_value_)\"\n        + \"{_earlyPromise_ = Promise.resolve(_value_);}\"\n    )\n)"
+        },
+        "69": {
+            "type": "action",
+            "one": "60",
+            "content": "functionBody.push(\n    parseStatement(\n        \"_topReject_ = function(_value_)\"\n        + \"{throw _value_;}\"\n    )\n)"
         }
     }
 }

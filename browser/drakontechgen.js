@@ -3577,11 +3577,14 @@ function Js2604Generator(options) {
         }
         ctr.ast = createFunction(ctr.name, ctr.arguments);
         functionBody = ctr.ast.body.body;
+        addLocal(ctr.scope, '_earlyPromise_');
         addLocal(ctr.scope, '_topGen_');
         addLocal(ctr.scope, '_topResolve_');
         addLocal(ctr.scope, '_topReject_');
         me = 'me = {_type:"' + fun.originalName + '",_busy:true,state:"created"}';
         functionBody.push(parseStatement(me));
+        functionBody.push(parseStatement('_topResolve_ = function(_value_)' + '{_earlyPromise_ = Promise.resolve(_value_);}'));
+        functionBody.push(parseStatement('_topReject_ = function(_value_)' + '{throw _value_;}'));
         replaceReturnInMachine(fun);
         mainAst = buildFunctionAst(fun);
         addResolveAtEnd(mainAst);
@@ -3600,6 +3603,7 @@ function Js2604Generator(options) {
         runAst.body.body.push(parseStatement('me.state="started"'));
         runAst.body.body.push(parseStatement('_topGen_ = ' + makeMainName(fun.name) + '()'));
         runAst.body.body.push(parseStatement('_topGen_.next()'));
+        runAst.body.body.push(parseStatement('if (_earlyPromise_){return _earlyPromise_;}'));
         runAst.body.body.push(parseStatement('return new Promise((resolve, reject) => {' + '_topResolve_ = resolve;_topReject_=reject;})'));
         functionBody.push(parseStatement('me.run=' + makeRunName(fun.name)));
         functionBody.push(parseStatement('me.stop=function() {me.state=undefined;}'));
