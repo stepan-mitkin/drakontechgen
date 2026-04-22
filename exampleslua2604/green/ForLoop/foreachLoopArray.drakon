@@ -26,12 +26,12 @@
         "6": {
             "type": "action",
             "one": "4",
-            "content": "copy.push(value2)"
+            "content": "table.insert(copy, value2)"
         },
         "7": {
             "type": "action",
             "one": "5",
-            "content": "copy = []"
+            "content": "copy = {}"
         },
         "8": {
             "type": "action",

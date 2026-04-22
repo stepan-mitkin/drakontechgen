@@ -11,7 +11,7 @@
         "3": {
             "type": "action",
             "one": "10",
-            "content": "array.splice(index, 1)"
+            "content": "table.remove(array, index)"
         },
         "4": {
             "type": "loopend",
@@ -21,14 +21,14 @@
         "5": {
             "type": "loopbegin",
             "one": "6",
-            "content": "i = 0; i < array.length; i++"
+            "content": "i = 1; i <=  # array; i++"
         },
         "6": {
             "type": "question",
             "one": "4",
             "two": "8",
             "flag1": 0,
-            "content": "array[i] === value"
+            "content": "array[i] == value"
         },
         "7": {
             "type": "action",

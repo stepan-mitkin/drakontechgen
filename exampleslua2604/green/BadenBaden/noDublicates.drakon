@@ -46,12 +46,12 @@
         "9": {
             "type": "loopbegin",
             "one": "10",
-            "content": "i = 0; i < x + y; i++"
+            "content": "i = 0; i < x + y; i = i + 1"
         },
         "10": {
             "type": "action",
             "one": "8",
-            "content": "result += i"
+            "content": "result = result + i"
         },
         "11": {
             "type": "action",

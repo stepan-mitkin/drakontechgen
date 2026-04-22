@@ -19,21 +19,21 @@
             "one": "3",
             "two": "5",
             "flag1": 0,
-            "content": "one === 1"
+            "content": "one == 1"
         },
         "5": {
             "type": "question",
             "one": "3",
             "two": "6",
             "flag1": 0,
-            "content": "two === 2"
+            "content": "two == 2"
         },
         "6": {
             "type": "question",
             "one": "3",
             "two": "7",
             "flag1": 0,
-            "content": "three === 3"
+            "content": "three == 3"
         },
         "7": {
             "type": "action",

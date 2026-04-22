@@ -32,7 +32,7 @@
         "8": {
             "type": "action",
             "one": "7",
-            "content": "result += 3"
+            "content": "result = result + 3"
         }
     },
     "type": "drakon",

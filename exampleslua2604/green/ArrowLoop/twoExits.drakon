@@ -13,7 +13,7 @@
             "one": "10",
             "two": "7",
             "flag1": 0,
-            "content": "i < array.length"
+            "content": "i <=  # array"
         },
         "7": {
             "type": "action",
@@ -25,7 +25,7 @@
             "one": "9",
             "two": "11",
             "flag1": 1,
-            "content": "item === value"
+            "content": "item == value"
         },
         "9": {
             "type": "action",
@@ -40,7 +40,7 @@
         "11": {
             "type": "action",
             "one": "12",
-            "content": "i++"
+            "content": "i = i + 1"
         },
         "12": {
             "type": "arrow-loop",
@@ -61,12 +61,12 @@
         "15": {
             "type": "action",
             "one": "16",
-            "content": "array = []"
+            "content": "array = {}"
         },
         "16": {
             "type": "action",
             "one": "12",
-            "content": "i = 0"
+            "content": "i = 1"
         }
     },
     "keywords": {

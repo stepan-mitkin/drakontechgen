@@ -28,7 +28,7 @@
         "6": {
             "type": "action",
             "one": "4",
-            "content": "result += 3"
+            "content": "result = result + 3"
         },
         "7": {
             "type": "arrow-loop",

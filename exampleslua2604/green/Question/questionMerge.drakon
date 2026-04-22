@@ -23,7 +23,7 @@
         "5": {
             "type": "action",
             "one": "6",
-            "content": "result++"
+            "content": "result = result + 1"
         },
         "6": {
             "type": "question",
@@ -35,12 +35,12 @@
         "7": {
             "type": "action",
             "one": "9",
-            "content": "result += 5"
+            "content": "result = result + 5"
         },
         "8": {
             "type": "action",
             "one": "9",
-            "content": "result += 10"
+            "content": "result = result + 10"
         },
         "9": {
             "type": "action",

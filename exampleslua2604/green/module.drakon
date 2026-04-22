@@ -11,7 +11,7 @@
         "3": {
             "type": "action",
             "one": "4",
-            "content": "const {\n    multiply\n} = require(\"./ops\")"
+            "content": "multiply = require(\"ops\").multiply"
         },
         "4": {
             "type": "action",

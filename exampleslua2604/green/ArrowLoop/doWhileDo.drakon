@@ -37,7 +37,7 @@
         "9": {
             "type": "action",
             "one": "4",
-            "content": "result += 7"
+            "content": "result = result + 7"
         }
     },
     "type": "drakon",

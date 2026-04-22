@@ -44,7 +44,7 @@
             "one": "3",
             "two": "10",
             "flag1": 1,
-            "content": "value % 10 === 0"
+            "content": "value % 10 == 0"
         },
         "10": {
             "type": "action",

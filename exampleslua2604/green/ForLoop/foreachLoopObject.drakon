@@ -41,7 +41,7 @@
         "9": {
             "type": "action",
             "one": "5",
-            "content": "wrapper = {collection: object}"
+            "content": "wrapper = {collection = object}"
         }
     },
     "keywords": {

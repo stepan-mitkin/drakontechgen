@@ -15,7 +15,7 @@
         },
         "5": {
             "type": "case",
-            "one": "8",
+            "one": "13",
             "two": null
         },
         "6": {
@@ -28,11 +28,6 @@
             "type": "select",
             "one": "6",
             "content": "result"
-        },
-        "8": {
-            "type": "action",
-            "one": "9",
-            "content": "result++"
         },
         "9": {
             "type": "arrow-loop",
@@ -52,7 +47,12 @@
         "12": {
             "type": "action",
             "one": "9",
-            "content": "result += 2"
+            "content": "result = result + 2"
+        },
+        "13": {
+            "type": "action",
+            "one": "9",
+            "content": "result = result + 1"
         }
     },
     "type": "drakon",
