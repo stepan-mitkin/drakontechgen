@@ -79,11 +79,6 @@ function primInput(left, right) {
     _obj_ = primInput_create(left, right);
     return _obj_.run();
 }
-function silReceive(arg1, arg2) {
-    var _obj_;
-    _obj_ = silReceive_create(arg1, arg2);
-    return _obj_.run();
-}
 function primInput_create(left, right) {
     var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
     me = {
@@ -146,6 +141,11 @@ function primInput_create(left, right) {
         }
     };
     return me;
+}
+function silReceive(arg1, arg2) {
+    var _obj_;
+    _obj_ = silReceive_create(arg1, arg2);
+    return _obj_.run();
 }
 function silReceive_create(arg1, arg2) {
     var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
@@ -313,7 +313,7 @@ function silReceive_create(arg1, arg2) {
 module.exports = {
     Red,
     primInput,
-    silReceive,
     primInput_create,
+    silReceive,
     silReceive_create
 };

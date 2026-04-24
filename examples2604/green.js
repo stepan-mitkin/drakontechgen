@@ -2,107 +2,25 @@ var secretValue;
 const {multiply} = require('./ops');
 secretValue = 23;
 var nextId = 1;
-function doWhile() {
+function add(left, right) {
     var result;
-    result = 0;
-    while (true) {
-        result += 3;
-        if (result > 20) {
-            break;
-        }
-    }
+    result = addCore(left, right);
     return result;
 }
-function doWhileDo() {
-    var result;
-    result = 0;
-    while (true) {
-        result += 7;
-        if (result > 20) {
-            break;
-        } else {
-            result += 3;
-        }
+function addCore(left, right) {
+    return left + right;
+}
+function badShortCircuit(x, y) {
+    if (!(!(x === 10) || y === 20)) {
+        return 'red';
     }
-    return result;
+    return 'black';
 }
-function selectArrow() {
-    var result;
-    result = 0;
-    while (true) {
-        if (result === 10) {
-            break;
-        } else {
-            if (result === 5) {
-                result += 2;
-            } else {
-                result++;
-            }
-        }
-    }
-    return result;
-}
-function twoExits(array, value) {
-    var i, index, item;
-    if (!array) {
-        array = [];
-    }
-    i = 0;
-    while (true) {
-        if (i < array.length) {
-            item = array[i];
-            if (item === value) {
-                index = i;
-                break;
-            } else {
-                i++;
-            }
-        } else {
-            index = -1;
-            break;
-        }
-    }
-    return index;
-}
-function whileDo() {
-    var result;
-    result = 0;
-    while (true) {
-        if (result > 20) {
-            break;
-        } else {
-            result += 3;
-        }
-    }
-    return result;
-}
-function pause(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-async function slow() {
-    console.log('slow', 'start');
-    await pause(1000);
-    console.log('slow', 'end');
-}
-function noDublicates(x, y) {
-    var i, result;
-    if (x > 0) {
-        result = 1000;
-        for (i = 0; i < x + y; i++) {
-            result += i;
-        }
-        return result;
+function complexAnd(valueA, valueB, valueC) {
+    if (!valueA && valueB || valueC) {
+        return true;
     } else {
-        x = -x;
-        if (y > 0) {
-            result = 1000;
-            for (i = 0; i < x + y; i++) {
-                result += i;
-            }
-            return result;
-        } else {
-            return -1;
-        }
+        return false;
     }
 }
 function complexCatch(arg) {
@@ -138,15 +56,73 @@ function complexCatch(arg) {
         return -1;
     }
 }
-function simpleCatch(arg) {
-    var result;
-    try {
-        result = arg.getTime();
-        return result;
-    } catch (_handlerData_) {
-        console.log(_handlerData_.message);
-        return -1;
+function complexOr(valueA, valueB, valueC) {
+    if (valueA || !valueB && valueC) {
+        return true;
+    } else {
+        return false;
     }
+}
+function complexSilhouette(left, right) {
+    var _branch_, result;
+    _branch_ = 'First';
+    while (true) {
+        switch (_branch_) {
+        case 'First':
+            result = 0;
+            if (left === 3) {
+                result += right;
+                _branch_ = 'Second';
+            } else {
+                _branch_ = 'Third';
+            }
+            break;
+        case 'Second':
+            result += 2;
+            _branch_ = 'Third';
+            break;
+        case 'Third':
+            result += 10;
+            _branch_ = 'Exit';
+            break;
+        case 'Exit':
+            _branch_ = undefined;
+            return result;
+        default:
+            return;
+        }
+    }
+}
+function degenerateSelect(value) {
+    if (value === 10) {
+        return 'ten';
+    } else {
+        return 'other';
+    }
+}
+function doWhile() {
+    var result;
+    result = 0;
+    while (true) {
+        result += 3;
+        if (result > 20) {
+            break;
+        }
+    }
+    return result;
+}
+function doWhileDo() {
+    var result;
+    result = 0;
+    while (true) {
+        result += 7;
+        if (result > 20) {
+            break;
+        } else {
+            result += 3;
+        }
+    }
+    return result;
 }
 function earlyExit(array, value) {
     var i, index;
@@ -161,6 +137,48 @@ function earlyExit(array, value) {
         array.splice(index, 1);
     }
     return array;
+}
+function empty() {
+}
+function fibonacci(ordinal) {
+    var i, i_1, i_2, result;
+    if (ordinal === 0 || ordinal === 1) {
+        result = ordinal;
+        return result;
+    } else {
+        i_2 = 0;
+        i_1 = 1;
+        for (i = 2; i <= ordinal; i++) {
+            result = i_2 + i_1;
+            i_2 = i_1;
+            i_1 = result;
+        }
+        return result;
+    }
+}
+function fizzBuzz(number) {
+    if (number % 3 === 0) {
+        if (number % 5 === 0) {
+            return 'FizzBuzz';
+        } else {
+            return 'Fizz';
+        }
+    } else {
+        if (number % 5 === 0) {
+            return 'Buzz';
+        } else {
+            return undefined;
+        }
+    }
+}
+function forEachUntil(array, action) {
+    var element, mustExit;
+    for (element of array) {
+        mustExit = action(element);
+        if (mustExit) {
+            break;
+        }
+    }
 }
 function forLoopNoDeclare(array) {
     var copy, i, key, value;
@@ -193,51 +211,17 @@ function foreachLoopObject(object, value) {
     }
     return copy;
 }
-function add(left, right) {
-    var result;
-    result = addCore(left, right);
-    return result;
+function generateId() {
+    var id;
+    id = nextId;
+    nextId = nextId + 1;
+    return id;
 }
-function addCore(left, right) {
-    return left + right;
+function getSecret() {
+    return secretValue;
 }
-function mul(left, right) {
-    return multiply(left, right);
-}
-function badShortCircuit(x, y) {
-    if (!(!(x === 10) || y === 20)) {
-        return 'red';
-    }
-    return 'black';
-}
-function complexAnd(valueA, valueB, valueC) {
-    if (!valueA && valueB || valueC) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function complexOr(valueA, valueB, valueC) {
-    if (valueA || !valueB && valueC) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function fizzBuzz(number) {
-    if (number % 3 === 0) {
-        if (number % 5 === 0) {
-            return 'FizzBuzz';
-        } else {
-            return 'Fizz';
-        }
-    } else {
-        if (number % 5 === 0) {
-            return 'Buzz';
-        } else {
-            return undefined;
-        }
-    }
+function hello() {
+    console.log('Hello, world');
 }
 function inversedAnd(one, two, three) {
     if (one === 1 || two === 2 || three === 3) {
@@ -253,6 +237,33 @@ function inversedOr(one, two, three) {
         return true;
     }
 }
+function mul(left, right) {
+    return multiply(left, right);
+}
+function noDublicates(x, y) {
+    var i, result;
+    if (x > 0) {
+        result = 1000;
+        for (i = 0; i < x + y; i++) {
+            result += i;
+        }
+        return result;
+    } else {
+        x = -x;
+        if (y > 0) {
+            result = 1000;
+            for (i = 0; i < x + y; i++) {
+                result += i;
+            }
+            return result;
+        } else {
+            return -1;
+        }
+    }
+}
+function pause(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
 function questionMerge(left, right) {
     var result;
     result = 0;
@@ -267,29 +278,6 @@ function questionMerge(left, right) {
         }
     }
     return result;
-}
-function simpleAnd(valueA, valueB, valueC) {
-    if (valueA && valueB && valueC) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function simpleOr(valueA, valueB, valueC) {
-    if (valueA || valueB || valueC) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function forEachUntil(array, action) {
-    var element, mustExit;
-    for (element of array) {
-        mustExit = action(element);
-        if (mustExit) {
-            break;
-        }
-    }
 }
 function scope3(array, sortProp, cutoff) {
     var found, result;
@@ -323,12 +311,21 @@ function scope3(array, sortProp, cutoff) {
         found
     };
 }
-function degenerateSelect(value) {
-    if (value === 10) {
-        return 'ten';
-    } else {
-        return 'other';
+function selectArrow() {
+    var result;
+    result = 0;
+    while (true) {
+        if (result === 10) {
+            break;
+        } else {
+            if (result === 5) {
+                result += 2;
+            } else {
+                result++;
+            }
+        }
     }
+    return result;
 }
 function selectShortCircuit(value) {
     var _selectValue_45;
@@ -369,52 +366,6 @@ function selectWithoutDefault(value) {
         }
     }
 }
-function complexSilhouette(left, right) {
-    var _branch_, result;
-    _branch_ = 'First';
-    while (true) {
-        switch (_branch_) {
-        case 'First':
-            result = 0;
-            if (left === 3) {
-                result += right;
-                _branch_ = 'Second';
-            } else {
-                _branch_ = 'Third';
-            }
-            break;
-        case 'Second':
-            result += 2;
-            _branch_ = 'Third';
-            break;
-        case 'Third':
-            result += 10;
-            _branch_ = 'Exit';
-            break;
-        case 'Exit':
-            _branch_ = undefined;
-            return result;
-        default:
-            return;
-        }
-    }
-}
-function fibonacci(ordinal) {
-    var i, i_1, i_2, result;
-    if (ordinal === 0 || ordinal === 1) {
-        result = ordinal;
-        return result;
-    } else {
-        i_2 = 0;
-        i_1 = 1;
-        for (i = 2; i <= ordinal; i++) {
-            result = i_2 + i_1;
-            i_2 = i_1;
-            i_1 = result;
-        }
-        return result;
-    }
-}
 function sil2(value) {
     var foo;
     if (value >= 0) {
@@ -429,55 +380,104 @@ function sil2(value) {
     foo += 5;
     return foo;
 }
-function empty() {
+function simpleAnd(valueA, valueB, valueC) {
+    if (valueA && valueB && valueC) {
+        return true;
+    } else {
+        return false;
+    }
 }
-function generateId() {
-    var id;
-    id = nextId;
-    nextId = nextId + 1;
-    return id;
+function simpleCatch(arg) {
+    var result;
+    try {
+        result = arg.getTime();
+        return result;
+    } catch (_handlerData_) {
+        console.log(_handlerData_.message);
+        return -1;
+    }
 }
-function getSecret() {
-    return secretValue;
+function simpleOr(valueA, valueB, valueC) {
+    if (valueA || valueB || valueC) {
+        return true;
+    } else {
+        return false;
+    }
 }
-function hello() {
-    console.log('Hello, world');
+async function slow() {
+    console.log('slow', 'start');
+    await pause(1000);
+    console.log('slow', 'end');
+}
+function twoExits(array, value) {
+    var i, index, item;
+    if (!array) {
+        array = [];
+    }
+    i = 0;
+    while (true) {
+        if (i < array.length) {
+            item = array[i];
+            if (item === value) {
+                index = i;
+                break;
+            } else {
+                i++;
+            }
+        } else {
+            index = -1;
+            break;
+        }
+    }
+    return index;
+}
+function whileDo() {
+    var result;
+    result = 0;
+    while (true) {
+        if (result > 20) {
+            break;
+        } else {
+            result += 3;
+        }
+    }
+    return result;
 }
 module.exports = {
+    add,
+    badShortCircuit,
+    complexAnd,
+    complexCatch,
+    complexOr,
+    complexSilhouette,
+    degenerateSelect,
     doWhile,
     doWhileDo,
-    selectArrow,
-    twoExits,
-    whileDo,
-    slow,
-    noDublicates,
-    complexCatch,
-    simpleCatch,
     earlyExit,
+    empty,
+    fibonacci,
+    fizzBuzz,
     forLoopNoDeclare,
     foreachLoopArray,
     foreachLoopObject,
-    add,
-    mul,
-    badShortCircuit,
-    complexAnd,
-    complexOr,
-    fizzBuzz,
+    generateId,
+    getSecret,
+    hello,
     inversedAnd,
     inversedOr,
+    mul,
+    noDublicates,
     questionMerge,
-    simpleAnd,
-    simpleOr,
     scope3,
-    degenerateSelect,
+    selectArrow,
     selectShortCircuit,
     selectWithDefault,
     selectWithoutDefault,
-    complexSilhouette,
-    fibonacci,
     sil2,
-    empty,
-    generateId,
-    getSecret,
-    hello
+    simpleAnd,
+    simpleCatch,
+    simpleOr,
+    slow,
+    twoExits,
+    whileDo
 };

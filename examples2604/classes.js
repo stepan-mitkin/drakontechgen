@@ -1,3 +1,16 @@
+function GreyClass() {
+    var self = { _type: 'GreyClass' };
+    function getValue() {
+        log('getValue');
+        return smarterAdd(self.value, 20);
+    }
+    function init(value) {
+        self.value = value;
+    }
+    self.getValue = getValue;
+    self.init = init;
+    return self;
+}
 function YellowClass(name, color, arg1, arg2) {
     var self = { _type: 'YellowClass' };
     var title;
@@ -26,6 +39,9 @@ function YellowClass(name, color, arg1, arg2) {
         message = greeting + ', ' + title + ' ' + name + '!';
         return message;
     }
+    function log(message) {
+        console.log('YellowClass', message);
+    }
     function setName(newName) {
         log('setName: ' + newName);
         name = newName;
@@ -34,33 +50,14 @@ function YellowClass(name, color, arg1, arg2) {
         log('setTitle: ' + newTitle);
         title = newTitle;
     }
-    function log(message) {
-        console.log('YellowClass', message);
-    }
     self.getFullInfo = getFullInfo;
     self.greet = greet;
     self.setName = setName;
     self.setTitle = setTitle;
     return self;
 }
-function GreyClass() {
-    var self = { _type: 'GreyClass' };
-    function getValue() {
-        log('getValue');
-        return smarterAdd(self.value, 20);
-    }
-    function init(value) {
-        self.value = value;
-    }
-    self.getValue = getValue;
-    self.init = init;
-    return self;
-}
 function log(message) {
     console.log('GreyClass', message);
-}
-function smarterAdd(left, right) {
-    return (left + right) * 2;
 }
 function runGrey() {
     var grey;
@@ -68,8 +65,11 @@ function runGrey() {
     grey.init(42);
     return grey.getValue();
 }
+function smarterAdd(left, right) {
+    return (left + right) * 2;
+}
 module.exports = {
-    YellowClass,
     GreyClass,
+    YellowClass,
     runGrey
 };

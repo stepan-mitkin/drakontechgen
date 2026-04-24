@@ -56,7 +56,7 @@
         },
         "14": {
             "type": "branch",
-            "one": "20",
+            "one": "42",
             "branchId": 2,
             "content": "Branch2"
         },
@@ -142,6 +142,11 @@
             "type": "action",
             "one": "13",
             "content": "return src"
+        },
+        "42": {
+            "type": "action",
+            "one": "20",
+            "content": "exported.sort()"
         }
     }
 }

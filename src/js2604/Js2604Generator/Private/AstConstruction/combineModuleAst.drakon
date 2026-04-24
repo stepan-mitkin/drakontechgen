@@ -47,7 +47,7 @@
         },
         "9": {
             "type": "branch",
-            "one": "11",
+            "one": "18",
             "branchId": 2,
             "content": "Classes and functions"
         },
@@ -58,8 +58,8 @@
         },
         "11": {
             "type": "loopbegin",
-            "one": "14",
-            "content": "name, child; module.children"
+            "one": "19",
+            "content": "name; names"
         },
         "12": {
             "type": "action",
@@ -87,6 +87,21 @@
             "type": "action",
             "one": "10",
             "content": "program.body.push(childAst)"
+        },
+        "18": {
+            "type": "action",
+            "one": "20",
+            "content": "names = Object.keys(module.children)"
+        },
+        "19": {
+            "type": "action",
+            "one": "14",
+            "content": "child = module.children[name]"
+        },
+        "20": {
+            "type": "action",
+            "one": "11",
+            "content": "names.sort()"
         }
     }
 }
