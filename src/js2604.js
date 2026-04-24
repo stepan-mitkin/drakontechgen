@@ -10,267 +10,6 @@ function Js2604Generator(options) {
     gBranches = {};
     gDebugAst = false;
     gById = {};
-    function createAnd(left, right) {
-        return {
-            type: 'LogicalExpression',
-            operator: '&&',
-            left: left,
-            right: right
-        };
-    }
-    function createAssignment(identifier, expression) {
-        return {
-            type: 'AssignmentExpression',
-            operator: '=',
-            left: identifier,
-            right: expression
-        };
-    }
-    function createBlock() {
-        return {
-            type: 'BlockStatement',
-            body: []
-        };
-    }
-    function createBreak() {
-        return {
-            type: 'BreakStatement',
-            label: null
-        };
-    }
-    function createCase(value) {
-        return {
-            type: 'SwitchCase',
-            test: value,
-            consequent: []
-        };
-    }
-    function createComputedMember(obj, prop) {
-        return {
-            type: 'MemberExpression',
-            computed: true,
-            object: obj,
-            property: createIdentifier(prop)
-        };
-    }
-    function createDeclaration(vars) {
-        return {
-            type: 'VariableDeclaration',
-            declarations: vars.map(createVariableDeclaration),
-            kind: 'var'
-        };
-    }
-    function createEqual(left, right) {
-        return {
-            type: 'BinaryExpression',
-            operator: '===',
-            left: left,
-            right: right
-        };
-    }
-    function createExpression(expression) {
-        return {
-            type: 'ExpressionStatement',
-            expression: expression
-        };
-    }
-    function createFor(init, test, update) {
-        return {
-            type: 'ForStatement',
-            init: init,
-            test: test,
-            update: update,
-            body: createBlock()
-        };
-    }
-    function createForIn(variable, collectionExpr) {
-        return {
-            type: 'ForInStatement',
-            left: createIdentifier(variable),
-            right: collectionExpr,
-            body: createBlock(),
-            each: false
-        };
-    }
-    function createForOf(variable, collectionExpr) {
-        return {
-            type: 'ForOfStatement',
-            left: createIdentifier(variable),
-            right: collectionExpr,
-            body: createBlock()
-        };
-    }
-    function createFunction(name, args) {
-        args = args || [];
-        return {
-            type: 'FunctionDeclaration',
-            id: createIdentifier(name),
-            params: args.map(createIdentifier),
-            body: createBlock(),
-            generator: false,
-            expression: false,
-            async: false
-        };
-    }
-    function createGetValue(valueVar, keyVar, collection) {
-        var expr;
-        expr = createAssignment(createIdentifier(valueVar), createComputedMember(collection, keyVar));
-        expr.loopInternal = true;
-        return expr;
-    }
-    function createIdentifier(name) {
-        return {
-            type: 'Identifier',
-            name: name
-        };
-    }
-    function createIfNode(content) {
-        return {
-            type: 'IfStatement',
-            test: content,
-            consequent: createBlock()
-        };
-    }
-    function createMember(obj, prop) {
-        return {
-            type: 'MemberExpression',
-            computed: false,
-            object: obj,
-            property: createIdentifier(prop)
-        };
-    }
-    function createNot(operand) {
-        return {
-            type: 'UnaryExpression',
-            operator: '!',
-            argument: operand
-        };
-    }
-    function createOr(left, right) {
-        return {
-            type: 'LogicalExpression',
-            operator: '||',
-            left: left,
-            right: right
-        };
-    }
-    function createPlus(left, right) {
-        return {
-            type: 'BinaryExpression',
-            operator: '+',
-            left: left,
-            right: right
-        };
-    }
-    function createProgram() {
-        return {
-            type: 'Program',
-            body: []
-        };
-    }
-    function createReturn(value) {
-        return {
-            type: 'ReturnStatement',
-            argument: value
-        };
-    }
-    function createStringLiteral(value) {
-        return {
-            type: 'Literal',
-            value: value,
-            raw: JSON.stringify(value)
-        };
-    }
-    function createSwitch(value) {
-        return {
-            type: 'SwitchStatement',
-            discriminant: value,
-            cases: []
-        };
-    }
-    function createThrow(message) {
-        return {
-            type: 'ThrowStatement',
-            argument: {
-                type: 'NewExpression',
-                callee: createIdentifier('Error'),
-                arguments: [message]
-            }
-        };
-    }
-    function createTryCatch(variableName) {
-        return {
-            'type': 'TryStatement',
-            'block': {
-                'type': 'BlockStatement',
-                'body': []
-            },
-            'handler': {
-                'type': 'CatchClause',
-                'param': {
-                    'type': 'Identifier',
-                    'name': variableName
-                },
-                'body': {
-                    'type': 'BlockStatement',
-                    'body': []
-                }
-            },
-            'finalizer': null
-        };
-    }
-    function createVariableDeclaration(variable) {
-        return {
-            type: 'VariableDeclarator',
-            id: createIdentifier(variable),
-            init: null
-        };
-    }
-    function createWhileTrue() {
-        return {
-            type: 'WhileStatement',
-            test: {
-                type: 'Literal',
-                value: true,
-                raw: 'true'
-            },
-            body: createBlock()
-        };
-    }
-    function ensureExpression(folder, id, item) {
-        var expression;
-        expression = getExpression(item);
-        if (expression) {
-            item.content = expression;
-            return true;
-        } else {
-            reportError('A value expression is expected here', folder.path, id);
-            return false;
-        }
-    }
-    function getExpression(item) {
-        var expr;
-        if (item.content && item.content.length === 1) {
-            expr = item.content[0];
-            if (expr.type === 'ExpressionStatement' && !(expr.expression.type === 'AssignmentExpression') && !(expr.expression.type === 'SequenceExpression')) {
-                return expr.expression;
-            } else {
-                return undefined;
-            }
-        } else {
-            return undefined;
-        }
-    }
-    function pushAssi(variable, value, body) {
-        body.push(createExpression(createAssignment(createIdentifier(variable), value)));
-    }
-    function stripExpression(node) {
-        if (node.type === 'ExpressionStatement') {
-            return node.expression;
-        } else {
-            return node;
-        }
-    }
     function addActionToAst(step, body) {
         var _collection_139, expr;
         if (step.content) {
@@ -291,6 +30,52 @@ function Js2604Generator(options) {
                 statement = createExpression(assi);
                 body.push(statement);
             }
+        }
+    }
+    function addChild(parent, folder) {
+        var scope;
+        if (isFunctionNameUnique(parent, folder.name)) {
+            enrichFolder(folder);
+            scope = createScope('function', folder.name);
+            folder.scope = scope;
+            parent.children[folder.name] = folder;
+            folder.parent = parent.id;
+            generateFunctionId(folder);
+        } else {
+            reportError('Name is not unique: ' + folder.name, folder.path, undefined);
+        }
+    }
+    function addDeclaration(scope, name) {
+        scope.declarations[name] = true;
+    }
+    function addDeclarationsInFunction(step) {
+        var visitor;
+        visitor = function (node) {
+            return scanForAssignments(step, node);
+        };
+        traverseAst(step.body, visitor);
+        addDeclaratonsToBody(step);
+    }
+    function addDeclarationsRecursive(step, folder) {
+        var _collection_170, canDeclare, child, childStep, name;
+        addDeclarationsInFunction(step);
+        _collection_170 = folder.children;
+        for (name in _collection_170) {
+            child = _collection_170[name];
+            canDeclare = child.type === 'class';
+            childStep = createScopeStep(step, name, child.path, child.scope, getFunBody(child.ast), true, canDeclare);
+            childStep.canAwait = child.keywords.async;
+            addDeclarationsRecursive(childStep, child);
+        }
+    }
+    function addDeclaratonsToBody(step) {
+        var allVars, locals, loop;
+        locals = Object.keys(step.scope.locals);
+        loop = Object.keys(step.scope.loop);
+        allVars = locals.concat(loop);
+        if (!(allVars.length === 0)) {
+            allVars.sort();
+            step.body.unshift(createDeclaration(allVars));
         }
     }
     function addDefaultReturnNull(sw) {
@@ -321,6 +106,78 @@ function Js2604Generator(options) {
         cs.consequent.push(parseStatement('_topGen_.next(_args_)'));
         cs.consequent.push(createBreak());
     }
+    function addEventSignature(folder, caseId, caseItem) {
+        var args, eventInfo, existing, name, signature;
+        name = caseItem.content.callee.name;
+        args = caseItem.content.arguments.map(arg => arg.name);
+        signature = args.join(',');
+        existing = folder.events[name];
+        if (existing) {
+            if (signature === existing.signature) {
+                return name;
+            } else {
+                reportError('Incompatible signature', folder.path, caseId);
+                return undefined;
+            }
+        } else {
+            eventInfo = {
+                name: name,
+                signature: signature,
+                args: args
+            };
+            folder.events[name] = eventInfo;
+            return name;
+        }
+    }
+    function addExports(module, src) {
+        var _collection_204, child, code, dep, deps, exportSrc, exported, line, lines, name, parsed;
+        exported = [];
+        _collection_204 = module.children;
+        for (name in _collection_204) {
+            child = _collection_204[name];
+            if (child.keywords.export) {
+                exported.push(child.name);
+            }
+        }
+        if (exported.length === 0) {
+            return src;
+        } else {
+            exported.sort();
+            if (isIife()) {
+                code = exported.map(name => 'window.' + name + '=' + name).join('\n');
+            } else {
+                if (isUnit()) {
+                    lines = exported.map(name => 'unit.' + name + '=' + name);
+                    deps = getDependencies();
+                    for (dep of deps) {
+                        line = 'Object.defineProperty(unit,\'' + dep + '\',{get:function(){return ' + dep + ';},set:function(newValue){' + dep + '=newValue;},enumerable:true,configurable:true});';
+                        lines.push(line);
+                    }
+                    code = lines.join('\n');
+                } else {
+                    code = 'module.exports = {' + exported.join(', ') + '}';
+                }
+            }
+            parsed = options.esprima.parseScript(code, { loc: false });
+            exportSrc = options.escodegen.generate(parsed);
+            return src + '\n' + exportSrc;
+        }
+    }
+    function addInputEvent(folder, item, id) {
+        var name;
+        item.eventNames = [];
+        if (ensureCall(folder, id, item)) {
+            name = addEventSignature(folder, id, item);
+            if (name) {
+                item.eventNames.push(name);
+                rewriteEventInput(folder, id, item, name);
+            }
+        }
+    }
+    function addLocal(scope, variable) {
+        scope.locals[variable] = true;
+        addDeclaration(scope, variable);
+    }
     function addLoopToAst(step, body) {
         var node;
         if (step.content) {
@@ -332,6 +189,10 @@ function Js2604Generator(options) {
         }
         convertNodesToAst(step.body, node.body.body);
         body.push(node);
+    }
+    function addLoopVar(scope, variable) {
+        scope.loop[variable] = true;
+        addDeclaration(scope, variable);
     }
     function addQuestionToAst(step, body) {
         var content, node;
@@ -354,6 +215,47 @@ function Js2604Generator(options) {
             if (!(last.type === 'ReturnStatement')) {
                 body.push(parseStatement('_topResolve_()'));
             }
+        }
+    }
+    function addSelectEvent(folder, item, id) {
+        var _collection_186, caseId, caseItem, content, lines, name;
+        addLocal(folder.scope, '_eventType_');
+        addLocal(folder.scope, '_event_');
+        item.content = createIdentifier('_eventType_');
+        lines = [
+            'me.state = "' + id + '"',
+            'me._busy = false',
+            '_event_ = yield',
+            '_eventType_ = _event_[0]'
+        ];
+        content = linesToContent(folder, id, lines);
+        insertActionBefore(folder, id, content);
+        item.eventNames = [];
+        _collection_186 = item.cases;
+        for (caseId of _collection_186) {
+            caseItem = folder.items[caseId];
+            if (ensureCall(folder, caseId, caseItem)) {
+                name = addEventSignature(folder, caseId, caseItem);
+                if (name) {
+                    item.eventNames.push(name);
+                    rewriteEventCase(folder, caseId, caseItem, name);
+                }
+            }
+        }
+    }
+    function addVariableDeclarations(module) {
+        var rootStep;
+        rootStep = createScopeStep(undefined, 'module', module.path, module.scope, getFunBody(module.ast), true, true);
+        addDeclarationsRecursive(rootStep, module);
+    }
+    function assignEventArguments(folder, name, lines) {
+        var _collection_188, arg, counter, eventInfo;
+        eventInfo = folder.events[name];
+        counter = 1;
+        _collection_188 = eventInfo.args;
+        for (arg of _collection_188) {
+            lines.push(arg + ' = _event_[' + counter + ']');
+            counter++;
         }
     }
     function buildComplexSilhouette(fun, tree, functionBody) {
@@ -514,6 +416,28 @@ function Js2604Generator(options) {
             }
         }
     }
+    function checkCancellation() {
+        var error;
+        if (!state) {
+            error = new Error('Cancelled');
+            error.cancelled = true;
+            throw error;
+        }
+    }
+    function collectReceiveCases(folder, item) {
+        var caseItem, current;
+        item.cases = [];
+        current = item.one;
+        while (true) {
+            if (current) {
+                item.cases.push(current);
+                caseItem = folder.items[current];
+                current = caseItem.two;
+            } else {
+                break;
+            }
+        }
+    }
     function combineClassAst(folder) {
         var child, exported, initBody, name, names, stm;
         initBody = getFunBody(folder.ast);
@@ -638,6 +562,73 @@ function Js2604Generator(options) {
             buildComplexSilhouette(fun, tree, functionBody);
         }
     }
+    function createAnd(left, right) {
+        return {
+            type: 'LogicalExpression',
+            operator: '&&',
+            left: left,
+            right: right
+        };
+    }
+    function createAssignment(identifier, expression) {
+        return {
+            type: 'AssignmentExpression',
+            operator: '=',
+            left: identifier,
+            right: expression
+        };
+    }
+    function createBlock() {
+        return {
+            type: 'BlockStatement',
+            body: []
+        };
+    }
+    function createBreak() {
+        return {
+            type: 'BreakStatement',
+            label: null
+        };
+    }
+    function createCase(value) {
+        return {
+            type: 'SwitchCase',
+            test: value,
+            consequent: []
+        };
+    }
+    function createComputedMember(obj, prop) {
+        return {
+            type: 'MemberExpression',
+            computed: true,
+            object: obj,
+            property: createIdentifier(prop)
+        };
+    }
+    function createDeclaration(vars) {
+        return {
+            type: 'VariableDeclaration',
+            declarations: vars.map(createVariableDeclaration),
+            kind: 'var'
+        };
+    }
+    function createEmptyFunction(name) {
+        return {
+            type: 'drakon',
+            name: name,
+            items: {},
+            keywords: {},
+            children: {}
+        };
+    }
+    function createEqual(left, right) {
+        return {
+            type: 'BinaryExpression',
+            operator: '===',
+            left: left,
+            right: right
+        };
+    }
     function createEventMethod(fun, eventName, functionBody) {
         var _collection_156, body, cs, def, event, eventItem, funAst, itemId, sw;
         event = fun.events[eventName];
@@ -661,6 +652,210 @@ function Js2604Generator(options) {
         sw.cases.push(def);
         def.consequent.push(createBreak());
         functionBody.push(createExpression(createAssignment(createMember(createIdentifier('me'), eventName), funAst)));
+    }
+    function createExpression(expression) {
+        return {
+            type: 'ExpressionStatement',
+            expression: expression
+        };
+    }
+    function createFor(init, test, update) {
+        return {
+            type: 'ForStatement',
+            init: init,
+            test: test,
+            update: update,
+            body: createBlock()
+        };
+    }
+    function createForIn(variable, collectionExpr) {
+        return {
+            type: 'ForInStatement',
+            left: createIdentifier(variable),
+            right: collectionExpr,
+            body: createBlock(),
+            each: false
+        };
+    }
+    function createForOf(variable, collectionExpr) {
+        return {
+            type: 'ForOfStatement',
+            left: createIdentifier(variable),
+            right: collectionExpr,
+            body: createBlock()
+        };
+    }
+    function createFunction(name, args) {
+        args = args || [];
+        return {
+            type: 'FunctionDeclaration',
+            id: createIdentifier(name),
+            params: args.map(createIdentifier),
+            body: createBlock(),
+            generator: false,
+            expression: false,
+            async: false
+        };
+    }
+    function createGetValue(valueVar, keyVar, collection) {
+        var expr;
+        expr = createAssignment(createIdentifier(valueVar), createComputedMember(collection, keyVar));
+        expr.loopInternal = true;
+        return expr;
+    }
+    function createIdentifier(name) {
+        return {
+            type: 'Identifier',
+            name: name
+        };
+    }
+    function createIfNode(content) {
+        return {
+            type: 'IfStatement',
+            test: content,
+            consequent: createBlock()
+        };
+    }
+    function createMember(obj, prop) {
+        return {
+            type: 'MemberExpression',
+            computed: false,
+            object: obj,
+            property: createIdentifier(prop)
+        };
+    }
+    function createNot(operand) {
+        return {
+            type: 'UnaryExpression',
+            operator: '!',
+            argument: operand
+        };
+    }
+    function createOr(left, right) {
+        return {
+            type: 'LogicalExpression',
+            operator: '||',
+            left: left,
+            right: right
+        };
+    }
+    function createPlus(left, right) {
+        return {
+            type: 'BinaryExpression',
+            operator: '+',
+            left: left,
+            right: right
+        };
+    }
+    function createProgram() {
+        return {
+            type: 'Program',
+            body: []
+        };
+    }
+    function createReturn(value) {
+        return {
+            type: 'ReturnStatement',
+            argument: value
+        };
+    }
+    function createScope(type, name) {
+        return {
+            _type: 'scope',
+            type: type,
+            name: name,
+            declarations: {},
+            loop: {},
+            locals: {},
+            children: {}
+        };
+    }
+    function createScopeStep(parent, name, path, scope, body, canAssign, canDeclare) {
+        return {
+            parent: parent,
+            name: name,
+            path: path || '',
+            scope: scope,
+            body: body,
+            canAssign: canAssign || false,
+            canDeclare: canDeclare || false
+        };
+    }
+    function createScopeStepForLambda(step, node) {
+        var _collection_173, nextScope, nextStep, param;
+        nextScope = createScope('lambda', 'lambda');
+        _collection_173 = node.params;
+        for (param of _collection_173) {
+            if (param.type === 'Identifier') {
+                addDeclaration(nextScope, param.name);
+            }
+        }
+        nextStep = createScopeStep(step, 'lambda', step.path, nextScope, node.body.body, true, false);
+        nextStep.itemId = step.itemId;
+        return nextStep;
+    }
+    function createStringLiteral(value) {
+        return {
+            type: 'Literal',
+            value: value,
+            raw: JSON.stringify(value)
+        };
+    }
+    function createSwitch(value) {
+        return {
+            type: 'SwitchStatement',
+            discriminant: value,
+            cases: []
+        };
+    }
+    function createThrow(message) {
+        return {
+            type: 'ThrowStatement',
+            argument: {
+                type: 'NewExpression',
+                callee: createIdentifier('Error'),
+                arguments: [message]
+            }
+        };
+    }
+    function createTryCatch(variableName) {
+        return {
+            'type': 'TryStatement',
+            'block': {
+                'type': 'BlockStatement',
+                'body': []
+            },
+            'handler': {
+                'type': 'CatchClause',
+                'param': {
+                    'type': 'Identifier',
+                    'name': variableName
+                },
+                'body': {
+                    'type': 'BlockStatement',
+                    'body': []
+                }
+            },
+            'finalizer': null
+        };
+    }
+    function createVariableDeclaration(variable) {
+        return {
+            type: 'VariableDeclarator',
+            id: createIdentifier(variable),
+            init: null
+        };
+    }
+    function createWhileTrue() {
+        return {
+            type: 'WhileStatement',
+            test: {
+                type: 'Literal',
+                value: true,
+                raw: 'true'
+            },
+            body: createBlock()
+        };
     }
     function decodeQuestionContent(content) {
         var _selectValue_158, decoded, left, right;
@@ -703,147 +898,51 @@ function Js2604Generator(options) {
             }
         }
     }
-    function getFunBody(fun) {
-        return fun.body.body;
-    }
-    function hasEnd(fun) {
-        var _collection_160, id, item;
-        _collection_160 = fun.items;
-        for (id in _collection_160) {
-            item = _collection_160[id];
-            if (item.type === 'end') {
-                return true;
-            }
+    function enrichFolder(folder) {
+        if (!folder.keywords) {
+            folder.keywords = {};
         }
-        return false;
+        if (!folder.items) {
+            folder.items = {};
+        }
+        if (!folder.children) {
+            folder.children = {};
+        }
     }
-    function isSimpleSilhouette(branches) {
-        var branch, i;
-        for (i = 0; i < branches.length; i++) {
-            branch = branches[i];
-            if (branch.refs > 1) {
-                if (i === branches.length - 1) {
-                    return simpleBranch(branch);
-                } else {
+    function ensureCall(folder, id, item) {
+        var _collection_190, arg;
+        if (item.content && (item.content.type === 'CallExpression' && item.content.callee.type === 'Identifier')) {
+            _collection_190 = item.content.arguments;
+            for (arg of _collection_190) {
+                if (!(arg.type === 'Identifier')) {
+                    reportError('This call expression expects variables', folder.path, id);
                     return false;
                 }
             }
-        }
-        return true;
-    }
-    function makeCreateName(name) {
-        return name + '_create';
-    }
-    function makeMainName(name) {
-        return name + '_main';
-    }
-    function makeMethodName(className, name) {
-        return name;
-    }
-    function makeRunName(name) {
-        return name + '_run';
-    }
-    function parseStatement(code) {
-        var parsed, wrapped;
-        wrapped = 'async function wrp() { ' + code + '\n}';
-        parsed = options.esprima.parseScript(wrapped, { loc: false });
-        return parsed.body[0].body.body[0];
-    }
-    function replaceReturnInAction(item) {
-        var _collection_163, _selectValue_165, index, stm;
-        if (item.type === 'action' && item.content) {
-            index = 0;
-            _collection_163 = item.content;
-            for (stm of _collection_163) {
-                _selectValue_165 = stm.type;
-                if (_selectValue_165 === 'ReturnStatement') {
-                    convertReturnToResolve(stm, '_topResolve_');
-                    item.content.splice(index + 1, 0, createReturn(null));
-                    return;
-                } else {
-                    if (_selectValue_165 === 'ThrowStatement') {
-                        convertReturnToResolve(stm, '_topReject_');
-                        item.content.splice(index + 1, 0, createReturn(null));
-                        return;
-                    }
-                }
-                index++;
-            }
-        }
-    }
-    function replaceReturnInMachine(fun) {
-        var _collection_167, id, item;
-        _collection_167 = fun.items;
-        for (id in _collection_167) {
-            item = _collection_167[id];
-            replaceReturnInAction(item);
-        }
-    }
-    function simpleBranch(branch) {
-        if (branch.body.length === 0 || branch.body.length === 1 && branch.body[0].type === 'action') {
             return true;
         } else {
+            reportError('A function call expression expected here', folder.path, id);
             return false;
         }
     }
-    function addDeclarationsInFunction(step) {
-        var visitor;
-        visitor = function (node) {
-            return scanForAssignments(step, node);
-        };
-        traverseAst(step.body, visitor);
-        addDeclaratonsToBody(step);
-    }
-    function addDeclarationsRecursive(step, folder) {
-        var _collection_170, canDeclare, child, childStep, name;
-        addDeclarationsInFunction(step);
-        _collection_170 = folder.children;
-        for (name in _collection_170) {
-            child = _collection_170[name];
-            canDeclare = child.type === 'class';
-            childStep = createScopeStep(step, name, child.path, child.scope, getFunBody(child.ast), true, canDeclare);
-            childStep.canAwait = child.keywords.async;
-            addDeclarationsRecursive(childStep, child);
+    function ensureExpression(folder, id, item) {
+        var expression;
+        expression = getExpression(item);
+        if (expression) {
+            item.content = expression;
+            return true;
+        } else {
+            reportError('A value expression is expected here', folder.path, id);
+            return false;
         }
     }
-    function addDeclaratonsToBody(step) {
-        var allVars, locals, loop;
-        locals = Object.keys(step.scope.locals);
-        loop = Object.keys(step.scope.loop);
-        allVars = locals.concat(loop);
-        if (!(allVars.length === 0)) {
-            allVars.sort();
-            step.body.unshift(createDeclaration(allVars));
+    function ensureHasContent(folder, id, item) {
+        if (item.content && item.content.length > 0) {
+            return true;
+        } else {
+            reportError('Icon cannot be empty', folder.path, id);
+            return false;
         }
-    }
-    function addVariableDeclarations(module) {
-        var rootStep;
-        rootStep = createScopeStep(undefined, 'module', module.path, module.scope, getFunBody(module.ast), true, true);
-        addDeclarationsRecursive(rootStep, module);
-    }
-    function createScopeStep(parent, name, path, scope, body, canAssign, canDeclare) {
-        return {
-            parent: parent,
-            name: name,
-            path: path || '',
-            scope: scope,
-            body: body,
-            canAssign: canAssign || false,
-            canDeclare: canDeclare || false
-        };
-    }
-    function createScopeStepForLambda(step, node) {
-        var _collection_173, nextScope, nextStep, param;
-        nextScope = createScope('lambda', 'lambda');
-        _collection_173 = node.params;
-        for (param of _collection_173) {
-            if (param.type === 'Identifier') {
-                addDeclaration(nextScope, param.name);
-            }
-        }
-        nextStep = createScopeStep(step, 'lambda', step.path, nextScope, node.body.body, true, false);
-        nextStep.itemId = step.itemId;
-        return nextStep;
     }
     function extractVariablesFromDeclaration(node, scope) {
         var _collection_175, _collection_179, _collection_181, _selectValue_177, decl, item, prop;
@@ -869,6 +968,112 @@ function Js2604Generator(options) {
             }
         }
     }
+    function findClassDiagram(folders) {
+        var cls, folder;
+        cls = undefined;
+        for (folder of folders) {
+            if (folder.name === 'class') {
+                enrichFolder(folder);
+                cls = folder;
+            } else {
+                if (folder.name === 'module') {
+                    reportError('module is not expected in this folder', folder.path);
+                }
+            }
+        }
+        return cls;
+    }
+    function generateFunctionId(folder) {
+        folder.id = generateId('fun');
+        gById[folder.id] = folder;
+    }
+    function generateId(prefix) {
+        var id;
+        id = prefix + '_' + nextId;
+        nextId++;
+        return id;
+    }
+    function getDepDeclarations() {
+        var dependencies;
+        dependencies = getDependencies();
+        return dependencies.map(dep => 'var ' + dep + ';').join('\n') + '\n';
+    }
+    function getDependencies() {
+        var deps;
+        if (options.settings && options.settings.dependencies) {
+            deps = splitTrim(options.settings.dependencies, '\n');
+            deps.sort();
+            return deps;
+        } else {
+            return [];
+        }
+    }
+    function getExpression(item) {
+        var expr;
+        if (item.content && item.content.length === 1) {
+            expr = item.content[0];
+            if (expr.type === 'ExpressionStatement' && !(expr.expression.type === 'AssignmentExpression') && !(expr.expression.type === 'SequenceExpression')) {
+                return expr.expression;
+            } else {
+                return undefined;
+            }
+        } else {
+            return undefined;
+        }
+    }
+    function getFunBody(fun) {
+        return fun.body.body;
+    }
+    function hasEnd(fun) {
+        var _collection_160, id, item;
+        _collection_160 = fun.items;
+        for (id in _collection_160) {
+            item = _collection_160[id];
+            if (item.type === 'end') {
+                return true;
+            }
+        }
+        return false;
+    }
+    function insertActionAfter(folder, existingId, content) {
+        var before, id, item;
+        id = generateId('_item_');
+        before = folder.items[existingId];
+        item = {
+            id: id,
+            type: 'action',
+            content: content,
+            one: before.one
+        };
+        before.one = id;
+        folder.items[id] = item;
+    }
+    function insertActionBefore(folder, beforeId, expression) {
+        var _collection_201, content, existingItem, id, item, itemId;
+        id = generateId('_item_');
+        if (Array.isArray(expression)) {
+            content = expression;
+        } else {
+            content = [createExpression(expression)];
+        }
+        item = {
+            id: id,
+            type: 'action',
+            content: content,
+            one: beforeId
+        };
+        _collection_201 = folder.items;
+        for (itemId in _collection_201) {
+            existingItem = _collection_201[itemId];
+            if (existingItem.one === beforeId) {
+                existingItem.one = id;
+            }
+            if (existingItem.two === beforeId) {
+                existingItem.two = id;
+            }
+        }
+        folder.items[id] = item;
+    }
     function isDeclared(step, varName) {
         var current;
         current = step;
@@ -884,189 +1089,46 @@ function Js2604Generator(options) {
             }
         }
     }
-    function scanForAssignments(step, node) {
-        var _selectValue_183, nextStep, varName;
-        if (node.itemId) {
-            step.itemId = node.itemId;
-        }
-        _selectValue_183 = node.type;
-        if (_selectValue_183 === 'AssignmentExpression') {
-            if (node.left.type === 'Identifier') {
-                varName = node.left.name;
-                if (!isDeclared(step, varName)) {
-                    addLocal(step.scope, varName);
-                }
-            }
-            return true;
-        } else {
-            if (_selectValue_183 === 'CallExpression') {
-                if (node.callee.type === 'Identifier' && node.callee.name === 'getHandlerData') {
-                    node.type = 'Identifier';
-                    node.name = '_handlerData_';
-                    delete node.callee;
-                    delete node.arguments;
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                if (_selectValue_183 === 'VariableDeclaration') {
-                    if (step.canDeclare) {
-                        extractVariablesFromDeclaration(node, step.scope);
-                    } else {
-                        reportError('var, const, let are not allowed here', step.path, step.itemId);
-                    }
-                    return true;
-                } else {
-                    if (_selectValue_183 === 'AwaitExpression') {
-                        if (!step.canAwait) {
-                            reportError('await is allowed only in async functions', step.path, step.itemId);
-                        }
-                        return true;
-                    } else {
-                        if ((_selectValue_183 === 'FunctionExpression' || _selectValue_183 === 'ArrowFunctionExpression' || _selectValue_183 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
-                            nextStep = createScopeStepForLambda(step, node);
-                            nextStep.canAwait = node.async;
-                            addDeclarationsInFunction(nextStep);
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    function traverseAst(obj, visitor) {
-        var item, key, recurse, value;
-        if (obj) {
-            if (Array.isArray(obj)) {
-                for (item of obj) {
-                    traverseAst(item, visitor);
-                }
-            } else {
-                if (typeof obj === 'object' && obj.type) {
-                    recurse = visitor(obj);
-                    if (recurse) {
-                        for (key in obj) {
-                            value = obj[key];
-                            traverseAst(value, visitor);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    function tryAddIdentifier(scope, item) {
-        if (item.type === 'Identifier') {
-            addDeclaration(scope, item.name);
-        }
-    }
-    function addEventSignature(folder, caseId, caseItem) {
-        var args, eventInfo, existing, name, signature;
-        name = caseItem.content.callee.name;
-        args = caseItem.content.arguments.map(arg => arg.name);
-        signature = args.join(',');
-        existing = folder.events[name];
-        if (existing) {
-            if (signature === existing.signature) {
-                return name;
-            } else {
-                reportError('Incompatible signature', folder.path, caseId);
-                return undefined;
-            }
-        } else {
-            eventInfo = {
-                name: name,
-                signature: signature,
-                args: args
-            };
-            folder.events[name] = eventInfo;
-            return name;
-        }
-    }
-    function addInputEvent(folder, item, id) {
-        var name;
-        item.eventNames = [];
-        if (ensureCall(folder, id, item)) {
-            name = addEventSignature(folder, id, item);
-            if (name) {
-                item.eventNames.push(name);
-                rewriteEventInput(folder, id, item, name);
-            }
-        }
-    }
-    function addSelectEvent(folder, item, id) {
-        var _collection_186, caseId, caseItem, content, lines, name;
-        addLocal(folder.scope, '_eventType_');
-        addLocal(folder.scope, '_event_');
-        item.content = createIdentifier('_eventType_');
-        lines = [
-            'me.state = "' + id + '"',
-            'me._busy = false',
-            '_event_ = yield',
-            '_eventType_ = _event_[0]'
-        ];
-        content = linesToContent(folder, id, lines);
-        insertActionBefore(folder, id, content);
-        item.eventNames = [];
-        _collection_186 = item.cases;
-        for (caseId of _collection_186) {
-            caseItem = folder.items[caseId];
-            if (ensureCall(folder, caseId, caseItem)) {
-                name = addEventSignature(folder, caseId, caseItem);
-                if (name) {
-                    item.eventNames.push(name);
-                    rewriteEventCase(folder, caseId, caseItem, name);
-                }
-            }
-        }
-    }
-    function assignEventArguments(folder, name, lines) {
-        var _collection_188, arg, counter, eventInfo;
-        eventInfo = folder.events[name];
-        counter = 1;
-        _collection_188 = eventInfo.args;
-        for (arg of _collection_188) {
-            lines.push(arg + ' = _event_[' + counter + ']');
-            counter++;
-        }
-    }
-    function collectReceiveCases(folder, item) {
-        var caseItem, current;
-        item.cases = [];
-        current = item.one;
+    function isFunctionNameUnique(parent, name) {
+        var current;
+        current = parent;
         while (true) {
-            if (current) {
-                item.cases.push(current);
-                caseItem = folder.items[current];
-                current = caseItem.two;
+            if (name in current.children) {
+                return false;
             } else {
-                break;
+                if (current.parent) {
+                    current = gById[current.parent];
+                } else {
+                    return true;
+                }
             }
         }
     }
-    function ensureCall(folder, id, item) {
-        var _collection_190, arg;
-        if (item.content && (item.content.type === 'CallExpression' && item.content.callee.type === 'Identifier')) {
-            _collection_190 = item.content.arguments;
-            for (arg of _collection_190) {
-                if (!(arg.type === 'Identifier')) {
-                    reportError('This call expression expects variables', folder.path, id);
-                    return false;
-                }
-            }
+    function isIife() {
+        if (options.settings && options.settings.iife) {
             return true;
         } else {
-            reportError('A function call expression expected here', folder.path, id);
             return false;
         }
     }
-    function ensureHasContent(folder, id, item) {
-        if (item.content && item.content.length > 0) {
+    function isSimpleSilhouette(branches) {
+        var branch, i;
+        for (i = 0; i < branches.length; i++) {
+            branch = branches[i];
+            if (branch.refs > 1) {
+                if (i === branches.length - 1) {
+                    return simpleBranch(branch);
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    function isUnit() {
+        if (options.settings && options.settings.unit) {
             return true;
         } else {
-            reportError('Icon cannot be empty', folder.path, id);
             return false;
         }
     }
@@ -1076,6 +1138,25 @@ function Js2604Generator(options) {
         dummyItem = { content: src };
         parseItemContent(folder, id, dummyItem);
         return dummyItem.content;
+    }
+    function makeCreateName(name) {
+        return name + '_create';
+    }
+    function makeMainName(name) {
+        return name + '_main';
+    }
+    function makeMethodName(className, name) {
+        return name;
+    }
+    function makeRunName(name) {
+        return name + '_run';
+    }
+    function mustStop() {
+        if (!failed && state) {
+            return false;
+        } else {
+            return true;
+        }
     }
     function normalizeAsync(folder) {
         if (folder.keywords.machine || folder.keywords.async) {
@@ -1296,249 +1377,14 @@ function Js2604Generator(options) {
             }
         }
     }
-    function reportBadLoop(folder, id, item) {
-        reportError('Error in loop icon', folder.path, id);
-        delete item.content;
+    function parseStatement(code) {
+        var parsed, wrapped;
+        wrapped = 'async function wrp() { ' + code + '\n}';
+        parsed = options.esprima.parseScript(wrapped, { loc: false });
+        return parsed.body[0].body.body[0];
     }
-    function rewriteEventCase(folder, caseId, caseItem, name) {
-        var content, lines;
-        caseItem.content = createStringLiteral(name);
-        lines = [];
-        assignEventArguments(folder, name, lines);
-        content = linesToContent(folder, caseId, lines);
-        insertActionAfter(folder, caseId, content);
-    }
-    function rewriteEventInput(folder, id, item, name) {
-        var lines;
-        addLocal(folder.scope, '_event_');
-        lines = [
-            'me.state = "' + id + '"',
-            'me._busy = false',
-            '_event_ = yield'
-        ];
-        assignEventArguments(folder, name, lines);
-        item.content = linesToContent(folder, id, lines);
-        item.type = 'action';
-    }
-    function setUpMachine(folder) {
-        var _collection_199, id, item;
-        if (folder.keywords.async) {
-            if (!(folder.eventItems.length === 0)) {
-                reportError('events are not allowed in async functions', folder.path, folder.eventItems[0]);
-            }
-        } else {
-            folder.events = {};
-            _collection_199 = folder.eventItems;
-            for (id of _collection_199) {
-                item = folder.items[id];
-                if (item.type === 'select') {
-                    addSelectEvent(folder, item, id);
-                } else {
-                    addInputEvent(folder, item, id);
-                }
-            }
-            if (!(folder.eventItems.length === 0)) {
-                folder.isMachine = true;
-                folder.originalName = folder.name;
-            }
-        }
-    }
-    function addDeclaration(scope, name) {
-        scope.declarations[name] = true;
-    }
-    function addLocal(scope, variable) {
-        scope.locals[variable] = true;
-        addDeclaration(scope, variable);
-    }
-    function addLoopVar(scope, variable) {
-        scope.loop[variable] = true;
-        addDeclaration(scope, variable);
-    }
-    function createScope(type, name) {
-        return {
-            _type: 'scope',
-            type: type,
-            name: name,
-            declarations: {},
-            loop: {},
-            locals: {},
-            children: {}
-        };
-    }
-    function generateId(prefix) {
-        var id;
-        id = prefix + '_' + nextId;
-        nextId++;
-        return id;
-    }
-    function insertActionAfter(folder, existingId, content) {
-        var before, id, item;
-        id = generateId('_item_');
-        before = folder.items[existingId];
-        item = {
-            id: id,
-            type: 'action',
-            content: content,
-            one: before.one
-        };
-        before.one = id;
-        folder.items[id] = item;
-    }
-    function insertActionBefore(folder, beforeId, expression) {
-        var _collection_201, content, existingItem, id, item, itemId;
-        id = generateId('_item_');
-        if (Array.isArray(expression)) {
-            content = expression;
-        } else {
-            content = [createExpression(expression)];
-        }
-        item = {
-            id: id,
-            type: 'action',
-            content: content,
-            one: beforeId
-        };
-        _collection_201 = folder.items;
-        for (itemId in _collection_201) {
-            existingItem = _collection_201[itemId];
-            if (existingItem.one === beforeId) {
-                existingItem.one = id;
-            }
-            if (existingItem.two === beforeId) {
-                existingItem.two = id;
-            }
-        }
-        folder.items[id] = item;
-    }
-    function isIife() {
-        if (options.settings && options.settings.iife) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    function isUnit() {
-        if (options.settings && options.settings.unit) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    function addChild(parent, folder) {
-        var scope;
-        if (isFunctionNameUnique(parent, folder.name)) {
-            enrichFolder(folder);
-            scope = createScope('function', folder.name);
-            folder.scope = scope;
-            parent.children[folder.name] = folder;
-            folder.parent = parent.id;
-            generateFunctionId(folder);
-        } else {
-            reportError('Name is not unique: ' + folder.name, folder.path, undefined);
-        }
-    }
-    function addExports(module, src) {
-        var _collection_204, child, code, dep, deps, exportSrc, exported, line, lines, name, parsed;
-        exported = [];
-        _collection_204 = module.children;
-        for (name in _collection_204) {
-            child = _collection_204[name];
-            if (child.keywords.export) {
-                exported.push(child.name);
-            }
-        }
-        if (exported.length === 0) {
-            return src;
-        } else {
-            exported.sort();
-            if (isIife()) {
-                code = exported.map(name => 'window.' + name + '=' + name).join('\n');
-            } else {
-                if (isUnit()) {
-                    lines = exported.map(name => 'unit.' + name + '=' + name);
-                    deps = getDependencies();
-                    for (dep of deps) {
-                        line = 'Object.defineProperty(unit,\'' + dep + '\',{get:function(){return ' + dep + ';},set:function(newValue){' + dep + '=newValue;},enumerable:true,configurable:true});';
-                        lines.push(line);
-                    }
-                    code = lines.join('\n');
-                } else {
-                    code = 'module.exports = {' + exported.join(', ') + '}';
-                }
-            }
-            parsed = options.esprima.parseScript(code, { loc: false });
-            exportSrc = options.escodegen.generate(parsed);
-            return src + '\n' + exportSrc;
-        }
-    }
-    function checkCancellation() {
-        var error;
-        if (!state) {
-            error = new Error('Cancelled');
-            error.cancelled = true;
-            throw error;
-        }
-    }
-    function createEmptyFunction(name) {
-        return {
-            type: 'drakon',
-            name: name,
-            items: {},
-            keywords: {},
-            children: {}
-        };
-    }
-    function enrichFolder(folder) {
-        if (!folder.keywords) {
-            folder.keywords = {};
-        }
-        if (!folder.items) {
-            folder.items = {};
-        }
-        if (!folder.children) {
-            folder.children = {};
-        }
-    }
-    function findClassDiagram(folders) {
-        var cls, folder;
-        cls = undefined;
-        for (folder of folders) {
-            if (folder.name === 'class') {
-                enrichFolder(folder);
-                cls = folder;
-            } else {
-                if (folder.name === 'module') {
-                    reportError('module is not expected in this folder', folder.path);
-                }
-            }
-        }
-        return cls;
-    }
-    function generateFunctionId(folder) {
-        folder.id = generateId('fun');
-        gById[folder.id] = folder;
-    }
-    function isFunctionNameUnique(parent, name) {
-        var current;
-        current = parent;
-        while (true) {
-            if (name in current.children) {
-                return false;
-            } else {
-                if (current.parent) {
-                    current = gById[current.parent];
-                } else {
-                    return true;
-                }
-            }
-        }
-    }
-    function mustStop() {
-        if (!failed && state) {
-            return false;
-        } else {
-            return true;
-        }
+    function pushAssi(variable, value, body) {
+        body.push(createExpression(createAssignment(createIdentifier(variable), value)));
     }
     async function readChildren(folder) {
         var _collection_207, child, childPath, result;
@@ -1686,6 +1532,40 @@ function Js2604Generator(options) {
         }
         return module;
     }
+    function replaceReturnInAction(item) {
+        var _collection_163, _selectValue_165, index, stm;
+        if (item.type === 'action' && item.content) {
+            index = 0;
+            _collection_163 = item.content;
+            for (stm of _collection_163) {
+                _selectValue_165 = stm.type;
+                if (_selectValue_165 === 'ReturnStatement') {
+                    convertReturnToResolve(stm, '_topResolve_');
+                    item.content.splice(index + 1, 0, createReturn(null));
+                    return;
+                } else {
+                    if (_selectValue_165 === 'ThrowStatement') {
+                        convertReturnToResolve(stm, '_topReject_');
+                        item.content.splice(index + 1, 0, createReturn(null));
+                        return;
+                    }
+                }
+                index++;
+            }
+        }
+    }
+    function replaceReturnInMachine(fun) {
+        var _collection_167, id, item;
+        _collection_167 = fun.items;
+        for (id in _collection_167) {
+            item = _collection_167[id];
+            replaceReturnInAction(item);
+        }
+    }
+    function reportBadLoop(folder, id, item) {
+        reportError('Error in loop icon', folder.path, id);
+        delete item.content;
+    }
     function reportError(message, filename, nodeId, data) {
         state = undefined;
         failed = true;
@@ -1696,27 +1576,25 @@ function Js2604Generator(options) {
             data: data
         });
     }
-    function tryGetHoloClassName(name) {
-        if (name.startsWith('class ')) {
-            return name.substring('class '.length);
-        } else {
-            return undefined;
-        }
+    function rewriteEventCase(folder, caseId, caseItem, name) {
+        var content, lines;
+        caseItem.content = createStringLiteral(name);
+        lines = [];
+        assignEventArguments(folder, name, lines);
+        content = linesToContent(folder, caseId, lines);
+        insertActionAfter(folder, caseId, content);
     }
-    function getDepDeclarations() {
-        var dependencies;
-        dependencies = getDependencies();
-        return dependencies.map(dep => 'var ' + dep + ';').join('\n') + '\n';
-    }
-    function getDependencies() {
-        var deps;
-        if (options.settings && options.settings.dependencies) {
-            deps = splitTrim(options.settings.dependencies, '\n');
-            deps.sort();
-            return deps;
-        } else {
-            return [];
-        }
+    function rewriteEventInput(folder, id, item, name) {
+        var lines;
+        addLocal(folder.scope, '_event_');
+        lines = [
+            'me.state = "' + id + '"',
+            'me._busy = false',
+            '_event_ = yield'
+        ];
+        assignEventArguments(folder, name, lines);
+        item.content = linesToContent(folder, id, lines);
+        item.type = 'action';
     }
     async function run() {
         var ast, deps, module, src;
@@ -1756,8 +1634,130 @@ function Js2604Generator(options) {
             }
         }
     }
+    function scanForAssignments(step, node) {
+        var _selectValue_183, nextStep, varName;
+        if (node.itemId) {
+            step.itemId = node.itemId;
+        }
+        _selectValue_183 = node.type;
+        if (_selectValue_183 === 'AssignmentExpression') {
+            if (node.left.type === 'Identifier') {
+                varName = node.left.name;
+                if (!isDeclared(step, varName)) {
+                    addLocal(step.scope, varName);
+                }
+            }
+            return true;
+        } else {
+            if (_selectValue_183 === 'CallExpression') {
+                if (node.callee.type === 'Identifier' && node.callee.name === 'getHandlerData') {
+                    node.type = 'Identifier';
+                    node.name = '_handlerData_';
+                    delete node.callee;
+                    delete node.arguments;
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                if (_selectValue_183 === 'VariableDeclaration') {
+                    if (step.canDeclare) {
+                        extractVariablesFromDeclaration(node, step.scope);
+                    } else {
+                        reportError('var, const, let are not allowed here', step.path, step.itemId);
+                    }
+                    return true;
+                } else {
+                    if (_selectValue_183 === 'AwaitExpression') {
+                        if (!step.canAwait) {
+                            reportError('await is allowed only in async functions', step.path, step.itemId);
+                        }
+                        return true;
+                    } else {
+                        if ((_selectValue_183 === 'FunctionExpression' || _selectValue_183 === 'ArrowFunctionExpression' || _selectValue_183 === 'FunctionDeclaration') && node.body.type === 'BlockStatement') {
+                            nextStep = createScopeStepForLambda(step, node);
+                            nextStep.canAwait = node.async;
+                            addDeclarationsInFunction(nextStep);
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function setUpMachine(folder) {
+        var _collection_199, id, item;
+        if (folder.keywords.async) {
+            if (!(folder.eventItems.length === 0)) {
+                reportError('events are not allowed in async functions', folder.path, folder.eventItems[0]);
+            }
+        } else {
+            folder.events = {};
+            _collection_199 = folder.eventItems;
+            for (id of _collection_199) {
+                item = folder.items[id];
+                if (item.type === 'select') {
+                    addSelectEvent(folder, item, id);
+                } else {
+                    addInputEvent(folder, item, id);
+                }
+            }
+            if (!(folder.eventItems.length === 0)) {
+                folder.isMachine = true;
+                folder.originalName = folder.name;
+            }
+        }
+    }
+    function simpleBranch(branch) {
+        if (branch.body.length === 0 || branch.body.length === 1 && branch.body[0].type === 'action') {
+            return true;
+        } else {
+            return false;
+        }
+    }
     function stop() {
         state = undefined;
+    }
+    function stripExpression(node) {
+        if (node.type === 'ExpressionStatement') {
+            return node.expression;
+        } else {
+            return node;
+        }
+    }
+    function traverseAst(obj, visitor) {
+        var item, key, recurse, value;
+        if (obj) {
+            if (Array.isArray(obj)) {
+                for (item of obj) {
+                    traverseAst(item, visitor);
+                }
+            } else {
+                if (typeof obj === 'object' && obj.type) {
+                    recurse = visitor(obj);
+                    if (recurse) {
+                        for (key in obj) {
+                            value = obj[key];
+                            traverseAst(value, visitor);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function tryAddIdentifier(scope, item) {
+        if (item.type === 'Identifier') {
+            addDeclaration(scope, item.name);
+        }
+    }
+    function tryGetHoloClassName(name) {
+        if (name.startsWith('class ')) {
+            return name.substring('class '.length);
+        } else {
+            return undefined;
+        }
     }
     self.run = run;
     self.stop = stop;
