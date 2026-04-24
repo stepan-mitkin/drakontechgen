@@ -157,7 +157,7 @@ function earlyExit(array, value) {
             break;
         }
     }
-    if (index !== -1) {
+    if (!(index === -1)) {
         array.splice(index, 1);
     }
     return array;
@@ -182,12 +182,12 @@ function foreachLoopArray(array, value) {
     return copy;
 }
 function foreachLoopObject(object, value) {
-    var _collection_41, copy, item, key, value2, wrapper;
+    var _collection_42, copy, item, key, value2, wrapper;
     copy = {};
     wrapper = { collection: object };
-    _collection_41 = wrapper.collection;
-    for (key in _collection_41) {
-        item = _collection_41[key];
+    _collection_42 = wrapper.collection;
+    for (key in _collection_42) {
+        item = _collection_42[key];
         value2 = item + value;
         copy[key] = value2;
     }
@@ -203,6 +203,12 @@ function addCore(left, right) {
 }
 function mul(left, right) {
     return multiply(left, right);
+}
+function badShortCircuit(x, y) {
+    if (!(!(x === 10) || y === 20)) {
+        return 'red';
+    }
+    return 'black';
 }
 function complexAnd(valueA, valueB, valueC) {
     if (!valueA && valueB || valueC) {
@@ -325,13 +331,13 @@ function degenerateSelect(value) {
     }
 }
 function selectShortCircuit(value) {
-    var _selectValue_44;
-    _selectValue_44 = value + 5;
-    if (_selectValue_44 === 10 || _selectValue_44 === 20) {
+    var _selectValue_45;
+    _selectValue_45 = value + 5;
+    if (_selectValue_45 === 10 || _selectValue_45 === 20) {
         return 'good';
     } else {
-        if (_selectValue_44 !== 30) {
-            throw new Error('Unexpected case value: ' + _selectValue_44);
+        if (!(_selectValue_45 === 30)) {
+            throw new Error('Unexpected case value: ' + _selectValue_45);
         }
         return 'bad';
     }
@@ -348,16 +354,16 @@ function selectWithDefault(value) {
     }
 }
 function selectWithoutDefault(value) {
-    var _selectValue_46;
-    _selectValue_46 = value + 5;
-    if (_selectValue_46 === 10) {
+    var _selectValue_47;
+    _selectValue_47 = value + 5;
+    if (_selectValue_47 === 10) {
         return 'ten';
     } else {
-        if (_selectValue_46 === 20) {
+        if (_selectValue_47 === 20) {
             return 'twenty';
         } else {
-            if (_selectValue_46 !== 30) {
-                throw new Error('Unexpected case value: ' + _selectValue_46);
+            if (!(_selectValue_47 === 30)) {
+                throw new Error('Unexpected case value: ' + _selectValue_47);
             }
             return 'thirty';
         }
@@ -453,6 +459,7 @@ module.exports = {
     foreachLoopObject,
     add,
     mul,
+    badShortCircuit,
     complexAnd,
     complexOr,
     fizzBuzz,

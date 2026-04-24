@@ -59,37 +59,13 @@
         },
         "11": {
             "type": "action",
-            "one": "12",
+            "one": "18",
             "content": "decoded = decodeQuestionContent(\n    content.operand\n)"
-        },
-        "12": {
-            "type": "question",
-            "one": "18",
-            "two": "15",
-            "flag1": 0,
-            "content": "decoded.type === \"BinaryExpression\""
-        },
-        "15": {
-            "type": "question",
-            "one": "18",
-            "two": "16",
-            "flag1": 0,
-            "content": "decoded.operator === \"===\""
-        },
-        "16": {
-            "type": "action",
-            "one": "17",
-            "content": "decoded.operator = \"!==\""
-        },
-        "17": {
-            "type": "action",
-            "one": "1",
-            "content": "return decoded"
         },
         "18": {
             "type": "action",
             "one": "1",
-            "content": "return createNot(\n    decodeQuestionContent(\n        content.operand\n    )\n)"
+            "content": "return createNot(decoded)"
         },
         "19": {
             "type": "action",

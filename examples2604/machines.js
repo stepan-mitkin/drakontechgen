@@ -9,11 +9,17 @@ function Red(name) {
         return _obj_.run();
     }
     function machineMethod_create(foo) {
-        var _topGen_, _topReject_, _topResolve_, me;
+        var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
         me = {
             _type: 'machineMethod',
             _busy: true,
             state: 'created'
+        };
+        _topResolve_ = function (_value_) {
+            _earlyPromise_ = Promise.resolve(_value_);
+        };
+        _topReject_ = function (_value_) {
+            throw _value_;
         };
         function* machineMethod_main() {
             var _event_, moo;
@@ -32,6 +38,9 @@ function Red(name) {
             me.state = 'started';
             _topGen_ = machineMethod_main();
             _topGen_.next();
+            if (_earlyPromise_) {
+                return _earlyPromise_;
+            }
             return new Promise((resolve, reject) => {
                 _topResolve_ = resolve;
                 _topReject_ = reject;
@@ -76,11 +85,17 @@ function silReceive(arg1, arg2) {
     return _obj_.run();
 }
 function primInput_create(left, right) {
-    var _topGen_, _topReject_, _topResolve_, me;
+    var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
     me = {
         _type: 'primInput',
         _busy: true,
         state: 'created'
+    };
+    _topResolve_ = function (_value_) {
+        _earlyPromise_ = Promise.resolve(_value_);
+    };
+    _topReject_ = function (_value_) {
+        throw _value_;
     };
     function* primInput_main() {
         var _event_, amount, total;
@@ -101,6 +116,9 @@ function primInput_create(left, right) {
         me.state = 'started';
         _topGen_ = primInput_main();
         _topGen_.next();
+        if (_earlyPromise_) {
+            return _earlyPromise_;
+        }
         return new Promise((resolve, reject) => {
             _topResolve_ = resolve;
             _topReject_ = reject;
@@ -130,11 +148,17 @@ function primInput_create(left, right) {
     return me;
 }
 function silReceive_create(arg1, arg2) {
-    var _topGen_, _topReject_, _topResolve_, me;
+    var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
     me = {
         _type: 'silReceive',
         _busy: true,
         state: 'created'
+    };
+    _topResolve_ = function (_value_) {
+        _earlyPromise_ = Promise.resolve(_value_);
+    };
+    _topReject_ = function (_value_) {
+        throw _value_;
     };
     function* silReceive_main() {
         var _branch_, _eventType_, _event_, value, what, x;
@@ -160,7 +184,7 @@ function silReceive_create(arg1, arg2) {
                         _branch_ = 'Inter-transitional';
                     }
                 } else {
-                    if (_eventType_ !== 'right') {
+                    if (!(_eventType_ === 'right')) {
                         throw new Error('Unexpected case value: ' + _eventType_);
                     }
                     value = _event_[1];
@@ -182,7 +206,7 @@ function silReceive_create(arg1, arg2) {
                     arg1 += value * 2;
                     _branch_ = 'Grey state';
                 } else {
-                    if (_eventType_ !== 'right') {
+                    if (!(_eventType_ === 'right')) {
                         throw new Error('Unexpected case value: ' + _eventType_);
                     }
                     value = _event_[1];
@@ -219,6 +243,9 @@ function silReceive_create(arg1, arg2) {
         me.state = 'started';
         _topGen_ = silReceive_main();
         _topGen_.next();
+        if (_earlyPromise_) {
+            return _earlyPromise_;
+        }
         return new Promise((resolve, reject) => {
             _topResolve_ = resolve;
             _topReject_ = reject;

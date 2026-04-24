@@ -1,4 +1,5 @@
 const {
+  badShortCircuit,
   sil2,
   add,
   complexAnd,
@@ -171,6 +172,12 @@ QUnit.test("simpleAnd", (assert) => {
   assert.equal(simpleAnd(true, true, true), true);
   assert.equal(simpleAnd(true, false, true), false);
 });
+
+QUnit.test("badShortCircuit", assert => {
+  assert.equal(badShortCircuit(10, 40), "red")
+  assert.equal(badShortCircuit(20, 20), "black")
+  assert.equal(badShortCircuit(10, 20), "black")
+})
 
 QUnit.test("simpleOr", (assert) => {
   assert.equal(simpleOr(false, false, false), false);

@@ -11,7 +11,7 @@ function setUpMachine(folder) {
                 addInputEvent(folder, item, id);
             }
         }
-        if (folder.eventItems.length !== 0) {
+        if (!(folder.eventItems.length === 0)) {
             folder.isMachine = true;
             folder.originalName = folder.name;
         }
@@ -29,12 +29,12 @@ function setUpMachine(folder) {
                     addInputEvent(folder, item, id);
                 }
             }
-            if (!(folder.eventItems.length !== 0)) {
+            if (!(folder.eventItems.length === 0)) {
                 folder.isMachine = true;
                 folder.originalName = folder.name;
             }
         } else {
-            if (folder.eventItems.length !== 0) {
+            if (!(folder.eventItems.length === 0)) {
                 reportError('events are not allowed in non-async functions', folder.path, folder.eventItems[0]);
             }
         }
