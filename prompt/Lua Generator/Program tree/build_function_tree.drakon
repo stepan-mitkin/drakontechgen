@@ -1,0 +1,244 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "34",
+            "text": "<p>Myself</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "6",
+            "two": "8",
+            "flag1": 1,
+            "text": "<p>raw_tree.branches.length === 1</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "38",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "16",
+            "text": "<p>convert_tree(</p><p>    context,</p><p>    first.body,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "11",
+            "flag1": 1,
+            "text": "<p>is_simple_silhouette(raw_tree)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "36",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>doc.scope.declarations[\"_branch_\"] = \"local\"</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "40",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "16",
+            "text": "<p>complex_silhouette_to_tree(context, fun_node.body)</p>"
+        },
+        "15": {
+            "type": "branch",
+            "one": "31",
+            "branchId": 5,
+            "text": "<p>Export</p>"
+        },
+        "16": {
+            "type": "branch",
+            "one": "22",
+            "branchId": 4,
+            "text": "<p>Members</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return fun_node</p>"
+        },
+        "18": {
+            "type": "loopend",
+            "one": "15"
+        },
+        "19": {
+            "type": "loopbegin",
+            "one": "23",
+            "text": "<p>for each name in names</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "19",
+            "text": "<p>exported = empty list</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "24",
+            "text": "<p>member = doc.members[name]</p>"
+        },
+        "24": {
+            "type": "question",
+            "one": "26",
+            "two": "25",
+            "flag1": 0,
+            "text": "<p>member.keywords.export</p>"
+        },
+        "25": {
+            "type": "action",
+            "one": "26",
+            "text": "<p>Add name to exported</p>"
+        },
+        "26": {
+            "type": "action",
+            "one": "27",
+            "text": "<p>member_node = build_function_tree(member)</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "18",
+            "text": "<p>Add member_node to fun_node.body</p>"
+        },
+        "28": {
+            "type": "case",
+            "one": "17"
+        },
+        "29": {
+            "type": "case",
+            "one": "33",
+            "two": "28",
+            "text": "<p>\"module\"</p>"
+        },
+        "30": {
+            "type": "case",
+            "one": "32",
+            "two": "29",
+            "text": "<p>\"class\"</p>"
+        },
+        "31": {
+            "type": "select",
+            "one": "30",
+            "text": "<p>doc.type</p>"
+        },
+        "32": {
+            "type": "action",
+            "one": "17",
+            "text": "<p>add_class_exports(exported, fun_node.body)</p>"
+        },
+        "33": {
+            "type": "action",
+            "one": "17",
+            "text": "<p>add_module_exports(exported, fun_node.body)</p>"
+        },
+        "34": {
+            "type": "question",
+            "one": "35",
+            "two": "41",
+            "flag1": 1,
+            "text": "<p>doc.type === \"class\"</p>"
+        },
+        "35": {
+            "type": "action",
+            "one": "41",
+            "text": "<p>add_self(fun, fun_node)</p>"
+        },
+        "36": {
+            "type": "action",
+            "one": "39",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: true,</p><p>    branches: raw_tree.branches</p><p>}</p>"
+        },
+        "38": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: true</p><p>}</p>"
+        },
+        "39": {
+            "type": "action",
+            "one": "16",
+            "text": "<p>convert_tree(</p><p>    context,</p><p>    first.body,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "40": {
+            "type": "action",
+            "one": "42",
+            "text": "<p>add_action(\"_branch_ = \\\"\" + first.name + \"\\\"\", fun_node.body)</p>"
+        },
+        "41": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>first = first element(raw_tree.branches)</p>"
+        },
+        "42": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: false,</p><p>    branches: raw_tree.branches</p><p>}</p>"
+        },
+        "43": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "44",
+            "text": "<p>Drakon to tree</p>"
+        },
+        "44": {
+            "type": "action",
+            "one": "45",
+            "text": "<p>raw_tree_json = drakon_to_tree(doc)</p>"
+        },
+        "45": {
+            "type": "action",
+            "one": "46",
+            "text": "<p>raw_tree = JSON.parse(raw_tree_json)</p>"
+        },
+        "46": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "47",
+            "text": "<p>Define locals for functions</p>"
+        },
+        "47": {
+            "type": "action",
+            "one": "48",
+            "text": "<p>fun_node = create_function_node(doc)</p>"
+        },
+        "48": {
+            "type": "action",
+            "one": "49",
+            "two": "",
+            "text": "<p>names = keys(doc.members)</p>"
+        },
+        "49": {
+            "type": "action",
+            "one": "50",
+            "two": "",
+            "text": "<p>sort names</p>"
+        },
+        "50": {
+            "type": "loopbegin",
+            "one": "52",
+            "text": "<p>for each name in names</p>"
+        },
+        "51": {
+            "type": "loopend",
+            "one": "2"
+        },
+        "52": {
+            "type": "action",
+            "one": "51",
+            "text": "<p>add_action(\"local \" + name, fun_node.body)</p>"
+        }
+    },
+    "params": "<p>doc: Document</p>",
+    "name": "build_function_tree",
+    "type": "drakon"
+}

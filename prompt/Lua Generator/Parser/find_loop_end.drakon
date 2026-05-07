@@ -1,0 +1,103 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "11"
+        },
+        "7": {
+            "type": "question",
+            "one": "8",
+            "two": "10",
+            "flag1": 0,
+            "text": "<p>current_id</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "20",
+            "text": "<p>report_error(</p><p>    \"loop end icon not found\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "22",
+            "text": "<p>current_id = item.one</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "15",
+            "text": "<p>current_item = doc.items[current_id]</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>depth = 1</p>"
+        },
+        "12": {
+            "type": "case",
+            "one": "18",
+            "two": ""
+        },
+        "13": {
+            "type": "case",
+            "one": "17",
+            "two": "12",
+            "text": "<p>\"loopend\"</p>"
+        },
+        "14": {
+            "type": "case",
+            "one": "16",
+            "two": "13",
+            "text": "<p>\"loopbegin\"</p>"
+        },
+        "15": {
+            "type": "select",
+            "one": "14",
+            "two": "",
+            "text": "<p>current_item.type</p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "text": "<p>depth++</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "text": "<p>depth--</p>"
+        },
+        "18": {
+            "type": "question",
+            "one": "19",
+            "two": "21",
+            "flag1": 1,
+            "text": "<p>depth === 0</p>"
+        },
+        "19": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return current_id</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return null</p>"
+        },
+        "21": {
+            "type": "action",
+            "one": "22",
+            "text": "<p>current_id = current_item.one</p>"
+        },
+        "22": {
+            "type": "arrow-loop",
+            "one": "7"
+        }
+    },
+    "params": "<p>doc</p><p>item</p><p>item_id</p>",
+    "name": "find_loop_end",
+    "type": "drakon"
+}

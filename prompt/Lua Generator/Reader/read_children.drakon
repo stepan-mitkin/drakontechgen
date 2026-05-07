@@ -1,0 +1,77 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "9"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "text": "<p>result = empty list</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>return result</p>"
+        },
+        "5": {
+            "type": "loopend",
+            "one": "4",
+            "two": ""
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "7",
+            "two": "",
+            "text": "<p>for each child_path in node.children</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "12",
+            "two": "",
+            "text": "<p>child = read_object(child_path)</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "text": "<p>result.append(child)</p>"
+        },
+        "9": {
+            "type": "question",
+            "one": "3",
+            "two": "10",
+            "flag1": 1,
+            "text": "<p>node.children</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return empty list</p>"
+        },
+        "11": {
+            "type": "question",
+            "one": "8",
+            "two": "5",
+            "flag1": 1,
+            "text": "<p>child.type in (\"drakon\", \"folder\")</p>"
+        },
+        "12": {
+            "type": "question",
+            "one": "11",
+            "two": "5",
+            "flag1": 1,
+            "text": "<p>child</p>"
+        }
+    },
+    "params": "<p>node</p>",
+    "style": "{\"maxWidth\":300}",
+    "name": "read_children",
+    "type": "drakon"
+}

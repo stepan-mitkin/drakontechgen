@@ -11,13 +11,14 @@
         "3": {
             "type": "action",
             "one": "4",
-            "content": "multiply = require(\"exampleslua2604.ops\")\n.multiply"
+            "text": "<p>next_id++</p>"
         },
         "4": {
             "type": "action",
             "one": "1",
-            "content": "local secretValue = 23;\nlocal nextId = 1"
+            "text": "<p>return \"_var\" + next_id</p>"
         }
     },
+    "name": "generate_random_var_name",
     "type": "drakon"
 }

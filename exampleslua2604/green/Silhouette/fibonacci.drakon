@@ -60,7 +60,7 @@
         "12": {
             "type": "loopbegin",
             "one": "14",
-            "content": "i = 2; i <= ordinal; i++"
+            "content": "i = 2; i <= ordinal; i = i + 1"
         },
         "13": {
             "type": "action",

@@ -1,0 +1,94 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "text": "<p>Prepare main loop</p>"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>loop = {</p><p>    type: \"loop\",</p><p>    content: \"while _branch_ do\",</p><p>    body: []</p><p>}</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>Add loop to body</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>switch = {</p><p>    type: \"if-switch\",</p><p>    options: [],</p><p>    other: []</p><p>}</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "16",
+            "text": "<p>Add switch to loop.body</p>"
+        },
+        "15": {
+            "type": "branch",
+            "one": "26",
+            "branchId": 3,
+            "text": "<p>Exit main loop</p>"
+        },
+        "16": {
+            "type": "branch",
+            "one": "18",
+            "branchId": 2,
+            "text": "<p>Branches</p>"
+        },
+        "17": {
+            "type": "loopend",
+            "one": "15",
+            "two": ""
+        },
+        "18": {
+            "type": "loopbegin",
+            "one": "19",
+            "two": "",
+            "text": "<p>for each branch in body.branches</p>"
+        },
+        "19": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>condition = \"_branch_ == \\\"\" + branch.name + \"\\\"\"</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "21",
+            "two": "",
+            "text": "<p>option = {</p><p>    type: \"option\",</p><p>    condition: condition,</p><p>    body: []</p><p>}</p>"
+        },
+        "21": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "text": "<p>Add option to switch.options</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "23",
+            "two": "",
+            "text": "<p>add_action(\"_branch_ = nil\", option.body)</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "17",
+            "two": "",
+            "text": "<p>convert_tree(context, branch.body, option.body)</p>"
+        },
+        "26": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_action(\"return\", switch.other, true)</p>"
+        }
+    },
+    "params": "<p>context</p><p>body</p>",
+    "name": "complex_silhouette_to_tree",
+    "type": "drakon"
+}

@@ -1,0 +1,138 @@
+{
+    "items": {
+        "8": {
+            "type": "idea",
+            "parent": "root",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>Classes</p>"
+        },
+        "9": {
+            "type": "idea",
+            "parent": "8",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>class Options</p>",
+            "w": ""
+        },
+        "10": {
+            "type": "idea",
+            "parent": "9",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>async function getObjectByHandle(handle)</p>"
+        },
+        "11": {
+            "type": "idea",
+            "parent": "10",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>returns Node</p>"
+        },
+        "12": {
+            "type": "idea",
+            "parent": "8",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "text": "<p>class Node</p>",
+            "w": ""
+        },
+        "13": {
+            "type": "idea",
+            "parent": "12",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "w": 235,
+            "text": "<p>class Folder</p><p>    name: string</p><p>    path: node's handle (a unique id)</p><p>    type: \"folder\"</p><p>    children: array of handles of child nodes</p>"
+        },
+        "14": {
+            "type": "idea",
+            "parent": "12",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "w": 235,
+            "text": "<p>class Document</p><p>    name: string</p><p>    path: node's handle (a unique id)</p><p>    type: \"drakon\"</p><p>    items: map of items, item_id -&gt; Item. Can be null.</p><p>    keywords: set of keywords, keyword -&gt; true. Can be null.</p><p>    params: a string with document's parameters. Can be null.</p><p>    parent: Document</p><p>    members: map: string -&gt; Document</p><p>    scope: Scope</p><p>    args: array of strings</p>"
+        },
+        "15": {
+            "type": "idea",
+            "parent": "9",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "text": "<p>root: the handle of the root folder</p>"
+        },
+        "16": {
+            "type": "idea",
+            "parent": "root",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "text": "<p>Globals</p>"
+        },
+        "17": {
+            "type": "idea",
+            "parent": "16",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>error_list: an array of errors</p>",
+            "w": 155
+        },
+        "18": {
+            "type": "idea",
+            "parent": "16",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "text": "<p>global_options: Options</p>",
+            "w": 155
+        },
+        "19": {
+            "type": "idea",
+            "parent": "8",
+            "treeType": "horizontal",
+            "ordinal": 2,
+            "text": "<p>class Scope</p><p>    declarations: map(string &gt; string)</p><p>    name: string</p>",
+            "w": ""
+        },
+        "20": {
+            "type": "idea",
+            "parent": "8",
+            "treeType": "horizontal",
+            "ordinal": 3,
+            "text": "<p>class Item</p><p>    content: string</p><p>    one: string</p><p>    two: string</p><p>    type: string,</p><p>    branchId: int</p><p>    flag1: int</p><p>    ast: obj</p><p>    subtype: string</p><p>    vars: array of strings</p><p>    cases: array of strings</p>",
+            "w": ""
+        },
+        "21": {
+            "type": "idea",
+            "parent": "9",
+            "treeType": "horizontal",
+            "ordinal": 2,
+            "text": "<p>function parse(source: string): ast</p>"
+        },
+        "22": {
+            "type": "idea",
+            "parent": "21",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>Calls luaparse.parse()</p>"
+        },
+        "23": {
+            "type": "idea",
+            "parent": "16",
+            "treeType": "horizontal",
+            "ordinal": 2,
+            "text": "<p>next_id = 1</p>"
+        },
+        "24": {
+            "type": "idea",
+            "parent": "8",
+            "treeType": "horizontal",
+            "ordinal": 4,
+            "text": "<p>class ScopeStep</p><p>    parent: ScopeStep</p><p>    scope: Scope</p><p>    path: string</p><p>    declares: boolean</p>",
+            "w": ""
+        },
+        "root": {
+            "treeType": "horizontal",
+            "type": "header"
+        }
+    },
+    "name": "Data structure",
+    "type": "graf"
+}

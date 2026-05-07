@@ -1,0 +1,126 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "23",
+            "text": "<p>Read root</p>"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>root_folder = read_object(global_options.root)</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "22",
+            "text": "<p>children = read_children(root_folder)</p>"
+        },
+        "7": {
+            "type": "question",
+            "one": "24",
+            "two": "8",
+            "flag1": 1,
+            "text": "<p>module found</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "24",
+            "text": "<p>module = create_document</p><p>    name: \"module\"</p><p>    type: \"drakon\"</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>other_children = children</p><p>    where child.name != \"module\"</p>"
+        },
+        "10": {
+            "type": "branch",
+            "one": "19",
+            "branchId": 3,
+            "text": "<p>Exit</p>"
+        },
+        "11": {
+            "type": "branch",
+            "one": "13",
+            "branchId": 2,
+            "text": "<p>Scan children</p>"
+        },
+        "12": {
+            "type": "loopend",
+            "one": "10"
+        },
+        "13": {
+            "type": "loopbegin",
+            "one": "14",
+            "text": "<p>for each child in other_children</p>"
+        },
+        "14": {
+            "type": "question",
+            "one": "16",
+            "two": "15",
+            "flag1": 0,
+            "text": "<p>child.name == \"class\"</p>"
+        },
+        "15": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>report_error(</p><p>    \"class is not expected here\",</p><p>    child.path</p><p>)</p>"
+        },
+        "16": {
+            "type": "question",
+            "one": "17",
+            "two": "18",
+            "flag1": 1,
+            "text": "<p>child.type == \"folder\"</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>read_folder(module, child)</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>add_document(module, child)</p>"
+        },
+        "19": {
+            "type": "question",
+            "one": "20",
+            "two": "21",
+            "flag1": 1,
+            "text": "<p>error_list is empty</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    module: module</p><p>}</p>"
+        },
+        "21": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    errors: error_list</p><p>}</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>module = find in children</p><p>    where name = \"module\"</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>global_options = options</p>"
+        },
+        "24": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>module.type = \"module\"</p>"
+        }
+    },
+    "params": "<p>options: Options</p>",
+    "style": "{\"maxWidth\":350}",
+    "name": "read_project",
+    "type": "drakon"
+}

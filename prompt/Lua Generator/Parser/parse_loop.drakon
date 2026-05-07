@@ -1,0 +1,179 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "19"
+        },
+        "3": {
+            "type": "question",
+            "one": "5",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>content looks like \"variable1; expression”</p>"
+        },
+        "4": {
+            "type": "question",
+            "one": "9",
+            "two": "14",
+            "flag1": 1,
+            "text": "<p>content looks like \"variable1, variable2; expression”</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "33",
+            "text": "<p>item.var1 = trim(variable1)</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>item.collection = trim(expression)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>item.subtype = “array”</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "24",
+            "text": "<p>item.value = parse_value(expression)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "text": "<p>item.var1 = trim(variable1)</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "two": "",
+            "text": "<p>item.collection = trim(expression)</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "two": "",
+            "text": "<p>item.subtype = “map”</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "26",
+            "two": "",
+            "text": "<p>item.value = parse_value(expression)</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "37",
+            "two": "",
+            "text": "<p>item.var2 = trim(variable2)</p>"
+        },
+        "14": {
+            "type": "question",
+            "one": "15",
+            "two": "18",
+            "flag1": 1,
+            "text": "<p>content looks like \"expression1; expression2; expression3”</p>"
+        },
+        "15": {
+            "type": "action",
+            "one": "17",
+            "text": "<p>item.expr1 = expression1</p><p>item.expr2 = expression2</p><p>item.expr3 = expression3</p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "29",
+            "text": "<p>item.ast1 = parse_statements(content: expression1)</p><p>item.ast2 = parse_statements(content: expression2)</p><p>item.ast3 = parse_statements(content:  expression3)</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "16",
+            "two": "",
+            "text": "<p>item.subtype = “for”</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>report_error(</p><p>    “Bad format”,</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "19": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Get from context:</p><ul><li>doc</li><li>item_id</li><li>item</li><li>content</li></ul>"
+        },
+        "24": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>extract_expression()</p>"
+        },
+        "25": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>item.content = \"for _, \" + item.var1 + \" in ipairs(\" + item.content + \") do\"</p>"
+        },
+        "26": {
+            "type": "action",
+            "one": "27",
+            "two": "",
+            "text": "<p>extract_expression()</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>item.content = \"for \" + item.var1 + \", \" + item.var2 + \" in pairs(\" + item.content + \") do\"</p>"
+        },
+        "28": {
+            "type": "action",
+            "one": "32",
+            "text": "<p>end_id = find_loop_end(doc, item)</p>"
+        },
+        "29": {
+            "type": "action",
+            "one": "30",
+            "text": "<p>item.content = \"while \" + item.ast2 + \" do\"</p>"
+        },
+        "30": {
+            "type": "action",
+            "one": "28",
+            "two": "",
+            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    item_id,</p><p>    expression1</p><p>)</p>"
+        },
+        "31": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    end_id,</p><p>    expression3</p><p>)</p>"
+        },
+        "32": {
+            "type": "question",
+            "one": "31",
+            "two": "1",
+            "flag1": 1,
+            "text": "<p>end_id</p>"
+        },
+        "33": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>doc.scope.declarations[item.var1] = \"loop\"</p>"
+        },
+        "36": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>doc.scope.declarations[item.var1] = \"loop\"</p>"
+        },
+        "37": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>doc.scope.declarations[item.var2] = \"loop\"</p>"
+        }
+    },
+    "params": "<p>context</p>",
+    "style": "{\"maxWidth\":290}",
+    "name": "parse_loop",
+    "type": "drakon"
+}

@@ -21,7 +21,7 @@
         "5": {
             "type": "loopbegin",
             "one": "6",
-            "content": "i = 1; i <=  # array; i++"
+            "content": "i = 1; i <= #array; i = i + 1"
         },
         "6": {
             "type": "question",
@@ -45,7 +45,7 @@
             "one": "3",
             "two": "10",
             "flag1": 0,
-            "content": "index === -1"
+            "content": "index == -1"
         },
         "10": {
             "type": "action",

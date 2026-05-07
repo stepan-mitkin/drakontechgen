@@ -29,13 +29,13 @@
         },
         "9": {
             "type": "action",
-            "one": "13",
-            "content": "index = i"
+            "one": "1",
+            "content": "return i"
         },
         "10": {
             "type": "action",
-            "one": "13",
-            "content": "index = -1"
+            "one": "1",
+            "content": "return -1"
         },
         "11": {
             "type": "action",
@@ -45,11 +45,6 @@
         "12": {
             "type": "arrow-loop",
             "one": "4"
-        },
-        "13": {
-            "type": "action",
-            "one": "1",
-            "content": "return index"
         },
         "14": {
             "type": "question",

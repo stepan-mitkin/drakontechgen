@@ -22,7 +22,8 @@
     "dependencies": {
         "drakongen": "file:../drakongen",
         "escodegen": "^2.1.0",
-        "esprima": "^4.0.1"
+        "esprima": "^4.0.1",
+        "luaparse": "^0.3.1"
     },
     "devDependencies": {
         "qunit": "^2.22.0"

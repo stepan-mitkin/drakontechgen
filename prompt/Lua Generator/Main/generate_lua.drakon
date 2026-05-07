@@ -1,0 +1,62 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "3": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>project = read_project(options)</p>"
+        },
+        "4": {
+            "type": "question",
+            "one": "9",
+            "two": "6",
+            "flag1": 0,
+            "text": "<p>the object returned by the function contains \"errors\" property that has elements</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>Rule:</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>Return {</p><p>    errors: obj.errors</p><p>}</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>parse_result = parse_items(</p><p>  project.module,</p><p>  options)</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>tree = build_module_tree(</p><p>    project.module,</p><p>    options)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Rule:</p><p>Between each call wait like this:</p><p>await pause(1)</p><p>End of rule</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>module_src = build_module_code(</p><p>    tree.module,</p><p>    options</p><p>)</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>Return {</p><p>    code: module_src.code</p><p>}</p>"
+        }
+    },
+    "params": "<p>options: Options</p>",
+    "name": "generate_lua",
+    "type": "drakon"
+}

@@ -1,0 +1,75 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "text": "<p>Process items</p>"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>step = new ScopeStep</p><p>    parent: parent</p><p>    scope: doc.scope</p><p>    declares: parent is null</p><p>    path: doc.path</p>"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "7"
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "9",
+            "text": "<p>for each item_id, item in doc.items</p>"
+        },
+        "6": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "text": "Completion"
+        },
+        "7": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 2,
+            "text": "<p>Recurse to members</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>scan_assignments(step, item_id, item)</p>"
+        },
+        "9": {
+            "type": "question",
+            "one": "10",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>item.type === \"action\"</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "8",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>item.statements</p>"
+        },
+        "11": {
+            "type": "loopend",
+            "one": "6"
+        },
+        "12": {
+            "type": "loopbegin",
+            "one": "13",
+            "text": "<p>for each member in doc.members</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>process_assignments(member, step)</p>"
+        }
+    },
+    "params": "<p>doc: Document</p><p>parent: ScopeStep</p>",
+    "name": "process_assignments",
+    "type": "drakon"
+}

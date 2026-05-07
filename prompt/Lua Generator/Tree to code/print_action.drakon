@@ -1,0 +1,45 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>Take from context:</p><ul><li>node</li></ul>"
+        },
+        "4": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>parts = node.content.split(\"\\\")</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "4",
+            "two": "1",
+            "flag1": 1,
+            "text": "<p>node.content</p>"
+        },
+        "6": {
+            "type": "loopend",
+            "one": "1"
+        },
+        "7": {
+            "type": "loopbegin",
+            "one": "8",
+            "text": "<p>for each part in parts</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>add_line(part)</p>"
+        }
+    },
+    "name": "print_action",
+    "type": "drakon"
+}

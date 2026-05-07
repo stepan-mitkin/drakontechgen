@@ -1,0 +1,75 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "loopend",
+            "one": "7"
+        },
+        "4": {
+            "type": "loopbegin",
+            "one": "5",
+            "text": "<p>for each branch in raw_tree.branches</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "3",
+            "two": "6",
+            "flag1": 0,
+            "text": "<p>branch.refs &gt; 1</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>return false</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>last = get last element(raw_tree.branches)</p>"
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "10",
+            "flag1": 1,
+            "text": "<p>last.body is empty</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "12",
+            "two": "11",
+            "flag1": 1,
+            "text": "<p>last.body.length === 1</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return false</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>node = last.body[0]</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return node.type === \"action\"</p>"
+        }
+    },
+    "params": "<p>raw_tree</p>",
+    "name": "is_simple_silhouette",
+    "type": "drakon"
+}

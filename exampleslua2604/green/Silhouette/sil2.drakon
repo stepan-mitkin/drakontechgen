@@ -54,7 +54,7 @@
         "11": {
             "type": "action",
             "one": "5",
-            "content": "foo += 5"
+            "content": "foo = foo + 5"
         },
         "12": {
             "type": "action",

@@ -1,0 +1,183 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "loopend",
+            "one": "1"
+        },
+        "4": {
+            "type": "loopbegin",
+            "one": "8",
+            "text": "<p>for each node in nodes</p>"
+        },
+        "5": {
+            "type": "case",
+            "one": "15",
+            "text": "<p>\"loop\"</p>",
+            "two": "11"
+        },
+        "6": {
+            "type": "case",
+            "one": "30",
+            "two": "5",
+            "text": "<p>\"question\"</p>"
+        },
+        "7": {
+            "type": "case",
+            "one": "9",
+            "two": "6",
+            "text": "<p>\"action\"</p>"
+        },
+        "8": {
+            "type": "select",
+            "one": "7",
+            "text": "<p>node.type</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>item = {</p><p>    content: node.content,</p><p>    type: node.type</p><p>}</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "23",
+            "text": "<p>item.final = is_final(item)</p>"
+        },
+        "11": {
+            "one": "26",
+            "type": "case",
+            "text": "<p>\"address\"</p>",
+            "two": "33"
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>item = {</p><p>    content: content,</p><p>    type: node.type</p><p>    yes: [],</p><p>    no: []</p><p>}</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "14",
+            "text": "<p>convert_tree(context, node.yes, item.yes)</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "24",
+            "text": "<p>convert_tree(context, node.no, item.no)</p>"
+        },
+        "15": {
+            "type": "question",
+            "one": "17",
+            "two": "16",
+            "flag1": 0,
+            "text": "<p>node.content is empty</p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "text": "<p>node.content = \"while true do\"</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>convert_tree(context, node.body, item.body)</p>"
+        },
+        "18": {
+            "type": "question",
+            "one": "27",
+            "two": "29",
+            "flag1": 1,
+            "text": "<p>context.simple</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Add item to body</p>"
+        },
+        "24": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Add item to body</p>"
+        },
+        "25": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Add item to body</p>"
+        },
+        "26": {
+            "type": "question",
+            "one": "18",
+            "two": "3",
+            "flag1": 0,
+            "text": "<p>has_final(body)</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "28",
+            "text": "<p>next_branch = find branch in context.branches</p><p>    where branch.name === node.content</p>"
+        },
+        "28": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>convert_tree(context, next_branch.body, body)</p>"
+        },
+        "29": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_action(\"_branch_ = \\\" + node.content + \"\\\"\", body)</p>"
+        },
+        "30": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>content = qc(node.content)</p>"
+        },
+        "31": {
+            "one": "32",
+            "type": "case"
+        },
+        "32": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>report_error(</p><p>    \"Unexpected node type: \" + node.type,</p><p>    context.doc.path,</p><p>    node.id</p><p>)</p>"
+        },
+        "33": {
+            "one": "34",
+            "type": "case",
+            "two": "36",
+            "text": "<p>\"break\"</p>"
+        },
+        "34": {
+            "type": "question",
+            "one": "35",
+            "two": "3",
+            "flag1": 0,
+            "text": "<p>has_final(body)</p>"
+        },
+        "35": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_action(\"break\", body, true)</p>"
+        },
+        "36": {
+            "one": "37",
+            "type": "case",
+            "two": "31",
+            "text": "<p>\"error\"</p>"
+        },
+        "37": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_action(</p><p>    \"error(\\\"\" + node.message + \": \\\" .. tostring(\" + node.content + \"))\",</p><p>    body,</p><p>    true</p><p>)</p>"
+        }
+    },
+    "params": "<p>context</p><p>nodes</p><p>body</p>",
+    "style": "{\"maxWidth\":310}",
+    "name": "convert_tree",
+    "type": "drakon"
+}

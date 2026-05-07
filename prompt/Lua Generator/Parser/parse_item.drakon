@@ -1,0 +1,144 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "11"
+        },
+        "3": {
+            "type": "case",
+            "one": "34",
+            "text": "<p>\"select\"</p>",
+            "two": "7"
+        },
+        "4": {
+            "type": "case",
+            "one": "14",
+            "two": "3",
+            "text": "<p>\"question\"</p>"
+        },
+        "5": {
+            "type": "case",
+            "one": "13",
+            "two": "4",
+            "text": "<p>\"action\"</p>"
+        },
+        "6": {
+            "type": "select",
+            "one": "5",
+            "text": "<p>item.type</p>"
+        },
+        "7": {
+            "one": "22",
+            "type": "case",
+            "text": "<p>\"case\"</p>",
+            "two": "8"
+        },
+        "8": {
+            "one": "32",
+            "type": "case",
+            "text": "<p>\"loopbegin\"</p>",
+            "two": "31"
+        },
+        "10": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>item.statements = parse_statements()</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "35",
+            "text": "<p>content = item.content or \"\"</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "10",
+            "two": "1",
+            "flag1": 0,
+            "text": "<p>content is empty</p>"
+        },
+        "14": {
+            "type": "question",
+            "one": "17",
+            "two": "15",
+            "flag1": 0,
+            "text": "<p>content is empty</p>"
+        },
+        "15": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>report_error(</p><p>    \"Icon cannot be empty\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>item.value = parse_value()</p>"
+        },
+        "22": {
+            "type": "question",
+            "one": "24",
+            "two": "25",
+            "flag1": 0,
+            "text": "<p>content is empty</p>"
+        },
+        "24": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>item.value = parse_value()</p>"
+        },
+        "25": {
+            "type": "question",
+            "one": "1",
+            "two": "26",
+            "flag1": 0,
+            "text": "<p>item.two</p>"
+        },
+        "26": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"Icon cannot be empty\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>parse_loop()</p>"
+        },
+        "31": {
+            "one": "1",
+            "type": "case",
+            "two": ""
+        },
+        "32": {
+            "type": "question",
+            "one": "27",
+            "two": "33",
+            "flag1": 0,
+            "text": "<p>content is empty</p>"
+        },
+        "33": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"Icon cannot be empty\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "34": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>parse_select()</p>"
+        },
+        "35": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>Context:</p><ul><li>doc</li><li>item_id</li><li>item</li><li>content</li></ul>"
+        }
+    },
+    "params": "<p>doc</p><p>item_id</p><p>item</p>",
+    "style": "{\"maxWidth\":220}",
+    "name": "parse_item",
+    "type": "drakon"
+}

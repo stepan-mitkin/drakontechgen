@@ -1,0 +1,39 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>Take from context:</p><ul><li>node</li></ul>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>args = node.args.join(\", \")</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>add_line(node.name + \" = function(\" + args + \")\")</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_line(\"end\")</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>print_body(node.body)</p>"
+        }
+    },
+    "name": "print_function",
+    "type": "drakon"
+}

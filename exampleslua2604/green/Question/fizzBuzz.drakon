@@ -47,7 +47,7 @@
         "9": {
             "type": "action",
             "one": "1",
-            "content": "return undefined"
+            "content": "return nil"
         }
     },
     "keywords": {

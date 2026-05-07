@@ -10,14 +10,11 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
-            "content": "multiply = require(\"exampleslua2604.ops\")\n.multiply"
-        },
-        "4": {
-            "type": "action",
             "one": "1",
-            "content": "local secretValue = 23;\nlocal nextId = 1"
+            "text": "<p>return {</p><p>    type: \"function\",</p><p>    name: doc.name,</p><p>    args: doc.args,</p><p>    body: []</p><p>}</p>"
         }
     },
+    "params": "<p>doc</p>",
+    "name": "create_function_node",
     "type": "drakon"
 }

@@ -1,0 +1,117 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "5",
+            "text": "<p>Read root</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>children = read_children(folder)</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "21",
+            "text": "<p>module = find in children</p><p>    where name = \"module\"</p>"
+        },
+        "7": {
+            "type": "question",
+            "one": "19",
+            "two": "8",
+            "flag1": 0,
+            "text": "<p>module found</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "19",
+            "text": "<p>report_error(</p><p>    \"module not expected here\",</p><p>    module.path</p><p>)</p>"
+        },
+        "10": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "text": "<p>Exit</p>"
+        },
+        "11": {
+            "type": "branch",
+            "one": "13",
+            "branchId": 2,
+            "text": "<p>Scan children</p>"
+        },
+        "12": {
+            "type": "loopend",
+            "one": "10"
+        },
+        "13": {
+            "type": "loopbegin",
+            "one": "16",
+            "text": "<p>for each child in other_children</p>"
+        },
+        "16": {
+            "type": "question",
+            "one": "17",
+            "two": "18",
+            "flag1": 1,
+            "text": "<p>child.type == \"folder\"</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>read_folder(parent, child)</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>add_document(parent, child)</p>"
+        },
+        "19": {
+            "type": "question",
+            "one": "11",
+            "two": "23",
+            "flag1": 0,
+            "text": "<p>class found</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "11",
+            "two": "",
+            "text": "<p>parent = class</p>"
+        },
+        "21": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "text": "<p>class = find in children</p><p>    where name = \"class\"</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "text": "<p>other_children = find in children</p><p>    where child.name != \"module\"</p><p>    and child.name != \"class\"</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>class.name = folder.name</p>"
+        },
+        "24": {
+            "type": "action",
+            "one": "20",
+            "text": "<p>add_document(parent, class)</p>"
+        },
+        "25": {
+            "type": "action",
+            "one": "24",
+            "text": "<p>class.type = \"class\"</p>"
+        }
+    },
+    "params": "<p>parent</p><p>folder</p>",
+    "style": "{\"maxWidth\":270}",
+    "name": "read_folder",
+    "type": "drakon"
+}
