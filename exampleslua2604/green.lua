@@ -417,7 +417,7 @@ twoExits = function(array, value)
     end
     i = 1
     while true do
-        if i <=  # array then
+        if i <= #array then
             item = array[i]
             if item == value then
                 return i
