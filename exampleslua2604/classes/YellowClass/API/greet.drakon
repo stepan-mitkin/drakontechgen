@@ -12,7 +12,7 @@
         "3": {
             "type": "action",
             "one": "5",
-            "content": "message = greeting + \", \" + title + \" \" +\nname + \"!\""
+            "content": "message = greeting .. \", \" .. title .. \" \" ..\nname .. \"!\""
         },
         "4": {
             "type": "action",

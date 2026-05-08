@@ -12,7 +12,7 @@
         "3": {
             "type": "action",
             "one": "5",
-            "text": "<p>step = new ScopeStep</p><p>    parent: parent</p><p>    scope: doc.scope</p><p>    declares: parent is null</p><p>    path: doc.path</p>"
+            "text": "<p>step = new ScopeStep</p><p>    parent: parent</p><p>    scope: doc.scope</p><p>    declares: can_declare(doc)</p><p>    path: doc.path</p>"
         },
         "4": {
             "type": "loopend",

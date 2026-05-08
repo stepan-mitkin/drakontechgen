@@ -45,7 +45,8 @@
         "9": {
             "one": "14",
             "type": "case",
-            "text": "<p>\"if-switch\"</p>"
+            "text": "<p>\"if-switch\"</p>",
+            "two": "15"
         },
         "10": {
             "type": "action",
@@ -71,6 +72,16 @@
             "type": "action",
             "one": "1",
             "text": "<p>print_switch()</p>"
+        },
+        "15": {
+            "one": "16",
+            "type": "case",
+            "text": "<p>\"empty-line\"</p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_line(\"\")</p>"
         }
     },
     "params": "<p>node</p><p>depth</p><p>lines</p>",

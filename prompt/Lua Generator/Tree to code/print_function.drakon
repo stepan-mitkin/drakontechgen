@@ -6,7 +6,7 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
+            "one": "11"
         },
         "3": {
             "type": "action",
@@ -32,6 +32,11 @@
             "type": "action",
             "one": "6",
             "text": "<p>print_body(node.body)</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_line(\"\")</p>"
         }
     },
     "name": "print_function",

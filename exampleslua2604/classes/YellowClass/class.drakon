@@ -16,13 +16,18 @@
         },
         "4": {
             "type": "action",
-            "one": "5",
-            "content": "const greeting = \"Hello\""
+            "one": "6",
+            "content": "local\ngreeting = \"Hello\""
         },
-        "5": {
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "x = arg1.x\ny = arg1.y"
+        },
+        "7": {
             "type": "action",
             "one": "1",
-            "content": "const {\n    x,\n    y\n} = arg1\nvar [a, b] = arg2"
+            "content": "a = arg2[1]\nb = arg2[2]"
         }
     },
     "keywords": {

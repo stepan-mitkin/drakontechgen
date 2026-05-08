@@ -1,5 +1,4 @@
 {
-    "type": "drakon",
     "items": {
         "1": {
             "type": "end"
@@ -12,20 +11,17 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "name = newName"
+            "two": "",
+            "text": "<p>add item to body</p>"
         },
         "4": {
             "type": "action",
             "one": "3",
-            "content": "log(\"setName: \" .. newName)"
+            "two": "",
+            "text": "<p>item = {</p><p>    type: \"empty-line\"</p><p>}</p>"
         }
     },
-    "keywords": {
-        "export": true,
-        "function": true,
-        "scenario": false,
-        "async": false,
-        "algoprop": false
-    },
-    "params": "newName"
+    "params": "<p>body</p>",
+    "name": "add_empty_line",
+    "type": "drakon"
 }

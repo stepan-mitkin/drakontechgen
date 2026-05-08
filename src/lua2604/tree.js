@@ -18,7 +18,7 @@ function add_action(content, body, final) {
 function add_class_exports(exported, body) {
     var i;
     var name;
-
+    add_empty_line(body)
     for (i = 0; i < exported.length; i += 1) {
         name = exported[i];
         add_action("self." + name + " = " + name, body);
@@ -27,12 +27,22 @@ function add_class_exports(exported, body) {
     add_action("return self", body);
 }
 
+function add_empty_line(body) {
+    var item;
+
+    item = {
+        type: "empty-line"
+    };
+
+    body.push(item);
+}
+
 function add_module_exports(exported, body) {
     var lines;
     var i;
     var name;
     var content;
-
+    add_empty_line(body)
     lines = [];
 
     for (i = 0; i < exported.length; i += 1) {
@@ -77,43 +87,45 @@ function build_function_tree(doc) {
         add_action("local " + name, fun_node.body);
     }
 
-    if (doc.type === "class") {
-        add_self(doc, fun_node);
-    }
+    if (raw_tree.branches.length !== 0) {
+        if (doc.type === "class") {
+            add_self(doc, fun_node);
+        }
 
-    first = raw_tree.branches[0];
+        first = raw_tree.branches[0];
 
-    if (raw_tree.branches.length === 1) {
-        declare_variables(doc.scope, fun_node.body);
+        if (raw_tree.branches.length === 1) {
+            declare_variables(doc.scope, fun_node.body);
 
-        context = {
-            doc: doc,
-            simple: true
-        };
+            context = {
+                doc: doc,
+                simple: true
+            };
 
-        convert_tree(context, first.body, fun_node.body);
-    } else if (is_simple_silhouette(raw_tree)) {
-        declare_variables(doc.scope, fun_node.body);
+            convert_tree(context, first.body, fun_node.body);
+        } else if (is_simple_silhouette(raw_tree)) {
+            declare_variables(doc.scope, fun_node.body);
 
-        context = {
-            doc: doc,
-            simple: true,
-            branches: raw_tree.branches
-        };
+            context = {
+                doc: doc,
+                simple: true,
+                branches: raw_tree.branches
+            };
 
-        convert_tree(context, first.body, fun_node.body);
-    } else {
-        doc.scope.declarations["_branch_"] = "local";
-        declare_variables(doc.scope, fun_node.body);
-        add_action("_branch_ = \"" + first.name + "\"", fun_node.body);
+            convert_tree(context, first.body, fun_node.body);
+        } else {
+            doc.scope.declarations["_branch_"] = "local";
+            declare_variables(doc.scope, fun_node.body);
+            add_action("_branch_ = \"" + first.name + "\"", fun_node.body);
 
-        context = {
-            doc: doc,
-            simple: false,
-            branches: raw_tree.branches
-        };
+            context = {
+                doc: doc,
+                simple: false,
+                branches: raw_tree.branches
+            };
 
-        complex_silhouette_to_tree(context, fun_node.body);
+            complex_silhouette_to_tree(context, fun_node.body);
+        }
     }
 
     exported = [];

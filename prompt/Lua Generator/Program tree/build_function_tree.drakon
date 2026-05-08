@@ -230,12 +230,19 @@
         },
         "51": {
             "type": "loopend",
-            "one": "2"
+            "one": "53"
         },
         "52": {
             "type": "action",
             "one": "51",
             "text": "<p>add_action(\"local \" + name, fun_node.body)</p>"
+        },
+        "53": {
+            "type": "question",
+            "one": "2",
+            "two": "16",
+            "flag1": 0,
+            "text": "<p>raw_tree.branches.length === 0</p>"
         }
     },
     "params": "<p>doc: Document</p>",

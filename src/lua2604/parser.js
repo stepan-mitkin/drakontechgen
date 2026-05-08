@@ -536,35 +536,51 @@ function scan_assignments(step, item_id, item) {
     }
 }
 
+function can_declare(doc) {
+    if (doc.type === "module") {
+        return true;
+    } else if (doc.type === "class") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function process_assignments(doc, parent) {
     var step;
+    var item_ids;
+    var i;
     var item_id;
     var item;
+    var names;
     var name;
     var member;
 
     step = {
         parent: parent,
         scope: doc.scope,
-        declares: !parent,
+        declares: can_declare(doc),
         path: doc.path
     };
 
-    for (item_id in doc.items) {
-        if (Object.prototype.hasOwnProperty.call(doc.items, item_id)) {
-            item = doc.items[item_id];
+    item_ids = Object.keys(doc.items || {});
 
-            if (item.type === "action" && item.statements) {
-                scan_assignments(step, item_id, item);
-            }
+    for (i = 0; i < item_ids.length; i += 1) {
+        item_id = item_ids[i];
+        item = doc.items[item_id];
+
+        if (item.type === "action" && item.statements) {
+            scan_assignments(step, item_id, item);
         }
     }
 
-    for (name in doc.members) {
-        if (Object.prototype.hasOwnProperty.call(doc.members, name)) {
-            member = doc.members[name];
-            process_assignments(member, step);
-        }
+    names = Object.keys(doc.members || {});
+    names.sort();
+
+    for (i = 0; i < names.length; i += 1) {
+        name = names[i];
+        member = doc.members[name];
+        process_assignments(member, step);
     }
 }
 

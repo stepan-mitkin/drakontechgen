@@ -7,12 +7,12 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
+            "one": "4"
         },
-        "3": {
+        "4": {
             "type": "action",
             "one": "1",
-            "content": "self.value = value"
+            "content": "print(\"GreyClass \" .. message)"
         }
     },
     "keywords": {
@@ -22,5 +22,5 @@
         "async": false,
         "algoprop": false
     },
-    "params": "value"
+    "params": "message"
 }

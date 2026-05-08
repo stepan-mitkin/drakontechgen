@@ -58,6 +58,8 @@ function print_function(context) {
     var node;
     var args;
 
+    add_line(context, "");
+
     node = context.node;
     args = node.args.join(", ");
 
@@ -95,6 +97,8 @@ function print_node(node, depth, lines) {
         print_loop(context);
     } else if (node.type === "if-switch") {
         print_switch(context);
+    } else if (node.type === "empty-line") {
+        add_line(context, "");
     } else {
         throw new Error("Unexpected case value: " + node.type);
     }

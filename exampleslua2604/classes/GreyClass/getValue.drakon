@@ -24,7 +24,7 @@
         "function": false,
         "machine": false,
         "async": false,
-        "export": false,
+        "export": true,
         "algoprop": false,
         "lazy": false
     },

@@ -6,7 +6,7 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "7"
+            "one": "12"
         },
         "3": {
             "type": "loopend",
@@ -41,6 +41,11 @@
             "type": "action",
             "one": "6",
             "text": "<p>content = \"return {\\n\" + body + \"\\n}\"</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>add_empty_line(body)</p>"
         }
     },
     "params": "<p>exported</p><p>body</p>",

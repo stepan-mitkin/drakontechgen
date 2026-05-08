@@ -37,14 +37,17 @@ multiply = require("exampleslua2604.ops")
 .multiply
 local secretValue = 23;
 local nextId = 1
+
 add = function(left, right)
     local result
     result = addCore(left, right)
     return result
 end
+
 addCore = function(left, right)
     return left + right
 end
+
 complexAnd = function(valueA, valueB, valueC)
     if ((not (valueA)) and (valueB)) or (valueC) then
         return true
@@ -52,6 +55,7 @@ complexAnd = function(valueA, valueB, valueC)
         return false
     end
 end
+
 complexOr = function(valueA, valueB, valueC)
     if (valueA) or ((not (valueB)) and (valueC)) then
         return true
@@ -59,6 +63,7 @@ complexOr = function(valueA, valueB, valueC)
         return false
     end
 end
+
 complexSilhouette = function(left, right)
     local _branch_, result
     _branch_ = "First"
@@ -88,6 +93,7 @@ complexSilhouette = function(left, right)
         end
     end
 end
+
 degenerateSelect = function(value)
     if value == 10 then
         return "ten"
@@ -95,6 +101,7 @@ degenerateSelect = function(value)
         return "other"
     end
 end
+
 doWhile = function()
     local result
     result = 0
@@ -107,6 +114,7 @@ doWhile = function()
     return
     result
 end
+
 doWhileDo = function()
     local result
     result = 0
@@ -120,6 +128,7 @@ doWhileDo = function()
     end
     return result
 end
+
 earlyExit = function(array, value)
     local index
     index = -1
@@ -137,8 +146,10 @@ earlyExit = function(array, value)
     end
     return array
 end
+
 empty = function()
 end
+
 fibonacci = function(ordinal)
     local _branch_, i_1, i_2, result
     _branch_ = "Simple case"
@@ -171,6 +182,7 @@ fibonacci = function(ordinal)
         end
     end
 end
+
 fizzBuzz = function(number)
     if number % 3 == 0 then
         if number % 5 == 0 then
@@ -186,6 +198,7 @@ fizzBuzz = function(number)
         end
     end
 end
+
 forEachUntil = function(array, action)
     local mustExit
     for _, element in ipairs(array) do
@@ -195,6 +208,7 @@ forEachUntil = function(array, action)
         end
     end
 end
+
 forLoopNoDeclare = function(array)
     local copy, key, value
     copy = {}
@@ -207,6 +221,7 @@ forLoopNoDeclare = function(array)
     end
     return copy
 end
+
 foreachLoopArray = function(array, value)
     local copy, value2
     copy = {}
@@ -216,6 +231,7 @@ foreachLoopArray = function(array, value)
     end
     return copy
 end
+
 foreachLoopObject = function(object, value)
     local copy, value2, wrapper
     copy = {}
@@ -227,18 +243,22 @@ foreachLoopObject = function(object, value)
     end
     return copy
 end
+
 generateId = function()
     local id
     id = nextId
     nextId = nextId + 1
     return id
 end
+
 getSecret = function()
     return secretValue
 end
+
 hello = function()
     print("Hello, world")
 end
+
 inversedAnd = function(one, two, three)
     if ((one == 1) or (two == 2)) or (three == 3) then
         return false 
@@ -246,6 +266,7 @@ inversedAnd = function(one, two, three)
         return true 
     end
 end
+
 inversedOr = function(one, two, three)
     if ((one == 1) and (two == 2)) and (three == 3) then
         return false 
@@ -253,9 +274,11 @@ inversedOr = function(one, two, three)
         return true 
     end
 end
+
 mul = function(left, right)
     return multiply(left, right)
 end
+
 noDublicates = function(x, y)
     local result
     if x > 0 then
@@ -281,6 +304,7 @@ noDublicates = function(x, y)
         end
     end
 end
+
 questionMerge = function(left, right)
     local result
     result = 0
@@ -296,15 +320,17 @@ questionMerge = function(left, right)
     end
     return result
 end
+
 scope3 = function(array, sortProp, cutoff)
-    local found, result
+    local a, found, result
     result = nil
     found = nil
+    a = nil
     table.sort(
         array,
         function (a, b)
-        left = a[sortProp]
-        right = b[sortProp]
+        local left = a[sortProp]
+        local right = b[sortProp]
         if left < right
         then return true
         end if left > right
@@ -316,7 +342,7 @@ scope3 = function(array, sortProp, cutoff)
     forEachUntil(
         array,
         function (element)
-        e2 = element.value * 2
+        local e2 = element.value * 2
         if e2 > cutoff
         then result = e2
         found = element
@@ -329,6 +355,7 @@ scope3 = function(array, sortProp, cutoff)
         found = found
     }
 end
+
 selectArrow = function()
     local result
     result = 0
@@ -345,6 +372,7 @@ selectArrow = function()
     end
     return result
 end
+
 selectShortCircuit = function(value)
     _var10 = value + 5
     if (_var10 == 10) or (_var10 == 20) then
@@ -356,6 +384,7 @@ selectShortCircuit = function(value)
         return "bad"
     end
 end
+
 selectWithDefault = function(value)
     if value == 10 then
         return "ten"
@@ -367,6 +396,7 @@ selectWithDefault = function(value)
         end
     end
 end
+
 selectWithoutDefault = function(value)
     _var12 = value + 5
     if _var12 == 10 then
@@ -382,6 +412,7 @@ selectWithoutDefault = function(value)
         end
     end
 end
+
 sil2 = function(value)
     local foo
     if value >= 0 then
@@ -396,6 +427,7 @@ sil2 = function(value)
     foo = foo + 5
     return foo
 end
+
 simpleAnd = function(valueA, valueB, valueC)
     if ((valueA) and (valueB)) and (valueC) then
         return true
@@ -403,6 +435,7 @@ simpleAnd = function(valueA, valueB, valueC)
         return false
     end
 end
+
 simpleOr = function(valueA, valueB, valueC)
     if ((valueA) or (valueB)) or (valueC) then
         return true
@@ -410,6 +443,7 @@ simpleOr = function(valueA, valueB, valueC)
         return false
     end
 end
+
 twoExits = function(array, value)
     local i, item
     if not (array) then
@@ -429,6 +463,7 @@ twoExits = function(array, value)
         end
     end
 end
+
 whileDo = function()
     local result
     result = 0
@@ -441,6 +476,7 @@ whileDo = function()
     end
     return result
 end
+
 return {
     add = add,
     complexAnd = complexAnd,
