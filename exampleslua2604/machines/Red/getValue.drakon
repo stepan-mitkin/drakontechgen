@@ -12,7 +12,7 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "return name + \": \" + self.value"
+            "content": "return name .. \": \" .. self.value"
         }
     },
     "keywords": {

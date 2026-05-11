@@ -69,7 +69,6 @@ complexSilhouette = function(left, right)
     _branch_ = "First"
     while _branch_ do
         if _branch_ == "First" then
-            _branch_ = nil
             result = 0
             if left == 3 then
                 result = result + right
@@ -78,15 +77,12 @@ complexSilhouette = function(left, right)
                 _branch_ = "Third"
             end
         elseif _branch_ == "Second" then
-            _branch_ = nil
             result = result + 2
             _branch_ = "Third"
         elseif _branch_ == "Third" then
-            _branch_ = nil
             result = result + 10
             _branch_ = "Exit"
         elseif _branch_ == "Exit" then
-            _branch_ = nil
             return result
         else
             return
@@ -130,7 +126,7 @@ doWhileDo = function()
 end
 
 earlyExit = function(array, value)
-    local index
+    local i, index
     index = -1
     i = 1
     while i <= #array do
@@ -151,11 +147,10 @@ empty = function()
 end
 
 fibonacci = function(ordinal)
-    local _branch_, i_1, i_2, result
+    local _branch_, i, i_1, i_2, result
     _branch_ = "Simple case"
     while _branch_ do
         if _branch_ == "Simple case" then
-            _branch_ = nil
             if (ordinal == 0) or (ordinal == 1) then
                 result = ordinal
                 _branch_ = "Exit"
@@ -163,7 +158,6 @@ fibonacci = function(ordinal)
                 _branch_ = "Normal case"
             end
         elseif _branch_ == "Normal case" then
-            _branch_ = nil
             i_2 = 0
             i_1 = 1
             i = 2
@@ -175,7 +169,6 @@ fibonacci = function(ordinal)
             end
             _branch_ = "Exit"
         elseif _branch_ == "Exit" then
-            _branch_ = nil
             return result
         else
             return
@@ -210,7 +203,7 @@ forEachUntil = function(array, action)
 end
 
 forLoopNoDeclare = function(array)
-    local copy, key, value
+    local copy, i, key, value
     copy = {}
     i = 1
     while i <  # array do
@@ -233,7 +226,7 @@ foreachLoopArray = function(array, value)
 end
 
 foreachLoopObject = function(object, value)
-    local copy, value2, wrapper
+    local _var8, copy, value2, wrapper
     copy = {}
     wrapper = {collection = object}
     _var8 = wrapper.collection
@@ -280,7 +273,7 @@ mul = function(left, right)
 end
 
 noDublicates = function(x, y)
-    local result
+    local i, result
     if x > 0 then
         result = 1000
         i = 0
@@ -374,6 +367,7 @@ selectArrow = function()
 end
 
 selectShortCircuit = function(value)
+    local _var10
     _var10 = value + 5
     if (_var10 == 10) or (_var10 == 20) then
         return "good"
@@ -398,6 +392,7 @@ selectWithDefault = function(value)
 end
 
 selectWithoutDefault = function(value)
+    local _var12
     _var12 = value + 5
     if _var12 == 10 then
         return "ten"

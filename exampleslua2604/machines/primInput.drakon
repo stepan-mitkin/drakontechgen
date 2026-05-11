@@ -21,17 +21,12 @@
         "9": {
             "type": "action",
             "one": "11",
-            "content": "total += amount"
+            "content": "total = total + amount"
         },
         "11": {
             "type": "action",
-            "one": "12",
-            "content": "me.total = total + left + right"
-        },
-        "12": {
-            "type": "action",
             "one": "1",
-            "content": "return me.total"
+            "content": "me.total = total + left + right"
         }
     },
     "keywords": {
