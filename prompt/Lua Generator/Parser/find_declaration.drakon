@@ -28,7 +28,7 @@
         "9": {
             "type": "action",
             "one": "10",
-            "text": "<p>role = current.declarations[name]</p>"
+            "text": "<p>role = current.scope.declarations[name]</p>"
         },
         "10": {
             "type": "question",

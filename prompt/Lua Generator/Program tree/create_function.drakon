@@ -11,10 +11,10 @@
         "3": {
             "type": "action",
             "one": "1",
-            "text": "<p>return {</p><p>    type: \"Identifier\",</p><p>    name: name</p><p>}</p>"
+            "text": "<p>return {</p><p>    type: \"function\",</p><p>    name: name,</p><p>    args: args,</p><p>    self_name: self_name,</p><p>    body: []</p><p>}</p>"
         }
     },
-    "params": "<p>name</p>",
-    "name": "create_identifier",
+    "params": "<p>name</p><p>args</p><p>self_name</p>",
+    "name": "create_function",
     "type": "drakon"
 }

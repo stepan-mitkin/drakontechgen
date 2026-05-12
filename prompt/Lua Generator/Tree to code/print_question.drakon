@@ -7,17 +7,17 @@
             "type": "branch",
             "branchId": 1,
             "one": "3",
-            "text": "<p>Conditon</p>"
+            "text": "<p>Condition</p>"
         },
         "3": {
             "type": "action",
             "one": "4",
-            "text": "<p>Takf from context:</p><ul><li>node</li></ul>"
+            "text": "<p>Take from context:</p><ul><li>node</li></ul>"
         },
         "4": {
             "type": "action",
             "one": "9",
-            "text": "<p>parts = node.content.split(\"\\\")</p>"
+            "text": "<p>parts = node.content.split(\"\\n\")</p>"
         },
         "9": {
             "type": "action",
@@ -48,7 +48,7 @@
         },
         "15": {
             "type": "action",
-            "one": "12",
+            "one": "16",
             "text": "<p>print_body(node.yes)</p>"
         },
         "16": {

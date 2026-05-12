@@ -1,0 +1,183 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "40",
+            "text": "<p>Check item's value type</p>"
+        },
+        "3": {
+            "type": "question",
+            "one": "6",
+            "two": "26",
+            "flag1": 1,
+            "text": "<p>expr.type === \"CallExpression\"</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "26",
+            "flag1": 1,
+            "text": "<p>expr.base</p>"
+        },
+        "7": {
+            "type": "question",
+            "one": "17",
+            "two": "26",
+            "flag1": 1,
+            "text": "<p>expr.base.type === \"Identifier\"</p>"
+        },
+        "16": {
+            "type": "branch",
+            "one": "34",
+            "branchId": 4,
+            "text": "Completion"
+        },
+        "17": {
+            "type": "branch",
+            "one": "18",
+            "branchId": 2,
+            "text": "<p>Extract signature</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "24",
+            "two": "",
+            "text": "<p>message = expr.base.name</p>"
+        },
+        "19": {
+            "type": "loopend",
+            "one": "27",
+            "two": ""
+        },
+        "20": {
+            "type": "loopbegin",
+            "one": "21",
+            "two": "",
+            "text": "<p>for each argument in expr.arguments</p>"
+        },
+        "21": {
+            "type": "question",
+            "one": "25",
+            "two": "22",
+            "flag1": 1,
+            "text": "<p>argument.type === \"Identifier\"</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "23",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"Only identifiers are allowed in incoming messages\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "19",
+            "two": "",
+            "text": "<p>return null</p>"
+        },
+        "24": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>args = empty list</p>"
+        },
+        "25": {
+            "type": "action",
+            "one": "19",
+            "two": "",
+            "text": "<p>add argument.name to args</p>"
+        },
+        "26": {
+            "type": "action",
+            "one": "35",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"A function call expression is expected here\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "28",
+            "text": "<p>arg_str = args.join(\",\")</p>"
+        },
+        "28": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "29",
+            "text": "<p>Find or create signature</p>"
+        },
+        "29": {
+            "type": "question",
+            "one": "30",
+            "two": "33",
+            "flag1": 1,
+            "text": "<p>message in doc.messages</p>"
+        },
+        "30": {
+            "type": "action",
+            "one": "31",
+            "two": "",
+            "text": "<p>message_info = doc.messages[message]</p>"
+        },
+        "31": {
+            "type": "question",
+            "one": "37",
+            "two": "32",
+            "flag1": 1,
+            "text": "<p>message_info.arg_str == arg_str</p>"
+        },
+        "32": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"Signature mismatch in incoming message\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "33": {
+            "type": "action",
+            "one": "36",
+            "text": "<p>doc.messages[message] = {</p><p>    message: message,</p><p>    args: args,</p><p>    arg_str: arg_str,</p><p>    states: [state_id],</p><p>    items: [item.one]</p><p>}</p>"
+        },
+        "34": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return message</p>"
+        },
+        "35": {
+            "type": "action",
+            "one": "16",
+            "two": "",
+            "text": "<p>return null</p>"
+        },
+        "36": {
+            "type": "action",
+            "one": "16",
+            "text": "<p>item.message = message</p>"
+        },
+        "37": {
+            "type": "action",
+            "one": "38",
+            "text": "<p>Add state_id to message_info.states</p>"
+        },
+        "38": {
+            "type": "action",
+            "one": "36",
+            "text": "<p>Add item.one to message_info.items</p>"
+        },
+        "40": {
+            "type": "action",
+            "one": "41",
+            "text": "<p>expr = item.value</p>"
+        },
+        "41": {
+            "type": "question",
+            "one": "3",
+            "two": "26",
+            "flag1": 1,
+            "text": "<p>expr</p>"
+        }
+    },
+    "params": "<p>doc</p><p>item_id</p><p>item</p><p>state_id</p>",
+    "name": "add_signature",
+    "type": "drakon"
+}

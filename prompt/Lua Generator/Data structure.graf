@@ -104,7 +104,7 @@
             "parent": "9",
             "treeType": "horizontal",
             "ordinal": 2,
-            "text": "<p>function parse(source: string): ast</p>"
+            "text": "<p>function parseLua(source: string): ast</p>"
         },
         "22": {
             "type": "idea",

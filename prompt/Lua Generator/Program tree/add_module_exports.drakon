@@ -35,12 +35,12 @@
         "9": {
             "type": "action",
             "one": "10",
-            "text": "<p>body = lines.join(\",\\n\")</p>"
+            "text": "<p>export_body = lines.join(\",\\n\")</p>"
         },
         "10": {
             "type": "action",
             "one": "6",
-            "text": "<p>content = \"return {\\n\" + body + \"\\n}\"</p>"
+            "text": "<p>content = \"return {\\n\" + export_body + \"\\n}\"</p>"
         },
         "12": {
             "type": "action",

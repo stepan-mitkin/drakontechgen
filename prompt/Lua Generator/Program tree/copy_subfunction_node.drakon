@@ -1,0 +1,75 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "question",
+            "one": "6",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>node.type === \"sinput\"</p>"
+        },
+        "4": {
+            "type": "question",
+            "one": "5",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>node.type === \"select\"</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "6",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>node.content === \"receive\"</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>context.output[node_id] = {</p><p>    type: \"event\",</p><p>    content: node_id,</p><p>    final: true</p><p>}</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return false</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>context.output[node_id] = node</p>"
+        },
+        "12": {
+            "type": "question",
+            "one": "13",
+            "two": "14",
+            "flag1": 0,
+            "text": "<p>node.type === \"arrow-loop\"</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "11",
+            "two": "14",
+            "flag1": 0,
+            "text": "<p>node.type === \"loopbegin\"</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>report_error(</p><p>    \"This item is not allowed in a state machine\",</p><p>    context.doc.path,</p><p>    node_id</p><p>)</p>"
+        }
+    },
+    "params": "<p>context</p><p>node_id</p><p>node</p>",
+    "name": "copy_subfunction_node",
+    "type": "drakon"
+}

@@ -16,7 +16,7 @@
         "4": {
             "type": "action",
             "one": "7",
-            "text": "<p>parts = node.content.split(\"\\\")</p>"
+            "text": "<p>parts = node.content.split(\"\\n\")</p>"
         },
         "5": {
             "type": "question",

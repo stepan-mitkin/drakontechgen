@@ -1,0 +1,47 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "7",
+            "text": ""
+        },
+        "3": {
+            "type": "loopend",
+            "one": "1"
+        },
+        "4": {
+            "type": "loopbegin",
+            "one": "8",
+            "text": "<p>for each item_id in doc.states</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>receives = empty list</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>item = doc.items[item_id]</p>"
+        },
+        "9": {
+            "type": "question",
+            "one": "14",
+            "two": "3",
+            "flag1": 1,
+            "text": "<p>item.type === \"select\"</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>get_messages_from_cases(</p><p>    doc,</p><p>    item_id,</p><p>    item</p><p>)</p>"
+        }
+    },
+    "params": "<p>doc</p>",
+    "name": "read_cases",
+    "type": "drakon"
+}

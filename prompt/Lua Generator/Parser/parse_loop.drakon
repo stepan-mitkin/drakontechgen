@@ -30,7 +30,7 @@
         "6": {
             "type": "action",
             "one": "7",
-            "text": "<p>item.collection = trim(expression)</p>"
+            "text": "<p>item.content = trim(expression)</p>"
         },
         "7": {
             "type": "action",
@@ -47,12 +47,6 @@
             "one": "36",
             "two": "",
             "text": "<p>item.var1 = trim(variable1)</p>"
-        },
-        "10": {
-            "type": "action",
-            "one": "11",
-            "two": "",
-            "text": "<p>item.collection = trim(expression)</p>"
         },
         "11": {
             "type": "action",
@@ -74,20 +68,15 @@
         },
         "14": {
             "type": "question",
-            "one": "15",
+            "one": "17",
             "two": "18",
             "flag1": 1,
             "text": "<p>content looks like \"expression1; expression2; expression3”</p>"
         },
-        "15": {
-            "type": "action",
-            "one": "17",
-            "text": "<p>item.expr1 = expression1</p><p>item.expr2 = expression2</p><p>item.expr3 = expression3</p>"
-        },
         "16": {
             "type": "action",
             "one": "29",
-            "text": "<p>item.ast1 = parse_statements(content: expression1)</p><p>item.ast2 = parse_statements(content: expression2)</p><p>item.ast3 = parse_statements(content:  expression3)</p>"
+            "text": "<p>ast1 = parse_statements(content: expression1)</p><p>ast2 = parse_value(content: expression2)</p><p>ast3 = parse_statements(content: expression3)</p>"
         },
         "17": {
             "type": "action",
@@ -130,24 +119,24 @@
         "28": {
             "type": "action",
             "one": "32",
-            "text": "<p>end_id = find_loop_end(doc, item)</p>"
+            "text": "<p>end_id = find_loop_end(doc, item_id, item)</p>"
         },
         "29": {
             "type": "action",
             "one": "30",
-            "text": "<p>item.content = \"while \" + item.ast2 + \" do\"</p>"
+            "text": "<p>item.content = \"while \" + expression2 + \" do\"</p>"
         },
         "30": {
             "type": "action",
             "one": "28",
             "two": "",
-            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    item_id,</p><p>    expression1</p><p>)</p>"
+            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    item_id,</p><p>    expression1,</p><p>    ast1</p><p>)</p>"
         },
         "31": {
             "type": "action",
             "one": "1",
             "two": "",
-            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    end_id,</p><p>    expression3</p><p>)</p>"
+            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    end_id,</p><p>    expression3,</p><p>    ast3</p><p>)</p>"
         },
         "32": {
             "type": "question",
@@ -168,8 +157,13 @@
         },
         "37": {
             "type": "action",
-            "one": "10",
+            "one": "38",
             "text": "<p>doc.scope.declarations[item.var2] = \"loop\"</p>"
+        },
+        "38": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>item.content = trim(expression)</p>"
         }
     },
     "params": "<p>context</p>",

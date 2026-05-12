@@ -18,7 +18,7 @@
             "type": "action",
             "one": "3",
             "two": "",
-            "text": "<p>item = {</p><p>    type: \"action\",</p><p>    content: content,</p><p>    final: final</p><p>}</p>"
+            "text": "<p>item = {</p><p>    type: \"action\",</p><p>    content: content,</p><p>    final: final || false</p><p>}</p>"
         }
     },
     "params": "<p>content</p><p>body</p><p>final</p>",

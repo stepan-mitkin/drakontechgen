@@ -19,11 +19,11 @@
             "type": "action",
             "one": "7",
             "two": "",
-            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    item_id,</p><p>    var_name + \" = \" + item.collection</p><p>)</p>"
+            "text": "<p>insert_action_before(</p><p>    doc,</p><p>    item_id,</p><p>    var_name + \" = \" + item.content</p><p>)</p>"
         },
         "5": {
             "type": "action",
-            "one": "4",
+            "one": "9",
             "two": "",
             "text": "<p>var_name = generate_random_var_name()</p>"
         },
@@ -41,6 +41,11 @@
             "type": "action",
             "one": "1",
             "text": "<p>item.content = var_name</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>doc.scope.declarations[var_name] = \"local\"</p>"
         }
     },
     "params": "<p>context</p>",

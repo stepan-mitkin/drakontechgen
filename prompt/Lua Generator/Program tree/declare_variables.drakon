@@ -15,7 +15,7 @@
         },
         "4": {
             "type": "loopend",
-            "one": "8"
+            "one": "13"
         },
         "5": {
             "type": "loopbegin",
@@ -48,6 +48,13 @@
             "type": "action",
             "one": "1",
             "text": "<p>add_action(content, body)</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "8",
+            "two": "1",
+            "flag1": 0,
+            "text": "<p>locals is empty</p>"
         }
     },
     "params": "<p>scope</p><p>body</p>",

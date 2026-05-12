@@ -19,7 +19,7 @@
         },
         "5": {
             "type": "case",
-            "one": "15",
+            "one": "43",
             "text": "<p>\"loop\"</p>",
             "two": "11"
         },
@@ -31,8 +31,8 @@
         },
         "7": {
             "type": "case",
-            "one": "9",
-            "two": "6",
+            "one": "41",
+            "two": "46",
             "text": "<p>\"action\"</p>"
         },
         "8": {
@@ -42,13 +42,8 @@
         },
         "9": {
             "type": "action",
-            "one": "10",
-            "text": "<p>item = {</p><p>    content: node.content,</p><p>    type: node.type</p><p>}</p>"
-        },
-        "10": {
-            "type": "action",
             "one": "23",
-            "text": "<p>item.final = is_final(item)</p>"
+            "text": "<p>item = {</p><p>    content: content,</p><p>    type: node.type,</p><p>    final: final</p><p>}</p>"
         },
         "11": {
             "one": "26",
@@ -59,7 +54,7 @@
         "12": {
             "type": "action",
             "one": "13",
-            "text": "<p>item = {</p><p>    content: content,</p><p>    type: node.type</p><p>    yes: [],</p><p>    no: []</p><p>}</p>"
+            "text": "<p>item = {</p><p>    content: content,</p><p>    type: node.type,</p><p>    yes: [],</p><p>    no: []</p><p>}</p>"
         },
         "13": {
             "type": "action",
@@ -70,18 +65,6 @@
             "type": "action",
             "one": "24",
             "text": "<p>convert_tree(context, node.no, item.no)</p>"
-        },
-        "15": {
-            "type": "question",
-            "one": "17",
-            "two": "16",
-            "flag1": 0,
-            "text": "<p>node.content is empty</p>"
-        },
-        "16": {
-            "type": "action",
-            "one": "17",
-            "text": "<p>node.content = \"while true do\"</p>"
         },
         "17": {
             "type": "action",
@@ -130,7 +113,7 @@
         "29": {
             "type": "action",
             "one": "3",
-            "text": "<p>add_action(\"_branch_ = \\\" + node.content + \"\\\"\", body)</p>"
+            "text": "<p>add_action(context.state_var + \" = \\\"\" + node.content + \"\\\"\", body)</p>"
         },
         "30": {
             "type": "action",
@@ -174,6 +157,59 @@
             "type": "action",
             "one": "3",
             "text": "<p>add_action(</p><p>    \"error(\\\"\" + node.message + \": \\\" .. tostring(\" + node.content + \"))\",</p><p>    body,</p><p>    true</p><p>)</p>"
+        },
+        "39": {
+            "type": "action",
+            "one": "17",
+            "text": "<p>item = {</p><p>    type: \"loop\",</p><p>    content: content,</p><p>    body: []</p><p>}</p>"
+        },
+        "41": {
+            "type": "action",
+            "one": "44",
+            "text": "<p>content = node.content</p>"
+        },
+        "43": {
+            "type": "action",
+            "one": "39",
+            "text": "<p>content = node.content || \"while true do\"</p>"
+        },
+        "44": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>final = is_final(context.doc, node)</p>"
+        },
+        "46": {
+            "one": "50",
+            "type": "case",
+            "two": "6",
+            "text": "<p>\"event\"</p>"
+        },
+        "47": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Add item to body</p>"
+        },
+        "48": {
+            "type": "action",
+            "one": "49",
+            "two": "",
+            "text": "<p>content = \"me.state = \\\"\" + state_id + \"\\\"\\nme._buzy = false\\nreturn\"</p>"
+        },
+        "49": {
+            "type": "action",
+            "one": "51",
+            "two": "",
+            "text": "<p>final = true</p>"
+        },
+        "50": {
+            "type": "action",
+            "one": "48",
+            "text": "<p>state_id = node.content</p>"
+        },
+        "51": {
+            "type": "action",
+            "one": "47",
+            "text": "<p>item = {</p><p>    content: content,</p><p>    type: \"action\",</p><p>    final: true</p><p>}</p>"
         }
     },
     "params": "<p>context</p><p>nodes</p><p>body</p>",

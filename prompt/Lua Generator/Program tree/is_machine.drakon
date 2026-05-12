@@ -1,0 +1,32 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "question",
+            "one": "4",
+            "two": "5",
+            "flag1": 1,
+            "text": "<p>doc.states is empty</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return false</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        }
+    },
+    "params": "<p>doc</p>",
+    "name": "is_machine",
+    "type": "drakon"
+}

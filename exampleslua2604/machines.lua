@@ -18,7 +18,7 @@ Red = function(name)
             if me.state ~= "created" then
                 error("run() can be called only once")
             end
-            me.state = "_started_"
+            me.state = "4"
             me.state = "4"
             me._buzy = false
             return
@@ -51,7 +51,7 @@ primInput = function(left, right)
         if me.state ~= "created" then
             error("run() can be called only once")
         end
-        me.state = "_started_"
+        me.state = "6"
         total = 0
         me.state = "4"
         me._buzy = false
@@ -80,9 +80,9 @@ silReceive = function(arg1, arg2)
         if me.state ~= "created" then
             error("run() can be called only once")
         end
-        me.state = "_started_"
+        me.state = "3"
         while me.state do
-            if me.state == "_started_" then
+            if me.state == "3" then
                 x = arg1 + 2
                 me.state = "Black state"
             elseif me.state == "Black state" then
@@ -102,7 +102,7 @@ silReceive = function(arg1, arg2)
         if me.state == "11" then
             me._buzy = true
             while me.state do
-                if me.state == "_started_" then
+                if me.state == "11" then
                     if value < 0 then
                         arg2 = arg2 + value
                         me.state = "Red state"
@@ -124,7 +124,7 @@ silReceive = function(arg1, arg2)
         elseif me.state == "13" then
             me._buzy = true
             while me.state do
-                if me.state == "_started_" then
+                if me.state == "13" then
                     arg1 = arg1 + value * 2
                     me.state = "Grey state"
                 elseif me.state == "Grey state" then
@@ -146,7 +146,7 @@ silReceive = function(arg1, arg2)
         if me.state == "25" then
             me._buzy = true
             while me.state do
-                if me.state == "_started_" then
+                if me.state == "25" then
                     print(what)
                     me.a1 = arg1 + x
                     me.a2 = arg2
@@ -169,7 +169,7 @@ silReceive = function(arg1, arg2)
         if me.state == "11" then
             me._buzy = true
             while me.state do
-                if me.state == "_started_" then
+                if me.state == "11" then
                     arg2 = arg2 + value
                     me.state = "Red state"
                 elseif me.state == "Red state" then
@@ -183,7 +183,7 @@ silReceive = function(arg1, arg2)
         elseif me.state == "13" then
             me._buzy = true
             while me.state do
-                if me.state == "_started_" then
+                if me.state == "13" then
                     if value == "7777" then
                         error("Bad right value")
                     end

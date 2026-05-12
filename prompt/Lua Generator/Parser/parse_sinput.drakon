@@ -1,0 +1,37 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "text": "<p>item.value = parse_value()</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Get from context:</p><ul><li>doc</li><li>item_id</li><li>item</li><li>content</li></ul>"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>Add item_id to doc.states</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "5",
+            "two": "1",
+            "flag1": 1,
+            "text": "<p>add_signature(</p><p>    doc, item_id, item, item_id</p><p>)</p>"
+        }
+    },
+    "name": "parse_sinput",
+    "type": "drakon"
+}

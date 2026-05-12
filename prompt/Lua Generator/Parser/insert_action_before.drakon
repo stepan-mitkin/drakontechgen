@@ -11,7 +11,7 @@
         "4": {
             "type": "action",
             "one": "5",
-            "text": "<p>item = {</p><p>    type: \"action\",</p><p>    one: item_id,</p><p>    content: content</p><p>}</p>"
+            "text": "<p>item = {</p><p>    type: \"action\",</p><p>    one: item_id,</p><p>    content: content,</p><p>    statements: statements</p><p>}</p>"
         },
         "5": {
             "type": "action",
@@ -35,7 +35,7 @@
         "9": {
             "type": "loopbegin",
             "one": "10",
-            "text": "<p>for each id, other_item i doc.items</p>"
+            "text": "<p>for each id, other_item in doc.items</p>"
         },
         "10": {
             "type": "question",
@@ -47,7 +47,7 @@
         "11": {
             "type": "action",
             "one": "12",
-            "text": "<p>other_item.one === new_item_id</p>"
+            "text": "<p>other_item.one = new_item_id</p>"
         },
         "12": {
             "type": "question",
@@ -60,10 +60,10 @@
             "type": "action",
             "one": "8",
             "two": "",
-            "text": "<p>other_item.two === new_item_id</p>"
+            "text": "<p>other_item.two = new_item_id</p>"
         }
     },
-    "params": "<p>doc</p><p>item_id</p><p>content</p>",
+    "params": "<p>doc</p><p>item_id</p><p>content</p><p>statements</p>",
     "name": "insert_action_before",
     "type": "drakon"
 }

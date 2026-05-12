@@ -1,0 +1,45 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>subfunction = {</p><p>    name: doc.name,</p><p>    path: doc.path,</p><p>    items: {}</p><p>}</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return subfunction</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>context:</p><ul><li>doc: doc</li><li>input: doc.items</li><li>output: subfunction.items</li></ul>"
+        },
+        "6": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>Traverse context.input graph depth-first</p><ul><li>use context</li><li>first node id: entry_id</li><li>get node by node id: context.input[node_id]</li><li>ids of next nodes: [node.one, node.two]</li><li>visit each node only once</li><li>visitor: copy_subfunction_node</li><li>if visitor returns false, do not traverse to adjacent nodes</li></ul>"
+        },
+        "7": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>Rule:</p><ul><li>node.one can be null</li><li>node.two can be null</li></ul>"
+        },
+        "8": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>subfunction.items[\"sub-start\"] = {</p><p>    type: \"branch\",</p><p>    branchId: 0,</p><p>    content: start_state,</p><p>    one: entry_id</p><p>}</p>"
+        }
+    },
+    "params": "<p>doc</p><p>entry_id</p><p>start_state</p>",
+    "name": "build_subfunction",
+    "type": "drakon"
+}

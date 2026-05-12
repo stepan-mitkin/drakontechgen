@@ -1,6 +1,6 @@
 local classes = require("exampleslua2604.classes")
 
-describe("Classes", function()
+describe("Lua Classes", function()
 
     it("GreyClass", function()
         assert.are.equal(124, classes.runGrey())

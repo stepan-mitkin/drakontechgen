@@ -10,21 +10,33 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
+            "one": "7",
             "text": "<p>json = JSON.stringify(tmp)</p>"
         },
         "4": {
             "type": "action",
-            "one": "1",
-            "text": "<p>return global_options.toTree(json)</p>"
+            "one": "6",
+            "text": "<p>raw_tree_json = global_options.toTree(</p><p>    json,</p><p>    doc.name,</p><p>    doc.path,</p><p>    \"en\",</p><p>    options</p><p>)</p>"
         },
         "5": {
             "type": "action",
             "one": "3",
             "text": "<p>tmp = {</p><p>    items: doc.items</p><p>}</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>return JSON.parse(raw_tree_json)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>options = {</p><p>    noLoop: noLoop</p><p>}</p>"
         }
     },
-    "params": "<p>Document: doc</p>",
+    "params": "<p>Document: doc</p><p>noLoop: boolean</p>",
+    "style": "{\"maxWidth\":350}",
     "name": "drakon_to_tree",
     "type": "drakon"
 }

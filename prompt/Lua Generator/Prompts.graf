@@ -36,7 +36,7 @@
             "treeType": "horizontal",
             "ordinal": 0,
             "w": 155,
-            "text": "<p>Generate a JS module.</p><p>Use CommonJS format.</p><p>Generate all the necessary functions.</p><p>Do not add any dependencies to the module.</p><p>Do not use \"class\", \"new\", and \"this\" keywords.</p><p>Do not use object destructuring.</p><p>Add async/await where necessary.</p><p>Use \"undefined\" instead of \"null\".</p><p>Do not use array.length = 0 trick.</p><p>Use plain JS objects for dictionaries and sets.</p><p>Use {} to create new dictionaries and sets.</p><p>Keep snake case identifier style where the specs follow it.</p>"
+            "text": "<p>Generate a JS module.</p><p>Use CommonJS format.</p><p>Generate all the necessary functions.</p><p>Do not add any dependencies to the module.</p><p>Do not use \"class\", \"new\", and \"this\" keywords.</p><p>Do not use object destructuring.</p><p>Add async/await where necessary.</p><p>Use \"undefined\" instead of \"null\".</p><p>Do not use array.length = 0 trick.</p><p>Use plain JS objects for dictionaries and sets.</p><p>Use {} to create new dictionaries and sets.</p><p>Use \"in\" operator to check if a key is in the map or set.</p><p>Keep snake case identifier style where the specs follow it.</p><p>Report the errors instead of generating code if there are critical errors.</p>"
         },
         "6": {
             "type": "idea",

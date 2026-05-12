@@ -64,7 +64,18 @@ async function generate_lua(options) {
 }
 
 async function wrapLuaGenerator(options) {
-    var result = await generate_lua(options)
+    var result
+    try {
+        result = await generate_lua(options)
+    } catch (ex) {
+        options.onError({
+            message: ex.message,
+            filename: ex.filename,
+            nodeId: ex.nodeId,
+            data: ex.data
+        })
+        return
+    }
     if (result.errors && result.errors.length != 0) {
         for (var error of result.errors) {
             options.onError(error)

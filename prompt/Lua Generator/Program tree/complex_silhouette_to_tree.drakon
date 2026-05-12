@@ -6,13 +6,13 @@
         "2": {
             "type": "branch",
             "branchId": 1,
-            "one": "3",
+            "one": "27",
             "text": "<p>Prepare main loop</p>"
         },
         "3": {
             "type": "action",
             "one": "4",
-            "text": "<p>loop = {</p><p>    type: \"loop\",</p><p>    content: \"while _branch_ do\",</p><p>    body: []</p><p>}</p>"
+            "text": "<p>loop = {</p><p>    type: \"loop\",</p><p>    content: \"while \" + state_var + \" do\",</p><p>    body: []</p><p>}</p>"
         },
         "4": {
             "type": "action",
@@ -50,13 +50,13 @@
             "type": "loopbegin",
             "one": "19",
             "two": "",
-            "text": "<p>for each branch in body.branches</p>"
+            "text": "<p>for each branch in context.branches</p>"
         },
         "19": {
             "type": "action",
             "one": "20",
             "two": "",
-            "text": "<p>condition = \"_branch_ == \\\"\" + branch.name + \"\\\"\"</p>"
+            "text": "<p>condition = state_var + \" == \\\"\" + branch.name + \"\\\"\"</p>"
         },
         "20": {
             "type": "action",
@@ -66,15 +66,9 @@
         },
         "21": {
             "type": "action",
-            "one": "22",
-            "two": "",
-            "text": "<p>Add option to switch.options</p>"
-        },
-        "22": {
-            "type": "action",
             "one": "23",
             "two": "",
-            "text": "<p>add_action(\"_branch_ = nil\", option.body)</p>"
+            "text": "<p>Add option to switch.options</p>"
         },
         "23": {
             "type": "action",
@@ -86,9 +80,15 @@
             "type": "action",
             "one": "1",
             "text": "<p>add_action(\"return\", switch.other, true)</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>state_var = context.state_var</p>"
         }
     },
     "params": "<p>context</p><p>body</p>",
+    "style": "{\"maxWidth\":290}",
     "name": "complex_silhouette_to_tree",
     "type": "drakon"
 }

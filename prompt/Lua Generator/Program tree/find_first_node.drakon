@@ -1,0 +1,54 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>branches = empty list</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>sort branches by branchId</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>first = first(branches)</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return first.one</p>"
+        },
+        "7": {
+            "type": "loopend",
+            "one": "4"
+        },
+        "8": {
+            "type": "loopbegin",
+            "one": "9",
+            "text": "<p>for each item_id in doc.branches</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>branch = doc.items[item_id]</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>add branch to branches</p>"
+        }
+    },
+    "params": "<p>doc</p>",
+    "name": "find_first_node",
+    "type": "drakon"
+}

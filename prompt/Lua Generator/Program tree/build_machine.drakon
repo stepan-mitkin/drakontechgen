@@ -1,0 +1,157 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "47",
+            "text": "<p>Make stop and return me</p>"
+        },
+        "20": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 5,
+            "text": "Completion"
+        },
+        "22": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "51",
+            "text": "<p>Run</p>"
+        },
+        "25": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "37",
+            "text": "<p>Message methods</p>"
+        },
+        "31": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "56",
+            "text": "<p>Me</p>"
+        },
+        "32": {
+            "type": "action",
+            "one": "53",
+            "two": "",
+            "text": "<p>state_check = {</p><p>    type: \"question\",</p><p>    content: \"me.state ~= \\\"created\\\"\",</p><p>    yes: [error_node],</p><p>    no: []</p><p>}</p>"
+        },
+        "33": {
+            "type": "action",
+            "one": "32",
+            "two": "",
+            "text": "<p>error_node = {</p><p>    type: \"action\",</p><p>    content: \"error(\\\"run() can be called only once\\\")\"</p><p>}</p>"
+        },
+        "35": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "text": "<p>me_node</p><ul><li>type: \"action\"</li><li>content: \"local me = {state = \\\"created\\\", _buzy = true}\"</li></ul>"
+        },
+        "36": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "text": "<p>Add me_node to fun_node.body</p>"
+        },
+        "37": {
+            "type": "action",
+            "one": "44",
+            "text": "<p>messages = keys(doc.messages)</p><p>sort messages</p>"
+        },
+        "38": {
+            "type": "action",
+            "one": "39",
+            "two": "",
+            "text": "<p>set_state_node</p><ul><li>type: \"action\"</li><li>content: \"me.state = \\\"\" + first_id + \"\\\"\"</li></ul>"
+        },
+        "39": {
+            "type": "action",
+            "one": "54",
+            "two": "",
+            "text": "<p>Add set_state_node to run.body</p>"
+        },
+        "41": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>Add run to fun_node.body</p>"
+        },
+        "43": {
+            "type": "loopend",
+            "one": "2"
+        },
+        "44": {
+            "type": "loopbegin",
+            "one": "45",
+            "text": "<p>for each message in messages</p>"
+        },
+        "45": {
+            "type": "action",
+            "one": "46",
+            "text": "<p>message_method = build_message_method(</p><p>    doc,</p><p>    message</p><p>)</p>"
+        },
+        "46": {
+            "type": "action",
+            "one": "43",
+            "text": "<p>Add message_method to fun_node.body</p>"
+        },
+        "47": {
+            "type": "action",
+            "one": "48",
+            "two": "",
+            "text": "<p>stop_node</p><ul><li>type: \"action\"</li><li>content: \"me.stop = function() me.state = nil end\"</li></ul>"
+        },
+        "48": {
+            "type": "action",
+            "one": "49",
+            "two": "",
+            "text": "<p>Add stop_node to fun_node.body</p>"
+        },
+        "49": {
+            "type": "action",
+            "one": "50",
+            "two": "",
+            "text": "<p>return_node</p><ul><li>type: \"action\"</li><li>content: \"return me\"</li></ul>"
+        },
+        "50": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>Add return_node to fun_node.body</p>"
+        },
+        "51": {
+            "type": "action",
+            "one": "33",
+            "text": "<p>run = create_function(</p><p>    \"run\",</p><p>    [],</p><p>    \"me\"</p><p>)</p>"
+        },
+        "53": {
+            "type": "action",
+            "one": "38",
+            "two": "",
+            "text": "<p>Add state_check to run.body</p>"
+        },
+        "54": {
+            "type": "action",
+            "one": "41",
+            "text": "<p>add_subfunction(</p><p>    doc,</p><p>    first_id,</p><p>    run.body,</p><p>    first_id</p><p>)</p>"
+        },
+        "55": {
+            "type": "action",
+            "one": "35",
+            "two": "",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "56": {
+            "type": "action",
+            "one": "55",
+            "text": "<p>first_id = find_first_node(doc)</p>"
+        }
+    },
+    "params": "<p>doc</p><p>fun_node</p>",
+    "style": "{\"maxWidth\":330}",
+    "name": "build_machine",
+    "type": "drakon"
+}

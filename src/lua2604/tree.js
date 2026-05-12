@@ -72,7 +72,7 @@ function add_self(doc, fun_node) {
     add_action(content, fun_node.body);
 }
 
-function add_subfunction(doc, entry_id, body) {
+function add_subfunction(doc, entry_id, body, start_state) {
     var sub;
     var raw_tree;
     var first;
@@ -80,8 +80,13 @@ function add_subfunction(doc, entry_id, body) {
 
     sub = build_subfunction(
         doc,
-        entry_id
+        entry_id,
+        start_state
     );
+
+    if (!(error_list.length === 0)) {
+        return;
+    }
 
     raw_tree = drakon_to_tree(
         sub,
@@ -172,8 +177,8 @@ function build_function_tree(doc) {
 }
 
 function build_machine(doc, fun_node) {
-    var me_node;
     var first_id;
+    var me_node;
     var run;
     var error_node;
     var state_check;
@@ -183,6 +188,8 @@ function build_machine(doc, fun_node) {
     var message_method;
     var stop_node;
     var return_node;
+
+    first_id = find_first_node(doc);
 
     declare_variables(
         doc.scope,
@@ -195,8 +202,6 @@ function build_machine(doc, fun_node) {
     };
 
     fun_node.body.push(me_node);
-
-    first_id = find_first_node(doc);
 
     run = create_function(
         "run",
@@ -220,7 +225,7 @@ function build_machine(doc, fun_node) {
 
     set_state_node = {
         type: "action",
-        content: "me.state = \"_started_\""
+        content: "me.state = \"" + first_id + "\""
     };
 
     run.body.push(set_state_node);
@@ -228,7 +233,8 @@ function build_machine(doc, fun_node) {
     add_subfunction(
         doc,
         first_id,
-        run.body
+        run.body,
+        first_id
     );
 
     fun_node.body.push(run);
@@ -322,7 +328,8 @@ function build_message_method(doc, message) {
         add_subfunction(
             doc,
             entry_id,
-            option.body
+            option.body,
+            state_id
         );
 
         switch_node.options.push(option);
@@ -426,7 +433,7 @@ function build_normal_function(doc, fun_node) {
     }
 }
 
-function build_subfunction(doc, entry_id) {
+function build_subfunction(doc, entry_id, start_state) {
     var subfunction;
     var context;
 
@@ -437,6 +444,7 @@ function build_subfunction(doc, entry_id) {
     };
 
     context = {
+        doc: doc,
         input: doc.items,
         output: subfunction.items
     };
@@ -450,7 +458,7 @@ function build_subfunction(doc, entry_id) {
     subfunction.items["sub-start"] = {
         type: "branch",
         branchId: 0,
-        content: "_started_",
+        content: start_state,
         one: entry_id
     };
 
@@ -608,8 +616,16 @@ function copy_subfunction_node(context, node_id, node) {
 
         return false;
     } else {
-        context.output[node_id] = node;
-        return true;
+        if (node.type === "arrow-loop" || node.type === "loopbegin") {
+            report_error(
+                "This item is not allowed in a state machine",
+                context.doc.path,
+                node_id
+            );
+        } else {
+            context.output[node_id] = node;
+            return true;
+        }
     }
 }
 

@@ -29,7 +29,7 @@
         },
         "6": {
             "type": "action",
-            "one": "1",
+            "one": "13",
             "two": "",
             "text": "<p>find_cases()</p>"
         },
@@ -42,6 +42,19 @@
             "type": "action",
             "one": "6",
             "text": "<p>extract_expression()</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>Add item_id to doc.states</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "12",
+            "two": "1",
+            "flag1": 1,
+            "text": "<p>content === \"receive\"</p>"
         }
     },
     "params": "<p>context</p>",

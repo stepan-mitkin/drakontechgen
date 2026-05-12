@@ -74,7 +74,7 @@
             "text": "<p>return \"(\" + left + \") or (\" + right + \")\"</p>"
         },
         "18": {
-            "one": "19",
+            "one": "20",
             "type": "case",
             "text": "<p>\"equal\"</p>",
             "two": ""
@@ -82,7 +82,12 @@
         "19": {
             "type": "action",
             "one": "1",
-            "text": "<p>return content.left + \" == \" + content.right</p>"
+            "text": "<p>return left + \" == \" + right</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "19",
+            "text": "<p>left = qc(content.left)</p><p>right = qc(content.right)</p>"
         }
     },
     "params": "<p>content</p>",

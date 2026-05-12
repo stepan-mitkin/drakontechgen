@@ -1,0 +1,75 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "11",
+            "two": "",
+            "text": "<p>sub = build_subfunction(</p><p>    doc,</p><p>    entry_id,</p><p>    start_state</p><p>)</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "text": "<p>raw_tree = drakon_to_tree(</p><p>    sub,</p><p>    true</p><p>)</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "10",
+            "two": "9",
+            "flag1": 1,
+            "text": "<p>raw_tree.branches.length === 1</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "text": "<p>context = {</p><p>    doc: sub,</p><p>    simple: true,</p><p>    branches: raw_tree.branches,</p><p>    state_var: \"me.state\"</p><p>}</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>convert_tree(</p><p>    context,</p><p>    first.body,</p><p>    body</p><p>)</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>complex_silhouette_to_tree(</p><p>    context,</p><p>    body</p><p>)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "8",
+            "two": "",
+            "text": "<p>context = {</p><p>    doc: sub,</p><p>    simple: false,</p><p>    branches: raw_tree.branches,</p><p>    state_var: \"me.state\"</p><p>}</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>first = first element(raw_tree.branches)</p>"
+        },
+        "11": {
+            "type": "question",
+            "one": "4",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>error_list.length === 0</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>return</p>"
+        }
+    },
+    "params": "<p>doc</p><p>entry_id</p><p>body</p><p>start_state</p>",
+    "name": "add_subfunction",
+    "type": "drakon"
+}
