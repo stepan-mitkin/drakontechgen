@@ -32,7 +32,7 @@
         "7": {
             "type": "case",
             "one": "41",
-            "two": "46",
+            "two": "52",
             "text": "<p>\"action\"</p>"
         },
         "8": {
@@ -210,6 +210,22 @@
             "type": "action",
             "one": "47",
             "text": "<p>item = {</p><p>    content: content,</p><p>    type: \"action\",</p><p>    final: true</p><p>}</p>"
+        },
+        "52": {
+            "one": "53",
+            "type": "case",
+            "two": "46",
+            "text": "<p>\"exit\"</p>"
+        },
+        "53": {
+            "type": "action",
+            "one": "54",
+            "text": "<p>item = {</p><p>    type: node.type,</p><p>    final: true</p><p>}</p>"
+        },
+        "54": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Add item to body</p>"
         }
     },
     "params": "<p>context</p><p>nodes</p><p>body</p>",

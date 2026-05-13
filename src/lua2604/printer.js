@@ -1,27 +1,7 @@
-"use strict";
-
-function add_line(text, depth, lines) {
-    var indent = "";
-    var i = 0;
-
-    for (i = 0; i < depth * 4; i++) {
-        indent += " ";
-    }
-
-    lines.push(indent + text);
-}
-
 function build_module_code(root, options) {
     var lines = [];
-    var i = 0;
-    var node = undefined;
 
-    if (!root || !root.body) {
-        return { code: "" };
-    }
-
-    for (i = 0; i < root.body.length; i++) {
-        node = root.body[i];
+    for (var node of root.body) {
         print_node(node, 0, lines);
     }
 
@@ -30,144 +10,138 @@ function build_module_code(root, options) {
     };
 }
 
-function print_action(node, depth, lines) {
-    var parts = undefined;
-    var i = 0;
-
-    if (!node || !node.content) {
-        return;
-    }
-
-    parts = node.content.split("\n");
-
-    for (i = 0; i < parts.length; i++) {
-        add_line(parts[i], depth, lines);
-    }
+function add_line(context, text) {
+    var depth = context.depth;
+    var lines = context.lines;
+    var indent = " ".repeat(depth * 4);
+    var line = indent + text;
+    lines.push(line);
 }
 
-function print_body(body, depth, lines) {
-    var i = 0;
-
-    if (!body) {
-        return;
-    }
-
-    for (i = 0; i < body.length; i++) {
-        print_node(body[i], depth + 1, lines);
-    }
-}
-
-function print_function(node, depth, lines) {
-    var args = "";
-    var header = "";
-
-    add_line("", depth, lines);
-
-    if (!node) {
-        return;
-    }
-
-    if (node.args) {
-        args = node.args.join(", ");
-    }
-
-    if (node.self_name) {
-        header = node.self_name + "." + node.name + " = function(" + args + ")";
-    } else {
-        header = node.name + " = function(" + args + ")";
-    }
-
-    add_line(header, depth, lines);
-
-    print_body(node.body, depth, lines);
-
-    add_line("end", depth, lines);
-}
-
-function print_loop(node, depth, lines) {
-    if (!node) {
-        return;
-    }
-
-    add_line(node.content || "while true do", depth, lines);
-    print_body(node.body, depth, lines);
-    add_line("end", depth, lines);
-}
-
-function print_question(node, depth, lines) {
-    var parts = undefined;
-    var content = "";
-    var i = 0;
-
-    if (!node) {
-        return;
-    }
+function print_action(context) {
+    var node = context.node;
 
     if (node.content) {
-        parts = node.content.split("\n");
-        content = parts.join(" ");
+        var parts = node.content.split("\n");
+        for (var part of parts) {
+            add_line(context, part);
+        }
     }
-
-    add_line("if " + content + " then", depth, lines);
-
-    print_body(node.yes, depth, lines);
-
-    if (node.no && node.no.length > 0) {
-        add_line("else", depth, lines);
-        print_body(node.no, depth, lines);
-    }
-
-    add_line("end", depth, lines);
 }
 
-function print_switch(node, depth, lines) {
-    var i = 0;
-    var option = undefined;
+function print_body(context, body) {
+    var depth = context.depth;
+    var lines = context.lines;
 
-    if (!node || !node.options || node.options.length === 0) {
-        return;
+    for (var child of body) {
+        print_node(child, depth + 1, lines);
+    }
+}
+
+function print_exit(context) {
+    add_line(context, "me.state = nil");
+    add_line(context, "me._buzy = false");
+    add_line(context, "return");
+}
+
+function print_function(context) {
+    var node = context.node;
+
+    add_line(context, "");
+
+    var args = node.args.join(", ");
+    if (node.self_name) {
+        add_line(context, node.self_name + "." + node.name + " = function(" + args + ")");
+    } else {
+        add_line(context, "function " + node.name + "(" + args + ")");
     }
 
-    for (i = 0; i < node.options.length; i++) {
-        option = node.options[i];
+    print_body(context, node.body);
+    add_line(context, "end");
+}
 
-        if (i === 0) {
-            add_line("if " + option.condition + " then", depth, lines);
-        } else {
-            add_line("elseif " + option.condition + " then", depth, lines);
-        }
+function print_loop(context) {
+    var node = context.node;
 
-        print_body(option.body, depth, lines);
-    }
-
-    if (node.other && node.other.length > 0) {
-        add_line("else", depth, lines);
-        print_body(node.other, depth, lines);
-    }
-
-    add_line("end", depth, lines);
+    add_line(context, node.content);
+    print_body(context, node.body);
+    add_line(context, "end");
 }
 
 function print_node(node, depth, lines) {
-    if (!node) {
-        return;
-    }
+    var context = {
+        node: node,
+        depth: depth,
+        lines: lines
+    };
 
     if (node.type === "function") {
-        print_function(node, depth, lines);
-    } else if (node.type === "action") {
-        print_action(node, depth, lines);
-    } else if (node.type === "question") {
-        print_question(node, depth, lines);
-    } else if (node.type === "loop") {
-        print_loop(node, depth, lines);
-    } else if (node.type === "if-switch") {
-        print_switch(node, depth, lines);
-    } else if (node.type === "empty-line") {
-        add_line("", depth, lines);
+        print_function(context);
     } else {
-        throw new Error("Unexpected node type: " + node.type);
+        if (node.type === "action") {
+            print_action(context);
+        } else {
+            if (node.type === "question") {
+                print_question(context);
+            } else {
+                if (node.type === "loop") {
+                    print_loop(context);
+                } else {
+                    if (node.type === "if-switch") {
+                        print_switch(context);
+                    } else {
+                        if (node.type === "empty-line") {
+                            add_line(context, "");
+                        } else {
+                            if (!(node.type === "exit")) {
+                                throw new Error("Unexpected case value: " + node.type);
+                            }
+                            print_exit(context);
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+function print_question(context) {
+    var node = context.node;
+    var parts = node.content.split("\n");
+    var content = parts.join(" ");
+
+    add_line(context, "if " + content + " then");
+    print_body(context, node.yes);
+
+    if (!(node.no.length === 0)) {
+        add_line(context, "else");
+        print_body(context, node.no);
+    }
+
+    add_line(context, "end");
+}
+
+function print_switch(context) {
+    var node = context.node;
+    var first = true;
+
+    for (var option of node.options) {
+        if (first) {
+            add_line(context, "if " + option.condition + " then");
+            first = false;
+        } else {
+            add_line(context, "elseif " + option.condition + " then");
+        }
+
+        print_body(context, option.body);
+    }
+
+    if (!(node.other.length === 0)) {
+        add_line(context, "else");
+        print_body(context, node.other);
+    }
+
+    add_line(context, "end");
 }
 
 module.exports = {

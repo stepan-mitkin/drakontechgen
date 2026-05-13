@@ -1,28 +1,21 @@
-local GreyClass
-local YellowClass
-local runGrey
 
-GreyClass = function()
-    local getValue
-    local init
-    local log
-    local smarterAdd
+function GreyClass()
     local self = {_type="GreyClass"}
     
-    getValue = function()
+    function getValue()
         log("getValue")
         return smarterAdd(self.value, 20)
     end
     
-    init = function(value)
+    function init(value)
         self.value = value
     end
     
-    log = function(message)
+    function log(message)
         print("GreyClass " .. message)
     end
     
-    smarterAdd = function(left, right)
+    function smarterAdd(left, right)
         return (left + right) * 2
     end
     
@@ -31,12 +24,7 @@ GreyClass = function()
     return self
 end
 
-YellowClass = function(name, color, arg1, arg2)
-    local getFullInfo
-    local greet
-    local log
-    local setName
-    local setTitle
+function YellowClass(name, color, arg1, arg2)
     local self = {_type="YellowClass"}
     local a, b, title, x, y
     title = "Dr."
@@ -47,7 +35,7 @@ YellowClass = function(name, color, arg1, arg2)
     a = arg2[1]
     b = arg2[2]
     
-    getFullInfo = function()
+    function getFullInfo()
         local result
         log("getFullInfo")
         a = 1000
@@ -63,7 +51,7 @@ YellowClass = function(name, color, arg1, arg2)
         return result
     end
     
-    greet = function()
+    function greet()
         local message
         log("greet")
         message = greeting .. ", " .. title .. " " ..
@@ -71,16 +59,16 @@ YellowClass = function(name, color, arg1, arg2)
         return message
     end
     
-    log = function(message)
+    function log(message)
         print("YellowClass " .. message)
     end
     
-    setName = function(newName)
+    function setName(newName)
         log("setName: " .. newName)
         name = newName
     end
     
-    setTitle = function(newTitle)
+    function setTitle(newTitle)
         log("setTitle: " .. newTitle)
         title = newTitle
     end
@@ -92,7 +80,7 @@ YellowClass = function(name, color, arg1, arg2)
     return self
 end
 
-runGrey = function()
+function runGrey()
     local grey
     grey = GreyClass()
     grey.init(42)

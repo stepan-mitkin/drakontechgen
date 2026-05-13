@@ -1,54 +1,20 @@
-local add
-local addCore
-local complexAnd
-local complexOr
-local complexSilhouette
-local degenerateSelect
-local doWhile
-local doWhileDo
-local earlyExit
-local empty
-local fibonacci
-local fizzBuzz
-local forEachUntil
-local forLoopNoDeclare
-local foreachLoopArray
-local foreachLoopObject
-local generateId
-local getSecret
-local hello
-local inversedAnd
-local inversedOr
-local mul
-local noDublicates
-local questionMerge
-local scope3
-local selectArrow
-local selectShortCircuit
-local selectWithDefault
-local selectWithoutDefault
-local sil2
-local simpleAnd
-local simpleOr
-local twoExits
-local whileDo
 local multiply
 multiply = require("exampleslua2604.ops")
 .multiply
 local secretValue = 23;
 local nextId = 1
 
-add = function(left, right)
+function add(left, right)
     local result
     result = addCore(left, right)
     return result
 end
 
-addCore = function(left, right)
+function addCore(left, right)
     return left + right
 end
 
-complexAnd = function(valueA, valueB, valueC)
+function complexAnd(valueA, valueB, valueC)
     if ((not (valueA)) and (valueB)) or (valueC) then
         return true
     else
@@ -56,7 +22,7 @@ complexAnd = function(valueA, valueB, valueC)
     end
 end
 
-complexOr = function(valueA, valueB, valueC)
+function complexOr(valueA, valueB, valueC)
     if (valueA) or ((not (valueB)) and (valueC)) then
         return true
     else
@@ -64,11 +30,12 @@ complexOr = function(valueA, valueB, valueC)
     end
 end
 
-complexSilhouette = function(left, right)
+function complexSilhouette(left, right)
     local _branch_, result
     _branch_ = "First"
-    while _branch_ do
+    while true do
         if _branch_ == "First" then
+            _branch_ = nil
             result = 0
             if left == 3 then
                 result = result + right
@@ -77,12 +44,15 @@ complexSilhouette = function(left, right)
                 _branch_ = "Third"
             end
         elseif _branch_ == "Second" then
+            _branch_ = nil
             result = result + 2
             _branch_ = "Third"
         elseif _branch_ == "Third" then
+            _branch_ = nil
             result = result + 10
             _branch_ = "Exit"
         elseif _branch_ == "Exit" then
+            _branch_ = nil
             return result
         else
             return
@@ -90,7 +60,7 @@ complexSilhouette = function(left, right)
     end
 end
 
-degenerateSelect = function(value)
+function degenerateSelect(value)
     if value == 10 then
         return "ten"
     else
@@ -98,7 +68,7 @@ degenerateSelect = function(value)
     end
 end
 
-doWhile = function()
+function doWhile()
     local result
     result = 0
     while true do
@@ -111,7 +81,7 @@ doWhile = function()
     result
 end
 
-doWhileDo = function()
+function doWhileDo()
     local result
     result = 0
     while true do
@@ -125,7 +95,7 @@ doWhileDo = function()
     return result
 end
 
-earlyExit = function(array, value)
+function earlyExit(array, value)
     local i, index
     index = -1
     i = 1
@@ -143,14 +113,15 @@ earlyExit = function(array, value)
     return array
 end
 
-empty = function()
+function empty()
 end
 
-fibonacci = function(ordinal)
+function fibonacci(ordinal)
     local _branch_, i, i_1, i_2, result
     _branch_ = "Simple case"
-    while _branch_ do
+    while true do
         if _branch_ == "Simple case" then
+            _branch_ = nil
             if (ordinal == 0) or (ordinal == 1) then
                 result = ordinal
                 _branch_ = "Exit"
@@ -158,6 +129,7 @@ fibonacci = function(ordinal)
                 _branch_ = "Normal case"
             end
         elseif _branch_ == "Normal case" then
+            _branch_ = nil
             i_2 = 0
             i_1 = 1
             i = 2
@@ -169,6 +141,7 @@ fibonacci = function(ordinal)
             end
             _branch_ = "Exit"
         elseif _branch_ == "Exit" then
+            _branch_ = nil
             return result
         else
             return
@@ -176,7 +149,7 @@ fibonacci = function(ordinal)
     end
 end
 
-fizzBuzz = function(number)
+function fizzBuzz(number)
     if number % 3 == 0 then
         if number % 5 == 0 then
             return 'FizzBuzz'
@@ -192,7 +165,7 @@ fizzBuzz = function(number)
     end
 end
 
-forEachUntil = function(array, action)
+function forEachUntil(array, action)
     local mustExit
     for _, element in ipairs(array) do
         mustExit = action(element)
@@ -202,7 +175,7 @@ forEachUntil = function(array, action)
     end
 end
 
-forLoopNoDeclare = function(array)
+function forLoopNoDeclare(array)
     local copy, i, key, value
     copy = {}
     i = 1
@@ -215,7 +188,7 @@ forLoopNoDeclare = function(array)
     return copy
 end
 
-foreachLoopArray = function(array, value)
+function foreachLoopArray(array, value)
     local copy, value2
     copy = {}
     for _, item in ipairs(array) do
@@ -225,34 +198,33 @@ foreachLoopArray = function(array, value)
     return copy
 end
 
-foreachLoopObject = function(object, value)
-    local _var8, copy, value2, wrapper
+function foreachLoopObject(object, value)
+    local copy, value2, wrapper
     copy = {}
     wrapper = {collection = object}
-    _var8 = wrapper.collection
-    for key, item in pairs(_var8) do
+    for key, item in pairs(wrapper.collection) do
         value2 = item + value
         copy[key] = value2
     end
     return copy
 end
 
-generateId = function()
+function generateId()
     local id
     id = nextId
     nextId = nextId + 1
     return id
 end
 
-getSecret = function()
+function getSecret()
     return secretValue
 end
 
-hello = function()
+function hello()
     print("Hello, world")
 end
 
-inversedAnd = function(one, two, three)
+function inversedAnd(one, two, three)
     if ((one == 1) or (two == 2)) or (three == 3) then
         return false 
     else
@@ -260,7 +232,7 @@ inversedAnd = function(one, two, three)
     end
 end
 
-inversedOr = function(one, two, three)
+function inversedOr(one, two, three)
     if ((one == 1) and (two == 2)) and (three == 3) then
         return false 
     else
@@ -268,11 +240,11 @@ inversedOr = function(one, two, three)
     end
 end
 
-mul = function(left, right)
+function mul(left, right)
     return multiply(left, right)
 end
 
-noDublicates = function(x, y)
+function noDublicates(x, y)
     local i, result
     if x > 0 then
         result = 1000
@@ -298,7 +270,7 @@ noDublicates = function(x, y)
     end
 end
 
-questionMerge = function(left, right)
+function questionMerge(left, right)
     local result
     result = 0
     if left then
@@ -314,7 +286,7 @@ questionMerge = function(left, right)
     return result
 end
 
-scope3 = function(array, sortProp, cutoff)
+function scope3(array, sortProp, cutoff)
     local a, found, result
     result = nil
     found = nil
@@ -349,7 +321,7 @@ scope3 = function(array, sortProp, cutoff)
     }
 end
 
-selectArrow = function()
+function selectArrow()
     local result
     result = 0
     while true do
@@ -366,20 +338,20 @@ selectArrow = function()
     return result
 end
 
-selectShortCircuit = function(value)
-    local _var10
-    _var10 = value + 5
-    if (_var10 == 10) or (_var10 == 20) then
+function selectShortCircuit(value)
+    local _var7
+    _var7 = value + 5
+    if (_var7 == 10) or (_var7 == 20) then
         return "good"
     else
-        if not (_var10 == 30) then
-            error("Unexpected case value: " .. tostring(_var10))
+        if not (_var7 == 30) then
+            error("Unexpected case value: " .. tostring(_var7))
         end
         return "bad"
     end
 end
 
-selectWithDefault = function(value)
+function selectWithDefault(value)
     if value == 10 then
         return "ten"
     else
@@ -391,24 +363,24 @@ selectWithDefault = function(value)
     end
 end
 
-selectWithoutDefault = function(value)
-    local _var12
-    _var12 = value + 5
-    if _var12 == 10 then
+function selectWithoutDefault(value)
+    local _var9
+    _var9 = value + 5
+    if _var9 == 10 then
         return "ten"
     else
-        if _var12 == 20 then
+        if _var9 == 20 then
             return "twenty"
         else
-            if not (_var12 == 30) then
-                error("Unexpected case value: " .. tostring(_var12))
+            if not (_var9 == 30) then
+                error("Unexpected case value: " .. tostring(_var9))
             end
             return "thirty"
         end
     end
 end
 
-sil2 = function(value)
+function sil2(value)
     local foo
     if value >= 0 then
         if value % 10 == 0 then
@@ -423,7 +395,7 @@ sil2 = function(value)
     return foo
 end
 
-simpleAnd = function(valueA, valueB, valueC)
+function simpleAnd(valueA, valueB, valueC)
     if ((valueA) and (valueB)) and (valueC) then
         return true
     else
@@ -431,7 +403,7 @@ simpleAnd = function(valueA, valueB, valueC)
     end
 end
 
-simpleOr = function(valueA, valueB, valueC)
+function simpleOr(valueA, valueB, valueC)
     if ((valueA) or (valueB)) or (valueC) then
         return true
     else
@@ -439,7 +411,7 @@ simpleOr = function(valueA, valueB, valueC)
     end
 end
 
-twoExits = function(array, value)
+function twoExits(array, value)
     local i, item
     if not (array) then
         array = {}
@@ -459,7 +431,7 @@ twoExits = function(array, value)
     end
 end
 
-whileDo = function()
+function whileDo()
     local result
     result = 0
     while true do

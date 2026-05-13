@@ -76,12 +76,23 @@
         "15": {
             "one": "16",
             "type": "case",
-            "text": "<p>\"empty-line\"</p>"
+            "text": "<p>\"empty-line\"</p>",
+            "two": "17"
         },
         "16": {
             "type": "action",
             "one": "1",
             "text": "<p>add_line(\"\")</p>"
+        },
+        "17": {
+            "one": "18",
+            "type": "case",
+            "text": "<p>\"exit\"</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>print_exit()</p>"
         }
     },
     "params": "<p>node</p><p>depth</p><p>lines</p>",

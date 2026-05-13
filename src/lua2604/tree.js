@@ -136,10 +136,6 @@ function build_function_tree(doc) {
     names = Object.keys(doc.members);
     names.sort();
 
-    for (name of names) {
-        add_action("local " + name, fun_node.body);
-    }
-
     if (is_machine(doc)) {
         build_machine(
             doc,
@@ -466,32 +462,30 @@ function build_subfunction(doc, entry_id, start_state) {
 }
 
 function complex_silhouette_to_tree(context, body) {
-    var state_var;
+    var state_var = context.state_var;
     var loop;
-    var switch_node;
+    var switch_item;
+    var i;
     var branch;
     var condition;
     var option;
 
-    state_var = context.state_var;
-
     loop = {
         type: "loop",
-        content: "while " + state_var + " do",
+        content: "while true do",
         body: []
     };
-
     body.push(loop);
 
-    switch_node = {
+    switch_item = {
         type: "if-switch",
         options: [],
         other: []
     };
+    loop.body.push(switch_item);
 
-    loop.body.push(switch_node);
-
-    for (branch of context.branches) {
+    for (i = 0; i < context.branches.length; i++) {
+        branch = context.branches[i];
         condition = state_var + " == \"" + branch.name + "\"";
 
         option = {
@@ -499,103 +493,101 @@ function complex_silhouette_to_tree(context, body) {
             condition: condition,
             body: []
         };
+        switch_item.options.push(option);
 
-        switch_node.options.push(option);
-
+        add_action(state_var + " = nil", option.body, false);
         convert_tree(context, branch.body, option.body);
     }
 
-    add_action("return", switch_node.other, true);
+    add_action("return", switch_item.other, true);
 }
 
 function convert_tree(context, nodes, body) {
-    var node;
-    var content;
-    var final;
-    var item;
-    var state_id;
-    var next_branch;
-
-    for (node of nodes) {
+    for (var node of nodes) {
         if (node.type === "action") {
-            content = node.content;
-            final = is_final(context.doc, node);
-
-            item = {
+            var content = node.content;
+            var final = is_final(context.doc, node);
+            var item = {
                 content: content,
                 type: node.type,
                 final: final
             };
-
             body.push(item);
         } else {
-            if (node.type === "event") {
-                state_id = node.content;
-                content = "me.state = \"" + state_id + "\"\nme._buzy = false\nreturn";
-
-                item = {
-                    content: content,
-                    type: "action",
+            if (node.type === "exit") {
+                var item = {
+                    type: node.type,
                     final: true
                 };
-
                 body.push(item);
             } else {
-                if (node.type === "question") {
-                    content = qc(node.content);
-
-                    item = {
+                if (node.type === "event") {
+                    var state_id = node.content;
+                    var content = "me.state = \"" + state_id + "\"\nme._buzy = false\nreturn";
+                    var final = true;
+                    var item = {
                         content: content,
-                        type: node.type,
-                        yes: [],
-                        no: []
+                        type: "action",
+                        final: final
                     };
-
-                    convert_tree(context, node.yes, item.yes);
-                    convert_tree(context, node.no, item.no);
-
                     body.push(item);
                 } else {
-                    if (node.type === "loop") {
-                        content = node.content || "while true do";
-
-                        item = {
-                            type: "loop",
+                    if (node.type === "question") {
+                        var content = qc(node.content);
+                        var item = {
                             content: content,
-                            body: []
+                            type: node.type,
+                            yes: [],
+                            no: []
                         };
-
-                        convert_tree(context, node.body, item.body);
-
+                        convert_tree(context, node.yes, item.yes);
+                        convert_tree(context, node.no, item.no);
                         body.push(item);
                     } else {
-                        if (node.type === "address") {
-                            if (!has_final(body)) {
-                                if (context.simple) {
-                                    next_branch = find_branch(context.branches, node.content);
-                                    convert_tree(context, next_branch.body, body);
-                                } else {
-                                    add_action(context.state_var + " = \"" + node.content + "\"", body);
-                                }
-                            }
+                        if (node.type === "loop") {
+                            var content = node.content || "while true do";
+                            var item = {
+                                type: "loop",
+                                content: content,
+                                body: []
+                            };
+                            convert_tree(context, node.body, item.body);
+                            body.push(item);
                         } else {
-                            if (node.type === "break") {
+                            if (node.type === "address") {
                                 if (!has_final(body)) {
-                                    add_action("break", body, true);
+                                    if (context.simple) {
+                                        var next_branch = undefined;
+                                        for (var branch of context.branches) {
+                                            if (branch.name === node.content) {
+                                                next_branch = branch;
+                                                break;
+                                            }
+                                        }
+                                        convert_tree(context, next_branch.body, body);
+                                    } else {
+                                        add_action(context.state_var + " = \"" + node.content + "\"", body);
+                                    }
                                 }
                             } else {
-                                if (node.type === "error") {
-                                    add_action(
-                                        "error(\"" + node.message + ": \" .. tostring(" + node.content + "))",
-                                        body,
-                                        true
-                                    );
+                                if (node.type === "break") {
+                                    if (!has_final(body)) {
+                                        add_action("break", body, true);
+                                    }
                                 } else {
-                                    report_error(
-                                        "Unexpected node type: " + node.type,
-                                        context.doc.path,
-                                        node.id
-                                    );
+                                    if (node.type === "error") {
+                                        add_action(
+                                            "error(\"" + node.message + ": \" .. tostring(" + node.content + "))",
+                                            body,
+                                            true
+                                        );
+                                    } else {
+                                        report_error(
+                                            "Unexpected node type: " + node.type,
+                                            context.doc.path,
+                                            node.id
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -613,7 +605,6 @@ function copy_subfunction_node(context, node_id, node) {
             content: node_id,
             final: true
         };
-
         return false;
     } else {
         if (node.type === "arrow-loop" || node.type === "loopbegin") {
@@ -622,9 +613,18 @@ function copy_subfunction_node(context, node_id, node) {
                 context.doc.path,
                 node_id
             );
+            return false;
         } else {
-            context.output[node_id] = node;
-            return true;
+            if (node.type === "end") {
+                context.output[node_id] = {
+                    type: "exit",
+                    final: false
+                };
+                return false;
+            } else {
+                context.output[node_id] = node;
+                return true;
+            }
         }
     }
 }

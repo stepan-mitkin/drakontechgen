@@ -1,17 +1,12 @@
-local Red
-local primInput
-local silReceive
 
-Red = function(name)
-    local getValue
-    local machineMethod
+function Red(name)
     local self = {_type="Red"}
     
-    getValue = function()
+    function getValue()
         return name .. ": " .. self.value
     end
     
-    machineMethod = function(foo)
+    function machineMethod(foo)
         local me = {state = "created", _buzy = true}
         
         me.run = function()
@@ -32,6 +27,9 @@ Red = function(name)
                 me._buzy = true
                 me.hello = moo
                 self.value = foo + moo
+                me.state = nil
+                me._buzy = false
+                return
             end
         end
         me.stop = function() me.state = nil end
@@ -43,7 +41,7 @@ Red = function(name)
     return self
 end
 
-primInput = function(left, right)
+function primInput(left, right)
     local total
     local me = {state = "created", _buzy = true}
     
@@ -66,13 +64,16 @@ primInput = function(left, right)
             me._buzy = true
             total = total + amount
             me.total = total + left + right
+            me.state = nil
+            me._buzy = false
+            return
         end
     end
     me.stop = function() me.state = nil end
     return me
 end
 
-silReceive = function(arg1, arg2)
+function silReceive(arg1, arg2)
     local x
     local me = {state = "created", _buzy = true}
     
@@ -81,11 +82,13 @@ silReceive = function(arg1, arg2)
             error("run() can be called only once")
         end
         me.state = "3"
-        while me.state do
+        while true do
             if me.state == "3" then
+                me.state = nil
                 x = arg1 + 2
                 me.state = "Black state"
             elseif me.state == "Black state" then
+                me.state = nil
                 me.state = "11"
                 me._buzy = false
                 return
@@ -101,8 +104,9 @@ silReceive = function(arg1, arg2)
         end
         if me.state == "11" then
             me._buzy = true
-            while me.state do
+            while true do
                 if me.state == "11" then
+                    me.state = nil
                     if value < 0 then
                         arg2 = arg2 + value
                         me.state = "Red state"
@@ -111,9 +115,11 @@ silReceive = function(arg1, arg2)
                         me.state = "Inter-transitional"
                     end
                 elseif me.state == "Inter-transitional" then
+                    me.state = nil
                     arg1 = arg1 + 1
                     me.state = "Red state"
                 elseif me.state == "Red state" then
+                    me.state = nil
                     me.state = "13"
                     me._buzy = false
                     return
@@ -123,11 +129,13 @@ silReceive = function(arg1, arg2)
             end
         elseif me.state == "13" then
             me._buzy = true
-            while me.state do
+            while true do
                 if me.state == "13" then
+                    me.state = nil
                     arg1 = arg1 + value * 2
                     me.state = "Grey state"
                 elseif me.state == "Grey state" then
+                    me.state = nil
                     x = x + 1
                     me.state = "25"
                     me._buzy = false
@@ -145,14 +153,16 @@ silReceive = function(arg1, arg2)
         end
         if me.state == "25" then
             me._buzy = true
-            while me.state do
+            while true do
                 if me.state == "25" then
+                    me.state = nil
                     print(what)
                     me.a1 = arg1 + x
                     me.a2 = arg2
-                    me.state = "Black state"
-                elseif me.state == "Black state" then
-                    me.state = "11"
+                    me.state = "Exit"
+                elseif me.state == "Exit" then
+                    me.state = nil
+                    me.state = nil
                     me._buzy = false
                     return
                 else
@@ -168,11 +178,13 @@ silReceive = function(arg1, arg2)
         end
         if me.state == "11" then
             me._buzy = true
-            while me.state do
+            while true do
                 if me.state == "11" then
+                    me.state = nil
                     arg2 = arg2 + value
                     me.state = "Red state"
                 elseif me.state == "Red state" then
+                    me.state = nil
                     me.state = "13"
                     me._buzy = false
                     return
@@ -182,14 +194,16 @@ silReceive = function(arg1, arg2)
             end
         elseif me.state == "13" then
             me._buzy = true
-            while me.state do
+            while true do
                 if me.state == "13" then
+                    me.state = nil
                     if value == "7777" then
                         error("Bad right value")
                     end
                     arg2 = arg2 + value * 2
                     me.state = "Black state"
                 elseif me.state == "Black state" then
+                    me.state = nil
                     me.state = "11"
                     me._buzy = false
                     return

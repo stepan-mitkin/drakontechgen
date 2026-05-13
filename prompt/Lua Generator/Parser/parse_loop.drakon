@@ -39,7 +39,7 @@
         },
         "8": {
             "type": "action",
-            "one": "24",
+            "one": "39",
             "text": "<p>item.value = parse_value(expression)</p>"
         },
         "9": {
@@ -56,7 +56,7 @@
         },
         "12": {
             "type": "action",
-            "one": "26",
+            "one": "42",
             "two": "",
             "text": "<p>item.value = parse_value(expression)</p>"
         },
@@ -94,27 +94,16 @@
             "one": "3",
             "text": "<p>Get from context:</p><ul><li>doc</li><li>item_id</li><li>item</li><li>content</li></ul>"
         },
-        "24": {
-            "type": "action",
-            "one": "25",
-            "text": "<p>extract_expression()</p>"
-        },
         "25": {
             "type": "action",
             "one": "1",
-            "text": "<p>item.content = \"for _, \" + item.var1 + \" in ipairs(\" + item.content + \") do\"</p>"
-        },
-        "26": {
-            "type": "action",
-            "one": "27",
-            "two": "",
-            "text": "<p>extract_expression()</p>"
+            "text": "<p>item.content = \"for _, \" + item.var1 + \" in \" + collection + \" do\"</p>"
         },
         "27": {
             "type": "action",
             "one": "1",
             "two": "",
-            "text": "<p>item.content = \"for \" + item.var1 + \", \" + item.var2 + \" in pairs(\" + item.content + \") do\"</p>"
+            "text": "<p>item.content = \"for \" + item.var1 + \", \" + item.var2 + \" in \" + collection + \" do\"</p>"
         },
         "28": {
             "type": "action",
@@ -164,6 +153,42 @@
             "type": "action",
             "one": "11",
             "text": "<p>item.content = trim(expression)</p>"
+        },
+        "39": {
+            "type": "question",
+            "one": "40",
+            "two": "41",
+            "flag1": 0,
+            "text": "<p>is_iter(item.content)</p>"
+        },
+        "40": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>collection = \"ipairs(\" + item.content + \")\"</p>"
+        },
+        "41": {
+            "type": "action",
+            "one": "25",
+            "text": "<p>collection = item.content</p>"
+        },
+        "42": {
+            "type": "question",
+            "one": "43",
+            "two": "44",
+            "flag1": 0,
+            "text": "<p>is_iter(item.content)</p>"
+        },
+        "43": {
+            "type": "action",
+            "one": "27",
+            "two": "",
+            "text": "<p>collection = \"pairs(\" + item.content + \")\"</p>"
+        },
+        "44": {
+            "type": "action",
+            "one": "27",
+            "two": "",
+            "text": "<p>collection = item.content</p>"
         }
     },
     "params": "<p>context</p>",

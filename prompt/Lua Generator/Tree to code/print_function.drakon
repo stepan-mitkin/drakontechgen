@@ -21,7 +21,7 @@
         "5": {
             "type": "action",
             "one": "10",
-            "text": "<p>add_line(node.name + \" = function(\" + args + \")\")</p>"
+            "text": "<p>add_line(\"function \" + node.name + \"(\" + args + \")\")</p>"
         },
         "6": {
             "type": "action",

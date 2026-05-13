@@ -111,23 +111,9 @@
         },
         "49": {
             "type": "action",
-            "one": "50",
+            "one": "54",
             "two": "",
             "text": "<p>sort names</p>"
-        },
-        "50": {
-            "type": "loopbegin",
-            "one": "52",
-            "text": "<p>for each name in names</p>"
-        },
-        "51": {
-            "type": "loopend",
-            "one": "54"
-        },
-        "52": {
-            "type": "action",
-            "one": "51",
-            "text": "<p>add_action(\"local \" + name, fun_node.body)</p>"
         },
         "54": {
             "type": "branch",

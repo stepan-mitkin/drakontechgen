@@ -12,7 +12,7 @@
         "3": {
             "type": "action",
             "one": "4",
-            "text": "<p>loop = {</p><p>    type: \"loop\",</p><p>    content: \"while \" + state_var + \" do\",</p><p>    body: []</p><p>}</p>"
+            "text": "<p>loop = {</p><p>    type: \"loop\",</p><p>    content: \"while true do\",</p><p>    body: []</p><p>}</p>"
         },
         "4": {
             "type": "action",
@@ -66,7 +66,7 @@
         },
         "21": {
             "type": "action",
-            "one": "23",
+            "one": "28",
             "two": "",
             "text": "<p>Add option to switch.options</p>"
         },
@@ -85,6 +85,11 @@
             "type": "action",
             "one": "3",
             "text": "<p>state_var = context.state_var</p>"
+        },
+        "28": {
+            "type": "action",
+            "one": "23",
+            "text": "<p>add_action(state_var + \" = nil\", option.body, false)</p>"
         }
     },
     "params": "<p>context</p><p>body</p>",
