@@ -34,6 +34,7 @@ const {
   complexCatch,
   simpleCatch,
   noDublicates,
+  monitorPaymentStatus
 } = require("../examples2604/green");
 
 QUnit.module("Functions 2604");
@@ -56,6 +57,12 @@ QUnit.test("complexOr", (assert) => {
   assert.equal(complexOr(true, false, false), true);
   assert.equal(complexOr(true, false, true), true);
 });
+
+QUnit.test("monitorPaymentStatus", (assert) => {
+  var result = {}
+  monitorPaymentStatus(200, "waiting", result)
+  assert.equal(true, result.waited)
+})
 
 QUnit.test("complexSilhouette", (assert) => {
   assert.equal(complexSilhouette(3, 5), 17);

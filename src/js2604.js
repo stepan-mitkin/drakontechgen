@@ -1113,6 +1113,9 @@ function Js2604Generator(options) {
     }
     function isSimpleSilhouette(branches) {
         var branch, i;
+        if (branches[0].refs > 0) {
+            return false;
+        }
         for (i = 0; i < branches.length; i++) {
             branch = branches[i];
             if (branch.refs > 1) {

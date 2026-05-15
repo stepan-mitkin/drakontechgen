@@ -200,12 +200,12 @@ function foreachLoopArray(array, value) {
     return copy;
 }
 function foreachLoopObject(object, value) {
-    var _collection_42, copy, item, key, value2, wrapper;
+    var _collection_43, copy, item, key, value2, wrapper;
     copy = {};
     wrapper = { collection: object };
-    _collection_42 = wrapper.collection;
-    for (key in _collection_42) {
-        item = _collection_42[key];
+    _collection_43 = wrapper.collection;
+    for (key in _collection_43) {
+        item = _collection_43[key];
         value2 = item + value;
         copy[key] = value2;
     }
@@ -235,6 +235,36 @@ function inversedOr(one, two, three) {
         return false;
     } else {
         return true;
+    }
+}
+function monitorPaymentStatus(status, dataStatus, output) {
+    var _branch_;
+    _branch_ = 'Check payment on server';
+    while (true) {
+        switch (_branch_) {
+        case 'Check payment on server':
+            if (status == 200) {
+                if (dataStatus === 'completed') {
+                    _branch_ = 'Exit';
+                } else {
+                    if (dataStatus === 'waiting') {
+                        output.waited = true;
+                        dataStatus = 'completed';
+                        _branch_ = 'Check payment on server';
+                    } else {
+                        _branch_ = 'Exit';
+                    }
+                }
+            } else {
+                _branch_ = 'Exit';
+            }
+            break;
+        case 'Exit':
+            _branch_ = undefined;
+            break;
+        default:
+            return;
+        }
     }
 }
 function mul(left, right) {
@@ -328,13 +358,13 @@ function selectArrow() {
     return result;
 }
 function selectShortCircuit(value) {
-    var _selectValue_45;
-    _selectValue_45 = value + 5;
-    if (_selectValue_45 === 10 || _selectValue_45 === 20) {
+    var _selectValue_46;
+    _selectValue_46 = value + 5;
+    if (_selectValue_46 === 10 || _selectValue_46 === 20) {
         return 'good';
     } else {
-        if (!(_selectValue_45 === 30)) {
-            throw new Error('Unexpected case value: ' + _selectValue_45);
+        if (!(_selectValue_46 === 30)) {
+            throw new Error('Unexpected case value: ' + _selectValue_46);
         }
         return 'bad';
     }
@@ -351,16 +381,16 @@ function selectWithDefault(value) {
     }
 }
 function selectWithoutDefault(value) {
-    var _selectValue_47;
-    _selectValue_47 = value + 5;
-    if (_selectValue_47 === 10) {
+    var _selectValue_48;
+    _selectValue_48 = value + 5;
+    if (_selectValue_48 === 10) {
         return 'ten';
     } else {
-        if (_selectValue_47 === 20) {
+        if (_selectValue_48 === 20) {
             return 'twenty';
         } else {
-            if (!(_selectValue_47 === 30)) {
-                throw new Error('Unexpected case value: ' + _selectValue_47);
+            if (!(_selectValue_48 === 30)) {
+                throw new Error('Unexpected case value: ' + _selectValue_48);
             }
             return 'thirty';
         }
@@ -465,6 +495,7 @@ module.exports = {
     hello,
     inversedAnd,
     inversedOr,
+    monitorPaymentStatus,
     mul,
     noDublicates,
     questionMerge,

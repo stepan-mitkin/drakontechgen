@@ -117,35 +117,21 @@ function empty()
 end
 
 function fibonacci(ordinal)
-    local _branch_, i, i_1, i_2, result
-    _branch_ = "Simple case"
-    while true do
-        if _branch_ == "Simple case" then
-            _branch_ = nil
-            if (ordinal == 0) or (ordinal == 1) then
-                result = ordinal
-                _branch_ = "Exit"
-            else
-                _branch_ = "Normal case"
-            end
-        elseif _branch_ == "Normal case" then
-            _branch_ = nil
-            i_2 = 0
-            i_1 = 1
-            i = 2
-            while i <= ordinal do
-                result = i_2 + i_1
-                i_2 = i_1
-                i_1 = result
-                i = i + 1
-            end
-            _branch_ = "Exit"
-        elseif _branch_ == "Exit" then
-            _branch_ = nil
-            return result
-        else
-            return
+    local i, i_1, i_2, result
+    if (ordinal == 0) or (ordinal == 1) then
+        result = ordinal
+        return result
+    else
+        i_2 = 0
+        i_1 = 1
+        i = 2
+        while i <= ordinal do
+            result = i_2 + i_1
+            i_2 = i_1
+            i_1 = result
+            i = i + 1
         end
+        return result
     end
 end
 
@@ -237,6 +223,35 @@ function inversedOr(one, two, three)
         return false 
     else
         return true 
+    end
+end
+
+function monitorPaymentStatus(status, dataStatus, output)
+    local _branch_
+    _branch_ = "Check payment on server"
+    while true do
+        if _branch_ == "Check payment on server" then
+            _branch_ = nil
+            if status == 200 then
+                if dataStatus == "completed" then
+                    _branch_ = "Exit"
+                else
+                    if dataStatus == "waiting" then
+                        output.waited = true
+                        dataStatus = "completed"
+                        _branch_ = "Check payment on server"
+                    else
+                        _branch_ = "Exit"
+                    end
+                end
+            else
+                _branch_ = "Exit"
+            end
+        elseif _branch_ == "Exit" then
+            _branch_ = nil
+        else
+            return
+        end
     end
 end
 
@@ -464,6 +479,7 @@ return {
     hello = hello,
     inversedAnd = inversedAnd,
     inversedOr = inversedOr,
+    monitorPaymentStatus = monitorPaymentStatus,
     mul = mul,
     noDublicates = noDublicates,
     questionMerge = questionMerge,

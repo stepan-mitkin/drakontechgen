@@ -20,6 +20,12 @@ describe("Functions 2604", function()
         assert.are.equal(true, green.complexOr(true, false, true))
     end)
 
+    it("monitorPaymentStatus", function()
+        local result = {}
+        green.monitorPaymentStatus(200, "waiting", result)
+        assert.are.equal(true, result.waited)
+    end)
+
     it("complexSilhouette", function()
         assert.are.equal(17, green.complexSilhouette(3, 5))
     end)
