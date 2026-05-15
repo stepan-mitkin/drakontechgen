@@ -233,22 +233,17 @@ function insert_action_before(doc, item_id, content, statements) {
 
 function is_iter(content) {
     var parts;
-
-    if (content && content.startsWith("fun.iter")) {
-        return true;
-    } else {
-        if (content && content.endsWith(")")) {
-            return false;
-        } else {
-            parts = content ? content.split(",") : [];
-
-            if (parts.length > 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+    content = content || ""
+	if (content.endsWith(")")) {
+		return true;
+	} else {
+		parts = content.split(",");
+		if (parts.length > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 function parse_arguments(doc) {
