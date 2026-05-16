@@ -1,0 +1,194 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "fun\ntree\nfunctionBody",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "4",
+            "content": "Init branch loop"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "firstName = tree.branches[0].name"
+        },
+        "4": {
+            "type": "action",
+            "one": "29",
+            "content": "branchState = \"_branch_\""
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "content": "pushAssi(\n    branchState,\n    createStringLiteral(firstName),\n    functionBody\n)"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "loop = createWhileTrue()"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "functionBody.push(loop)"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "loopBody = loop.body.body"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "content": "select = createSwitch(\n    createIdentifier(branchState)\n)"
+        },
+        "10": {
+            "type": "action",
+            "one": "12",
+            "content": "loopBody.push(select)"
+        },
+        "11": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 4,
+            "content": "Exit"
+        },
+        "12": {
+            "type": "branch",
+            "one": "13",
+            "branchId": 2,
+            "content": "Add branch cases"
+        },
+        "13": {
+            "type": "action",
+            "one": "20",
+            "content": "ordinal = 0"
+        },
+        "14": {
+            "type": "loopend",
+            "one": "27",
+            "content": ""
+        },
+        "15": {
+            "type": "loopbegin",
+            "one": "32",
+            "content": "branch; tree.branches"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "caseClause = createCase(\n    createStringLiteral(branch.name)\n)"
+        },
+        "17": {
+            "type": "action",
+            "one": "18",
+            "content": "select.cases.push(caseClause)"
+        },
+        "18": {
+            "type": "action",
+            "one": "19",
+            "content": "caseBody = caseClause.consequent"
+        },
+        "19": {
+            "type": "action",
+            "one": "21",
+            "content": "lastBranch = ordinal === tree.branches.length\n- 1 && end"
+        },
+        "20": {
+            "type": "action",
+            "one": "15",
+            "content": "end = hasEnd(fun)"
+        },
+        "21": {
+            "type": "question",
+            "one": "23",
+            "two": "22",
+            "flag1": 0,
+            "content": "lastBranch"
+        },
+        "22": {
+            "type": "action",
+            "one": "23",
+            "content": "pushAssi(\n    branchState,\n    createIdentifier(\"undefined\"),\n    caseBody\n)"
+        },
+        "23": {
+            "type": "action",
+            "one": "24",
+            "content": "convertNodesToAst(branch.body, caseBody)"
+        },
+        "24": {
+            "type": "question",
+            "one": "26",
+            "two": "25",
+            "flag1": 1,
+            "content": "endsWithReturn(caseBody)"
+        },
+        "25": {
+            "type": "action",
+            "one": "26",
+            "content": "caseBody.push(createBreak())"
+        },
+        "26": {
+            "type": "action",
+            "one": "14",
+            "content": "ordinal++"
+        },
+        "27": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "28",
+            "content": "Default case"
+        },
+        "28": {
+            "type": "action",
+            "one": "33",
+            "content": "defClause = createCase(null )"
+        },
+        "29": {
+            "type": "action",
+            "one": "3",
+            "content": "addLocal(fun.scope, branchState)"
+        },
+        "30": {
+            "type": "action",
+            "one": "31",
+            "content": "defClause.consequent.push(\n    createReturn(null )\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "11",
+            "content": "select.cases.push(defClause)"
+        },
+        "32": {
+            "type": "question",
+            "one": "16",
+            "two": "26",
+            "flag1": 0,
+            "content": "branch.name === \"catch\""
+        },
+        "33": {
+            "type": "question",
+            "one": "34",
+            "two": "30",
+            "flag1": 1,
+            "content": "fun.isMachine"
+        },
+        "34": {
+            "type": "action",
+            "one": "30",
+            "content": "defClause.consequent.push(\n    parseStatement(\"_topResolve_()\")\n)"
+        }
+    }
+}

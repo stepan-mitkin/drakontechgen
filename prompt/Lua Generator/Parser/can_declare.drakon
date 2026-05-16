@@ -1,0 +1,51 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "6"
+        },
+        "3": {
+            "type": "case",
+            "one": "9"
+        },
+        "4": {
+            "type": "case",
+            "one": "8",
+            "two": "3",
+            "text": "<p>\"class\"</p>"
+        },
+        "5": {
+            "type": "case",
+            "one": "7",
+            "two": "4",
+            "text": "<p>\"module\"</p>"
+        },
+        "6": {
+            "type": "select",
+            "one": "5",
+            "text": "<p>doc.type</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return false</p>"
+        }
+    },
+    "params": "<p>doc: Document</p>",
+    "name": "can_declare",
+    "type": "drakon"
+}

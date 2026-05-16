@@ -1,0 +1,42 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>global_options = options</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>tree = build_function_tree(module)</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "7",
+            "two": "6",
+            "flag1": 1,
+            "text": "<p>error_list is empty</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    errors: error_list</p><p>}</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    module: tree</p><p>}</p>"
+        }
+    },
+    "params": "<p>module: Document</p><p>options: Options</p>",
+    "name": "build_module_tree",
+    "type": "drakon"
+}

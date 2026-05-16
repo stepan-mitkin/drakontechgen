@@ -1,0 +1,51 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "text": "<p>wrapped = \"x=\" + context.content</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "text": "<p>ast = parse_lua(wrapped)</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "8",
+            "two": "9",
+            "flag1": 0,
+            "text": "<p>error occurred</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>return null</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>return ast.body[0].init[0]</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>report_error(</p><p>    error message,</p><p>    context.doc.path,</p><p>    context.item_id</p><p>)</p>"
+        }
+    },
+    "params": "<p>context</p>",
+    "name": "parse_value",
+    "type": "drakon"
+}

@@ -1,0 +1,56 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "step\nvarName",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "11",
+            "content": "current = step"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 0,
+            "content": "current"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "10",
+            "flag1": 1,
+            "content": "varName in current.scope.declarations"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "return true "
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "content": "current = current.parent"
+        },
+        "11": {
+            "type": "arrow-loop",
+            "one": "6"
+        }
+    }
+}

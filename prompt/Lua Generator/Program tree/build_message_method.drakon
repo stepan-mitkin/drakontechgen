@@ -1,0 +1,128 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "text": "<p>Create function</p>"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>message_info = doc.messages[message]</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>method = create_function(</p><p>    message,</p><p>    message_info.args,</p><p>    \"me\"</p><p>)</p>"
+        },
+        "10": {
+            "type": "branch",
+            "one": "45",
+            "branchId": 5,
+            "text": "Completion"
+        },
+        "11": {
+            "type": "branch",
+            "one": "14",
+            "branchId": 2,
+            "text": "<p>Add state check</p>"
+        },
+        "12": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "19",
+            "text": "<p>States</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "text": "<p>state_check = {</p><p>    type: \"question\",</p><p>    content: \"me._buzy\",</p><p>    yes: [error_node],</p><p>    no: []</p><p>}</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "13",
+            "two": "",
+            "text": "<p>error_node = {</p><p>    type: \"action\",</p><p>    content: \"error(\\\"Synchronous reentry is not allowed\\\")\"</p><p>}</p>"
+        },
+        "15": {
+            "type": "action",
+            "one": "27",
+            "two": "",
+            "text": "<p>Add state_check to method.body</p>"
+        },
+        "18": {
+            "type": "loopend",
+            "one": "10"
+        },
+        "19": {
+            "type": "loopbegin",
+            "one": "20",
+            "text": "<p>for each index in indexes(message_info.states)</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "43",
+            "text": "<p>state_id = message_info.states[index]</p><p>entry_id = message_info.items[index]</p>"
+        },
+        "27": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "28",
+            "text": "<p>State switch</p>"
+        },
+        "28": {
+            "type": "action",
+            "one": "29",
+            "two": "",
+            "text": "<p>switch = {</p><p>    type: \"if-switch\",</p><p>    options: [],</p><p>    other: []</p><p>}</p>"
+        },
+        "29": {
+            "type": "action",
+            "one": "12",
+            "two": "",
+            "text": "<p>Add switch to method.body</p>"
+        },
+        "36": {
+            "type": "action",
+            "one": "18",
+            "text": "<p>Add option to switch.options</p>"
+        },
+        "43": {
+            "type": "action",
+            "one": "46",
+            "two": "",
+            "text": "<p>option = {</p><p>    type: \"option\",</p><p>    condition: \"me.state == \\\"\" + state_id + \"\\\"\",</p><p>    body: []</p><p>}</p>"
+        },
+        "44": {
+            "type": "action",
+            "one": "36",
+            "text": "<p>add_subfunction(</p><p>    doc,</p><p>    entry_id,</p><p>    option.body,</p><p>    state_id</p><p>)</p>"
+        },
+        "45": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return method</p>"
+        },
+        "46": {
+            "type": "action",
+            "one": "47",
+            "two": "",
+            "text": "<p>reset_state = {</p><p>    type: \"action\",</p><p>    content: \"me._buzy = true\"</p><p>}</p>"
+        },
+        "47": {
+            "type": "action",
+            "one": "44",
+            "two": "",
+            "text": "<p>Add reset_state to option.body</p>"
+        }
+    },
+    "params": "<p>doc</p><p>message</p>",
+    "style": "{\"maxWidth\":340}",
+    "name": "build_message_method",
+    "type": "drakon"
+}

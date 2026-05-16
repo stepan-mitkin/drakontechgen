@@ -1,0 +1,29 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>add_line(\"me.state = nil\")</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>add_line(\"me._buzy = false\")</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_line(\"return\")</p>"
+        }
+    },
+    "name": "print_exit",
+    "type": "drakon"
+}

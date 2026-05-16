@@ -1,0 +1,57 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>document.parent = parent</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>chain = Traverse the chain of documents from parent to the root using \"parent\" property.</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>parent.members.add(</p><p>    key: document.name,</p><p>    value: document</p><p>)</p>"
+        },
+        "7": {
+            "type": "loopend",
+            "one": "6"
+        },
+        "8": {
+            "type": "loopbegin",
+            "one": "9",
+            "text": "<p>for each element in chain</p>"
+        },
+        "9": {
+            "type": "question",
+            "one": "7",
+            "two": "11",
+            "flag1": 0,
+            "text": "<p>document.name in element.members</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>report_error(</p><p>    \"Name is not unique\",</p><p>    document.path,</p><p>    null,</p><p>    document.name</p><p>)</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>return</p>"
+        }
+    },
+    "params": "<p>parent: Document</p><p>document: Document</p>",
+    "style": "{\"maxWidth\":270}",
+    "name": "add_document",
+    "type": "drakon"
+}

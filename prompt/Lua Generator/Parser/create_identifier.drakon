@@ -1,0 +1,20 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    type: \"Identifier\",</p><p>    name: name</p><p>}</p>"
+        }
+    },
+    "params": "<p>name</p>",
+    "name": "create_identifier",
+    "type": "drakon"
+}

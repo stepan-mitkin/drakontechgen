@@ -1,0 +1,52 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "4": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "content": "parseItemContent(folder, id, item)"
+        },
+        "15": {
+            "type": "question",
+            "one": "17",
+            "two": "16",
+            "flag1": 0,
+            "content": "item.two"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "ensureHasContent(folder, id, item)"
+        },
+        "17": {
+            "type": "question",
+            "one": "18",
+            "two": "1",
+            "flag1": 1,
+            "content": "item.content"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "content": "ensureExpression(folder, id, item)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nid\nitem"
+}

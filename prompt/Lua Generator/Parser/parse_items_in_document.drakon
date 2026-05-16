@@ -1,0 +1,65 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>doc.scope = create Scope</p><p>    name: doc.name</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>parse_arguments(doc)</p>"
+        },
+        "5": {
+            "type": "loopend",
+            "one": "12"
+        },
+        "6": {
+            "type": "loopbegin",
+            "one": "9",
+            "text": "<p>for each item_id in item_ids</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>parse_item(doc, item_id, item)</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>item_id = make a copy of keys(doc.items)</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>item = doc.items[item_id]</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>// Iterate over the copy of keys</p><p>// because we might modify doc.items collection</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>doc.messages = empty map</p><p>doc.states = empty list</p><p>doc.branches = empty list</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>read_cases(doc)</p>"
+        }
+    },
+    "params": "<p>doc: Document</p>",
+    "style": "{\"maxWidth\":260}",
+    "name": "parse_items_in_document",
+    "type": "drakon"
+}

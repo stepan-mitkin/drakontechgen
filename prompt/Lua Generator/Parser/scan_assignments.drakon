@@ -1,0 +1,48 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1"
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "text": "<p>for each statement in item.statements</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 1,
+            "text": "<p>statement.type === \"AssignmentStatement\"</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>process_assignment(step, item_id, statement)</p>"
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>statement.type === \"LocalStatement\"</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>process_declaration(step, item_id, statement)</p>"
+        }
+    },
+    "params": "<p>step: ScopeStep</p><p>item_id: string</p><p>item: Item</p>",
+    "name": "scan_assignments",
+    "type": "drakon"
+}

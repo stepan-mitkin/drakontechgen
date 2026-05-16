@@ -1,0 +1,127 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "steps\nbody",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "9",
+            "content": "step; steps"
+        },
+        "6": {
+            "type": "case",
+            "one": "17",
+            "content": "\"loop\"",
+            "two": "10"
+        },
+        "7": {
+            "type": "case",
+            "one": "16",
+            "two": "6",
+            "content": "\"question\""
+        },
+        "8": {
+            "type": "case",
+            "one": "15",
+            "two": "7",
+            "content": "\"action\""
+        },
+        "9": {
+            "type": "select",
+            "one": "8",
+            "content": "step.type"
+        },
+        "10": {
+            "one": "18",
+            "type": "case",
+            "two": "11",
+            "content": "\"error\""
+        },
+        "11": {
+            "one": "22",
+            "type": "case",
+            "two": "12",
+            "content": "\"break\""
+        },
+        "12": {
+            "one": "23",
+            "type": "case",
+            "two": "13",
+            "content": "\"address\""
+        },
+        "13": {
+            "one": "14",
+            "type": "case",
+            "two": null
+        },
+        "14": {
+            "type": "action",
+            "one": "4",
+            "content": "console.log(\n    \"Unexpected step type: \" + step.type\n)"
+        },
+        "15": {
+            "type": "action",
+            "one": "4",
+            "content": "addActionToAst(step, body)"
+        },
+        "16": {
+            "type": "action",
+            "one": "4",
+            "content": "addQuestionToAst(step, body)"
+        },
+        "17": {
+            "type": "action",
+            "one": "4",
+            "content": "addLoopToAst(step, body)"
+        },
+        "18": {
+            "type": "action",
+            "one": "4",
+            "content": "addErrorToAst(step, body)"
+        },
+        "19": {
+            "type": "action",
+            "one": "4",
+            "content": "body.push(createBreak())"
+        },
+        "20": {
+            "type": "action",
+            "one": "4",
+            "content": "addAddressToAst(step, body)"
+        },
+        "22": {
+            "type": "question",
+            "one": "19",
+            "two": "4",
+            "flag1": 0,
+            "content": "endsWithReturn(body)"
+        },
+        "23": {
+            "type": "question",
+            "one": "20",
+            "two": "4",
+            "flag1": 0,
+            "content": "endsWithReturn(body)"
+        }
+    }
+}

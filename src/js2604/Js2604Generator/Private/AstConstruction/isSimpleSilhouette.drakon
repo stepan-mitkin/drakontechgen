@@ -1,0 +1,78 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "branches",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "23"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "4": {
+            "type": "loopend",
+            "one": "3",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "i = 0; i < branches.length; i++"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "branch = branches[i]"
+        },
+        "7": {
+            "type": "question",
+            "one": "4",
+            "two": "8",
+            "flag1": 0,
+            "content": "branch.refs > 1"
+        },
+        "8": {
+            "type": "question",
+            "one": "10",
+            "two": "22",
+            "flag1": 0,
+            "content": "i === branches.length - 1"
+        },
+        "10": {
+            "type": "action",
+            "one": "4",
+            "content": "return false "
+        },
+        "22": {
+            "type": "action",
+            "one": "4",
+            "content": "return simpleBranch(branch)"
+        },
+        "23": {
+            "type": "question",
+            "one": "5",
+            "two": "24",
+            "flag1": 0,
+            "content": "branches[0].refs > 0"
+        },
+        "24": {
+            "type": "action",
+            "one": "5",
+            "content": "return false "
+        }
+    }
+}

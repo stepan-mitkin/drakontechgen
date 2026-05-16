@@ -1,0 +1,63 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "7"
+        },
+        "3": {
+            "type": "question",
+            "one": "5",
+            "two": "4",
+            "flag1": 0,
+            "text": "<p>content is empty</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>report_error(</p><p>    \"Icon cannot be empty\",</p><p>    doc.path,</p><p>    item_id</p><p>)</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "11",
+            "two": "",
+            "text": "<p>item.value = parse_value()</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "13",
+            "two": "",
+            "text": "<p>find_cases()</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>Get from context:</p><ul><li>doc</li><li>item_id</li><li>item</li><li>content</li></ul>"
+        },
+        "11": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>extract_expression()</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "text": "<p>Add item_id to doc.states</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "12",
+            "two": "1",
+            "flag1": 1,
+            "text": "<p>content === \"receive\"</p>"
+        }
+    },
+    "params": "<p>context</p>",
+    "name": "parse_select",
+    "type": "drakon"
+}

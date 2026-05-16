@@ -1,0 +1,182 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "5",
+            "content": "Init"
+        },
+        "5": {
+            "type": "question",
+            "one": "7",
+            "two": "6",
+            "flag1": 1,
+            "content": "state === \"idle\""
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "throw new Error(\"Invalid state\")"
+        },
+        "7": {
+            "type": "action",
+            "one": "9",
+            "content": "state = \"started\""
+        },
+        "8": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 6,
+            "content": "Exit"
+        },
+        "9": {
+            "type": "branch",
+            "one": "31",
+            "branchId": 2,
+            "content": "Read project"
+        },
+        "23": {
+            "type": "branch",
+            "branchId": 5,
+            "one": "41",
+            "content": "Build source code"
+        },
+        "24": {
+            "type": "action",
+            "one": "8",
+            "content": "await options.onData(src)"
+        },
+        "31": {
+            "type": "action",
+            "one": "36",
+            "content": "module = await readRootFolder()"
+        },
+        "35": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "37",
+            "content": "Parse items"
+        },
+        "36": {
+            "type": "question",
+            "one": "35",
+            "two": "8",
+            "flag1": 0,
+            "content": "mustStop()"
+        },
+        "37": {
+            "type": "action",
+            "one": "47",
+            "content": "parseItems(module)"
+        },
+        "38": {
+            "type": "question",
+            "one": "39",
+            "two": "8",
+            "flag1": 0,
+            "content": "mustStop()"
+        },
+        "39": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "40",
+            "content": "Build AST"
+        },
+        "40": {
+            "type": "action",
+            "one": "48",
+            "content": "buildModuleAst(module)"
+        },
+        "41": {
+            "type": "action",
+            "one": "45",
+            "content": "src = options.escodegen.generate(ast)"
+        },
+        "42": {
+            "type": "question",
+            "one": "44",
+            "two": "8",
+            "flag1": 0,
+            "content": "mustStop()"
+        },
+        "43": {
+            "type": "action",
+            "one": "49",
+            "content": "ast = combineModuleAst(module)"
+        },
+        "44": {
+            "type": "action",
+            "one": "43",
+            "content": "addVariableDeclarations(module)"
+        },
+        "45": {
+            "type": "action",
+            "one": "50",
+            "content": "src = addExports(module, src)"
+        },
+        "46": {
+            "type": "question",
+            "one": "23",
+            "two": "8",
+            "flag1": 0,
+            "content": "mustStop()"
+        },
+        "47": {
+            "type": "action",
+            "one": "38",
+            "content": "await pause(1)"
+        },
+        "48": {
+            "type": "action",
+            "one": "42",
+            "content": "await pause(1)"
+        },
+        "49": {
+            "type": "action",
+            "one": "46",
+            "content": "await pause(1)"
+        },
+        "50": {
+            "type": "question",
+            "one": "52",
+            "two": "51",
+            "flag1": 0,
+            "content": "isIife()"
+        },
+        "51": {
+            "type": "action",
+            "one": "24",
+            "content": "src = \"(function() {\\n\" + src + \"\\n})();\";"
+        },
+        "52": {
+            "type": "question",
+            "one": "24",
+            "two": "54",
+            "flag1": 0,
+            "content": "isUnit()"
+        },
+        "53": {
+            "type": "action",
+            "one": "24",
+            "content": "src = \"function \" + options.name + \"() {\\nvar unit = {};\\n\"\n+ deps + src + \"\\nreturn unit;\\n}\";"
+        },
+        "54": {
+            "type": "action",
+            "one": "53",
+            "content": "deps = getDepDeclarations()"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": true,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": ""
+}

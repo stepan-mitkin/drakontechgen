@@ -1,0 +1,62 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "event\ncs",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "6"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "content": "cs.consequent.push(createBreak())"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "cs.consequent.push(\n    parseStatement(\"_args_=[]\")\n)"
+        },
+        "7": {
+            "type": "action",
+            "one": "9",
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_args_.push(\\\"\" + event.name + \"\\\")\"\n    )\n)"
+        },
+        "8": {
+            "type": "loopend",
+            "one": "13",
+            "content": ""
+        },
+        "9": {
+            "type": "loopbegin",
+            "one": "11",
+            "content": "arg; event.args"
+        },
+        "11": {
+            "type": "action",
+            "one": "8",
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_args_.push(\" + arg + \")\"\n    )\n)"
+        },
+        "12": {
+            "type": "action",
+            "one": "5",
+            "content": "cs.consequent.push(\n    parseStatement(\n        \"_topGen_.next(_args_)\"\n    )\n)"
+        },
+        "13": {
+            "type": "action",
+            "one": "12",
+            "content": "cs.consequent.push(\n    parseStatement(\"me._busy =true\")\n)"
+        }
+    }
+}

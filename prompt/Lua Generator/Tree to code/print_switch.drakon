@@ -1,0 +1,85 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "text": "<p>Options</p>"
+        },
+        "3": {
+            "type": "action",
+            "one": "14",
+            "text": "<p>Take from context:</p><ul><li>node</li></ul>"
+        },
+        "11": {
+            "type": "branch",
+            "one": "19",
+            "branchId": 3,
+            "text": "Completion"
+        },
+        "12": {
+            "type": "branch",
+            "one": "21",
+            "branchId": 2,
+            "text": "<p>Default</p>"
+        },
+        "13": {
+            "type": "loopend",
+            "one": "12"
+        },
+        "14": {
+            "type": "loopbegin",
+            "one": "15",
+            "text": "<p>for each option in node.options</p>"
+        },
+        "15": {
+            "type": "question",
+            "one": "16",
+            "two": "17",
+            "flag1": 1,
+            "text": "<p>is first element </p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "18",
+            "text": "<p>add_line(\"if \" + option.condition + \" then\")</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "18",
+            "text": "<p>add_line(\"elseif \" + option.condition + \" then\")</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>print_body(option.body)</p>"
+        },
+        "19": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_line(\"end\")</p>"
+        },
+        "20": {
+            "type": "action",
+            "one": "11",
+            "text": "<p>print_body(node.other)</p>"
+        },
+        "21": {
+            "type": "question",
+            "one": "22",
+            "two": "11",
+            "flag1": 0,
+            "text": "<p>node.other is empty</p>"
+        },
+        "22": {
+            "type": "action",
+            "one": "20",
+            "text": "<p>add_line(\"else\")</p>"
+        }
+    },
+    "name": "print_switch",
+    "type": "drakon"
+}

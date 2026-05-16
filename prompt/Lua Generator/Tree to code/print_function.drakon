@@ -1,0 +1,56 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "11"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>Take from context:</p><ul><li>node</li></ul>"
+        },
+        "4": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>args = node.args.join(\", \")</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>add_line(\"function \" + node.name + \"(\" + args + \")\")</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_line(\"end\")</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>print_body(node.body)</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_line(\"\")</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "5",
+            "two": "14",
+            "flag1": 0,
+            "text": "<p>node.self_name</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>add_line( node.self_name + \".\" + node.name + \" = function(\" + args + \")\")</p>"
+        }
+    },
+    "name": "print_function",
+    "type": "drakon"
+}

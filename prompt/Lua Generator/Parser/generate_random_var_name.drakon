@@ -1,0 +1,24 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>next_id++</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return \"_var\" + next_id</p>"
+        }
+    },
+    "name": "generate_random_var_name",
+    "type": "drakon"
+}

@@ -1,0 +1,96 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "13"
+        },
+        "3": {
+            "type": "question",
+            "one": "4",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>item.statements</p>"
+        },
+        "4": {
+            "type": "question",
+            "one": "5",
+            "two": "12",
+            "flag1": 0,
+            "text": "<p>item.statements is empty</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>last = last element(item.statements)</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 1,
+            "text": "<p>last.type === \"ReturnStatement\"</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "8": {
+            "type": "question",
+            "one": "15",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>last.type === \"CallStatement\"</p>"
+        },
+        "9": {
+            "type": "question",
+            "one": "10",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>last.expression.base.type == \"Identifier\"</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "11",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>last.expression.base.name === \"error\"</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return true</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return false</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "14",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>node.id</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>item = doc.items[node.id]</p>"
+        },
+        "15": {
+            "type": "question",
+            "one": "9",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>last.expression.type === \"CallExpression\"</p>"
+        }
+    },
+    "params": "<p>doc</p><p>node</p>",
+    "name": "is_final",
+    "type": "drakon"
+}

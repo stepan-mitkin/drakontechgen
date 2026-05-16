@@ -1,0 +1,44 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "folder\nid\nitem\nname",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "6"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "item.type = \"action\""
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "two": "",
+            "content": "addLocal(folder.scope, \"_event_\")"
+        },
+        "7": {
+            "type": "action",
+            "one": "13",
+            "two": "",
+            "content": "lines = [\n    \"me.state = \\\"\" + id + \"\\\"\",\n    \"me._busy = false\",\n    \"_event_ = yield\"\n]"
+        },
+        "11": {
+            "type": "action",
+            "one": "3",
+            "content": "item.content = linesToContent(\n    folder,\n    id,\n    lines\n)"
+        },
+        "13": {
+            "type": "action",
+            "one": "11",
+            "content": "assignEventArguments(folder, name, lines)"
+        }
+    }
+}

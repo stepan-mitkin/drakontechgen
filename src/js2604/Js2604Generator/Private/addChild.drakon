@@ -1,0 +1,64 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "parent\nfolder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "19"
+        },
+        "3": {
+            "type": "action",
+            "one": "10",
+            "content": "scope = createScope(\n    \"function\",\n    folder.name\n)"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "content": "reportError(\n    \"Name is not unique: \" + folder.name,\n    folder.path,\n    undefined \n)"
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "content": "folder.scope = scope"
+        },
+        "11": {
+            "type": "action",
+            "one": "18",
+            "content": "parent.children[folder.name] = folder"
+        },
+        "12": {
+            "type": "action",
+            "one": "3",
+            "content": "enrichFolder(folder)"
+        },
+        "18": {
+            "type": "action",
+            "one": "21",
+            "content": "folder.parent = parent.id"
+        },
+        "19": {
+            "type": "question",
+            "one": "12",
+            "two": "9",
+            "flag1": 1,
+            "content": "isFunctionNameUnique(parent, folder.name)"
+        },
+        "21": {
+            "type": "action",
+            "one": "1",
+            "content": "generateFunctionId(folder)"
+        }
+    }
+}

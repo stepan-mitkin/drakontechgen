@@ -1,0 +1,63 @@
+{
+    "items": {
+        "1": {
+            "type": "idea",
+            "parent": "root",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "text": "<p>read_project</p>"
+        },
+        "2": {
+            "type": "idea",
+            "parent": "1",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>Export <strong>read_project</strong> function.</p><p>Do not generate handles for created Nodes.</p>",
+            "w": 155
+        },
+        "3": {
+            "type": "idea",
+            "parent": "1",
+            "treeType": "horizontal",
+            "ordinal": 1,
+            "w": 155,
+            "text": "<p>Find error in the requirements for a JS function <strong>read_project</strong>.</p><p>Do not generate code.</p><p>Build a list of errors.</p>"
+        },
+        "4": {
+            "type": "idea",
+            "parent": "root",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "text": "<p>Common</p>"
+        },
+        "5": {
+            "type": "idea",
+            "parent": "4",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "w": 155,
+            "text": "<p>Generate a JS module.</p><p>Use CommonJS format.</p><p>Generate all the necessary functions.</p><p>Do not add any dependencies to the module.</p><p>Do not use \"class\", \"new\", and \"this\" keywords.</p><p>Do not use object destructuring.</p><p>Add async/await where necessary.</p><p>Use \"undefined\" instead of \"null\".</p><p>Do not use array.length = 0 trick.</p><p>Use plain JS objects for dictionaries and sets.</p><p>Use {} to create new dictionaries and sets.</p><p>Use \"in\" operator to check if a key is in the map or set.</p><p>Keep snake case identifier style where the specs follow it.</p><p>Report the errors instead of generating code if there are critical errors.</p>"
+        },
+        "6": {
+            "type": "idea",
+            "parent": "root",
+            "treeType": "horizontal",
+            "ordinal": 2,
+            "text": "<p>generate_lua</p>"
+        },
+        "7": {
+            "type": "idea",
+            "parent": "6",
+            "treeType": "horizontal",
+            "ordinal": 0,
+            "w": 155,
+            "text": "<p>Generate <strong>generate_lua</strong> Javascript function.</p><p>All other functions are already defined.</p><p>read_project is async</p><p>pause is async</p>"
+        },
+        "root": {
+            "treeType": "horizontal",
+            "type": "header"
+        }
+    },
+    "name": "Prompts",
+    "type": "graf"
+}

@@ -1,0 +1,63 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>locals = empty list</p>"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "13"
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "text": "<p>for each name, type in scope.declarations</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "4",
+            "flag1": 1,
+            "text": "<p>type === \"local\"</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>add name to locals</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>sort locals</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>content = \"local \" + locals.join(\", \")</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_action(content, body)</p>"
+        },
+        "13": {
+            "type": "question",
+            "one": "8",
+            "two": "1",
+            "flag1": 0,
+            "text": "<p>locals is empty</p>"
+        }
+    },
+    "params": "<p>scope</p><p>body</p>",
+    "name": "declare_variables",
+    "type": "drakon"
+}

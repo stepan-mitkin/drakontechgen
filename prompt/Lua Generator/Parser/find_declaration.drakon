@@ -1,0 +1,59 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>current = step</p>"
+        },
+        "7": {
+            "type": "question",
+            "one": "8",
+            "two": "9",
+            "flag1": 0,
+            "text": "<p>current</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return null</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>role = current.scope.declarations[name]</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "11",
+            "two": "12",
+            "flag1": 1,
+            "text": "<p>role</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return role</p>"
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "text": "<p>current = current.parent</p>"
+        },
+        "13": {
+            "type": "arrow-loop",
+            "one": "7"
+        }
+    },
+    "params": "<p>step</p><p>name</p>",
+    "style": "{\"maxWidth\":230}",
+    "name": "find_declaration",
+    "type": "drakon"
+}

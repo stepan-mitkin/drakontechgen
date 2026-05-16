@@ -1,0 +1,210 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Get expressions"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "expr1 = item.content[0]\nexpr2 = item.content[1]"
+        },
+        "5": {
+            "type": "question",
+            "one": "6",
+            "two": "7",
+            "flag1": 1,
+            "content": "expr1.type === \"ExpressionStatement\""
+        },
+        "6": {
+            "type": "question",
+            "one": "8",
+            "two": "7",
+            "flag1": 1,
+            "content": "expr2.type === \"ExpressionStatement\""
+        },
+        "7": {
+            "type": "action",
+            "one": "15",
+            "content": "reportBadLoop(folder, id, item)"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "first = expr1.expression\nsecond = expr2.expression"
+        },
+        "9": {
+            "type": "question",
+            "one": "34",
+            "two": "10",
+            "flag1": 1,
+            "content": "second.type === \"Identifier\""
+        },
+        "10": {
+            "type": "action",
+            "one": "48",
+            "content": "varName = generateId(\"_collection\")"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "oldContent = second"
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "content": "second = createIdentifier(varName)"
+        },
+        "13": {
+            "type": "action",
+            "one": "14",
+            "content": "newContent = createAssignment(\n    createIdentifier(varName),\n    oldContent\n)"
+        },
+        "14": {
+            "type": "action",
+            "one": "34",
+            "content": "insertActionBefore(\n    folder,\n    id,\n    newContent\n)"
+        },
+        "15": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 4,
+            "content": "Exit"
+        },
+        "16": {
+            "type": "branch",
+            "one": "18",
+            "branchId": 2,
+            "content": "Array loop"
+        },
+        "18": {
+            "type": "action",
+            "one": "19",
+            "content": "item.subtype = \"array\"\nitem.variable = first.name"
+        },
+        "19": {
+            "type": "action",
+            "one": "20",
+            "content": "item.content = createForOf(\n    item.variable,\n    second\n)"
+        },
+        "20": {
+            "type": "action",
+            "one": "23",
+            "content": "item.content.itemId = id"
+        },
+        "23": {
+            "type": "action",
+            "one": "15",
+            "content": "addLoopVar(folder.scope, item.variable)"
+        },
+        "34": {
+            "type": "question",
+            "one": "16",
+            "two": "35",
+            "flag1": 1,
+            "content": "first.type === \"Identifier\""
+        },
+        "35": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "36",
+            "content": "Dictionary loop"
+        },
+        "36": {
+            "type": "question",
+            "one": "37",
+            "two": "38",
+            "flag1": 1,
+            "content": "first.type === \"SequenceExpression\""
+        },
+        "37": {
+            "type": "question",
+            "one": "39",
+            "two": "38",
+            "flag1": 1,
+            "content": "first.expressions.length === 2"
+        },
+        "38": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "content": "reportBadLoop(folder, id, item)"
+        },
+        "39": {
+            "type": "action",
+            "one": "40",
+            "two": "",
+            "content": "var1 = first.expressions[0]\nvar2 = first.expressions[1]"
+        },
+        "40": {
+            "type": "question",
+            "one": "41",
+            "two": "38",
+            "flag1": 1,
+            "content": "var1.type === \"Identifier\""
+        },
+        "41": {
+            "type": "question",
+            "one": "42",
+            "two": "38",
+            "flag1": 1,
+            "content": "var2.type === \"Identifier\""
+        },
+        "42": {
+            "type": "action",
+            "one": "43",
+            "two": "",
+            "content": "item.subtype = \"dictionary\"\nitem.keyVariable = var1.name\nitem.valueVariable = var2.name"
+        },
+        "43": {
+            "type": "action",
+            "one": "44",
+            "two": "",
+            "content": "insertActionBefore(\n    folder,\n    item.one,\n    createGetValue(\n        item.valueVariable,\n        item.keyVariable,\n        second\n    )\n)"
+        },
+        "44": {
+            "type": "action",
+            "one": "45",
+            "two": "",
+            "content": "item.content = createForIn(\n    item.keyVariable,\n    second,\n)"
+        },
+        "45": {
+            "type": "action",
+            "one": "46",
+            "two": "",
+            "content": "item.content.itemId = id"
+        },
+        "46": {
+            "type": "action",
+            "one": "47",
+            "two": "",
+            "content": "addLoopVar(\n    folder.scope,\n    item.keyVariable\n)"
+        },
+        "47": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "content": "addLoopVar(\n    folder.scope,\n    item.valueVariable\n)"
+        },
+        "48": {
+            "type": "action",
+            "one": "11",
+            "content": "addLocal(folder.scope, varName)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nid\nitem"
+}

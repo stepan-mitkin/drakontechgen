@@ -1,0 +1,96 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "parseItemContent(folder, id, item)"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "1",
+            "flag1": 1,
+            "content": "ensureHasContent(folder, id, item)"
+        },
+        "7": {
+            "type": "question",
+            "one": "8",
+            "two": "1",
+            "flag1": 1,
+            "content": "ensureExpression(folder, id, item)"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "content": "expr = item.content"
+        },
+        "9": {
+            "type": "question",
+            "one": "15",
+            "two": "10",
+            "flag1": 1,
+            "content": "expr.type === \"Identifier\""
+        },
+        "10": {
+            "type": "action",
+            "one": "17",
+            "content": "varName = generateId(\"_selectValue\")"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "item.content = createIdentifier(varName)"
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "content": "newContent = createAssignment(\n    createIdentifier(varName),\n    expr\n)"
+        },
+        "13": {
+            "type": "action",
+            "one": "1",
+            "content": "insertActionBefore(\n    folder,\n    id,\n    newContent\n)"
+        },
+        "15": {
+            "type": "question",
+            "one": "1",
+            "two": "16",
+            "flag1": 0,
+            "content": "expr.name === \"receive\""
+        },
+        "16": {
+            "type": "action",
+            "one": "18",
+            "content": "folder.eventItems.push(id)"
+        },
+        "17": {
+            "type": "action",
+            "one": "11",
+            "content": "addLocal(folder.scope, varName)"
+        },
+        "18": {
+            "type": "action",
+            "one": "1",
+            "content": "collectReceiveCases(folder, item)"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder\nid\nitem"
+}

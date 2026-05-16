@@ -1,0 +1,96 @@
+{
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "node\nscope",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "decl; node.declarations"
+        },
+        "6": {
+            "type": "question",
+            "one": "12",
+            "two": "4",
+            "flag1": 1,
+            "content": "decl.type === \"VariableDeclarator\""
+        },
+        "9": {
+            "type": "case",
+            "one": "16",
+            "content": "\"ArrayPattern\"",
+            "two": "21"
+        },
+        "12": {
+            "type": "select",
+            "one": "20",
+            "content": "decl.id.type"
+        },
+        "15": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "16": {
+            "type": "loopbegin",
+            "one": "19",
+            "content": "item; decl.id.elements"
+        },
+        "19": {
+            "type": "action",
+            "one": "15",
+            "content": "tryAddIdentifier(scope, item)"
+        },
+        "20": {
+            "type": "case",
+            "one": "24",
+            "two": "9",
+            "content": "\"ObjectPattern\""
+        },
+        "21": {
+            "one": "22",
+            "type": "case",
+            "two": null
+        },
+        "22": {
+            "type": "action",
+            "one": "4",
+            "content": "tryAddIdentifier(scope, decl.id)"
+        },
+        "23": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "24": {
+            "type": "loopbegin",
+            "one": "25",
+            "content": "prop; decl.id.properties"
+        },
+        "25": {
+            "type": "action",
+            "one": "23",
+            "content": "tryAddIdentifier(scope, prop.key)"
+        }
+    }
+}

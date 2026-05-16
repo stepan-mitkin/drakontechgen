@@ -1,11 +1,14 @@
 const esprima = require("esprima");
 const escodegen = require("escodegen");
+const luaparse = require('luaparse')
 const fs = require("fs").promises;
 const path = require("path");
 const {
   createDrakonTechGenerator,
   createClojureGenerator,
 } = require("./drakontechgen");
+const { Js2604Generator } = require("./js2604");
+const { Lua2604Generator } = require("./lua2604")
 const { toTree } = require("drakongen");
 
 var success = undefined;
@@ -57,9 +60,11 @@ function parseCommandLine() {
 
   if (!options.output) {
     var parsed = path.parse(options.projectFolder);
-    var ext;
-    if (options.language === "JS") {
+    var ext = ".js";
+    if (options.language === "JS" || options.language === "JS2604") {
       ext = ".js";
+    } else if (options.language === "LUA2604") {
+      ext = ".lua";
     } else {
       ext = ".clj";
     }
@@ -90,7 +95,7 @@ async function getObjectByHandle(filepath) {
       children: goodNames.map((file) => path.join(filepath, file)),
     };
   } else {
-    if (parsed.ext === ".drakon" || parsed.ext === ".json") {
+    if (parsed.ext === ".drakon") {
       try {
         var content = await fs.readFile(filepath, "utf-8");
         var obj = JSON.parse(content);
@@ -131,10 +136,11 @@ async function main() {
     toTree: toTree,
     escodegen: escodegen,
     esprima: esprima,
+    parseLua: function(text) { return luaparse.parse(text)},
     name: options.name,
     root: options.projectFolder,
     main: options.main,
-    //settings: { iife: true },
+    settings: { iife: false, unit: false, dependencies: "depX\ndepA" },
     getObjectByHandle: function (filepath) {
       return getObjectByHandle(filepath, genOptions);
     },
@@ -148,10 +154,16 @@ async function main() {
   var generator;
   if (options.language === "JS") {
     generator = createDrakonTechGenerator(genOptions);
+  } else if (options.language === "JS2604") {
+    generator = Js2604Generator(genOptions);
+  } else if (options.language === "LUA2604") {
+    generator = Lua2604Generator(genOptions);    
   } else if (options.language === "clojure") {
     generator = createClojureGenerator(genOptions);
   } else {
-    console.error("Unexpected language. --language must be JS or clojure");
+    console.error(
+      "Unexpected language. --language must be JS, JS2604, or clojure",
+    );
     return;
   }
   await generator.run();

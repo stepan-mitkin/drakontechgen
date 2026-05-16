@@ -1,6 +1,6 @@
 {
     "name": "drakontechgen",
-    "version": "1.7.2",
+    "version": "1.8.0",
     "description": "A code generator for DrakonTech",
     "main": "src/main.js",
     "directories": {
@@ -20,9 +20,10 @@
     },
     "homepage": "https://github.com/stepan-mitkin/drakontechgen#readme",
     "dependencies": {
-        "drakongen": "^1.4.7",
+        "drakongen": "^1.7.0",
         "escodegen": "^2.1.0",
-        "esprima": "^4.0.1"
+        "esprima": "^4.0.1",
+        "luaparse": "^0.3.1"
     },
     "devDependencies": {
         "qunit": "^2.22.0"

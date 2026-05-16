@@ -1,0 +1,152 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "module\nsrc",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Build export list"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "exported = []"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "8",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "name, child; module.children"
+        },
+        "6": {
+            "type": "question",
+            "one": "4",
+            "two": "7",
+            "flag1": 0,
+            "content": "child.keywords.export "
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "content": "exported.push(child.name)"
+        },
+        "8": {
+            "type": "question",
+            "one": "14",
+            "two": "41",
+            "flag1": 0,
+            "content": "exported.length === 0"
+        },
+        "13": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "14": {
+            "type": "branch",
+            "one": "42",
+            "branchId": 2,
+            "content": "Branch2"
+        },
+        "20": {
+            "type": "question",
+            "one": "28",
+            "two": "21",
+            "flag1": 1,
+            "content": "isIife()"
+        },
+        "21": {
+            "type": "question",
+            "one": "33",
+            "two": "22",
+            "flag1": 1,
+            "content": "isUnit()"
+        },
+        "22": {
+            "type": "action",
+            "one": "30",
+            "two": "",
+            "content": "code = \"module.exports = {\" + exported.join(\n    \", \"\n) + \"}\""
+        },
+        "28": {
+            "type": "action",
+            "one": "30",
+            "content": "code = exported.map(\n    name => \"window.\" + name + \"=\" + name\n).join(\"\\n\")"
+        },
+        "30": {
+            "type": "action",
+            "one": "31",
+            "two": "",
+            "content": "parsed = options.esprima.parseScript(\n    code,\n    {loc: false }\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "32",
+            "two": "",
+            "content": "exportSrc = options.escodegen.generate(\n    parsed\n)"
+        },
+        "32": {
+            "type": "action",
+            "one": "13",
+            "two": "",
+            "content": "return src + \"\\n\" + exportSrc"
+        },
+        "33": {
+            "type": "action",
+            "one": "35",
+            "content": "lines = exported.map(\n    name => \"unit.\" + name + \"=\" + name\n)"
+        },
+        "34": {
+            "type": "action",
+            "one": "30",
+            "content": "code = lines.join(\"\\n\")"
+        },
+        "35": {
+            "type": "action",
+            "one": "38",
+            "content": "deps = getDependencies()"
+        },
+        "37": {
+            "type": "loopend",
+            "one": "34",
+            "content": ""
+        },
+        "38": {
+            "type": "loopbegin",
+            "one": "40",
+            "content": "dep; deps"
+        },
+        "39": {
+            "type": "action",
+            "one": "37",
+            "content": "lines.push(line)"
+        },
+        "40": {
+            "type": "action",
+            "one": "39",
+            "content": "line = \"Object.defineProperty(unit,'\" + dep\n+ \"',{get:function(){return \" + dep + \";},set:function(newValue){\"\n+ dep + \"=newValue;},enumerable:true,configurable:true});\""
+        },
+        "41": {
+            "type": "action",
+            "one": "13",
+            "content": "return src"
+        },
+        "42": {
+            "type": "action",
+            "one": "20",
+            "content": "exported.sort()"
+        }
+    }
+}

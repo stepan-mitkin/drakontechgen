@@ -29,6 +29,7 @@ const {
   twoExits,
   inversedOr,
   whileDo,
+  inversedAnd,
 } = require("../examples/green/green");
 
 QUnit.module("Functions");

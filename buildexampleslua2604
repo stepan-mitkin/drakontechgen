@@ -1,0 +1,11 @@
+#!/bin/bash
+
+node src/main.js exampleslua2604/green --language LUA2604 --output exampleslua2604/green.lua
+node src/main.js exampleslua2604/classes --language LUA2604 --output exampleslua2604/classes.lua
+node src/main.js exampleslua2604/machines --language LUA2604 --output exampleslua2604/machines.lua
+
+# luarocks install busted
+
+busted testlua/luaFunctionsTest2604.lua
+busted testlua/luaClassesTest2604.lua
+busted testlua/luaMachinesTest2604.lua

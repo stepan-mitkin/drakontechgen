@@ -1,0 +1,51 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "7",
+            "content": "deps = splitTrim(\n    options.settings.dependencies,\n    \"\\n\"\n)"
+        },
+        "4": {
+            "type": "question",
+            "one": "5",
+            "two": "6",
+            "flag1": 1,
+            "content": "options.settings"
+        },
+        "5": {
+            "type": "question",
+            "one": "3",
+            "two": "6",
+            "flag1": 1,
+            "content": "options.settings.dependencies"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "content": "return []"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "deps.sort()"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "return deps"
+        }
+    }
+}

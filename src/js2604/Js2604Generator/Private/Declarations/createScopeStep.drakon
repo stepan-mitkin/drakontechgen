@@ -1,0 +1,27 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return {\n    parent: parent,\n    name: name,\n    path: path || \"\",\n    scope: scope,\n    body: body,\n    canAssign: canAssign || false ,\n    canDeclare: canDeclare || false \n}"
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "parent\nname\npath\nscope\nbody\ncanAssign\ncanDeclare"
+}

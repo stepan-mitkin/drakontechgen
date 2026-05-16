@@ -1,0 +1,56 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "10"
+        },
+        "3": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>current_case_id = item.one</p>"
+        },
+        "4": {
+            "type": "question",
+            "one": "1",
+            "two": "5",
+            "flag1": 0,
+            "text": "<p>current_case_id</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>case_item = context.doc.items[current_case_id]</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "8",
+            "text": "<p>item.cases.add(current_case_id)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>item.cases = empty list</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>current_case_id = case_item.two</p>"
+        },
+        "9": {
+            "type": "arrow-loop",
+            "one": "4"
+        },
+        "10": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>item = context.item</p>"
+        }
+    },
+    "params": "<p>context</p>",
+    "name": "find_cases",
+    "type": "drakon"
+}

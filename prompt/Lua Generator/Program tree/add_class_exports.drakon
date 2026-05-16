@@ -1,0 +1,39 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "7"
+        },
+        "3": {
+            "type": "loopend",
+            "one": "6"
+        },
+        "4": {
+            "type": "loopbegin",
+            "one": "5",
+            "text": "<p>for each name in exported</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "3",
+            "text": "<p>add_action(</p><p>    \"self.\" + name + \" = \" + name,</p><p>    body</p><p>)</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>add_action(</p><p>    \"return self\",</p><p>    body</p><p>)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>add_empty_line(body)</p>"
+        }
+    },
+    "params": "<p>exported</p><p>body</p>",
+    "name": "add_class_exports",
+    "type": "drakon"
+}

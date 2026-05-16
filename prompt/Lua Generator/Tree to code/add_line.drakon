@@ -1,0 +1,35 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "text": "<p>Take from context:</p><ul><li>depth</li><li>lines</li></ul>"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>indent = repeat space(depth * 4)</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "text": "<p>line = indent + text</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>Add line to lines</p>"
+        }
+    },
+    "params": "<p>text</p>",
+    "name": "add_line",
+    "type": "drakon"
+}

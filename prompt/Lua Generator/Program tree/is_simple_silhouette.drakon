@@ -1,0 +1,72 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "14"
+        },
+        "3": {
+            "type": "loopend",
+            "one": "21"
+        },
+        "4": {
+            "type": "loopbegin",
+            "one": "5",
+            "content": "<p>for each branch in raw_tree.branches</p>"
+        },
+        "5": {
+            "type": "question",
+            "one": "3",
+            "two": "17",
+            "flag1": 0,
+            "content": "<p>branch.refs &gt; 1</p>"
+        },
+        "14": {
+            "type": "action",
+            "content": "<p>first_branch = first(raw_tree.branches)</p>",
+            "one": "15"
+        },
+        "15": {
+            "type": "question",
+            "content": "<p>first_branch.refs &gt; 0</p>",
+            "one": "4",
+            "two": "16",
+            "flag1": 0
+        },
+        "16": {
+            "type": "action",
+            "one": "4",
+            "content": "<p>return false</p>"
+        },
+        "17": {
+            "type": "question",
+            "content": "<p>branch is last</p>",
+            "one": "22",
+            "two": "18",
+            "flag1": 1
+        },
+        "18": {
+            "type": "action",
+            "one": "3",
+            "content": "<p>return false</p>"
+        },
+        "21": {
+            "type": "action",
+            "content": "<p>return true</p>",
+            "one": "1"
+        },
+        "22": {
+            "type": "question",
+            "one": "3",
+            "two": "18",
+            "flag1": 0,
+            "content": "<p>brach.body.length &gt; 1</p>"
+        }
+    },
+    "type": "drakon",
+    "name": "is_simple_silhouette",
+    "params": "<p>raw_tree</p>"
+}

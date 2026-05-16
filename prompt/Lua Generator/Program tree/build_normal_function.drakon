@@ -1,0 +1,147 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "17",
+            "text": "<p>Build body</p>"
+        },
+        "3": {
+            "type": "question",
+            "one": "4",
+            "two": "6",
+            "flag1": 1,
+            "text": "<p>raw_tree.branches.length === 1</p>"
+        },
+        "4": {
+            "type": "action",
+            "one": "14",
+            "two": "",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>convert_tree(</p><p>    context,</p><p>    first.body,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 1,
+            "text": "<p>is_simple_silhouette(raw_tree)</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "13",
+            "two": "",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "9",
+            "two": "",
+            "text": "<p>doc.scope.declarations[\"_branch_\"] = \"local\"</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "16",
+            "two": "",
+            "text": "<p>declare_variables(</p><p>    doc.scope,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "10": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>complex_silhouette_to_tree(context, fun_node.body)</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: true,</p><p>    branches: raw_tree.branches</p><p>}</p>"
+        },
+        "14": {
+            "type": "action",
+            "one": "5",
+            "two": "",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: true</p><p>}</p>"
+        },
+        "15": {
+            "type": "action",
+            "one": "20",
+            "two": "",
+            "text": "<p>convert_tree(</p><p>    context,</p><p>    first.body,</p><p>    fun_node.body</p><p>)</p>"
+        },
+        "16": {
+            "type": "action",
+            "one": "18",
+            "two": "",
+            "text": "<p>add_action(\"_branch_ = \\\"\" + first.name + \"\\\"\", fun_node.body)</p>"
+        },
+        "17": {
+            "type": "action",
+            "one": "3",
+            "two": "",
+            "text": "<p>first = first element(raw_tree.branches)</p>"
+        },
+        "18": {
+            "type": "action",
+            "one": "10",
+            "two": "",
+            "text": "<p>context = {</p><p>    doc: doc,</p><p>    simple: false,</p><p>    branches: raw_tree.branches,</p><p>    state_var: \"_branch_\"</p><p>}</p>"
+        },
+        "20": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 4,
+            "text": "Completion"
+        },
+        "22": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "23",
+            "text": "<p>Build tree</p>"
+        },
+        "23": {
+            "type": "action",
+            "one": "25",
+            "two": "",
+            "text": "<p>raw_tree = drakon_to_tree(</p><p>    doc,</p><p>    false</p><p>)</p>"
+        },
+        "25": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "26",
+            "text": "<p>Class</p>"
+        },
+        "26": {
+            "type": "question",
+            "one": "27",
+            "two": "28",
+            "flag1": 1,
+            "text": "<p>doc.type === \"class\"</p>"
+        },
+        "27": {
+            "type": "action",
+            "one": "28",
+            "two": "",
+            "text": "<p>add_self(doc, fun_node)</p>"
+        },
+        "28": {
+            "type": "question",
+            "one": "2",
+            "two": "20",
+            "flag1": 0,
+            "text": "<p>raw_tree.branches.length === 0</p>"
+        }
+    },
+    "params": "<p>doc</p><p>fun_node</p>",
+    "style": "{\"maxWidth\":330}",
+    "name": "build_normal_function",
+    "type": "drakon"
+}

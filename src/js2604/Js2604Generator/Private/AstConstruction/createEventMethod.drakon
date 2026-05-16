@@ -1,0 +1,143 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "fun\neventName\nfunctionBody",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Create method shell"
+        },
+        "3": {
+            "type": "action",
+            "one": "9",
+            "content": "event = fun.events[eventName]"
+        },
+        "4": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 5,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "10",
+            "branchId": 4,
+            "content": "Add method to body"
+        },
+        "7": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "15",
+            "content": "Build method"
+        },
+        "9": {
+            "type": "action",
+            "one": "13",
+            "content": "funAst = createFunction(\n    eventName,\n    event.args\n)"
+        },
+        "10": {
+            "type": "action",
+            "one": "4",
+            "content": "functionBody.push(\n    createExpression(\n        createAssignment(\n            createMember(\n                createIdentifier(\"me\"),\n                eventName\n            ),\n            funAst,\n        ),\n    ),\n);"
+        },
+        "11": {
+            "type": "action",
+            "one": "7",
+            "content": "body = getFunBody(funAst)"
+        },
+        "12": {
+            "type": "action",
+            "one": "11",
+            "content": "funAst.type = \"FunctionExpression\""
+        },
+        "13": {
+            "type": "action",
+            "one": "12",
+            "content": "delete funAst.id"
+        },
+        "15": {
+            "type": "action",
+            "one": "24",
+            "content": "body.push(\n    parseStatement(\n        \"if (me._busy) {throw new Error(\\\"Synchronous reentry is not allowed\\\");}\"\n    )\n)"
+        },
+        "24": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "30",
+            "content": "Find states"
+        },
+        "25": {
+            "type": "loopend",
+            "one": "37",
+            "content": ""
+        },
+        "26": {
+            "type": "loopbegin",
+            "one": "28",
+            "content": "itemId; fun.eventItems"
+        },
+        "27": {
+            "type": "question",
+            "one": "35",
+            "two": "25",
+            "flag1": 0,
+            "content": "eventItem.eventNames.indexOf(eventName) ===\n-1"
+        },
+        "28": {
+            "type": "action",
+            "one": "27",
+            "content": "eventItem = fun.items[itemId]"
+        },
+        "30": {
+            "type": "action",
+            "one": "31",
+            "content": "sw = createSwitch(\n    createMember(\n        createIdentifier(\"me\"),\n        \"state\"\n    )\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "26",
+            "content": "body.push(sw)"
+        },
+        "32": {
+            "type": "action",
+            "one": "5",
+            "content": "def.consequent.push(createBreak())"
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "two": "",
+            "content": "def = createCase(null )"
+        },
+        "34": {
+            "type": "action",
+            "one": "32",
+            "two": "",
+            "content": "sw.cases.push(def)"
+        },
+        "35": {
+            "type": "action",
+            "one": "36",
+            "two": "",
+            "content": "cs = createCase(\n    createStringLiteral(itemId)\n)"
+        },
+        "36": {
+            "type": "action",
+            "one": "25",
+            "two": "",
+            "content": "sw.cases.push(cs)"
+        },
+        "37": {
+            "type": "action",
+            "one": "33",
+            "content": "addEventCase(event, cs)"
+        }
+    }
+}

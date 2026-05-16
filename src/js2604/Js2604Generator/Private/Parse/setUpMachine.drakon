@@ -1,0 +1,115 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "folder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "6",
+            "content": "Normalize async flag"
+        },
+        "4": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 5,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "19",
+            "branchId": 2,
+            "content": "Async"
+        },
+        "6": {
+            "type": "question",
+            "one": "5",
+            "two": "18",
+            "flag1": 1,
+            "content": "folder.keywords.async "
+        },
+        "18": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "23",
+            "content": "Not async"
+        },
+        "19": {
+            "type": "question",
+            "one": "4",
+            "two": "20",
+            "flag1": 1,
+            "content": "folder.eventItems.length === 0"
+        },
+        "20": {
+            "type": "action",
+            "one": "4",
+            "content": "reportError(\n    \"events are not allowed in async functions\",\n    folder.path,\n    folder.eventItems[0]\n)"
+        },
+        "21": {
+            "type": "loopend",
+            "one": "35",
+            "content": ""
+        },
+        "22": {
+            "type": "loopbegin",
+            "one": "25",
+            "content": "id; folder.eventItems"
+        },
+        "23": {
+            "type": "action",
+            "one": "22",
+            "content": "folder.events = {}"
+        },
+        "24": {
+            "type": "question",
+            "one": "30",
+            "two": "31",
+            "flag1": 1,
+            "content": "item.type === \"select\""
+        },
+        "25": {
+            "type": "action",
+            "one": "24",
+            "content": "item = folder.items[id]"
+        },
+        "30": {
+            "type": "action",
+            "one": "21",
+            "content": "addSelectEvent(folder, item, id)"
+        },
+        "31": {
+            "type": "action",
+            "one": "21",
+            "content": "addInputEvent(folder, item, id)"
+        },
+        "35": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "36",
+            "content": "Mark as machine"
+        },
+        "36": {
+            "type": "question",
+            "one": "4",
+            "two": "37",
+            "flag1": 1,
+            "content": "folder.eventItems.length === 0"
+        },
+        "37": {
+            "type": "action",
+            "one": "38",
+            "content": "folder.isMachine = true "
+        },
+        "38": {
+            "type": "action",
+            "one": "4",
+            "content": "folder.originalName = folder.name"
+        }
+    }
+}

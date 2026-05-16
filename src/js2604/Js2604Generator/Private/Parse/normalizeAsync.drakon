@@ -1,0 +1,51 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "delete folder.keywords.machine"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "5",
+            "flag1": 1,
+            "content": "folder.keywords.machine"
+        },
+        "5": {
+            "type": "question",
+            "one": "3",
+            "two": "7",
+            "flag1": 1,
+            "content": "folder.keywords.async "
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "content": "folder.keywords.async  = true "
+        },
+        "7": {
+            "type": "action",
+            "one": "1",
+            "content": "folder.keywords.async  = false "
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "folder"
+}

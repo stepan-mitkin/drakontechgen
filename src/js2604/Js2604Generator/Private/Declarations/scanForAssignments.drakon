@@ -1,0 +1,220 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "20"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "4": {
+            "type": "case",
+            "one": "13"
+        },
+        "6": {
+            "type": "case",
+            "one": "8",
+            "two": "28",
+            "content": "\"AssignmentExpression\""
+        },
+        "7": {
+            "type": "select",
+            "one": "6",
+            "content": "node.type"
+        },
+        "8": {
+            "type": "question",
+            "one": "11",
+            "two": "3",
+            "flag1": 1,
+            "content": "node.left.type === \"Identifier\""
+        },
+        "10": {
+            "type": "question",
+            "one": "3",
+            "two": "12",
+            "flag1": 1,
+            "content": "isDeclared(step, varName)"
+        },
+        "11": {
+            "type": "action",
+            "one": "10",
+            "content": "varName = node.left.name"
+        },
+        "12": {
+            "type": "action",
+            "one": "3",
+            "content": "addLocal(step.scope, varName)"
+        },
+        "13": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "14": {
+            "one": "22",
+            "type": "case",
+            "two": "15",
+            "content": "\"FunctionExpression\""
+        },
+        "15": {
+            "one": "22",
+            "type": "case",
+            "two": "35",
+            "content": "\"ArrowFunctionExpression\""
+        },
+        "16": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        },
+        "18": {
+            "type": "action",
+            "one": "41",
+            "content": "nextStep = createScopeStepForLambda(\n    step,\n    node\n)"
+        },
+        "19": {
+            "type": "action",
+            "one": "16",
+            "content": "addDeclarationsInFunction(nextStep)"
+        },
+        "20": {
+            "type": "question",
+            "one": "7",
+            "two": "21",
+            "flag1": 0,
+            "content": "node.itemId"
+        },
+        "21": {
+            "type": "action",
+            "one": "7",
+            "content": "step.itemId = node.itemId"
+        },
+        "22": {
+            "type": "question",
+            "one": "18",
+            "two": "13",
+            "flag1": 1,
+            "content": "node.body.type === \"BlockStatement\""
+        },
+        "23": {
+            "one": "25",
+            "type": "case",
+            "two": "36",
+            "content": "\"VariableDeclaration\""
+        },
+        "24": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "25": {
+            "type": "question",
+            "one": "27",
+            "two": "26",
+            "flag1": 1,
+            "content": "step.canDeclare"
+        },
+        "26": {
+            "type": "action",
+            "one": "24",
+            "content": "reportError(\n    \"var, const, let are not allowed here\",\n    step.path,\n    step.itemId\n)"
+        },
+        "27": {
+            "type": "action",
+            "one": "24",
+            "content": "extractVariablesFromDeclaration(\n    node,\n    step.scope\n)"
+        },
+        "28": {
+            "one": "30",
+            "type": "case",
+            "two": "23",
+            "content": "\"CallExpression\""
+        },
+        "29": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "30": {
+            "type": "question",
+            "one": "29",
+            "two": "31",
+            "flag1": 0,
+            "content": "node.callee.type === \"Identifier\""
+        },
+        "31": {
+            "type": "question",
+            "one": "29",
+            "two": "33",
+            "flag1": 0,
+            "content": "node.callee.name === \"getHandlerData\""
+        },
+        "32": {
+            "type": "action",
+            "one": "1",
+            "content": "return false "
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "content": "node.type = \"Identifier\"\nnode.name = \"_handlerData_\""
+        },
+        "34": {
+            "type": "action",
+            "one": "32",
+            "content": "delete node.callee\ndelete node.arguments "
+        },
+        "35": {
+            "one": "22",
+            "type": "case",
+            "two": "4",
+            "content": "\"FunctionDeclaration\""
+        },
+        "36": {
+            "one": "38",
+            "type": "case",
+            "two": "14",
+            "content": "\"AwaitExpression\""
+        },
+        "37": {
+            "type": "action",
+            "one": "1",
+            "content": "return true "
+        },
+        "38": {
+            "type": "question",
+            "one": "37",
+            "two": "39",
+            "flag1": 1,
+            "content": "step.canAwait"
+        },
+        "39": {
+            "type": "action",
+            "one": "37",
+            "two": "",
+            "content": "reportError(\n    \"await is allowed only in async functions\",\n    step.path,\n    step.itemId\n)"
+        },
+        "41": {
+            "type": "action",
+            "one": "19",
+            "content": "nextStep.canAwait = node.async "
+        }
+    },
+    "keywords": {
+        "function": true,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "step\nnode"
+}

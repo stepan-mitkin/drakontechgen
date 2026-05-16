@@ -1,0 +1,69 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "6"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "text": "<p>item = {</p><p>    type: \"action\",</p><p>    one: item_id,</p><p>    content: content,</p><p>    statements: statements</p><p>}</p>"
+        },
+        "5": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>doc.items[new_item_id] = item</p>"
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>next_id++</p>"
+        },
+        "7": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>new_item_id = item_id + \"_\" + next_id</p>"
+        },
+        "8": {
+            "type": "loopend",
+            "one": "4"
+        },
+        "9": {
+            "type": "loopbegin",
+            "one": "10",
+            "text": "<p>for each id, other_item in doc.items</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "12",
+            "two": "11",
+            "flag1": 0,
+            "text": "<p>other_item.one === item_id</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "text": "<p>other_item.one = new_item_id</p>"
+        },
+        "12": {
+            "type": "question",
+            "one": "8",
+            "two": "13",
+            "flag1": 0,
+            "text": "<p>other_item.two === item_id</p>"
+        },
+        "13": {
+            "type": "action",
+            "one": "8",
+            "two": "",
+            "text": "<p>other_item.two = new_item_id</p>"
+        }
+    },
+    "params": "<p>doc</p><p>item_id</p><p>content</p><p>statements</p>",
+    "name": "insert_action_before",
+    "type": "drakon"
+}

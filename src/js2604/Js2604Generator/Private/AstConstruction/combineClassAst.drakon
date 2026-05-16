@@ -1,0 +1,133 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "folder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "6",
+            "content": "Module init"
+        },
+        "6": {
+            "type": "action",
+            "one": "20",
+            "content": "initBody = getFunBody(folder.ast)"
+        },
+        "8": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 4,
+            "content": "Exit"
+        },
+        "9": {
+            "type": "branch",
+            "one": "22",
+            "branchId": 2,
+            "content": "Member functions"
+        },
+        "10": {
+            "type": "loopend",
+            "one": "18",
+            "content": ""
+        },
+        "11": {
+            "type": "loopbegin",
+            "one": "31",
+            "content": "name; names"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return folder.ast"
+        },
+        "17": {
+            "type": "action",
+            "one": "23",
+            "content": "initBody.push(child.ast)"
+        },
+        "18": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "25",
+            "content": "Exported members"
+        },
+        "19": {
+            "type": "action",
+            "one": "9",
+            "content": "initBody.unshift(parseStatement(stm))"
+        },
+        "20": {
+            "type": "action",
+            "one": "19",
+            "content": "stm = \"var self = {_type:\\\"\" + folder.name\n+ \"\\\"}\""
+        },
+        "21": {
+            "type": "action",
+            "one": "8",
+            "content": "initBody.push(\n    parseStatement(\"return self\")\n)"
+        },
+        "22": {
+            "type": "action",
+            "one": "33",
+            "content": "exported = []"
+        },
+        "23": {
+            "type": "question",
+            "one": "10",
+            "two": "30",
+            "flag1": 0,
+            "content": "child.keywords.export "
+        },
+        "24": {
+            "type": "action",
+            "one": "10",
+            "content": "exported.push(name)"
+        },
+        "25": {
+            "type": "action",
+            "one": "27",
+            "content": "exported.sort()"
+        },
+        "26": {
+            "type": "loopend",
+            "one": "21",
+            "content": ""
+        },
+        "27": {
+            "type": "loopbegin",
+            "one": "28",
+            "content": "name; exported"
+        },
+        "28": {
+            "type": "action",
+            "one": "26",
+            "content": "initBody.push(\n    parseStatement(\n        \"self.\" + name + \" = \" + makeMethodName(\n            folder.name,\n            name\n        )\n    )\n)"
+        },
+        "30": {
+            "type": "action",
+            "one": "24",
+            "content": "child.ast.id.name = makeMethodName(\n    folder.name,\n    name\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "17",
+            "content": "child = folder.children[name]"
+        },
+        "33": {
+            "type": "action",
+            "one": "34",
+            "content": "names = Object.keys(folder.children)"
+        },
+        "34": {
+            "type": "action",
+            "one": "11",
+            "content": "names.sort()"
+        }
+    }
+}

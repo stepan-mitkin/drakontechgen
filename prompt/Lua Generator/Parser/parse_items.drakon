@@ -1,0 +1,43 @@
+{
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "8"
+        },
+        "7": {
+            "type": "action",
+            "one": "10",
+            "text": "<p>Traverse document tree</p><p>    start node: doc</p><p>    node children: doc.members</p><p>    visitor: parse_items_in_document</p>"
+        },
+        "8": {
+            "type": "action",
+            "one": "7",
+            "text": "<p>global_options = options</p>"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "text": "<p>return {</p><p>    errors: error_list</p><p>}</p>"
+        },
+        "10": {
+            "type": "question",
+            "one": "11",
+            "two": "9",
+            "flag1": 1,
+            "text": "<p>error_list is empty</p>"
+        },
+        "11": {
+            "type": "action",
+            "one": "9",
+            "text": "<p>process_assignments(</p><p>    doc,</p><p>    null</p><p>)</p>"
+        }
+    },
+    "params": "<p>doc: Document</p><p>options: Options</p>",
+    "style": "{\"maxWidth\":310}",
+    "name": "parse_items",
+    "type": "drakon"
+}

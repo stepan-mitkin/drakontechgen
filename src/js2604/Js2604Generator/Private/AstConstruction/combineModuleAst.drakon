@@ -1,0 +1,107 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "module",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Module init"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "program = createProgram()"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "9",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "7",
+            "content": "step; initBody"
+        },
+        "6": {
+            "type": "action",
+            "one": "5",
+            "content": "initBody = getFunBody(module.ast)"
+        },
+        "7": {
+            "type": "action",
+            "one": "4",
+            "content": "program.body.push(step)"
+        },
+        "8": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "9": {
+            "type": "branch",
+            "one": "18",
+            "branchId": 2,
+            "content": "Classes and functions"
+        },
+        "10": {
+            "type": "loopend",
+            "one": "8",
+            "content": ""
+        },
+        "11": {
+            "type": "loopbegin",
+            "one": "19",
+            "content": "name; names"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return program"
+        },
+        "14": {
+            "type": "question",
+            "one": "16",
+            "two": "15",
+            "flag1": 0,
+            "content": "child.type === \"class\""
+        },
+        "15": {
+            "type": "action",
+            "one": "17",
+            "content": "childAst = combineClassAst(child)"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "childAst = child.ast"
+        },
+        "17": {
+            "type": "action",
+            "one": "10",
+            "content": "program.body.push(childAst)"
+        },
+        "18": {
+            "type": "action",
+            "one": "20",
+            "content": "names = Object.keys(module.children)"
+        },
+        "19": {
+            "type": "action",
+            "one": "14",
+            "content": "child = module.children[name]"
+        },
+        "20": {
+            "type": "action",
+            "one": "11",
+            "content": "names.sort()"
+        }
+    }
+}
