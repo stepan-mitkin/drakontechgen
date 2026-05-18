@@ -16,36 +16,26 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
-        },
-        "3": {
-            "type": "action",
-            "one": "4",
-            "content": "body = ast.body.body"
-        },
-        "4": {
-            "type": "question",
-            "one": "5",
-            "two": "7",
-            "flag1": 0,
-            "content": "body.length === 0"
-        },
-        "5": {
-            "type": "action",
-            "one": "6",
-            "content": "last = body[body.length - 1]"
-        },
-        "6": {
-            "type": "question",
-            "one": "1",
-            "two": "7",
-            "flag1": 1,
-            "content": "last.type === \"ReturnStatement\""
+            "one": "10"
         },
         "7": {
             "type": "action",
             "one": "1",
-            "content": "body.push(\n    parseStatement(\"_topResolve_()\")\n)"
+            "content": "ast.body.body.push(\n    parseStatement(\"_topResolve_()\")\n)"
+        },
+        "8": {
+            "type": "question",
+            "one": "7",
+            "two": "1",
+            "flag1": 0,
+            "content": "ast.sil"
+        },
+        "10": {
+            "type": "question",
+            "one": "1",
+            "two": "8",
+            "flag1": 1,
+            "content": "bodyHasReturn(ast.body)"
         }
     }
 }

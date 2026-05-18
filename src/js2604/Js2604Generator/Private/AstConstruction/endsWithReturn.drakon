@@ -32,17 +32,10 @@
         },
         "6": {
             "type": "question",
-            "one": "7",
-            "two": "8",
-            "flag1": 0,
-            "content": "last.type === \"ReturnStatement\""
-        },
-        "7": {
-            "type": "question",
             "one": "9",
             "two": "8",
             "flag1": 0,
-            "content": "last.type === \"ThrowStatement\""
+            "content": "hasReturn(last)"
         },
         "8": {
             "type": "action",

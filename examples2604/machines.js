@@ -234,7 +234,6 @@ function silReceive_create(arg1, arg2) {
                 return;
             }
         }
-        _topResolve_();
     }
     function silReceive_run() {
         if (me.state !== 'created') {
