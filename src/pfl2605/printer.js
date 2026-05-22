@@ -1,214 +1,275 @@
 "use strict";
 
-function add_line(text) {
-    var depth = this.depth;
-    var lines = this.lines;
-    var indent = " ".repeat(depth * 4);
-    var line = indent + text;
+var error_list = [];
+var global_options = undefined;
+var next_id = 1;
 
-    lines.push(line);
+function create_error(message, details) {
+    return {
+        id: next_id++,
+        message: message,
+        details: details
+    };
+}
+
+function report_error(message, details) {
+    error_list.push(create_error(message, details));
+}
+
+function repeat_space(count) {
+    var result = "";
+    var i = 0;
+    while (i < count) {
+        result += " ";
+        i++;
+    }
+    return result;
+}
+
+function is_empty(array) {
+    return !array || array.length === 0;
+}
+
+function add_line(context, text) {
+    var indent = repeat_space(context.depth * 4);
+    var line = indent + text;
+    context.lines.push(line);
 }
 
 function build_module_code(root, options) {
-    var lines = [];
-    var i;
-    var node;
-    var code;
+    global_options = options;
+    error_list = [];
 
-    for (i = 0; i < root.body.length; i++) {
-        node = root.body[i];
-        print_node(node, 0, lines);
+    var lines = [];
+    var i = 0;
+    var node = undefined;
+
+    if (!root || !root.body) {
+        report_error("Root body is missing", undefined);
+        return {
+            code: "",
+            errors: error_list
+        };
     }
 
-    code = lines.join("\n");
+    while (i < root.body.length) {
+        node = root.body[i];
+        print_node(node, 0, lines);
+        i++;
+    }
 
     return {
-        code: code
+        code: lines.join("\n"),
+        errors: error_list
     };
 }
 
-function make_context(node, depth, lines) {
-    return {
-        node: node,
-        depth: depth,
-        lines: lines
-    };
-}
-
-function print_action() {
-    var node = this.node;
-    var parts;
-    var i;
-    var part;
+function print_action(context) {
+    var node = context.node;
+    var parts = undefined;
+    var i = 0;
 
     if (node.content) {
         parts = node.content.split("\n");
-
-        for (i = 0; i < parts.length; i++) {
-            part = parts[i];
-            add_line.call(this, part);
+        while (i < parts.length) {
+            add_line(context, parts[i]);
+            i++;
         }
     }
 }
 
-function print_body(body) {
-    var depth = this.depth;
-    var lines = this.lines;
-    var i;
-    var child;
+function print_body(context, body) {
+    var child_context = undefined;
+    var i = 0;
 
-    for (i = 0; i < body.length; i++) {
-        child = body[i];
-        print_node(child, depth + 1, lines);
+    if (!body) {
+        return;
+    }
+
+    while (i < body.length) {
+        child_context = {
+            node: body[i],
+            depth: context.depth + 1,
+            lines: context.lines
+        };
+        print_node(child_context.node, child_context.depth, child_context.lines);
+        i++;
     }
 }
 
-function print_class() {
-    var node = this.node;
+function print_class(context) {
+    var node = context.node;
 
-    add_line.call(this, "");
-    add_line.call(this, "&ВидноВсем");
-    add_line.call(this, "Класс " + node.name);
-    print_body.call(this, node.body);
-    add_line.call(this, "КонецКласса");
+    add_line(context, "");
+    add_line(context, "&ВидноВсем");
+    add_line(context, "Класс " + node.name);
+    print_body(context, node.body);
+    add_line(context, "КонецКласса");
 }
 
-function print_exit() {
-    add_line.call(this, "Возврат");
+function print_exit(context) {
+    add_line(context, "Возврат");
 }
 
-function print_function() {
-    var node = this.node;
-    var args;
+function print_function(context) {
+    var node = context.node;
+    var args = "";
 
-    add_line.call(this, "");
+    add_line(context, "");
 
-    if (node.keywords.export) {
-        add_line.call(this, "&ВидноВсем");
+    if (
+        node.keywords &&
+        node.keywords.export === true
+    ) {
+        add_line(context, "&ВидноВсем");
     }
 
-    if (node.keywords.async) {
-        add_line.call(this, "&Асинх");
+    if (
+        node.keywords &&
+        node.keywords.async === true
+    ) {
+        add_line(context, "&Асинх");
     }
 
     args = node.args.join(", ");
 
-    if (node.returns) {
-        add_line.call(this, "Функция " + node.name + "(" + args + ") " + node.returns);
+    if (node.name === "Конструктор") {
+        add_line(context, node.name + "(" + args + ")");
     } else {
-        add_line.call(this, "Процедура " + node.name + "(" + args + ")");
+        if (node.returns) {
+            add_line(
+                context,
+                "Функция " +
+                    node.name +
+                    "(" +
+                    args +
+                    ") " +
+                    node.returns
+            );
+        } else {
+            add_line(
+                context,
+                "Процедура " +
+                    node.name +
+                    "(" +
+                    args +
+                    ")"
+            );
+        }
     }
 
-    print_body.call(this, node.body);
+    print_body(context, node.body);
 
-    if (node.returns) {
-        add_line.call(this, "КонецФункции");
+    if (node.name === "Конструктор") {
+        add_line(context, "КонецКонструктора");
     } else {
-        add_line.call(this, "КонецПроцедуры");
+        if (node.returns) {
+            add_line(context, "КонецФункции");
+        } else {
+            add_line(context, "КонецПроцедуры");
+        }
     }
 }
 
-function print_loop() {
-    var node = this.node;
+function print_loop(context) {
+    var node = context.node;
 
-    add_line.call(this, node.content);
-    print_body.call(this, node.body);
-    add_line.call(this, "КонецЦикла");
+    add_line(context, node.content);
+    print_body(context, node.body);
+    add_line(context, "КонецЦикла");
 }
 
 function print_node(node, depth, lines) {
-    var context = make_context(node, depth, lines);
+    var context = {
+        node: node,
+        depth: depth,
+        lines: lines
+    };
+
+    if (!node) {
+        report_error("Node is missing", undefined);
+        return;
+    }
 
     if (node.type === "function") {
-        print_function.call(context);
+        print_function(context);
+    } else if (node.type === "action") {
+        print_action(context);
+    } else if (node.type === "question") {
+        print_question(context);
+    } else if (node.type === "loop") {
+        print_loop(context);
+    } else if (node.type === "if-switch") {
+        print_switch(context);
+    } else if (node.type === "empty-line") {
+        add_line(context, "");
+    } else if (node.type === "exit") {
+        print_exit(context);
+    } else if (node.type === "class") {
+        print_class(context);
+    } else if (node.type === "program") {
+        print_program(context);
     } else {
-        if (node.type === "action") {
-            print_action.call(context);
-        } else {
-            if (node.type === "question") {
-                print_question.call(context);
+        report_error("Unexpected case value", node.type);
+    }
+}
+
+function print_program(context) {
+    var node = context.node;
+
+    add_line(context, "");
+    add_line(context, "Программа " + node.name);
+    print_body(context, node.body);
+    add_line(context, "КонецПрограммы");
+}
+
+function print_question(context) {
+    var node = context.node;
+    var parts = [];
+    var content = "";
+
+    if (node.content) {
+        parts = node.content.split("\n");
+        content = parts.join(" ");
+    }
+
+    add_line(context, "Если " + content + " Тогда");
+    print_body(context, node.yes);
+
+    if (!is_empty(node.no)) {
+        add_line(context, "Иначе");
+        print_body(context, node.no);
+    }
+
+    add_line(context, "КонецЕсли");
+}
+
+function print_switch(context) {
+    var node = context.node;
+    var i = 0;
+    var option = undefined;
+
+    if (node.options) {
+        while (i < node.options.length) {
+            option = node.options[i];
+
+            if (i === 0) {
+                add_line(context, "Если " + option.condition + " Тогда");
             } else {
-                if (node.type === "loop") {
-                    print_loop.call(context);
-                } else {
-                    if (node.type === "if-switch") {
-                        print_switch.call(context);
-                    } else {
-                        if (node.type === "empty-line") {
-                            add_line.call(context, "");
-                        } else {
-                            if (node.type === "exit") {
-                                print_exit.call(context);
-                            } else {
-                                if (node.type === "class") {
-                                    print_class.call(context);
-                                } else {
-                                    if (!(node.type === "program")) {
-                                        throw new Error("Unexpected case value: " + node.type);
-                                    }
-
-                                    print_program.call(context);
-                                }
-                            }
-                        }
-                    }
-                }
+                add_line(context, "ИначеЕсли " + option.condition + " Тогда");
             }
+
+            print_body(context, option.body);
+            i++;
         }
     }
-}
 
-function print_program() {
-    var node = this.node;
-
-    add_line.call(this, "");
-    add_line.call(this, "Программа " + node.name);
-    print_body.call(this, node.body);
-    add_line.call(this, "КонецПрограммы");
-}
-
-function print_question() {
-    var node = this.node;
-    var parts;
-    var content;
-
-    parts = node.content.split("\n");
-    content = parts.join(" ");
-
-    add_line.call(this, "Если " + content + " Тогда");
-    print_body.call(this, node.yes);
-
-    if (node.no.length !== 0) {
-        add_line.call(this, "Иначе");
-        print_body.call(this, node.no);
+    if (!is_empty(node.other)) {
+        add_line(context, "Иначе");
+        print_body(context, node.other);
     }
 
-    add_line.call(this, "КонецЕсли");
-}
-
-function print_switch() {
-    var node = this.node;
-    var i;
-    var option;
-
-    for (i = 0; i < node.options.length; i++) {
-        option = node.options[i];
-
-        if (i === 0) {
-            add_line.call(this, "Если " + option.condition + " Тогда");
-        } else {
-            add_line.call(this, "ИначеЕсли " + option.condition + " Тогда");
-        }
-
-        print_body.call(this, option.body);
-    }
-
-    if (node.other.length !== 0) {
-        add_line.call(this, "Иначе");
-        print_body.call(this, node.other);
-    }
-
-    add_line.call(this, "КонецЕсли");
+    add_line(context, "КонецЕсли");
 }
 
 module.exports = {

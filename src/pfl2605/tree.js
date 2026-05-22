@@ -444,7 +444,7 @@ function is_simple_silhouette(raw_tree) {
         is_last = i === raw_tree.branches.length - 1;
 
         if (branch.refs > 1) {
-            if (!(is_last && !(branch.body.length > 1))) {
+            if (!(is_last && !(branch.body.length > 2))) {
                 return false;
             }
         }

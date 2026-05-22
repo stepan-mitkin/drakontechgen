@@ -4,6 +4,7 @@ const {
 } = require("./drakontechgen");
 const { Js2604Generator } = require("./js2604");
 const { Lua2604Generator } = require("./lua2604");
+const { Pfl2605Generator } = require("./pfl2605");
 
 window.drakontechgen = {
   buildGenerator: function (
@@ -37,6 +38,8 @@ window.drakontechgen = {
       return Lua2604Generator(genOptions);    
     } else if (language === "JS2604") {
       return Js2604Generator(genOptions);
+    } else if (language === "PFL2605") {
+      return Pfl2605Generator(genOptions);      
     } else {
       return createClojureGenerator(genOptions);
     }

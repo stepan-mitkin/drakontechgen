@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/main.js",
-            "args": ["${workspaceFolder}/examplespfl2605/Зелёная", "--language", "PFL2605", "--output", "${workspaceFolder}/examplespfl2605/Зелёная.пфл"]
+            "args": ["${workspaceFolder}/examplespfl2605/Классы", "--language", "PFL2605", "--output", "${workspaceFolder}/examplespfl2605/Классы.пфл"]
         }
     ]
 }
