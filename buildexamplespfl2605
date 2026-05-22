@@ -1,0 +1,4 @@
+#!/bin/bash
+
+node src/main.js examplespfl2605/Зелёная --language PFL2605 --output examplespfl2605/Зелёная.пфл
+node src/main.js examplespfl2605/Классы --language PFL2605 --output examplespfl2605/Классы.пфл

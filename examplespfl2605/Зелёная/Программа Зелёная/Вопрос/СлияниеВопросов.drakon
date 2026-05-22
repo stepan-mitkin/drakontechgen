@@ -50,7 +50,7 @@
         "10": {
             "type": "action",
             "one": "4",
-            "content": "Целое = 0"
+            "content": "результат = 0"
         }
     },
     "type": "drakon",

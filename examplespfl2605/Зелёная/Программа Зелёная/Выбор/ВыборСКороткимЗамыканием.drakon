@@ -27,7 +27,7 @@
         "7": {
             "type": "select",
             "one": "6",
-            "content": "value + 5"
+            "content": "значение + 5"
         },
         "8": {
             "type": "action",

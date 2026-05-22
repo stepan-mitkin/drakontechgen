@@ -10,6 +10,7 @@ const {
 const { Js2604Generator } = require("./js2604");
 const { Lua2604Generator } = require("./lua2604")
 const { toTree } = require("drakongen");
+const { Pfl2605Generator } = require("./pfl2605");
 
 var success = undefined;
 
@@ -157,7 +158,9 @@ async function main() {
   } else if (options.language === "JS2604") {
     generator = Js2604Generator(genOptions);
   } else if (options.language === "LUA2604") {
-    generator = Lua2604Generator(genOptions);    
+    generator = Lua2604Generator(genOptions);
+  } else if (options.language === "PFL2605") {
+    generator = Pfl2605Generator(genOptions);
   } else if (options.language === "clojure") {
     generator = createClojureGenerator(genOptions);
   } else {

@@ -19,21 +19,21 @@
             "one": "8",
             "two": "10",
             "flag1": 0,
-            "content": "раз == 1"
+            "content": "раз = 1"
         },
         "8": {
             "type": "question",
             "one": "9",
             "two": "10",
             "flag1": 0,
-            "content": "два == 2"
+            "content": "два = 2"
         },
         "9": {
             "type": "question",
             "one": "3",
             "two": "10",
             "flag1": 0,
-            "content": "три == 3"
+            "content": "три = 3"
         },
         "10": {
             "type": "action",
