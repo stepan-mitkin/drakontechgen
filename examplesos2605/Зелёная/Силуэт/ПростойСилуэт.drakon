@@ -7,13 +7,13 @@
         "2": {
             "type": "branch",
             "branchId": 1,
-            "one": "13",
+            "one": "4",
             "content": "Ветка1"
         },
         "3": {
             "type": "action",
             "one": "6",
-            "content": "фу = значение * 10"
+            "content": "фу = значение * 10;"
         },
         "4": {
             "type": "question",
@@ -37,7 +37,7 @@
         "7": {
             "type": "action",
             "one": "6",
-            "content": "фу = значение * 30"
+            "content": "фу = значение * 30;"
         },
         "9": {
             "type": "question",
@@ -49,22 +49,17 @@
         "10": {
             "type": "action",
             "one": "6",
-            "content": "фу = значение * 20"
+            "content": "фу = значение * 20;"
         },
         "11": {
             "type": "action",
             "one": "5",
-            "content": "фу = фу + 5"
+            "content": "фу = фу + 5;"
         },
         "12": {
             "type": "action",
             "one": "1",
-            "content": "Возврат фу"
-        },
-        "13": {
-            "type": "action",
-            "one": "4",
-            "content": "Перем фу тип Целое"
+            "content": "Возврат фу;"
         }
     },
     "keywords": {
@@ -75,5 +70,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "значение тип Целое\n\nтип Целое"
+    "params": "значение"
 }

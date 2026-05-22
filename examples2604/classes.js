@@ -39,9 +39,6 @@ function YellowClass(name, color, arg1, arg2) {
         message = greeting + ', ' + title + ' ' + name + '!';
         return message;
     }
-    function log(message) {
-        console.log('YellowClass', message);
-    }
     function setName(newName) {
         log('setName: ' + newName);
         name = newName;

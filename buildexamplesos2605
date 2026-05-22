@@ -1,0 +1,4 @@
+#!/bin/bash
+
+node src/main.js examplesos2605/Зелёная --language OS2605 --output examplesos2605/green.os
+
