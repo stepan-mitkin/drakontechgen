@@ -112,8 +112,8 @@
         },
         "29": {
             "type": "action",
-            "one": "36",
-            "content": "convertSilhouetteToAst(\n    fun,\n    tree,\n    functionBody\n)"
+            "one": "17",
+            "content": "funAst.sil = convertSilhouetteToAst(\n    fun,\n    tree,\n    functionBody\n)"
         },
         "33": {
             "type": "action",
@@ -131,11 +131,6 @@
             "type": "action",
             "one": "23",
             "content": "try {\n    options.escodegen.generate(funAst)\n} catch (ex) {\n    console.log(\"---------------\")\n    console.log(ex)\n    console.log(\n        JSON.stringify(funAst, null , 4)\n    )\n}"
-        },
-        "36": {
-            "type": "action",
-            "one": "17",
-            "content": "funAst.sil = true"
         }
     }
 }

@@ -318,8 +318,7 @@ function Js2604Generator(options) {
             if (_selectValue_147 === 1) {
                 convertNodesToAst(tree.branches[0].body, functionBody);
             } else {
-                convertSilhouetteToAst(fun, tree, functionBody);
-                funAst.sil = true;
+                funAst.sil = convertSilhouetteToAst(fun, tree, functionBody);
             }
         }
         if (gDebugAst) {
@@ -564,6 +563,7 @@ function Js2604Generator(options) {
             gSimpleSilhouette = false;
             buildComplexSilhouette(fun, tree, functionBody);
         }
+        return !gSimpleSilhouette;
     }
     function createAnd(left, right) {
         return {

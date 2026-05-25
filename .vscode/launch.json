@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/main.js",
-            "args": ["${workspaceFolder}/examplesos2605/Зелёная", "--language", "OS2605", "--output", "${workspaceFolder}/examplesos2605/green.os"]
+            "args": ["${workspaceFolder}/examples2604/machines", "--language", "JS2604", "--output", "${workspaceFolder}/examples2604/machines.js"]
         }
     ]
 }

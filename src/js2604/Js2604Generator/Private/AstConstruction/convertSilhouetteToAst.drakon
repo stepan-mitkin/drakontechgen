@@ -26,7 +26,7 @@
         },
         "4": {
             "type": "branch",
-            "one": "1",
+            "one": "38",
             "branchId": 4,
             "content": "Exit"
         },
@@ -165,6 +165,11 @@
             "one": "5",
             "two": "",
             "content": "functionBody = catchNode.block.body"
+        },
+        "38": {
+            "type": "action",
+            "one": "1",
+            "content": "return !gSimpleSilhouette"
         }
     }
 }

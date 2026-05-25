@@ -19,7 +19,7 @@ window.drakontechgen = {
     main,
     settings,
   ) {
-    language = language || "JS";
+    language = language || "JS2604";
     var genOptions = {
       toTree: window.drakongen.toTree,
       escodegen: window.escodegen,

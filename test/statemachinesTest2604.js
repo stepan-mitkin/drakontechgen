@@ -27,12 +27,22 @@ QUnit.test("silReceive", (assert) => {
   assert.equal(obj.a2, 10);
 });
 
-QUnit.test("Red", (assert) => {
+QUnit.test("Red", async (assert) => {
   var obj = machines.Red("Reddie");
   var machine = obj.machineMethod_create(5);
-  machine.run();
+  var promise = machine.run();
   machine.bar(10);
   assert.equal(obj.getValue(), "Reddie: 15");
+  await promise;
   assert.equal(obj.value, 15);
   assert.equal(machine.hello, 10);
+});
+
+QUnit.test("simpleSilNoReturn", async (assert) => {
+  var machine = machines.simpleSilNoReturn_create(4, 9);
+  var promise = machine.run();
+  machine.nudge(10);
+  assert.equal(machine.amount, 24);
+  await promise
+  assert.equal(machine.amount, 24);
 });

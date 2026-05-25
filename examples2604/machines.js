@@ -79,6 +79,73 @@ function primInput(left, right) {
     _obj_ = primInput_create(left, right);
     return _obj_.run();
 }
+function primInputNoReturn(left, right) {
+    var _obj_;
+    _obj_ = primInputNoReturn_create(left, right);
+    return _obj_.run();
+}
+function primInputNoReturn_create(left, right) {
+    var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
+    me = {
+        _type: 'primInputNoReturn',
+        _busy: true,
+        state: 'created'
+    };
+    _topResolve_ = function (_value_) {
+        _earlyPromise_ = Promise.resolve(_value_);
+    };
+    _topReject_ = function (_value_) {
+        throw _value_;
+    };
+    function* primInputNoReturn_main() {
+        var _event_, amount, total;
+        total = 0;
+        me.state = '4';
+        me._busy = false;
+        _event_ = yield;
+        amount = _event_[1];
+        total += amount;
+        me.total = total + left + right;
+        _topResolve_();
+    }
+    function primInputNoReturn_run() {
+        if (me.state !== 'created') {
+            throw new Error('run() can be called only once');
+        }
+        me.state = 'started';
+        _topGen_ = primInputNoReturn_main();
+        _topGen_.next();
+        if (_earlyPromise_) {
+            return _earlyPromise_;
+        }
+        return new Promise((resolve, reject) => {
+            _topResolve_ = resolve;
+            _topReject_ = reject;
+        });
+    }
+    me.run = primInputNoReturn_run;
+    me.stop = function () {
+        me.state = undefined;
+    };
+    me.nudge = function (amount) {
+        var _args_;
+        if (me._busy) {
+            throw new Error('Synchronous reentry is not allowed');
+        }
+        switch (me.state) {
+        case '4':
+            _args_ = [];
+            _args_.push('nudge');
+            _args_.push(amount);
+            me._busy = true;
+            _topGen_.next(_args_);
+            break;
+        default:
+            break;
+        }
+    };
+    return me;
+}
 function primInput_create(left, right) {
     var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
     me = {
@@ -309,10 +376,80 @@ function silReceive_create(arg1, arg2) {
     };
     return me;
 }
+function simpleSilNoReturn(left, right) {
+    var _obj_;
+    _obj_ = simpleSilNoReturn_create(left, right);
+    return _obj_.run();
+}
+function simpleSilNoReturn_create(left, right) {
+    var _earlyPromise_, _topGen_, _topReject_, _topResolve_, me;
+    me = {
+        _type: 'simpleSilNoReturn',
+        _busy: true,
+        state: 'created'
+    };
+    _topResolve_ = function (_value_) {
+        _earlyPromise_ = Promise.resolve(_value_);
+    };
+    _topReject_ = function (_value_) {
+        throw _value_;
+    };
+    function* simpleSilNoReturn_main() {
+        var _event_, amount, total;
+        total = 1;
+        me.state = '4';
+        me._busy = false;
+        _event_ = yield;
+        amount = _event_[1];
+        me.amount = total + amount + left + right;
+        _topResolve_();
+    }
+    function simpleSilNoReturn_run() {
+        if (me.state !== 'created') {
+            throw new Error('run() can be called only once');
+        }
+        me.state = 'started';
+        _topGen_ = simpleSilNoReturn_main();
+        _topGen_.next();
+        if (_earlyPromise_) {
+            return _earlyPromise_;
+        }
+        return new Promise((resolve, reject) => {
+            _topResolve_ = resolve;
+            _topReject_ = reject;
+        });
+    }
+    me.run = simpleSilNoReturn_run;
+    me.stop = function () {
+        me.state = undefined;
+    };
+    me.nudge = function (amount) {
+        var _args_;
+        if (me._busy) {
+            throw new Error('Synchronous reentry is not allowed');
+        }
+        switch (me.state) {
+        case '4':
+            _args_ = [];
+            _args_.push('nudge');
+            _args_.push(amount);
+            me._busy = true;
+            _topGen_.next(_args_);
+            break;
+        default:
+            break;
+        }
+    };
+    return me;
+}
 module.exports = {
     Red,
     primInput,
+    primInputNoReturn,
+    primInputNoReturn_create,
     primInput_create,
     silReceive,
-    silReceive_create
+    silReceive_create,
+    simpleSilNoReturn,
+    simpleSilNoReturn_create
 };
