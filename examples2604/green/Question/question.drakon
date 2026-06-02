@@ -12,42 +12,28 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "return true "
+            "content": "console.log(\"pos\")"
         },
         "4": {
             "type": "question",
-            "one": "8",
-            "two": "10",
-            "flag1": 0,
-            "content": "one === 1"
-        },
-        "8": {
-            "type": "question",
-            "one": "9",
-            "two": "10",
-            "flag1": 0,
-            "content": "two === 2"
-        },
-        "9": {
-            "type": "question",
             "one": "3",
-            "two": "10",
+            "two": "5",
             "flag1": 0,
-            "content": "three === 3"
+            "content": "value >= 0"
         },
-        "10": {
+        "5": {
             "type": "action",
             "one": "1",
-            "content": "return false "
+            "content": "console.log(\"neg\")"
         }
     },
     "keywords": {
-        "function": true,
+        "function": false,
         "machine": false,
         "async": false,
-        "export": true,
+        "export": false,
         "algoprop": false,
         "lazy": false
     },
-    "params": "one\ntwo\nthree"
+    "params": "value"
 }

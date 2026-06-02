@@ -1,0 +1,32 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "src\nname",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "content": "exporting = \"\\nif (typeof module !== \\\"undefined\\\" && module.exports) {\\n\"\n+ \"    module.exports = {\\n\" + \"        \"\n+ name + \"\\n\" + \"    };\\n}\\n\""
+        },
+        "4": {
+            "type": "action",
+            "one": "1",
+            "content": "return src + exporting"
+        }
+    }
+}

@@ -37,7 +37,17 @@ const {
   monitorPaymentStatus
 } = require("../examples2604/green");
 
+const {
+  unit1
+} = require("../examples2604/unit1")
+
 QUnit.module("Functions 2604");
+
+QUnit.test("unit", (assert) => {
+  var u1 = unit1();
+  u1.name = "Lunia"
+  assert.equal(u1.hello("Dr"), "Dr, Lunia")
+});
 
 QUnit.test("add", (assert) => {
   empty();

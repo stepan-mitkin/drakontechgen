@@ -161,13 +161,18 @@
         },
         "53": {
             "type": "action",
-            "one": "24",
+            "one": "55",
             "content": "src = \"function \" + options.name + \"() {\\nvar unit = {};\\n\"\n+ deps + src + \"\\nreturn unit;\\n}\";"
         },
         "54": {
             "type": "action",
             "one": "53",
             "content": "deps = getDepDeclarations()"
+        },
+        "55": {
+            "type": "action",
+            "one": "24",
+            "content": "src = appendModuleExport(\n    src,\n    options.name\n)"
         }
     },
     "keywords": {

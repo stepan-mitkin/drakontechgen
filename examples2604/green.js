@@ -133,6 +133,7 @@ function earlyExit(array, value) {
             break;
         }
     }
+    console.log('index', index);
     if (!(index === -1)) {
         array.splice(index, 1);
     }
@@ -156,6 +157,41 @@ function fibonacci(ordinal) {
         return result;
     }
 }
+function fibonacciSil(ordinal) {
+    var _branch_, i, i_1, i_2, result;
+    _branch_ = 'Simple case';
+    while (true) {
+        switch (_branch_) {
+        case 'Simple case':
+            if (ordinal === 0 || ordinal === 1) {
+                result = ordinal;
+                _branch_ = 'Exit';
+            } else {
+                i_2 = 0;
+                i_1 = 1;
+                i = 2;
+                _branch_ = 'Fibonacci loop';
+            }
+            break;
+        case 'Fibonacci loop':
+            if (i > ordinal) {
+                _branch_ = 'Exit';
+            } else {
+                result = i_2 + i_1;
+                i_2 = i_1;
+                i_1 = result;
+                i++;
+                _branch_ = 'Fibonacci loop';
+            }
+            break;
+        case 'Exit':
+            _branch_ = undefined;
+            return result;
+        default:
+            return;
+        }
+    }
+}
 function fizzBuzz(number) {
     if (number % 3 === 0) {
         if (number % 5 === 0) {
@@ -169,6 +205,14 @@ function fizzBuzz(number) {
         } else {
             return undefined;
         }
+    }
+}
+function forArray(array) {
+    var count, i, item;
+    count = array.length;
+    for (i = 0; i < count; i++) {
+        item = array[i];
+        console.log(item);
     }
 }
 function forEachUntil(array, action) {
@@ -190,6 +234,12 @@ function forLoopNoDeclare(array) {
     }
     return copy;
 }
+function foreachArray(array) {
+    var item;
+    for (item of array) {
+        console.log(item);
+    }
+}
 function foreachLoopArray(array, value) {
     var copy, item, value2;
     copy = [];
@@ -200,16 +250,23 @@ function foreachLoopArray(array, value) {
     return copy;
 }
 function foreachLoopObject(object, value) {
-    var _collection_43, copy, item, key, value2, wrapper;
+    var _collection_49, copy, item, key, value2, wrapper;
     copy = {};
     wrapper = { collection: object };
-    _collection_43 = wrapper.collection;
-    for (key in _collection_43) {
-        item = _collection_43[key];
+    _collection_49 = wrapper.collection;
+    for (key in _collection_49) {
+        item = _collection_49[key];
         value2 = item + value;
         copy[key] = value2;
     }
     return copy;
+}
+function foreachMap(map) {
+    var item, key;
+    for (key in map) {
+        item = map[key];
+        console.log(key, item);
+    }
 }
 function generateId() {
     var id;
@@ -224,14 +281,14 @@ function hello() {
     console.log('Hello, world');
 }
 function inversedAnd(one, two, three) {
-    if (one === 1 || two === 2 || three === 3) {
+    if (one === 1 && two === 2 && three === 3) {
         return false;
     } else {
         return true;
     }
 }
 function inversedOr(one, two, three) {
-    if (one === 1 && two === 2 && three === 3) {
+    if (one === 1 || two === 2 || three === 3) {
         return false;
     } else {
         return true;
@@ -294,6 +351,13 @@ function noDublicates(x, y) {
 function pause(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
+function question(value) {
+    if (value >= 0) {
+        console.log('neg');
+    } else {
+        console.log('pos');
+    }
+}
 function questionMerge(left, right) {
     var result;
     result = 0;
@@ -341,6 +405,17 @@ function scope3(array, sortProp, cutoff) {
         found
     };
 }
+function select(value) {
+    if (value === 10) {
+        return 'ten';
+    } else {
+        if (value === 20) {
+            return 'twenty';
+        } else {
+            return 'other';
+        }
+    }
+}
 function selectArrow() {
     var result;
     result = 0;
@@ -358,13 +433,13 @@ function selectArrow() {
     return result;
 }
 function selectShortCircuit(value) {
-    var _selectValue_46;
-    _selectValue_46 = value + 5;
-    if (_selectValue_46 === 10 || _selectValue_46 === 20) {
+    var _selectValue_53;
+    _selectValue_53 = value + 5;
+    if (_selectValue_53 === 10 || _selectValue_53 === 20) {
         return 'good';
     } else {
-        if (!(_selectValue_46 === 30)) {
-            throw new Error('Unexpected case value: ' + _selectValue_46);
+        if (!(_selectValue_53 === 30)) {
+            throw new Error('Unexpected case value: ' + _selectValue_53);
         }
         return 'bad';
     }
@@ -381,16 +456,16 @@ function selectWithDefault(value) {
     }
 }
 function selectWithoutDefault(value) {
-    var _selectValue_48;
-    _selectValue_48 = value + 5;
-    if (_selectValue_48 === 10) {
+    var _selectValue_55;
+    _selectValue_55 = value + 5;
+    if (_selectValue_55 === 10) {
         return 'ten';
     } else {
-        if (_selectValue_48 === 20) {
+        if (_selectValue_55 === 20) {
             return 'twenty';
         } else {
-            if (!(_selectValue_48 === 30)) {
-                throw new Error('Unexpected case value: ' + _selectValue_48);
+            if (!(_selectValue_55 === 30)) {
+                throw new Error('Unexpected case value: ' + _selectValue_55);
             }
             return 'thirty';
         }
@@ -486,6 +561,7 @@ module.exports = {
     earlyExit,
     empty,
     fibonacci,
+    fibonacciSil,
     fizzBuzz,
     forLoopNoDeclare,
     foreachLoopArray,
@@ -500,6 +576,7 @@ module.exports = {
     noDublicates,
     questionMerge,
     scope3,
+    select,
     selectArrow,
     selectShortCircuit,
     selectWithDefault,

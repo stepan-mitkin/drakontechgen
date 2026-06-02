@@ -15,7 +15,7 @@
         },
         "4": {
             "type": "loopend",
-            "one": "9",
+            "one": "11",
             "content": ""
         },
         "5": {
@@ -37,7 +37,7 @@
         },
         "8": {
             "type": "action",
-            "one": "9",
+            "one": "11",
             "content": "index = i"
         },
         "9": {
@@ -51,6 +51,11 @@
             "type": "action",
             "one": "1",
             "content": "return array"
+        },
+        "11": {
+            "type": "action",
+            "one": "9",
+            "content": "console.log(\"index\", index)"
         }
     },
     "keywords": {
