@@ -1,70 +1,71 @@
 "use strict";
 
-function add_line(text, depth, lines) {
-    var indent;
-    var line;
-
-    indent = " ".repeat(depth * 4);
-    line = indent + text;
-    lines.push(line);
-}
+let error_list = [];
 
 function build_module_code(root, options) {
-    var lines;
-    var code;
-    var i;
-    var node;
+    error_list = [];
 
-    lines = [];
+    const lines = [];
 
-    for (i = 0; i < root.body.length; i++) {
-        node = root.body[i];
+    for (const node of root.body) {
         print_node(node, 0, lines);
     }
 
-    code = lines.join("\n");
+    if (error_list.length !== 0) {
+        return {
+            errors: error_list
+        };
+    }
 
     return {
-        code: code
+        code: lines.join("\n")
     };
 }
 
-function print_action(node, depth, lines) {
-    var parts;
-    var i;
-    var part;
+function print_node(node, depth, lines) {
+    const context = {
+        node: node,
+        depth: depth,
+        lines: lines
+    };
 
-    if (node.content) {
-        parts = node.content.split("\n");
+    if (node.type === "function") {
+        print_function(context);
+    } else if (node.type === "action") {
+        print_action(context);
+    } else if (node.type === "question") {
+        print_question(context);
+    } else if (node.type === "loop") {
+        print_loop(context);
+    } else if (node.type === "if-switch") {
+        print_switch(context);
+    } else if (node.type === "empty-line") {
+        add_line(context, "");
+    } else if (node.type === "exit") {
+        print_exit(context);
+    } else {
+        report_error(
+            "Unexpected node type: " + node.type,
+            undefined,
+            undefined,
+            node.type
+        );
+    }
+}
 
-        for (i = 0; i < parts.length; i++) {
-            part = parts[i];
-            add_line(part, depth, lines);
+function print_function(context) {
+    const node = context.node;
+
+    add_line(context, "");
+
+    if (node.decorations !== undefined) {
+        for (const dec of node.decorations) {
+            add_line(context, dec);
         }
     }
-}
 
-function print_body(body, depth, lines) {
-    var i;
-    var child;
-
-    for (i = 0; i < body.length; i++) {
-        child = body[i];
-        print_node(child, depth + 1, lines);
-    }
-}
-
-function print_exit(node, depth, lines) {
-    add_line("Возврат;", depth, lines);
-}
-
-function print_function(node, depth, lines) {
-    var args;
-    var line;
-
-    add_line("", depth, lines);
-
-    args = node.args.join(", ");
+    const args = safe_array(node.args).join(", ");
+    let line = undefined;
 
     if (node.returnsValue) {
         line = "Функция " + node.name + "(" + args + ")";
@@ -72,88 +73,134 @@ function print_function(node, depth, lines) {
         line = "Процедура " + node.name + "(" + args + ")";
     }
 
-    if (node.keywords && node.keywords.export === true) {
+    if (
+        node.keywords !== undefined &&
+        node.keywords.export === true
+    ) {
         line = line + " Экспорт";
     }
 
-    add_line(line, depth, lines);
-
-    print_body(node.body, depth, lines);
+    add_line(context, line);
+    print_body(context, node.body);
 
     if (node.returnsValue) {
-        add_line("КонецФункции", depth, lines);
+        add_line(context, "КонецФункции");
     } else {
-        add_line("КонецПроцедуры", depth, lines);
+        add_line(context, "КонецПроцедуры");
     }
 }
 
-function print_loop(node, depth, lines) {
-    add_line(node.content, depth, lines);
-    print_body(node.body, depth, lines);
-    add_line("КонецЦикла;", depth, lines);
-}
+function print_action(context) {
+    const node = context.node;
 
-function print_node(node, depth, lines) {
-    if (node.type === "function") {
-        print_function(node, depth, lines);
-    } else if (node.type === "action") {
-        print_action(node, depth, lines);
-    } else if (node.type === "question") {
-        print_question(node, depth, lines);
-    } else if (node.type === "loop") {
-        print_loop(node, depth, lines);
-    } else if (node.type === "if-switch") {
-        print_switch(node, depth, lines);
-    } else if (node.type === "empty-line") {
-        add_line("", depth, lines);
-    } else if (node.type === "exit") {
-        print_exit(node, depth, lines);
-    } else {
-        throw Error("Unexpected case value: " + node.type);
+    if (node.content !== undefined && node.content !== "") {
+        const parts = node.content.split("\n");
+
+        for (const part of parts) {
+            add_line(context, part);
+        }
     }
 }
 
-function print_question(node, depth, lines) {
-    var parts;
-    var content;
+function print_question(context) {
+    const node = context.node;
+    const parts = node.content.split("\n");
+    const content = parts.join(" ");
 
-    parts = node.content.split("\n");
-    content = parts.join(" ");
+    add_line(context, "Если " + content + " Тогда");
 
-    add_line("Если " + content + " Тогда", depth, lines);
+    print_body(context, node.yes);
 
-    print_body(node.yes, depth, lines);
-
-    if (node.no.length !== 0) {
-        add_line("Иначе", depth, lines);
-        print_body(node.no, depth, lines);
+    if (node.no !== undefined && node.no.length !== 0) {
+        add_line(context, "Иначе");
+        print_body(context, node.no);
     }
 
-    add_line("КонецЕсли;", depth, lines);
+    add_line(context, "КонецЕсли;");
 }
 
-function print_switch(node, depth, lines) {
-    var i;
-    var option;
+function print_loop(context) {
+    const node = context.node;
 
-    for (i = 0; i < node.options.length; i++) {
-        option = node.options[i];
+    add_line(context, node.content);
+    print_body(context, node.body);
+    add_line(context, "КонецЦикла;");
+}
 
-        if (i === 0) {
-            add_line("Если " + option.condition + " Тогда", depth, lines);
+function print_switch(context) {
+    const node = context.node;
+    let first = true;
+
+    for (const option of node.options) {
+        if (first) {
+            add_line(context, "Если " + option.condition + " Тогда");
+            first = false;
         } else {
-            add_line("ИначеЕсли " + option.condition + " Тогда", depth, lines);
+            add_line(context, "ИначеЕсли " + option.condition + " Тогда");
         }
 
-        print_body(option.body, depth, lines);
+        print_body(context, option.body);
     }
 
-    if (node.other.length !== 0) {
-        add_line("Иначе", depth, lines);
-        print_body(node.other, depth, lines);
+    if (node.other !== undefined && node.other.length !== 0) {
+        add_line(context, "Иначе");
+        print_body(context, node.other);
     }
 
-    add_line("КонецЕсли;", depth, lines);
+    add_line(context, "КонецЕсли;");
+}
+
+function print_exit(context) {
+    add_line(context, "Возврат;");
+}
+
+function print_body(context, body) {
+    const depth = context.depth;
+    const lines = context.lines;
+
+    if (body === undefined) {
+        return;
+    }
+
+    for (const child of body) {
+        print_node(child, depth + 1, lines);
+    }
+}
+
+function add_line(context, text) {
+    const depth = context.depth;
+    const lines = context.lines;
+    const indent = repeat_string(" ", depth * 4);
+    const line = indent + text;
+
+    lines.push(line);
+}
+
+function repeat_string(text, count) {
+    let result = "";
+
+    for (let index = 0; index < count; index++) {
+        result += text;
+    }
+
+    return result;
+}
+
+function safe_array(value) {
+    if (value === undefined) {
+        return [];
+    }
+
+    return value;
+}
+
+function report_error(message, handle, item_id, data) {
+    error_list.push({
+        message: message,
+        filename: handle,
+        nodeId: item_id,
+        data: data
+    });
 }
 
 module.exports = {

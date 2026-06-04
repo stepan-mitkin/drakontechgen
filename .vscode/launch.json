@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
@@ -12,7 +13,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/main.js",
-            "args": ["${workspaceFolder}/examples2604/machines", "--language", "JS2604", "--output", "${workspaceFolder}/examples2604/machines.js"]
+            "args": ["${workspaceFolder}/examplesos2605/Зелёная", "--language", "OS2605", "--output", "${workspaceFolder}/examplesos2605/green.os"]
         }
     ]
 }

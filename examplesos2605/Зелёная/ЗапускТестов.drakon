@@ -292,5 +292,14 @@
             "one": "1",
             "content": "Сообщить(\"Неудачных: \" + КолвоНеудачных);"
         }
-    }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "&Декоратор1\n&Декоратор2\n&Порядок(10)"
 }

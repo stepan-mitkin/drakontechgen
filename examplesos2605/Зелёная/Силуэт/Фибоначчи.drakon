@@ -11,7 +11,7 @@
         },
         "3": {
             "type": "action",
-            "one": "24",
+            "one": "4",
             "content": "результат = порядковое;"
         },
         "4": {
@@ -76,11 +76,6 @@
             "type": "action",
             "one": "1",
             "content": "Возврат результат;"
-        },
-        "24": {
-            "type": "action",
-            "one": "4",
-            "content": "one two three раз два три"
         }
     },
     "type": "drakon",
