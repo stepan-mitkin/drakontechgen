@@ -9,6 +9,7 @@ const {
 } = require("./drakontechgen");
 const { Js2604Generator } = require("./js2604");
 const { Lua2604Generator } = require("./lua2604")
+const { Kumir2606Generator } = require("./kumir2606")
 const { toTree } = require("drakongen");
 const { Pfl2605Generator } = require("./pfl2605");
 const { Os2605Generator } = require("./os2605");
@@ -162,6 +163,8 @@ async function main() {
     generator = Js2604Generator(genOptions);
   } else if (options.language === "LUA2604") {
     generator = Lua2604Generator(genOptions);
+  } else if (options.language === "KUMIR2606") {
+    generator = Kumir2606Generator(genOptions);    
   } else if (options.language === "PFL2605") {
     generator = Pfl2605Generator(genOptions);
   } else if (options.language === "OS2605") {

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+node src/main.js exampleskumir2606/Зелёная --language KUMIR2606 --output exampleskumir2606/green.kum
+

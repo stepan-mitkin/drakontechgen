@@ -13,7 +13,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/main.js",
-            "args": ["${workspaceFolder}/examplesos2605/Зелёная", "--language", "OS2605", "--output", "${workspaceFolder}/examplesos2605/green.os"]
+            "args": ["${workspaceFolder}/exampleskumir2606/Зелёная", "--language", "KUMIR2606", "--output", "${workspaceFolder}/exampleskumir2606/green.kum"]
         }
     ]
 }
