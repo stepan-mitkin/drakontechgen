@@ -13,6 +13,7 @@ const { Kumir2606Generator } = require("./kumir2606")
 const { toTree } = require("drakongen");
 const { Pfl2605Generator } = require("./pfl2605");
 const { Os2605Generator } = require("./os2605");
+const { createC2606Generator } = require("./c2606")
 
 var success = undefined;
 
@@ -164,7 +165,9 @@ async function main() {
   } else if (options.language === "LUA2604") {
     generator = Lua2604Generator(genOptions);
   } else if (options.language === "KUMIR2606") {
-    generator = Kumir2606Generator(genOptions);    
+    generator = Kumir2606Generator(genOptions);
+  } else if (options.language === "C2606") {
+    generator = createC2606Generator(genOptions)
   } else if (options.language === "PFL2605") {
     generator = Pfl2605Generator(genOptions);
   } else if (options.language === "OS2605") {

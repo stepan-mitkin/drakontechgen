@@ -1,0 +1,56 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "4",
+            "content": "node = await options.getObjectByHandle(\n    handle\n)"
+        },
+        "4": {
+            "type": "question",
+            "one": "5",
+            "two": "8",
+            "flag1": 1,
+            "content": "node"
+        },
+        "5": {
+            "type": "question",
+            "one": "6",
+            "two": "8",
+            "flag1": 1,
+            "content": "node.type === \"drakon\""
+        },
+        "6": {
+            "type": "action",
+            "one": "7",
+            "content": "node.items = node.items || {}"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "node.keywords = node.keywords || {}"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "return node"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": true,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "handle"
+}

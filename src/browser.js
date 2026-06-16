@@ -7,6 +7,7 @@ const { Lua2604Generator } = require("./lua2604");
 const { Kumir2606Generator } = require("./kumir2606");
 const { Pfl2605Generator } = require("./pfl2605");
 const { Os2605Generator } = require("./os2605");
+const { createC2606Generator } = require("./c2606")
 
 
 window.drakontechgen = {
@@ -42,7 +43,9 @@ window.drakontechgen = {
     } else if (language === "JS2604") {
       return Js2604Generator(genOptions);
     } else if (language === "KUMIR2606") {
-      return Kumir2606Generator(genOptions);         
+      return Kumir2606Generator(genOptions);
+    } else if (language === "C2606") {
+      return createC2606Generator(genOptions);
     } else if (language === "OS2605") {
       return Os2605Generator(genOptions);          
     } else if (language === "PFL2605") {

@@ -1,0 +1,27 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "errors.push(\n    {\n        message: message,\n        filename: filename,\n        nodeId: nodeId,\n        data: data\n    }\n)"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "message\nfilename\nnodeId\ndata"
+}

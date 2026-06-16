@@ -1,0 +1,55 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "17",
+            "content": ""
+        },
+        "17": {
+            "type": "action",
+            "one": "18",
+            "content": "result = await runCore()"
+        },
+        "18": {
+            "type": "question",
+            "one": "19",
+            "two": "21",
+            "flag1": 1,
+            "content": "result.errors.length === 0"
+        },
+        "19": {
+            "type": "action",
+            "one": "1",
+            "content": "await options.onData(result.code)"
+        },
+        "20": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "21": {
+            "type": "loopbegin",
+            "one": "22",
+            "content": "error; result.errors"
+        },
+        "22": {
+            "type": "action",
+            "one": "20",
+            "content": "options.onError(error)"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": true,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": ""
+}
