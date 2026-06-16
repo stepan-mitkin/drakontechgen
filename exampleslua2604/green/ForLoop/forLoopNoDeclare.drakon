@@ -21,7 +21,7 @@
         "5": {
             "type": "loopbegin",
             "one": "8",
-            "content": "i = 1; i <  # array; i = i + 2"
+            "content": "i = 1; i < #array; i = i + 2"
         },
         "6": {
             "type": "action",

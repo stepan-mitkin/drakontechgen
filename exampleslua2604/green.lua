@@ -165,7 +165,7 @@ function forLoopNoDeclare(array)
     local copy, i, key, value
     copy = {}
     i = 1
-    while i <  # array do
+    while i < #array do
         key = array[i]
         value = array[i + 1]
         copy[key] = value
