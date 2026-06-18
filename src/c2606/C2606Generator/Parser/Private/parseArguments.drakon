@@ -1,0 +1,82 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "doc",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Split params"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "lines = tools.getLines(doc.params)"
+        },
+        "4": {
+            "type": "branch",
+            "one": "14",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 2,
+            "content": "Ветка2"
+        },
+        "6": {
+            "type": "action",
+            "one": "5",
+            "content": "args = []\nreturns = \"void\""
+        },
+        "7": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "8": {
+            "type": "loopbegin",
+            "one": "9",
+            "content": "line; lines"
+        },
+        "9": {
+            "type": "question",
+            "one": "13",
+            "two": "10",
+            "flag1": 0,
+            "content": "line.startsWith(ret)"
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "content": "skip = ret.length"
+        },
+        "11": {
+            "type": "action",
+            "one": "7",
+            "content": "returns = line.substring(skip)"
+        },
+        "12": {
+            "type": "action",
+            "one": "8",
+            "content": "ret = \"return \""
+        },
+        "13": {
+            "type": "action",
+            "one": "7",
+            "content": "args.push(line)"
+        },
+        "14": {
+            "type": "action",
+            "one": "1",
+            "content": "doc.returns = returns\ndoc.args = args"
+        }
+    }
+}

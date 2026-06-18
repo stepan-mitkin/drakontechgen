@@ -1,0 +1,77 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "func\nnode\nreturnKeyword",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "7",
+            "content": "item = func.items[node.id]"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "12",
+            "flag1": 1,
+            "content": "node.id"
+        },
+        "6": {
+            "type": "question",
+            "one": "8",
+            "two": "12",
+            "flag1": 1,
+            "content": "content"
+        },
+        "7": {
+            "type": "action",
+            "one": "6",
+            "content": "content = item.content"
+        },
+        "8": {
+            "type": "question",
+            "one": "9",
+            "two": "10",
+            "flag1": 1,
+            "content": "content.startsWith(returnKeyword + \" \")"
+        },
+        "9": {
+            "type": "action",
+            "one": "1",
+            "content": "return true"
+        },
+        "10": {
+            "type": "question",
+            "one": "9",
+            "two": "11",
+            "flag1": 1,
+            "content": "content.startsWith(returnKeyword + \";\")"
+        },
+        "11": {
+            "type": "question",
+            "one": "9",
+            "two": "12",
+            "flag1": 1,
+            "content": "content === returnKeyword"
+        },
+        "12": {
+            "type": "action",
+            "one": "1",
+            "content": "return false"
+        }
+    }
+}

@@ -10,13 +10,23 @@
         },
         "3": {
             "type": "action",
-            "one": "4",
+            "one": "5",
             "content": "#include <stdio.h>"
         },
-        "4": {
+        "5": {
+            "type": "action",
+            "one": "7",
+            "content": "#include <stdlib.h>"
+        },
+        "6": {
             "type": "action",
             "one": "1",
-            "content": "int secretValue = 23;"
+            "content": "int successCount = 0;\nint errorCount = 0;"
+        },
+        "7": {
+            "type": "action",
+            "one": "6",
+            "content": "#include \"intarray.h\""
         }
     },
     "type": "drakon"

@@ -1,0 +1,42 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "doc",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "3"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "parseArguments(doc)"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "10",
+            "content": "itemId, item; doc.items"
+        },
+        "10": {
+            "type": "action",
+            "one": "4",
+            "content": "tools.endToExit(item)"
+        }
+    }
+}

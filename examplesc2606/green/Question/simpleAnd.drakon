@@ -49,5 +49,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "int valueA\nint valueB\nint valueC\n\nreturn int"
+    "params": "int valueA // value a\nint valueB // value b\nint valueC // value c\n\nreturn int"
 }

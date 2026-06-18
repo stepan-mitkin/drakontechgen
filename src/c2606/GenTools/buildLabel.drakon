@@ -1,0 +1,56 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "6",
+            "content": "result = name.replace(\n    /[^A-Za-z0-9_]/g,\n    \"_\"\n)"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "5",
+            "flag1": 1,
+            "content": "name"
+        },
+        "5": {
+            "type": "action",
+            "one": "3",
+            "content": "return \"_\" + id"
+        },
+        "6": {
+            "type": "question",
+            "one": "7",
+            "two": "8",
+            "flag1": 1,
+            "content": "/^[0-9]/.test(result)"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "result = \"_\" + result"
+        },
+        "8": {
+            "type": "action",
+            "one": "1",
+            "content": "return result"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "name\nid"
+}

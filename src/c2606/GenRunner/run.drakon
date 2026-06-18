@@ -25,7 +25,7 @@
         "19": {
             "type": "action",
             "one": "1",
-            "content": "await options.onData(result.code)"
+            "content": "await options.onData(result.code.code)"
         },
         "20": {
             "type": "loopend",

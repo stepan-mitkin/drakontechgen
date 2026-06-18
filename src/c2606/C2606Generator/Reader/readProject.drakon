@@ -20,7 +20,23 @@
         },
         "3": {
             "type": "action",
-            "one": "1"
+            "one": "4",
+            "content": "rootFolder = await tools.readRoot()"
+        },
+        "4": {
+            "type": "action",
+            "one": "5",
+            "content": "module = {\n    functions: {},\n    begin_source: false,\n    begin_header: false\n}"
+        },
+        "5": {
+            "type": "action",
+            "one": "6",
+            "content": "await readProjectFolder(\n    module,\n    rootFolder\n)"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "content": "return module"
         }
     }
 }

@@ -7,7 +7,7 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "project",
+    "params": "module",
     "type": "drakon",
     "items": {
         "1": {
@@ -16,11 +16,22 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
+            "one": "5"
         },
-        "3": {
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "6",
+            "content": "name, fun; module.functions"
+        },
+        "6": {
             "type": "action",
-            "one": "1"
+            "one": "4",
+            "content": "parseItemsInDocument(fun)"
         }
     }
 }

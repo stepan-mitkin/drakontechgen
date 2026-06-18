@@ -1,0 +1,82 @@
+{
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return true"
+        },
+        "4": {
+            "type": "question",
+            "one": "7",
+            "two": "6",
+            "flag1": 0,
+            "content": "count === 0"
+        },
+        "5": {
+            "type": "action",
+            "one": "4",
+            "content": "count = body.length"
+        },
+        "6": {
+            "type": "action",
+            "one": "1",
+            "content": "return false"
+        },
+        "7": {
+            "type": "action",
+            "one": "8",
+            "content": "last = body[count - 1]"
+        },
+        "8": {
+            "type": "question",
+            "one": "3",
+            "two": "10",
+            "flag1": 1,
+            "content": "last.final "
+        },
+        "10": {
+            "type": "question",
+            "one": "12",
+            "two": "6",
+            "flag1": 1,
+            "content": "last.type === \"question\""
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "content": "return true"
+        },
+        "12": {
+            "type": "question",
+            "one": "13",
+            "two": "6",
+            "flag1": 1,
+            "content": "hasFinal(last.yes)"
+        },
+        "13": {
+            "type": "question",
+            "one": "11",
+            "two": "6",
+            "flag1": 1,
+            "content": "hasFinal(last.no)"
+        }
+    },
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "body"
+}

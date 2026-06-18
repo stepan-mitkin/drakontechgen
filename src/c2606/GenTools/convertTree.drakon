@@ -1,0 +1,236 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": true,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "context\nbody\noutput",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "5"
+        },
+        "4": {
+            "type": "loopend",
+            "one": "1",
+            "content": ""
+        },
+        "5": {
+            "type": "loopbegin",
+            "one": "9",
+            "content": "node; body"
+        },
+        "6": {
+            "type": "case",
+            "one": "28",
+            "content": "\"loop\"",
+            "two": "11"
+        },
+        "7": {
+            "type": "case",
+            "one": "19",
+            "two": "10",
+            "content": "\"exit\""
+        },
+        "8": {
+            "type": "case",
+            "one": "15",
+            "two": "7",
+            "content": "\"action\""
+        },
+        "9": {
+            "type": "select",
+            "one": "8",
+            "content": "node.type"
+        },
+        "10": {
+            "one": "23",
+            "type": "case",
+            "two": "6",
+            "content": "\"question\""
+        },
+        "11": {
+            "one": "32",
+            "type": "case",
+            "two": "12",
+            "content": "\"address\""
+        },
+        "12": {
+            "one": "36",
+            "type": "case",
+            "two": "13",
+            "content": "\"break\""
+        },
+        "13": {
+            "one": "40",
+            "type": "case",
+            "two": "14",
+            "content": "\"error\""
+        },
+        "14": {
+            "one": "39",
+            "type": "case",
+            "two": null
+        },
+        "15": {
+            "type": "action",
+            "one": "16",
+            "content": "content = node.content"
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "content": "finalStep = isFinal(\n    context.func,\n    node,\n    context.returnKeyword\n)"
+        },
+        "17": {
+            "type": "action",
+            "one": "18",
+            "content": "item = {\n    content: content,\n    type: node.type,\n    final : finalStep\n}"
+        },
+        "18": {
+            "type": "action",
+            "one": "4",
+            "content": "output.push(item)"
+        },
+        "19": {
+            "type": "question",
+            "one": "21",
+            "two": "4",
+            "flag1": 0,
+            "content": "context.simple"
+        },
+        "20": {
+            "type": "action",
+            "one": "22",
+            "content": "item = {type: node.type, final : true}"
+        },
+        "21": {
+            "type": "question",
+            "one": "20",
+            "two": "4",
+            "flag1": 0,
+            "content": "hasFinal(output)"
+        },
+        "22": {
+            "type": "action",
+            "one": "4",
+            "content": "output.push(item)"
+        },
+        "23": {
+            "type": "action",
+            "one": "24",
+            "content": "content = context.qc(node.content)"
+        },
+        "24": {
+            "type": "action",
+            "one": "26",
+            "content": "item = {\n    content: content,\n    type: node.type,\n    yes: [],\n    no: []\n}"
+        },
+        "25": {
+            "type": "action",
+            "one": "4",
+            "content": "output.push(item)"
+        },
+        "26": {
+            "type": "action",
+            "one": "27",
+            "content": "convertTree(context, node.yes, item.yes)"
+        },
+        "27": {
+            "type": "action",
+            "one": "25",
+            "content": "convertTree(context, node.no, item.no)"
+        },
+        "28": {
+            "type": "action",
+            "one": "29",
+            "content": "content = node.content || context.loopContent"
+        },
+        "29": {
+            "type": "action",
+            "one": "30",
+            "content": "item = {\n    type: \"loop\",\n    content: content,\n    body: []\n}"
+        },
+        "30": {
+            "type": "action",
+            "one": "31",
+            "content": "convertTree(\n    context,\n    node.body,\n    item.body\n)"
+        },
+        "31": {
+            "type": "action",
+            "one": "4",
+            "content": "output.push(item)"
+        },
+        "32": {
+            "type": "question",
+            "one": "33",
+            "two": "4",
+            "flag1": 0,
+            "content": "hasFinal(output)"
+        },
+        "33": {
+            "type": "question",
+            "one": "34",
+            "two": "42",
+            "flag1": 1,
+            "content": "context.simple"
+        },
+        "34": {
+            "type": "action",
+            "one": "35",
+            "content": "next = findByName(\n    context.branches,\n    node.content\n)"
+        },
+        "35": {
+            "type": "action",
+            "one": "4",
+            "content": "convertTree(context, next.body, output)"
+        },
+        "36": {
+            "type": "question",
+            "one": "37",
+            "two": "4",
+            "flag1": 0,
+            "content": "hasFinal(output)"
+        },
+        "37": {
+            "type": "action",
+            "one": "4",
+            "content": "addAction(\n    context.breakContent,\n    output,\n    true\n)"
+        },
+        "38": {
+            "type": "action",
+            "one": "4",
+            "content": "addAction(content, output, true)"
+        },
+        "39": {
+            "type": "action",
+            "one": "4",
+            "content": "reporError(\n    \"Unexpected node type: \" + node.type,\n    context.func.path,\n    node.id\n)"
+        },
+        "40": {
+            "type": "action",
+            "one": "38",
+            "content": "content = context.buildError(node)"
+        },
+        "41": {
+            "type": "action",
+            "one": "4",
+            "two": "",
+            "content": "addAction(content, output, true)"
+        },
+        "42": {
+            "type": "action",
+            "one": "41",
+            "two": "",
+            "content": "content = context.buildGoto(node)"
+        }
+    }
+}

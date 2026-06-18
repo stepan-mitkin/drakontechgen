@@ -1,0 +1,108 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "func\noutput",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "6",
+            "content": "Build tree"
+        },
+        "3": {
+            "type": "action",
+            "one": "21",
+            "content": "rawTree = tools.drakonToTree(func)"
+        },
+        "4": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 2,
+            "content": "Build body"
+        },
+        "6": {
+            "type": "question",
+            "one": "3",
+            "two": "4",
+            "flag1": 1,
+            "content": "func"
+        },
+        "7": {
+            "type": "question",
+            "one": "22",
+            "two": "4",
+            "flag1": 0,
+            "content": "branches.length === 0"
+        },
+        "8": {
+            "type": "question",
+            "one": "13",
+            "two": "9",
+            "flag1": 1,
+            "content": "branches.length === 1"
+        },
+        "9": {
+            "type": "question",
+            "one": "14",
+            "two": "15",
+            "flag1": 1,
+            "content": "tools.isSimpleSilhouette(rawTree)"
+        },
+        "12": {
+            "type": "action",
+            "one": "8",
+            "content": "first = branches[0]"
+        },
+        "13": {
+            "type": "action",
+            "one": "4",
+            "content": "tools.convertTree(context, first.body, output)"
+        },
+        "14": {
+            "type": "action",
+            "one": "4",
+            "content": "tools.convertTree(context, first.body, output)"
+        },
+        "15": {
+            "type": "action",
+            "one": "16",
+            "content": "context.simple = false"
+        },
+        "16": {
+            "type": "action",
+            "one": "4",
+            "content": "complexSilhouetteToTree(context, output)"
+        },
+        "20": {
+            "type": "action",
+            "one": "5",
+            "content": "context = {\n    func: func,\n    simple: true,\n    branches: branches,\n    returnKeyword: \"return\",\n    loopContent: \"white (1)\",\n    breakContent: \"break;\",\n    buildError: () => {\n        return \"abort();\"\n    },\n    qc: qc,\n    buildGoto: buildGotoCallback\n}"
+        },
+        "21": {
+            "type": "action",
+            "one": "7",
+            "content": "branches = rawTree.branches"
+        },
+        "22": {
+            "type": "action",
+            "one": "20",
+            "content": "buildGotoCallback = node => {\n    return buildGoto(branches, node)\n}"
+        }
+    }
+}

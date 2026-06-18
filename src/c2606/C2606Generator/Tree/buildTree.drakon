@@ -7,7 +7,7 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "project",
+    "params": "module",
     "type": "drakon",
     "items": {
         "1": {
@@ -15,12 +15,165 @@
         },
         "2": {
             "type": "branch",
-            "branchId": 0,
-            "one": "3"
+            "branchId": 2,
+            "one": "5",
+            "content": "Header"
         },
-        "3": {
+        "5": {
+            "type": "question",
+            "one": "6",
+            "two": "10",
+            "flag1": 1,
+            "content": "module.begin_header"
+        },
+        "6": {
             "type": "action",
-            "one": "1"
+            "one": "10",
+            "content": "generateMethodBody(\n    module.functions[\"begin_header\"],\n    header\n)"
+        },
+        "9": {
+            "type": "loopend",
+            "one": "15",
+            "content": ""
+        },
+        "10": {
+            "type": "loopbegin",
+            "one": "11",
+            "content": "name; names"
+        },
+        "11": {
+            "type": "action",
+            "one": "12",
+            "content": "func = module.functions[name]"
+        },
+        "12": {
+            "type": "question",
+            "one": "13",
+            "two": "9",
+            "flag1": 1,
+            "content": "func.keywords.export "
+        },
+        "13": {
+            "type": "action",
+            "one": "9",
+            "content": "generateDeclaration(func, header)"
+        },
+        "14": {
+            "type": "branch",
+            "one": "16",
+            "branchId": 5,
+            "content": "Exit"
+        },
+        "15": {
+            "type": "branch",
+            "one": "18",
+            "branchId": 3,
+            "content": "Source top"
+        },
+        "16": {
+            "type": "action",
+            "one": "1",
+            "content": "return {\n    header: header,\n    source: source\n}"
+        },
+        "18": {
+            "type": "question",
+            "one": "19",
+            "two": "23",
+            "flag1": 1,
+            "content": "module.begin_source"
+        },
+        "19": {
+            "type": "action",
+            "one": "23",
+            "two": "",
+            "content": "generateMethodBody(\n    module.functions[\"begin_source\"],\n    source\n)"
+        },
+        "22": {
+            "type": "loopend",
+            "one": "28",
+            "two": "",
+            "content": ""
+        },
+        "23": {
+            "type": "loopbegin",
+            "one": "24",
+            "two": "",
+            "content": "name; names"
+        },
+        "24": {
+            "type": "action",
+            "one": "25",
+            "two": "",
+            "content": "func = module.functions[name]"
+        },
+        "25": {
+            "type": "question",
+            "one": "22",
+            "two": "27",
+            "flag1": 1,
+            "content": "func.keywords.export "
+        },
+        "27": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "content": "generateDeclaration(func, source)"
+        },
+        "28": {
+            "type": "branch",
+            "branchId": 4,
+            "one": "30",
+            "content": "Source body"
+        },
+        "29": {
+            "type": "loopend",
+            "one": "14",
+            "two": "",
+            "content": ""
+        },
+        "30": {
+            "type": "loopbegin",
+            "one": "31",
+            "two": "",
+            "content": "name; names"
+        },
+        "31": {
+            "type": "action",
+            "one": "34",
+            "two": "",
+            "content": "func = module.functions[name]"
+        },
+        "34": {
+            "type": "action",
+            "one": "29",
+            "two": "",
+            "content": "buildMethodTree(func, source)"
+        },
+        "36": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "37",
+            "content": "Prepare"
+        },
+        "37": {
+            "type": "action",
+            "one": "38",
+            "content": "header = []\nsource = []"
+        },
+        "38": {
+            "type": "action",
+            "one": "39",
+            "content": "names = Object.keys(module.functions)"
+        },
+        "39": {
+            "type": "action",
+            "one": "40",
+            "content": "names = tools.removeElements(\n    names,\n    [\"begin_header\", \"begin_source\"]\n)"
+        },
+        "40": {
+            "type": "action",
+            "one": "2",
+            "content": "names.sort()"
         }
     }
 }

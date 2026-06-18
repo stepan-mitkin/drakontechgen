@@ -1,4 +1,5 @@
 {
+    "type": "drakon",
     "items": {
         "1": {
             "type": "end"
@@ -11,12 +12,11 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "return secretValue;"
+            "content": "return options.name"
         }
     },
-    "type": "drakon",
     "keywords": {
-        "function": true,
+        "function": false,
         "machine": false,
         "async": false,
         "export": true,

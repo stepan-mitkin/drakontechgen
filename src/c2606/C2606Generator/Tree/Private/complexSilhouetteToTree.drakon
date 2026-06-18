@@ -1,0 +1,82 @@
+{
+    "keywords": {
+        "function": true
+    },
+    "params": "context\noutput",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "6",
+            "content": "First branch"
+        },
+        "3": {
+            "type": "action",
+            "one": "7",
+            "content": "first = branches[0]"
+        },
+        "4": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "12",
+            "branchId": 2,
+            "content": "Branches"
+        },
+        "6": {
+            "type": "action",
+            "one": "3",
+            "content": "branches = context.branches"
+        },
+        "7": {
+            "type": "question",
+            "one": "10",
+            "two": "5",
+            "flag1": 1,
+            "content": "first.refs === 0"
+        },
+        "9": {
+            "type": "action",
+            "one": "5",
+            "content": "branches = branches.slice(1)"
+        },
+        "10": {
+            "type": "action",
+            "one": "9",
+            "content": "tools.convertTree(\n    context,\n    first.body,\n    output\n)"
+        },
+        "11": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "12": {
+            "type": "loopbegin",
+            "one": "13",
+            "content": "branch; branches"
+        },
+        "13": {
+            "type": "action",
+            "one": "14",
+            "content": "label = tools.buildLabel(\n    branch.name,\n    branch.branchId\n)"
+        },
+        "14": {
+            "type": "action",
+            "one": "15",
+            "content": "tools.addAction(\n    label + \":\",\n    output,\n    false\n)"
+        },
+        "15": {
+            "type": "action",
+            "one": "11",
+            "content": "tools.convertTree(\n    context,\n    branch.body,\n    output\n)"
+        }
+    }
+}

@@ -176,7 +176,7 @@ async function main() {
     generator = createClojureGenerator(genOptions);
   } else {
     console.error(
-      "Unexpected language. --language must be JS, JS2604, or clojure",
+      "Unexpected language. --language must be JS2604, JS, LUA2604, KUMIR2606, C2606, PFL2605, OS2605, or clojure",
     );
     return;
   }

@@ -10,7 +10,7 @@
         }
     },
     "keywords": {
-        "export": true,
+        "export": false,
         "function": true,
         "scenario": false,
         "async": false,

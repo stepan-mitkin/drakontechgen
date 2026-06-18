@@ -1,0 +1,98 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": true,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "module\nfolder",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 1,
+            "one": "3",
+            "content": "Read children"
+        },
+        "3": {
+            "type": "action",
+            "one": "5",
+            "content": "children = await tools.readChildren(\n    folder\n)"
+        },
+        "4": {
+            "type": "branch",
+            "one": "1",
+            "branchId": 3,
+            "content": "Exit"
+        },
+        "5": {
+            "type": "branch",
+            "one": "7",
+            "branchId": 2,
+            "content": "Scan children"
+        },
+        "6": {
+            "type": "loopend",
+            "one": "4",
+            "content": ""
+        },
+        "7": {
+            "type": "loopbegin",
+            "one": "12",
+            "content": "child; children"
+        },
+        "12": {
+            "type": "question",
+            "one": "13",
+            "two": "21",
+            "flag1": 1,
+            "content": "child.type === \"folder\""
+        },
+        "13": {
+            "type": "action",
+            "one": "6",
+            "content": "await readProjectFolder(module, child)"
+        },
+        "14": {
+            "type": "select",
+            "one": "15",
+            "content": "child.name"
+        },
+        "15": {
+            "type": "case",
+            "one": "22",
+            "two": "16",
+            "content": "\"begin_header\""
+        },
+        "16": {
+            "type": "case",
+            "one": "23",
+            "two": "17",
+            "content": "\"begin_source\""
+        },
+        "17": {
+            "type": "case",
+            "one": "6"
+        },
+        "21": {
+            "type": "action",
+            "one": "14",
+            "content": "addFunction(module, child)"
+        },
+        "22": {
+            "type": "action",
+            "one": "6",
+            "content": "module.begin_header = true"
+        },
+        "23": {
+            "type": "action",
+            "one": "6",
+            "content": "module.begin_source = true"
+        }
+    }
+}

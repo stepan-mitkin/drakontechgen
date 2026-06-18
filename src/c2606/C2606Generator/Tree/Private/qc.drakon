@@ -1,0 +1,106 @@
+{
+    "keywords": {
+        "function": false,
+        "machine": false,
+        "async": false,
+        "export": false,
+        "algoprop": false,
+        "lazy": false
+    },
+    "params": "content",
+    "type": "drakon",
+    "items": {
+        "1": {
+            "type": "end"
+        },
+        "2": {
+            "type": "branch",
+            "branchId": 0,
+            "one": "4"
+        },
+        "3": {
+            "type": "action",
+            "one": "1",
+            "content": "return content"
+        },
+        "4": {
+            "type": "question",
+            "one": "3",
+            "two": "8",
+            "flag1": 1,
+            "content": " typeof content === \"string\""
+        },
+        "5": {
+            "type": "case",
+            "one": "14",
+            "content": "\"or\"",
+            "two": "9"
+        },
+        "6": {
+            "type": "case",
+            "one": "12",
+            "two": "5",
+            "content": "\"and\""
+        },
+        "7": {
+            "type": "case",
+            "one": "10",
+            "two": "6",
+            "content": "\"not\""
+        },
+        "8": {
+            "type": "select",
+            "one": "7",
+            "content": "content.operator"
+        },
+        "9": {
+            "one": "16",
+            "type": "case",
+            "two": null,
+            "content": "\"equal\""
+        },
+        "10": {
+            "type": "action",
+            "one": "11",
+            "content": "operand = qc(content.operand)"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "content": "return \"!(\" + operand + \")\""
+        },
+        "12": {
+            "type": "action",
+            "one": "13",
+            "content": "left = qc(content.left)\nright = qc(content.right)"
+        },
+        "13": {
+            "type": "action",
+            "one": "1",
+            "content": "return \"(\" + left + \") && (\" + right + \")\""
+        },
+        "14": {
+            "type": "action",
+            "one": "15",
+            "two": "",
+            "content": "left = qc(content.left)\nright = qc(content.right)"
+        },
+        "15": {
+            "type": "action",
+            "one": "1",
+            "two": "",
+            "content": "return \"(\" + left + \") || (\" + right + \")\""
+        },
+        "16": {
+            "type": "action",
+            "one": "17",
+            "two": "",
+            "content": "left = qc(content.left)\nright = qc(content.right)"
+        },
+        "17": {
+            "type": "action",
+            "one": "1",
+            "content": "return left + \" == \" + right"
+        }
+    }
+}
