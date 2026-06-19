@@ -16,11 +16,11 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3"
+            "one": "28"
         },
         "3": {
             "type": "action",
-            "one": "5",
+            "one": "12",
             "content": "parseArguments(doc)"
         },
         "4": {
@@ -37,6 +37,69 @@
             "type": "action",
             "one": "4",
             "content": "tools.endToExit(item)"
+        },
+        "12": {
+            "type": "question",
+            "one": "5",
+            "two": "18",
+            "flag1": 0,
+            "content": "doc.type === \"struct\""
+        },
+        "17": {
+            "type": "loopend",
+            "one": "1",
+            "two": "",
+            "content": ""
+        },
+        "18": {
+            "type": "loopbegin",
+            "one": "25",
+            "two": "",
+            "content": "itemId, item; doc.items"
+        },
+        "22": {
+            "type": "case",
+            "one": "27"
+        },
+        "23": {
+            "type": "case",
+            "one": "17",
+            "two": "26",
+            "content": "\"branch\""
+        },
+        "24": {
+            "type": "case",
+            "one": "17",
+            "two": "23",
+            "content": "\"action\""
+        },
+        "25": {
+            "type": "select",
+            "one": "24",
+            "content": "item.type"
+        },
+        "26": {
+            "one": "17",
+            "type": "case",
+            "two": "22",
+            "content": "\"end\""
+        },
+        "27": {
+            "type": "action",
+            "one": "17",
+            "content": "tools.reportError(\n    \"Only action icons are allowed in structs\",\n    doc.path,\n    itemId\n)"
+        },
+        "28": {
+            "type": "question",
+            "one": "3",
+            "two": "29",
+            "flag1": 0,
+            "content": "doc.name === \"main\""
+        },
+        "29": {
+            "type": "action",
+            "one": "3",
+            "content": "doc.keywords.export  = true"
         }
     }
 }

@@ -13,12 +13,12 @@
         "3": {
             "type": "action",
             "one": "4",
-            "content": "checkInt(0, inversedAnd(1, 0, 0));\ncheckInt(1, inversedAnd(4, 5, 6));\ncheckInt(0, inversedAnd(0, 2, 0));"
+            "content": "checkInt(1, inversedAnd(1, 2, 3));\ncheckInt(0, inversedAnd(4, 5, 6));\ncheckInt(0, inversedAnd(0, 2, 3));"
         },
         "4": {
             "type": "action",
             "one": "6",
-            "content": "checkInt(0, inversedOr(1, 2, 3));\ncheckInt(1, inversedOr(1, 2, 2));\ncheckInt(1, inversedOr(4, 5, 6));"
+            "content": "checkInt(1, inversedOr(1, 2, 3));\ncheckInt(1, inversedOr(1, 2, 2));\ncheckInt(0, inversedOr(4, 5, 6));"
         },
         "6": {
             "type": "action",
@@ -65,7 +65,7 @@
         "15": {
             "type": "action",
             "one": "16",
-            "content": "checkString(\n    \"ten\",\n    selectWithoutDefault(10)\n);\ncheckString(\n    \"twenty\",\n    selectWithoutDefault(20)\n);\ncheckString(\n    \"thirty\",\n    selectWithoutDefault(30)\n);"
+            "content": "checkString(\n    \"ten\",\n    selectWithoutDefault(5)\n);\ncheckString(\n    \"twenty\",\n    selectWithoutDefault(15)\n);\ncheckString(\n    \"thirty\",\n    selectWithoutDefault(25)\n);"
         },
         "16": {
             "type": "action",
@@ -142,7 +142,7 @@
         "30": {
             "type": "action",
             "one": "29",
-            "content": "checkInt(1465, noDublicates(10, 20));\ncheckInt(1465, noDublicates(-10, 20));\ncheckInt(-1, noDublicates(-10, -20));"
+            "content": "checkInt(1015, noDublicates(2, 4));\ncheckInt(1015, noDublicates(-2, 4));\ncheckInt(-1, noDublicates(-10, -20));"
         },
         "31": {
             "type": "branch",
@@ -163,7 +163,7 @@
         "34": {
             "type": "action",
             "one": "35",
-            "content": "checkInt(-295, sil2(-10));\ncheckInt(625, sil2(31));\ncheckInt(1005, sil2(100));"
+            "content": "checkInt(-95, sil2(-10));\ncheckInt(315, sil2(31));\ncheckInt(1005, sil2(100));"
         },
         "35": {
             "type": "action",
@@ -255,7 +255,7 @@
         },
         "64": {
             "type": "action",
-            "one": "2",
+            "one": "79",
             "content": "array = intarray_create(3);"
         },
         "65": {
@@ -331,13 +331,18 @@
             "type": "action",
             "one": "55",
             "content": "checkInt(2, twoExits(array, 30));"
+        },
+        "79": {
+            "type": "action",
+            "one": "2",
+            "content": "hello();"
         }
     },
     "keywords": {
         "function": false,
         "machine": false,
         "async": false,
-        "export": true,
+        "export": false,
         "algoprop": false,
         "lazy": false
     },

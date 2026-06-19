@@ -18,7 +18,7 @@
         "7": {
             "type": "action",
             "one": "8",
-            "content": "item = intarray_get(array, i)"
+            "content": "item = intarray_get(array, i);"
         },
         "8": {
             "type": "question",
@@ -59,7 +59,7 @@
         "17": {
             "type": "action",
             "one": "16",
-            "content": "int i,\nindex;"
+            "content": "int i,\nindex,\nitem;"
         }
     },
     "keywords": {

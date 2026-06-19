@@ -45,7 +45,7 @@
             "one": "3",
             "two": "1",
             "flag1": 0,
-            "content": "index === -1"
+            "content": "index == -1"
         },
         "11": {
             "type": "action",
@@ -71,6 +71,6 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "intarray const * array\nint value",
+    "params": "intarray * array\nint value",
     "type": "drakon"
 }

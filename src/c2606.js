@@ -11,7 +11,7 @@ function C2606Generator(tools) {
         tools.addIndentedLine(text, context);
     }
     function buildCode(trees) {
-        var _branch_, guard, header, hlines, name, node, result, slines, source;
+        var _branch_, header, hlines, name, node, result, slines, source;
         _branch_ = 'Ветка1';
         while (true) {
             switch (_branch_) {
@@ -27,21 +27,12 @@ function C2606Generator(tools) {
                 }
                 break;
             case 'Header':
-                guard = buildGuard(name);
                 hlines = [];
-                hlines.push('#ifndef ' + guard);
-                hlines.push('#define ' + guard);
-                hlines.push('#ifdef __cplusplus');
-                hlines.push('#extern "C"{');
-                hlines.push('#endif');
+                headerStart(hlines);
                 for (node of header) {
                     printNode(node, 0, hlines);
                 }
-                hlines.push('#ifdef __cplusplus');
-                hlines.push('}');
-                hlines.push('#endif');
-                hlines.push('#endif');
-                hlines.push('');
+                headerEnd(hlines);
                 result.auxCode = hlines.join('\n');
                 result.auxName = name + '.h';
                 _branch_ = 'Source';
@@ -51,6 +42,7 @@ function C2606Generator(tools) {
                 if (!(header.length === 0)) {
                     slines.push('#include "' + name + '.h"');
                 }
+                slines.push('');
                 for (node of source) {
                     printNode(node, 0, slines);
                 }
@@ -105,7 +97,13 @@ function C2606Generator(tools) {
         }
         for (name of names) {
             func = module.functions[name];
-            if (func.keywords.export) {
+            if (func.type === 'struct' && func.keywords.export) {
+                generateStruct(func, header);
+            }
+        }
+        for (name of names) {
+            func = module.functions[name];
+            if (!(func.type === 'struct') && func.keywords.export) {
                 generateDeclaration(func, header);
             }
         }
@@ -114,13 +112,21 @@ function C2606Generator(tools) {
         }
         for (name of names) {
             func = module.functions[name];
-            if (!func.keywords.export) {
+            if (!(func.type === 'struct' || func.keywords.export)) {
                 generateDeclaration(func, source);
             }
         }
         for (name of names) {
             func = module.functions[name];
-            buildMethodTree(func, source);
+            if (func.type === 'struct' && !func.keywords.export) {
+                generateStruct(func, source);
+            }
+        }
+        for (name of names) {
+            func = module.functions[name];
+            if (!(func.type === 'struct')) {
+                buildMethodTree(func, source);
+            }
         }
         return {
             header: header,
@@ -167,7 +173,7 @@ function C2606Generator(tools) {
                     simple: true,
                     branches: branches,
                     returnKeyword: 'return',
-                    loopContent: 'white (1)',
+                    loopContent: 'while (1)',
                     breakContent: 'break;',
                     buildError: () => {
                         return 'abort();';
@@ -190,6 +196,35 @@ function C2606Generator(tools) {
         } else {
         }
     }
+    function generateStruct(func, output) {
+        var tree;
+        tree = {
+            type: 'struct',
+            keywords: func.keywords,
+            name: func.name,
+            body: []
+        };
+        generateMethodBody(func, tree.body);
+        output.push(tree);
+    }
+    function headerEnd(hlines) {
+        hlines.push('#ifdef __cplusplus');
+        hlines.push('}');
+        hlines.push('#endif');
+        hlines.push('#endif');
+        hlines.push('');
+    }
+    function headerStart(hlines) {
+        var guard, name;
+        name = tools.getProjectName();
+        guard = buildGuard(name);
+        hlines.push('#ifndef ' + guard);
+        hlines.push('#define ' + guard);
+        hlines.push('#ifdef __cplusplus');
+        hlines.push('#extern "C"{');
+        hlines.push('#endif');
+        hlines.push('');
+    }
     function parseArguments(doc) {
         var args, line, lines, ret, returns, skip;
         lines = tools.getLines(doc.params);
@@ -204,27 +239,45 @@ function C2606Generator(tools) {
                 args.push(line);
             }
         }
-        doc.returns = returns;
-        doc.args = args;
+        if (args.length === 1 && args[0] === 'struct') {
+            doc.type = 'struct';
+        } else {
+            doc.returns = returns;
+            doc.args = args;
+        }
     }
     async function parseItems(module) {
-        var _collection_58, fun, name;
-        _collection_58 = module.functions;
-        for (name in _collection_58) {
-            fun = _collection_58[name];
+        var _collection_67, fun, name;
+        _collection_67 = module.functions;
+        for (name in _collection_67) {
+            fun = _collection_67[name];
             parseItemsInDocument(fun);
         }
     }
     function parseItemsInDocument(doc) {
-        var _collection_55, item, itemId;
+        var _collection_59, _collection_62, _selectValue_65, item, itemId;
+        if (doc.name === 'main') {
+            doc.keywords.export = true;
+        }
         parseArguments(doc);
-        _collection_55 = doc.items;
-        for (itemId in _collection_55) {
-            item = _collection_55[itemId];
-            tools.endToExit(item);
+        if (doc.type === 'struct') {
+            _collection_62 = doc.items;
+            for (itemId in _collection_62) {
+                item = _collection_62[itemId];
+                _selectValue_65 = item.type;
+                if (!(_selectValue_65 === 'action' || (_selectValue_65 === 'branch' || _selectValue_65 === 'end'))) {
+                    tools.reportError('Only action icons are allowed in structs', doc.path, itemId);
+                }
+            }
+        } else {
+            _collection_59 = doc.items;
+            for (itemId in _collection_59) {
+                item = _collection_59[itemId];
+                tools.endToExit(item);
+            }
         }
     }
-    function printBlock(block, context) {
+    function printBlock(block, context, semi) {
         var depth, lines, node;
         tools.addIndentedLine('{', context);
         depth = context.depth + 1;
@@ -232,7 +285,11 @@ function C2606Generator(tools) {
         for (node of block) {
             printNode(node, depth, lines);
         }
-        tools.addIndentedLine('}', context);
+        if (semi) {
+            tools.addIndentedLine('};', context);
+        } else {
+            tools.addIndentedLine('}', context);
+        }
     }
     function printFunction(context) {
         var lines, node;
@@ -253,35 +310,41 @@ function C2606Generator(tools) {
         printBlock(node.body, context);
     }
     function printNode(node, depth, lines) {
-        var _selectValue_61, context;
+        var _selectValue_70, context;
         context = {
             node: node,
             depth: depth,
             lines: lines
         };
-        _selectValue_61 = node.type;
-        if (_selectValue_61 === 'function') {
+        _selectValue_70 = node.type;
+        if (_selectValue_70 === 'function') {
             printFunction(context);
         } else {
-            if (_selectValue_61 === 'declaration') {
-                printSignature(true, context);
+            if (_selectValue_70 === 'declaration') {
+                if (!(node.name === 'main')) {
+                    printSignature(true, context);
+                }
             } else {
-                if (_selectValue_61 === 'action') {
-                    tools.printAction(context);
+                if (_selectValue_70 === 'struct') {
+                    printStruct(context);
                 } else {
-                    if (_selectValue_61 === 'question') {
-                        printQuestion(context);
+                    if (_selectValue_70 === 'action') {
+                        tools.printAction(context);
                     } else {
-                        if (_selectValue_61 === 'loop') {
-                            printLoop(context);
+                        if (_selectValue_70 === 'question') {
+                            printQuestion(context);
                         } else {
-                            if (_selectValue_61 === 'empty-line') {
-                                context.lines.push('');
+                            if (_selectValue_70 === 'loop') {
+                                printLoop(context);
                             } else {
-                                if (!(_selectValue_61 === 'exit')) {
-                                    throw new Error('Unexpected case value: ' + _selectValue_61);
+                                if (_selectValue_70 === 'empty-line') {
+                                    context.lines.push('');
+                                } else {
+                                    if (!(_selectValue_70 === 'exit')) {
+                                        throw new Error('Unexpected case value: ' + _selectValue_70);
+                                    }
+                                    addLine('return;', context);
                                 }
-                                addLine('return;', context);
                             }
                         }
                     }
@@ -305,10 +368,11 @@ function C2606Generator(tools) {
         lines = context.lines;
         node = context.node;
         lines.push('');
-        if (!node.keywords.export) {
-            lines.push('static');
+        if (node.keywords.export) {
+            lines.push(node.returns);
+        } else {
+            lines.push('static ' + node.returns);
         }
-        lines.push(node.returns);
         if (node.args.length === 0) {
             if (addSemicolon) {
                 lines.push(node.name + '(void);');
@@ -339,28 +403,35 @@ function C2606Generator(tools) {
             }
         }
     }
+    function printStruct(context) {
+        var lines, node;
+        lines = context.lines;
+        node = context.node;
+        lines.push('struct ' + node.name);
+        printBlock(node.body, context, true);
+    }
     function qc(content) {
-        var _selectValue_65, left, operand, right;
+        var _selectValue_74, left, operand, right;
         if (typeof content === 'string') {
             return content;
         } else {
-            _selectValue_65 = content.operator;
-            if (_selectValue_65 === 'not') {
+            _selectValue_74 = content.operator;
+            if (_selectValue_74 === 'not') {
                 operand = qc(content.operand);
                 return '!(' + operand + ')';
             } else {
-                if (_selectValue_65 === 'and') {
+                if (_selectValue_74 === 'and') {
                     left = qc(content.left);
                     right = qc(content.right);
                     return '(' + left + ') && (' + right + ')';
                 } else {
-                    if (_selectValue_65 === 'or') {
+                    if (_selectValue_74 === 'or') {
                         left = qc(content.left);
                         right = qc(content.right);
                         return '(' + left + ') || (' + right + ')';
                     } else {
-                        if (!(_selectValue_65 === 'equal')) {
-                            throw new Error('Unexpected case value: ' + _selectValue_65);
+                        if (!(_selectValue_74 === 'equal')) {
+                            throw new Error('Unexpected case value: ' + _selectValue_74);
                         }
                         left = qc(content.left);
                         right = qc(content.right);
@@ -382,18 +453,18 @@ function C2606Generator(tools) {
         return module;
     }
     async function readProjectFolder(module, folder) {
-        var _selectValue_63, child, children;
+        var _selectValue_72, child, children;
         children = await tools.readChildren(folder);
         for (child of children) {
             if (child.type === 'folder') {
                 await readProjectFolder(module, child);
             } else {
                 addFunction(module, child);
-                _selectValue_63 = child.name;
-                if (_selectValue_63 === 'begin_header') {
+                _selectValue_72 = child.name;
+                if (_selectValue_72 === 'begin_header') {
                     module.begin_header = true;
                 } else {
-                    if (_selectValue_63 === 'begin_source') {
+                    if (_selectValue_72 === 'begin_source') {
                         module.begin_source = true;
                     }
                 }
@@ -413,13 +484,16 @@ function GenRunner(options, buildGenerator) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
     async function run() {
-        var _collection_67, error, result;
+        var _collection_76, error, result;
         result = await runCore();
         if (result.errors.length === 0) {
+            if (result.code.auxCode) {
+                await options.onAuxData(result.code.auxName, result.code.auxCode);
+            }
             await options.onData(result.code.code);
         } else {
-            _collection_67 = result.errors;
-            for (error of _collection_67) {
+            _collection_76 = result.errors;
+            for (error of _collection_76) {
                 options.onError(error);
             }
         }
@@ -493,10 +567,10 @@ function GenTools(options, errors) {
         return result;
     }
     function convertTree(context, body, output) {
-        var _selectValue_69, content, finalStep, item, next, node;
+        var _selectValue_78, content, finalStep, item, next, node;
         for (node of body) {
-            _selectValue_69 = node.type;
-            if (_selectValue_69 === 'action') {
+            _selectValue_78 = node.type;
+            if (_selectValue_78 === 'action') {
                 content = node.content;
                 finalStep = isFinal(context.func, node, context.returnKeyword);
                 item = {
@@ -506,7 +580,7 @@ function GenTools(options, errors) {
                 };
                 output.push(item);
             } else {
-                if (_selectValue_69 === 'exit') {
+                if (_selectValue_78 === 'exit') {
                     if (!(context.simple || hasFinal(output))) {
                         item = {
                             type: node.type,
@@ -515,7 +589,7 @@ function GenTools(options, errors) {
                         output.push(item);
                     }
                 } else {
-                    if (_selectValue_69 === 'question') {
+                    if (_selectValue_78 === 'question') {
                         content = context.qc(node.content);
                         item = {
                             content: content,
@@ -527,7 +601,7 @@ function GenTools(options, errors) {
                         convertTree(context, node.no, item.no);
                         output.push(item);
                     } else {
-                        if (_selectValue_69 === 'loop') {
+                        if (_selectValue_78 === 'loop') {
                             content = node.content || context.loopContent;
                             item = {
                                 type: 'loop',
@@ -537,7 +611,7 @@ function GenTools(options, errors) {
                             convertTree(context, node.body, item.body);
                             output.push(item);
                         } else {
-                            if (_selectValue_69 === 'address') {
+                            if (_selectValue_78 === 'address') {
                                 if (!hasFinal(output)) {
                                     if (context.simple) {
                                         next = findByName(context.branches, node.content);
@@ -548,12 +622,12 @@ function GenTools(options, errors) {
                                     }
                                 }
                             } else {
-                                if (_selectValue_69 === 'break') {
+                                if (_selectValue_78 === 'break') {
                                     if (!hasFinal(output)) {
                                         addAction(context.breakContent, output, true);
                                     }
                                 } else {
-                                    if (_selectValue_69 === 'error') {
+                                    if (_selectValue_78 === 'error') {
                                         content = context.buildError(node);
                                         addAction(content, output, true);
                                     } else {
@@ -677,11 +751,11 @@ function GenTools(options, errors) {
         return Math.floor(Math.random() * 9000) + 1000;
     }
     async function readChildren(node) {
-        var _collection_71, child, childPath, result;
+        var _collection_80, child, childPath, result;
         if (node.children) {
             result = [];
-            _collection_71 = node.children;
-            for (childPath of _collection_71) {
+            _collection_80 = node.children;
+            for (childPath of _collection_80) {
                 child = await readObject(childPath);
                 if (child && (child.type === 'drakon' || child.type === 'folder')) {
                     result.push(child);

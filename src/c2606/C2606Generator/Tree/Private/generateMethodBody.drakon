@@ -92,7 +92,7 @@
         "20": {
             "type": "action",
             "one": "5",
-            "content": "context = {\n    func: func,\n    simple: true,\n    branches: branches,\n    returnKeyword: \"return\",\n    loopContent: \"white (1)\",\n    breakContent: \"break;\",\n    buildError: () => {\n        return \"abort();\"\n    },\n    qc: qc,\n    buildGoto: buildGotoCallback\n}"
+            "content": "context = {\n    func: func,\n    simple: true,\n    branches: branches,\n    returnKeyword: \"return\",\n    loopContent: \"while (1)\",\n    breakContent: \"break;\",\n    buildError: () => {\n        return \"abort();\"\n    },\n    qc: qc,\n    buildGoto: buildGotoCallback\n}"
         },
         "21": {
             "type": "action",

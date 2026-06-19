@@ -11,7 +11,7 @@
         "3": {
             "type": "action",
             "one": "1",
-            "content": "return \"ten\""
+            "content": "return \"ten\";"
         },
         "4": {
             "type": "case",
@@ -31,7 +31,7 @@
         "8": {
             "type": "action",
             "one": "1",
-            "content": "return \"other\""
+            "content": "return \"many\";"
         },
         "9": {
             "one": "10",
@@ -42,7 +42,7 @@
         "10": {
             "type": "action",
             "one": "1",
-            "content": "return \"twenty\""
+            "content": "return \"twenty\";"
         }
     },
     "keywords": {

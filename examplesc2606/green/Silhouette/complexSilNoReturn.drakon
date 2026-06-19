@@ -31,7 +31,7 @@
             "one": "3",
             "two": "7",
             "flag1": 1,
-            "content": "left = 3"
+            "content": "left == 3"
         },
         "7": {
             "type": "branch",

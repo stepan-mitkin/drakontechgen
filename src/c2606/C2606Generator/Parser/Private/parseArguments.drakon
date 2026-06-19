@@ -21,7 +21,7 @@
         },
         "4": {
             "type": "branch",
-            "one": "14",
+            "one": "15",
             "branchId": 3,
             "content": "Exit"
         },
@@ -77,6 +77,25 @@
             "type": "action",
             "one": "1",
             "content": "doc.returns = returns\ndoc.args = args"
+        },
+        "15": {
+            "type": "question",
+            "one": "14",
+            "two": "16",
+            "flag1": 0,
+            "content": "args.length === 1"
+        },
+        "16": {
+            "type": "question",
+            "one": "14",
+            "two": "17",
+            "flag1": 0,
+            "content": "args[0] === \"struct\""
+        },
+        "17": {
+            "type": "action",
+            "one": "1",
+            "content": "doc.type = \"struct\""
         }
     }
 }

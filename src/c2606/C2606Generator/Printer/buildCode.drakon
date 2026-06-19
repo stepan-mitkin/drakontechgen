@@ -44,7 +44,7 @@
         },
         "8": {
             "type": "branch",
-            "one": "12",
+            "one": "13",
             "branchId": 2,
             "content": "Header"
         },
@@ -64,67 +64,14 @@
             "one": "1",
             "content": "return result"
         },
-        "12": {
-            "type": "action",
-            "one": "13",
-            "content": "guard = buildGuard(name)"
-        },
         "13": {
             "type": "action",
-            "one": "14",
+            "one": "38",
             "content": "hlines = []"
-        },
-        "14": {
-            "type": "action",
-            "one": "15",
-            "content": "hlines.push(\"#ifndef \" + guard)"
-        },
-        "15": {
-            "type": "action",
-            "one": "16",
-            "content": "hlines.push(\"#define \" + guard)"
-        },
-        "16": {
-            "type": "action",
-            "one": "20",
-            "content": "hlines.push(\"#ifdef __cplusplus\")"
-        },
-        "17": {
-            "type": "action",
-            "one": "25",
-            "content": "hlines.push(\"#endif\")"
-        },
-        "18": {
-            "type": "action",
-            "one": "28",
-            "content": "hlines.push(\"#endif\")"
-        },
-        "20": {
-            "type": "action",
-            "one": "17",
-            "content": "hlines.push(\"#extern \\\"C\\\"{\")"
-        },
-        "21": {
-            "type": "action",
-            "one": "23",
-            "two": "",
-            "content": "hlines.push(\"#ifdef __cplusplus\")"
-        },
-        "22": {
-            "type": "action",
-            "one": "18",
-            "two": "",
-            "content": "hlines.push(\"#endif\")"
-        },
-        "23": {
-            "type": "action",
-            "one": "22",
-            "two": "",
-            "content": "hlines.push(\"}\")"
         },
         "24": {
             "type": "loopend",
-            "one": "21",
+            "one": "39",
             "content": ""
         },
         "25": {
@@ -141,11 +88,6 @@
             "type": "action",
             "one": "37",
             "content": "result.auxCode = hlines.join(\"\\n\")"
-        },
-        "28": {
-            "type": "action",
-            "one": "27",
-            "content": "hlines.push(\"\")"
         },
         "29": {
             "type": "action",
@@ -165,13 +107,13 @@
         "32": {
             "type": "question",
             "one": "33",
-            "two": "35",
+            "two": "41",
             "flag1": 0,
             "content": "header.length === 0"
         },
         "33": {
             "type": "action",
-            "one": "35",
+            "one": "41",
             "content": "slines.push(\n    \"#include \\\"\" + name + \".h\\\"\"\n)"
         },
         "34": {
@@ -196,6 +138,21 @@
             "type": "action",
             "one": "9",
             "content": "result.auxName = name + \".h\""
+        },
+        "38": {
+            "type": "action",
+            "one": "25",
+            "content": "headerStart(hlines)"
+        },
+        "39": {
+            "type": "action",
+            "one": "27",
+            "content": "headerEnd(hlines)"
+        },
+        "41": {
+            "type": "action",
+            "one": "35",
+            "content": "slines.push(\"\")"
         }
     }
 }

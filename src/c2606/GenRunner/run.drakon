@@ -17,7 +17,7 @@
         },
         "18": {
             "type": "question",
-            "one": "19",
+            "one": "23",
             "two": "21",
             "flag1": 1,
             "content": "result.errors.length === 0"
@@ -41,6 +41,18 @@
             "type": "action",
             "one": "20",
             "content": "options.onError(error)"
+        },
+        "23": {
+            "type": "question",
+            "one": "25",
+            "two": "19",
+            "flag1": 1,
+            "content": "result.code.auxCode"
+        },
+        "25": {
+            "type": "action",
+            "one": "19",
+            "content": "await options.onAuxData(\n    result.code.auxName,\n    result.code.auxCode\n)"
         }
     },
     "keywords": {

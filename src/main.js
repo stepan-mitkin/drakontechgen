@@ -70,7 +70,9 @@ function parseCommandLine() {
     } else if (options.language === "LUA2604") {
       ext = ".lua";
     } else if (options.language === "OS2605") {
-      ext = ".os";      
+      ext = ".os";
+    } else if (options.language === "C2606") {
+      ext = ".c";
     } else {
       ext = ".clj";
     }
@@ -131,6 +133,10 @@ function onError(err) {
   success = false;
 }
 
+function makeAuxFilename(output, newName) {
+  return path.join(path.dirname(output), newName)
+}
+
 // Main logic
 async function main() {
   var options = parseCommandLine();
@@ -155,6 +161,10 @@ async function main() {
       await fs.writeFile(options.output, content, "utf-8");
       success = true;
     },
+    onAuxData: async function (auxName, auxContent) {
+      var filename = makeAuxFilename(options.output, auxName)
+      await fs.writeFile(filename, auxContent, "utf-8");
+    }
   };
 
   var generator;

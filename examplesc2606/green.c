@@ -1,225 +1,204 @@
 #include "green.h"
+
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "intarray.h"
 int successCount = 0;
 int errorCount = 0;
 
-static
-int
+static int
 add(
     int left,
     int right
 );
 
-static
-int
+static int
 addCore(
     int left,
     int right
 );
 
-static
-int
+static int
 badShortCircuit(
     int x,
     int y
 );
 
-static
-int
+static void
+checkInt(
+    int expected,
+    int actual
+);
+
+static void
+checkString(
+    char const * expected,
+    char const * actual
+);
+
+static int
 complexAnd(
     int valueA,
     int valueB,
     int valueC
 );
 
-static
-int
+static int
 complexOr(
     int valueA,
     int valueB,
     int valueC
 );
 
-static
-void
+static void
 complexSilNoReturn(
     int left,
     int right
 );
 
-static
-int
+static int
 complexSilhouette(
     int left,
     int right
 );
 
-static
-char const *
+static char const *
 degenerateSelect(
     int value
 );
 
-static
-int
+static int
 doWhile(void);
 
-static
-int
+static int
 doWhileDo(void);
 
-static
-void
+static void
 earlyExit(
-    intarray const * array,
+    intarray * array,
     int value
 );
 
-static
-void
+static void
 empty(void);
 
-static
-int
+static int
 fibonacci(
     int ordinal
 );
 
-static
-int
+static int
 fibonacciSil(
     int ordinal
 );
 
-static
-char const *
+static char const *
 fizzBuzz(
     int number
 );
 
-static
-void
+static void
 forArray(
     intarray const * array
 );
 
-static
-void
+static void
 hello(void);
 
-static
-int
+static int
 inversedAnd(
     int one,
     int two,
     int three
 );
 
-static
-int
+static int
 inversedOr(
     int one,
     int two,
     int three
 );
 
-static
-int
+static int
 noDublicates(
     int x,
     int y
 );
 
-static
-void
+static void
 question(
     int value
 );
 
-static
-int
+static int
 questionMerge(
     int left,
     int right
 );
 
-static
-char const *
+static char const *
 select(
     int value
 );
 
-static
-int
+static int
 selectArrow(void);
 
-static
-char const *
+static char const *
 selectShortCircuit(
     int value
 );
 
-static
-char const *
+static char const *
 selectWithDefault(
     int value
 );
 
-static
-char const *
+static char const *
 selectWithoutDefault(
     int value
 );
 
-static
-int
+static int
 sil2(
     int value
 );
 
-static
-int
+static int
 simpleAnd(
     int valueA, //value a
     int valueB, //value b
     int valueC // value c
 );
 
-static
-int
+static int
 simpleOr(
     int valueA,
     int valueB,
     int valueC
 );
 
-static
-int
+static int
 twoExits(
     intarray const * array,
     int value
 );
 
-static
-int
+static int
 whileDo(void);
 
-static
-void
+static void
 writeInt(
     int value
 );
 
-static
-void
+static void
 writeLine(
     char const * message
 );
 
-static
-int
+static int
 add(
     int left,
     int right
@@ -230,8 +209,7 @@ add(
     return result;
 }
 
-static
-int
+static int
 addCore(
     int left,
     int right
@@ -240,8 +218,7 @@ addCore(
     return left + right;
 }
 
-static
-int
+static int
 badShortCircuit(
     int x,
     int y
@@ -254,8 +231,57 @@ badShortCircuit(
     return 200;
 }
 
-static
-int
+static void
+checkInt(
+    int expected,
+    int actual
+)
+{
+    if (expected == actual)
+    {
+        printf(
+            "checkInt expected and actual = %d\n",
+            expected
+        );
+        successCount++;
+    }
+    else
+    {
+        printf(
+            "ERROR: checkInt expected=%d actual=%d\n",
+            expected,
+            actual
+        );
+        errorCount++;
+    }
+}
+
+static void
+checkString(
+    char const * expected,
+    char const * actual
+)
+{
+    if (strcmp(expected, actual) == 0)
+    {
+        printf(
+            "checkStr expected and actual = %s\n",
+            expected
+        );
+        successCount++;
+    }
+    else
+    {
+        printf(
+            "ERROR: checkStr expected=%s actual=%s\n",
+            expected,
+            actual
+        );
+        errorCount++;
+    }
+}
+
+static int
 complexAnd(
     int valueA,
     int valueB,
@@ -272,8 +298,7 @@ complexAnd(
     }
 }
 
-static
-int
+static int
 complexOr(
     int valueA,
     int valueB,
@@ -290,8 +315,7 @@ complexOr(
     }
 }
 
-static
-void
+static void
 complexSilNoReturn(
     int left,
     int right
@@ -299,7 +323,7 @@ complexSilNoReturn(
 {
     int result;
     result = 0;
-    if (left = 3)
+    if (left == 3)
     {
         result = result + right;
         goto Second;
@@ -318,8 +342,7 @@ complexSilNoReturn(
     return;
 }
 
-static
-int
+static int
 complexSilhouette(
     int left,
     int right
@@ -346,8 +369,7 @@ complexSilhouette(
     return result;
 }
 
-static
-char const *
+static char const *
 degenerateSelect(
     int value
 )
@@ -358,16 +380,15 @@ degenerateSelect(
     }
     else
     {
-        return "other";
+        return "many";
     }
 }
 
-static
-int
+static int
 doWhile(void)
 {
     int result = 0;
-    white (1)
+    while (1)
     {
         result += 3;
         if (result > 20)
@@ -378,12 +399,11 @@ doWhile(void)
     return result;
 }
 
-static
-int
+static int
 doWhileDo(void)
 {
     int result = 0;
-    white (1)
+    while (1)
     {
         result += 7;
         if (result > 20)
@@ -398,10 +418,9 @@ doWhileDo(void)
     return result;
 }
 
-static
-void
+static void
 earlyExit(
-    intarray const * array,
+    intarray * array,
     int value
 )
 {
@@ -419,20 +438,18 @@ earlyExit(
         }
     }
     printf("index=%d\n", index);
-    if (!(index === -1))
+    if (!(index == -1))
     {
         intarray_set(array, index, 0);
     }
 }
 
-static
-void
+static void
 empty(void)
 {
 }
 
-static
-int
+static int
 fibonacci(
     int ordinal
 )
@@ -460,8 +477,7 @@ fibonacci(
     }
 }
 
-static
-int
+static int
 fibonacciSil(
     int ordinal
 )
@@ -500,8 +516,7 @@ fibonacciSil(
     return result;
 }
 
-static
-char const *
+static char const *
 fizzBuzz(
     int number
 )
@@ -530,8 +545,7 @@ fizzBuzz(
     }
 }
 
-static
-void
+static void
 forArray(
     intarray const * array
 )
@@ -547,15 +561,13 @@ forArray(
     }
 }
 
-static
-void
+static void
 hello(void)
 {
-    printf("Hello, world\n")
+    printf("Hello, world\n");
 }
 
-static
-int
+static int
 inversedAnd(
     int one,
     int two,
@@ -564,16 +576,15 @@ inversedAnd(
 {
     if (((one == 1) && (two == 2)) && (three == 3))
     {
-        return 0;
+        return 1;
     }
     else
     {
-        return 1;
+        return 0;
     }
 }
 
-static
-int
+static int
 inversedOr(
     int one,
     int two,
@@ -582,11 +593,11 @@ inversedOr(
 {
     if (((one == 1) || (two == 2)) || (three == 3))
     {
-        return 0;
+        return 1;
     }
     else
     {
-        return 1;
+        return 0;
     }
 }
 
@@ -595,15 +606,16 @@ main(void)
 {
     intarray * array;
     array = intarray_create(3);
+    hello();
     successCount = 0;
     errorCount = 0;
     writeLine("Question");
-    checkInt(0, inversedAnd(1, 0, 0));
-    checkInt(1, inversedAnd(4, 5, 6));
-    checkInt(0, inversedAnd(0, 2, 0));
-    checkInt(0, inversedOr(1, 2, 3));
+    checkInt(1, inversedAnd(1, 2, 3));
+    checkInt(0, inversedAnd(4, 5, 6));
+    checkInt(0, inversedAnd(0, 2, 3));
+    checkInt(1, inversedOr(1, 2, 3));
     checkInt(1, inversedOr(1, 2, 2));
-    checkInt(1, inversedOr(4, 5, 6));
+    checkInt(0, inversedOr(4, 5, 6));
     checkInt(1, simpleAnd(1, 1, 1));
     checkInt(0, simpleAnd(0, 0, 0));
     checkInt(0, simpleAnd(0, 1, 1));
@@ -634,15 +646,15 @@ main(void)
     writeLine("Choice");
     checkString(
         "ten",
-        selectWithoutDefault(10)
+        selectWithoutDefault(5)
     );
     checkString(
         "twenty",
-        selectWithoutDefault(20)
+        selectWithoutDefault(15)
     );
     checkString(
         "thirty",
-        selectWithoutDefault(30)
+        selectWithoutDefault(25)
     );
     checkString(
         "good",
@@ -674,13 +686,13 @@ main(void)
     checkInt(6, add(1, 5));
     writeLine("");
     writeLine("Repeats");
-    checkInt(1465, noDublicates(10, 20));
-    checkInt(1465, noDublicates(-10, 20));
+    checkInt(1015, noDublicates(2, 4));
+    checkInt(1015, noDublicates(-2, 4));
     checkInt(-1, noDublicates(-10, -20));
     writeLine("");
     writeLine("Silhouette");
-    checkInt(-295, sil2(-10));
-    checkInt(625, sil2(31));
+    checkInt(-95, sil2(-10));
+    checkInt(315, sil2(31));
     checkInt(1005, sil2(100));
     checkInt(17, complexSilhouette(3, 5));
     checkInt(10, complexSilhouette(10, 5));
@@ -722,8 +734,7 @@ main(void)
     return 0;
 }
 
-static
-int
+static int
 noDublicates(
     int x,
     int y
@@ -759,8 +770,7 @@ noDublicates(
     }
 }
 
-static
-void
+static void
 question(
     int value
 )
@@ -775,8 +785,7 @@ question(
     }
 }
 
-static
-int
+static int
 questionMerge(
     int left,
     int right
@@ -803,8 +812,7 @@ questionMerge(
     return result;
 }
 
-static
-char const *
+static char const *
 select(
     int value
 )
@@ -826,12 +834,11 @@ select(
     }
 }
 
-static
-int
+static int
 selectArrow(void)
 {
     int result = 0;
-    white (1)
+    while (1)
     {
         if (result == 10)
         {
@@ -852,8 +859,7 @@ selectArrow(void)
     return result;
 }
 
-static
-char const *
+static char const *
 selectShortCircuit(
     int value
 )
@@ -872,31 +878,29 @@ selectShortCircuit(
     }
 }
 
-static
-char const *
+static char const *
 selectWithDefault(
     int value
 )
 {
     if (value == 10)
     {
-        return "ten"
+        return "ten";
     }
     else
     {
         if (value == 20)
         {
-            return "twenty"
+            return "twenty";
         }
         else
         {
-            return "other"
+            return "many";
         }
     }
 }
 
-static
-char const *
+static char const *
 selectWithoutDefault(
     int value
 )
@@ -922,8 +926,7 @@ selectWithoutDefault(
     }
 }
 
-static
-int
+static int
 sil2(
     int value
 )
@@ -948,8 +951,7 @@ sil2(
     return foo;
 }
 
-static
-int
+static int
 simpleAnd(
     int valueA, //value a
     int valueB, //value b
@@ -966,8 +968,7 @@ simpleAnd(
     }
 }
 
-static
-int
+static int
 simpleOr(
     int valueA,
     int valueB,
@@ -984,21 +985,21 @@ simpleOr(
     }
 }
 
-static
-int
+static int
 twoExits(
     intarray const * array,
     int value
 )
 {
     int i,
-    index;
+    index,
+    item;
     i = 0;
-    white (1)
+    while (1)
     {
         if (i < intarray_length(array))
         {
-            item = intarray_get(array, i)
+            item = intarray_get(array, i);
             if (item == value)
             {
                 index = i;
@@ -1018,12 +1019,11 @@ twoExits(
     return index;
 }
 
-static
-int
+static int
 whileDo(void)
 {
     int result = 0;
-    white (1)
+    while (1)
     {
         if (result > 20)
         {
@@ -1037,8 +1037,7 @@ whileDo(void)
     return result;
 }
 
-static
-void
+static void
 writeInt(
     int value
 )
@@ -1046,8 +1045,7 @@ writeInt(
     printf("%d\n", value);
 }
 
-static
-void
+static void
 writeLine(
     char const * message
 )

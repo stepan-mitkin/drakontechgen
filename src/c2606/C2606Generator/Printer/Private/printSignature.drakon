@@ -26,22 +26,16 @@
         },
         "5": {
             "type": "question",
-            "one": "7",
+            "one": "30",
             "two": "6",
             "flag1": 1,
             "content": "node.keywords.export "
         },
         "6": {
             "type": "action",
-            "one": "7",
-            "two": "",
-            "content": "lines.push(\"static\")"
-        },
-        "7": {
-            "type": "action",
             "one": "9",
             "two": "",
-            "content": "lines.push(node.returns)"
+            "content": "lines.push(\"static \" + node.returns)"
         },
         "8": {
             "type": "action",
@@ -165,6 +159,12 @@
             "type": "action",
             "one": "16",
             "content": "comment = parts[1].trim()"
+        },
+        "30": {
+            "type": "action",
+            "one": "9",
+            "two": "",
+            "content": "lines.push(node.returns)"
         }
     }
 }

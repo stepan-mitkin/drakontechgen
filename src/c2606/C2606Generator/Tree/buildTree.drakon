@@ -15,21 +15,9 @@
         },
         "2": {
             "type": "branch",
-            "branchId": 2,
-            "one": "5",
-            "content": "Header"
-        },
-        "5": {
-            "type": "question",
-            "one": "6",
-            "two": "10",
-            "flag1": 1,
-            "content": "module.begin_header"
-        },
-        "6": {
-            "type": "action",
+            "branchId": 3,
             "one": "10",
-            "content": "generateMethodBody(\n    module.functions[\"begin_header\"],\n    header\n)"
+            "content": "Header"
         },
         "9": {
             "type": "loopend",
@@ -43,7 +31,7 @@
         },
         "11": {
             "type": "action",
-            "one": "12",
+            "one": "42",
             "content": "func = module.functions[name]"
         },
         "12": {
@@ -61,13 +49,13 @@
         "14": {
             "type": "branch",
             "one": "16",
-            "branchId": 5,
+            "branchId": 6,
             "content": "Exit"
         },
         "15": {
             "type": "branch",
             "one": "18",
-            "branchId": 3,
+            "branchId": 4,
             "content": "Source top"
         },
         "16": {
@@ -102,27 +90,21 @@
         },
         "24": {
             "type": "action",
-            "one": "25",
+            "one": "43",
             "two": "",
             "content": "func = module.functions[name]"
         },
         "25": {
             "type": "question",
-            "one": "22",
-            "two": "27",
-            "flag1": 1,
+            "one": "60",
+            "two": "22",
+            "flag1": 0,
             "content": "func.keywords.export "
-        },
-        "27": {
-            "type": "action",
-            "one": "22",
-            "two": "",
-            "content": "generateDeclaration(func, source)"
         },
         "28": {
             "type": "branch",
-            "branchId": 4,
-            "one": "30",
+            "branchId": 5,
+            "one": "54",
             "content": "Source body"
         },
         "29": {
@@ -139,7 +121,7 @@
         },
         "31": {
             "type": "action",
-            "one": "34",
+            "one": "59",
             "two": "",
             "content": "func = module.functions[name]"
         },
@@ -172,8 +154,130 @@
         },
         "40": {
             "type": "action",
-            "one": "2",
+            "one": "44",
             "content": "names.sort()"
+        },
+        "42": {
+            "type": "question",
+            "one": "12",
+            "two": "9",
+            "flag1": 0,
+            "content": "func.type === \"struct\""
+        },
+        "43": {
+            "type": "question",
+            "one": "25",
+            "two": "22",
+            "flag1": 0,
+            "content": "func.type === \"struct\""
+        },
+        "44": {
+            "type": "branch",
+            "branchId": 2,
+            "one": "45",
+            "content": "Header start"
+        },
+        "45": {
+            "type": "question",
+            "one": "46",
+            "two": "48",
+            "flag1": 1,
+            "content": "module.begin_header"
+        },
+        "46": {
+            "type": "action",
+            "one": "48",
+            "two": "",
+            "content": "generateMethodBody(\n    module.functions[\"begin_header\"],\n    header\n)"
+        },
+        "47": {
+            "type": "loopend",
+            "one": "2",
+            "two": "",
+            "content": ""
+        },
+        "48": {
+            "type": "loopbegin",
+            "one": "49",
+            "two": "",
+            "content": "name; names"
+        },
+        "49": {
+            "type": "action",
+            "one": "52",
+            "two": "",
+            "content": "func = module.functions[name]"
+        },
+        "50": {
+            "type": "question",
+            "one": "51",
+            "two": "47",
+            "flag1": 1,
+            "content": "func.keywords.export "
+        },
+        "51": {
+            "type": "action",
+            "one": "47",
+            "two": "",
+            "content": "generateStruct(func, header)"
+        },
+        "52": {
+            "type": "question",
+            "one": "50",
+            "two": "47",
+            "flag1": 1,
+            "content": "func.type === \"struct\""
+        },
+        "53": {
+            "type": "loopend",
+            "one": "30",
+            "two": "",
+            "content": ""
+        },
+        "54": {
+            "type": "loopbegin",
+            "one": "55",
+            "two": "",
+            "content": "name; names"
+        },
+        "55": {
+            "type": "action",
+            "one": "58",
+            "two": "",
+            "content": "func = module.functions[name]"
+        },
+        "56": {
+            "type": "question",
+            "one": "57",
+            "two": "53",
+            "flag1": 0,
+            "content": "func.keywords.export "
+        },
+        "57": {
+            "type": "action",
+            "one": "53",
+            "two": "",
+            "content": "generateStruct(func, source)"
+        },
+        "58": {
+            "type": "question",
+            "one": "56",
+            "two": "53",
+            "flag1": 1,
+            "content": "func.type === \"struct\""
+        },
+        "59": {
+            "type": "question",
+            "one": "34",
+            "two": "29",
+            "flag1": 0,
+            "content": "func.type === \"struct\""
+        },
+        "60": {
+            "type": "action",
+            "one": "22",
+            "two": "",
+            "content": "generateDeclaration(func, source)"
         }
     }
 }

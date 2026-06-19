@@ -16,7 +16,7 @@
         },
         "5": {
             "type": "loopend",
-            "one": "9",
+            "one": "10",
             "content": ""
         },
         "6": {
@@ -38,6 +38,18 @@
             "type": "action",
             "one": "1",
             "content": "tools.addIndentedLine(\"}\", context)"
+        },
+        "10": {
+            "type": "question",
+            "one": "9",
+            "two": "11",
+            "flag1": 0,
+            "content": "semi"
+        },
+        "11": {
+            "type": "action",
+            "one": "1",
+            "content": "tools.addIndentedLine(\"};\", context)"
         }
     },
     "keywords": {
@@ -48,5 +60,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "block\ncontext"
+    "params": "block\ncontext\nsemi"
 }

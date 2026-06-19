@@ -1,0 +1,5 @@
+#!/bin/bash
+
+node src/main.js examplesc2606/green --language C2606 --output examplesc2606/green.c
+node src/main.js examplesc2606/intarray --language C2606 --output examplesc2606/intarray.c
+

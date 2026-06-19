@@ -56,9 +56,9 @@
             "content": "\"exit\""
         },
         "13": {
-            "one": "17",
+            "one": "21",
             "type": "case",
-            "two": "5",
+            "two": "22",
             "content": "\"declaration\""
         },
         "14": {
@@ -95,6 +95,24 @@
             "type": "action",
             "one": "1",
             "content": "printLoop(context)"
+        },
+        "21": {
+            "type": "question",
+            "one": "17",
+            "two": "1",
+            "flag1": 0,
+            "content": "node.name === \"main\""
+        },
+        "22": {
+            "one": "23",
+            "type": "case",
+            "two": "5",
+            "content": "\"struct\""
+        },
+        "23": {
+            "type": "action",
+            "one": "1",
+            "content": "printStruct(context)"
         }
     },
     "keywords": {
