@@ -1,4 +1,3 @@
-#include "green.h"
 
 #include <string.h>
 #include <stdio.h>

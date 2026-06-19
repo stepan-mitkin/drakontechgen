@@ -20,6 +20,7 @@ window.drakontechgen = {
     language,
     main,
     settings,
+    onAuxData
   ) {
     language = language || "JS2604";
     var genOptions = {
@@ -34,6 +35,7 @@ window.drakontechgen = {
       onError: onError,
       onData: onData,
       settings: settings,
+      onAuxData: onAuxData
     };
 
     if (language === "JS") {

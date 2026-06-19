@@ -96,7 +96,7 @@
         },
         "25": {
             "type": "question",
-            "one": "60",
+            "one": "61",
             "two": "22",
             "flag1": 0,
             "content": "func.keywords.export "
@@ -278,6 +278,13 @@
             "one": "22",
             "two": "",
             "content": "generateDeclaration(func, source)"
+        },
+        "61": {
+            "type": "question",
+            "one": "60",
+            "two": "22",
+            "flag1": 0,
+            "content": "func.name === \"main\""
         }
     }
 }

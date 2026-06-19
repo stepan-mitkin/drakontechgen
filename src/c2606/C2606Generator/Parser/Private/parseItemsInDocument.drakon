@@ -16,7 +16,7 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "28"
+            "one": "3"
         },
         "3": {
             "type": "action",
@@ -88,18 +88,6 @@
             "type": "action",
             "one": "17",
             "content": "tools.reportError(\n    \"Only action icons are allowed in structs\",\n    doc.path,\n    itemId\n)"
-        },
-        "28": {
-            "type": "question",
-            "one": "3",
-            "two": "29",
-            "flag1": 0,
-            "content": "doc.name === \"main\""
-        },
-        "29": {
-            "type": "action",
-            "one": "3",
-            "content": "doc.keywords.export  = true"
         }
     }
 }

@@ -19,7 +19,11 @@ intarray_create(
     {
         abort();
     }
-    obj = malloc(sizeof (intarray));
+    obj = malloc(sizeof(intarray));
+    if (!(obj))
+    {
+        abort();
+    }
     obj->size = size;
     if (size == 0)
     {
@@ -29,6 +33,10 @@ intarray_create(
     {
         dataSize = sizeof(int) * size;
         obj->elements = malloc(dataSize);
+        if (!(obj->elements))
+        {
+            abort();
+        }
         memset(obj->elements, 0, dataSize);
     }
     return obj;

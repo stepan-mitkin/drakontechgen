@@ -112,7 +112,7 @@ function C2606Generator(tools) {
         }
         for (name of names) {
             func = module.functions[name];
-            if (!(func.type === 'struct' || func.keywords.export)) {
+            if (!(func.type === 'struct' || (func.keywords.export || func.name === 'main'))) {
                 generateDeclaration(func, source);
             }
         }
@@ -247,32 +247,29 @@ function C2606Generator(tools) {
         }
     }
     async function parseItems(module) {
-        var _collection_67, fun, name;
-        _collection_67 = module.functions;
-        for (name in _collection_67) {
-            fun = _collection_67[name];
+        var _collection_59, fun, name;
+        _collection_59 = module.functions;
+        for (name in _collection_59) {
+            fun = _collection_59[name];
             parseItemsInDocument(fun);
         }
     }
     function parseItemsInDocument(doc) {
-        var _collection_59, _collection_62, _selectValue_65, item, itemId;
-        if (doc.name === 'main') {
-            doc.keywords.export = true;
-        }
+        var _collection_62, _collection_65, _selectValue_68, item, itemId;
         parseArguments(doc);
         if (doc.type === 'struct') {
-            _collection_62 = doc.items;
-            for (itemId in _collection_62) {
-                item = _collection_62[itemId];
-                _selectValue_65 = item.type;
-                if (!(_selectValue_65 === 'action' || (_selectValue_65 === 'branch' || _selectValue_65 === 'end'))) {
+            _collection_65 = doc.items;
+            for (itemId in _collection_65) {
+                item = _collection_65[itemId];
+                _selectValue_68 = item.type;
+                if (!(_selectValue_68 === 'action' || (_selectValue_68 === 'branch' || _selectValue_68 === 'end'))) {
                     tools.reportError('Only action icons are allowed in structs', doc.path, itemId);
                 }
             }
         } else {
-            _collection_59 = doc.items;
-            for (itemId in _collection_59) {
-                item = _collection_59[itemId];
+            _collection_62 = doc.items;
+            for (itemId in _collection_62) {
+                item = _collection_62[itemId];
                 tools.endToExit(item);
             }
         }
@@ -321,9 +318,7 @@ function C2606Generator(tools) {
             printFunction(context);
         } else {
             if (_selectValue_70 === 'declaration') {
-                if (!(node.name === 'main')) {
-                    printSignature(true, context);
-                }
+                printSignature(true, context);
             } else {
                 if (_selectValue_70 === 'struct') {
                     printStruct(context);
@@ -368,7 +363,7 @@ function C2606Generator(tools) {
         lines = context.lines;
         node = context.node;
         lines.push('');
-        if (node.keywords.export) {
+        if (node.keywords.export || node.name === 'main') {
             lines.push(node.returns);
         } else {
             lines.push('static ' + node.returns);
