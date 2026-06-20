@@ -1,5 +1,5 @@
-#ifndef INTARRAY_H_9356
-#define INTARRAY_H_9356
+#ifndef INTARRAY_H_2119
+#define INTARRAY_H_2119
 #ifdef __cplusplus
 #extern "C"{
 #endif

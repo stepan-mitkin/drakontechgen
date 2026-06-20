@@ -7,18 +7,12 @@
         "2": {
             "type": "branch",
             "branchId": 0,
-            "one": "3",
-            "content": ""
+            "one": "3"
         },
         "3": {
             "type": "action",
-            "one": "4",
-            "content": "int * elements;"
-        },
-        "4": {
-            "type": "action",
             "one": "1",
-            "content": "int size;"
+            "content": "return 2;"
         }
     },
     "keywords": {
@@ -29,5 +23,5 @@
         "algoprop": false,
         "lazy": false
     },
-    "params": "struct"
+    "params": "intarray * array\n\nreturn int"
 }

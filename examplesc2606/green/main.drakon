@@ -177,7 +177,7 @@
         },
         "37": {
             "type": "action",
-            "one": "33",
+            "one": "80",
             "content": "checkInt(0, fibonacci(0));\ncheckInt(1, fibonacci(1));\ncheckInt(1, fibonacci(2));\ncheckInt(2, fibonacci(3));\ncheckInt(3, fibonacci(4));\ncheckInt(5, fibonacci(5));\ncheckInt(8, fibonacci(6));\ncheckInt(13, fibonacci(7));\ncheckInt(21, fibonacci(8));\ncheckInt(34, fibonacci(9));\ncheckInt(55, fibonacci(10));"
         },
         "38": {
@@ -336,6 +336,11 @@
             "type": "action",
             "one": "2",
             "content": "hello();"
+        },
+        "80": {
+            "type": "action",
+            "one": "33",
+            "content": "checkInt(2, resourcesExample(100));"
         }
     },
     "keywords": {

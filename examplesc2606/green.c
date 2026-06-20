@@ -37,6 +37,11 @@ checkString(
 );
 
 static int
+completeWork(
+    intarray * array
+);
+
+static int
 complexAnd(
     int valueA,
     int valueB,
@@ -65,6 +70,16 @@ complexSilhouette(
 static char const *
 degenerateSelect(
     int value
+);
+
+static void
+doMore(
+    intarray * array
+);
+
+static void
+doSomething(
+    intarray * array
 );
 
 static int
@@ -134,6 +149,11 @@ static int
 questionMerge(
     int left,
     int right
+);
+
+static int
+resourcesExample(
+    int count
 );
 
 static char const *
@@ -281,6 +301,14 @@ checkString(
 }
 
 static int
+completeWork(
+    intarray * array
+)
+{
+    return 2;
+}
+
+static int
 complexAnd(
     int valueA,
     int valueB,
@@ -381,6 +409,20 @@ degenerateSelect(
     {
         return "many";
     }
+}
+
+static void
+doMore(
+    intarray * array
+)
+{
+}
+
+static void
+doSomething(
+    intarray * array
+)
+{
 }
 
 static int
@@ -708,6 +750,7 @@ main(void)
     checkInt(21, fibonacci(8));
     checkInt(34, fibonacci(9));
     checkInt(55, fibonacci(10));
+    checkInt(2, resourcesExample(100));
     writeLine("");
     writeLine("ForLoop");
     intarray_set(array, 0, 10);
@@ -808,6 +851,21 @@ questionMerge(
             result += 5;
         }
     }
+    return result;
+}
+
+static int
+resourcesExample(
+    int count
+)
+{
+    intarray * array;
+    int result;
+    array = intarray_create(count);
+    doSomething(array);
+    doMore(array);
+    result = completeWork(array);
+    intarray_delete(array);
     return result;
 }
 
