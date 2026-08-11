@@ -1,10 +1,11 @@
 const {sortBy, findFirst, addRange, clone, replace} = require('./tools');
 function Js2604Generator(options) {
     var self = { _type: 'Js2604Generator' };
-    var failed, gBranches, gById, gDebugAst, gDropAddress, gSimpleSilhouette, nextId, state;
+    var failed, gBranches, gById, gDebugAst, gDropAddress, gSimpleSilhouette, nextFunId, nextId, state;
     state = 'idle';
     failed = false;
     nextId = 2;
+    nextFunId = 1;
     gSimpleSilhouette = true;
     gDropAddress = false;
     gBranches = {};
@@ -995,8 +996,14 @@ function Js2604Generator(options) {
         }
         return cls;
     }
+    function genNextFunId() {
+        var id;
+        id = 'fun_' + nextFunId;
+        nextFunId++;
+        return id;
+    }
     function generateFunctionId(folder) {
-        folder.id = generateId('fun');
+        folder.id = genNextFunId();
         gById[folder.id] = folder;
     }
     function generateId(prefix) {

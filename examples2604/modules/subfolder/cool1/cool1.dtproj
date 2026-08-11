@@ -1,6 +1,4 @@
 {
-    "language": "JS2604",
-    "outputFile": "../cool1.js",
-    "format": "modules",
-    "dependencies": ""
+    "language": "C2606",
+    "outputFile": "../cool1.c"
 }

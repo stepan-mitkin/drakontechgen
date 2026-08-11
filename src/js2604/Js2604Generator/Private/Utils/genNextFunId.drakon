@@ -1,13 +1,4 @@
 {
-    "keywords": {
-        "function": false,
-        "machine": false,
-        "async": false,
-        "export": false,
-        "algoprop": false,
-        "lazy": false
-    },
-    "params": "folder",
     "type": "drakon",
     "items": {
         "1": {
@@ -22,13 +13,19 @@
             "type": "action",
             "one": "5",
             "two": "",
-            "content": "folder.id = genNextFunId()"
+            "content": "id = \"fun_\" + nextFunId"
         },
         "5": {
             "type": "action",
+            "one": "6",
+            "two": "",
+            "content": "nextFunId++"
+        },
+        "6": {
+            "type": "action",
             "one": "1",
             "two": "",
-            "content": "gById[folder.id] = folder"
+            "content": "return id"
         }
     }
 }
