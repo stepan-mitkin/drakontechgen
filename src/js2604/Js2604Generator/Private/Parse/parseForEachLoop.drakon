@@ -36,45 +36,13 @@
         },
         "8": {
             "type": "action",
-            "one": "9",
+            "one": "34",
             "content": "first = expr1.expression\nsecond = expr2.expression"
-        },
-        "9": {
-            "type": "question",
-            "one": "34",
-            "two": "10",
-            "flag1": 1,
-            "content": "second.type === \"Identifier\""
-        },
-        "10": {
-            "type": "action",
-            "one": "48",
-            "content": "varName = generateId(\"_collection\")"
-        },
-        "11": {
-            "type": "action",
-            "one": "12",
-            "content": "oldContent = second"
-        },
-        "12": {
-            "type": "action",
-            "one": "13",
-            "content": "second = createIdentifier(varName)"
-        },
-        "13": {
-            "type": "action",
-            "one": "14",
-            "content": "newContent = createAssignment(\n    createIdentifier(varName),\n    oldContent\n)"
-        },
-        "14": {
-            "type": "action",
-            "one": "34",
-            "content": "insertActionBefore(\n    folder,\n    id,\n    newContent\n)"
         },
         "15": {
             "type": "branch",
             "one": "1",
-            "branchId": 4,
+            "branchId": 5,
             "content": "Exit"
         },
         "16": {
@@ -106,13 +74,13 @@
         "34": {
             "type": "question",
             "one": "16",
-            "two": "35",
+            "two": "56",
             "flag1": 1,
             "content": "first.type === \"Identifier\""
         },
         "35": {
             "type": "branch",
-            "branchId": 3,
+            "branchId": 4,
             "one": "36",
             "content": "Dictionary loop"
         },
@@ -192,9 +160,53 @@
             "two": "",
             "content": "addLoopVar(\n    folder.scope,\n    item.valueVariable\n)"
         },
-        "48": {
+        "56": {
+            "type": "branch",
+            "branchId": 3,
+            "one": "57",
+            "content": "Create temp variable"
+        },
+        "57": {
+            "type": "question",
+            "one": "35",
+            "two": "58",
+            "flag1": 1,
+            "content": "second.type === \"Identifier\""
+        },
+        "58": {
             "type": "action",
-            "one": "11",
+            "one": "63",
+            "two": "",
+            "content": "varName = generateId(\"_collection\")"
+        },
+        "59": {
+            "type": "action",
+            "one": "60",
+            "two": "",
+            "content": "oldContent = second"
+        },
+        "60": {
+            "type": "action",
+            "one": "61",
+            "two": "",
+            "content": "second = createIdentifier(varName)"
+        },
+        "61": {
+            "type": "action",
+            "one": "62",
+            "two": "",
+            "content": "newContent = createAssignment(\n    createIdentifier(varName),\n    oldContent\n)"
+        },
+        "62": {
+            "type": "action",
+            "one": "35",
+            "two": "",
+            "content": "insertActionBefore(\n    folder,\n    id,\n    newContent\n)"
+        },
+        "63": {
+            "type": "action",
+            "one": "59",
+            "two": "",
             "content": "addLocal(folder.scope, varName)"
         }
     },

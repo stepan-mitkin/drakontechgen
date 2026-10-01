@@ -1,9 +1,8 @@
 function setUpMachine(folder) {
-    var _collection_2, id, item;
+    var id, item;
     if (folder.keywords.async) {
         folder.events = {};
-        _collection_2 = folder.eventItems;
-        for (id of _collection_2) {
+        for (id of folder.eventItems) {
             item = folder.items[id];
             if (item.type === 'select') {
                 addSelectEvent(folder, item, id);
@@ -20,8 +19,7 @@ function setUpMachine(folder) {
             delete folder.keywords.machine;
             folder.keywords.async = true;
             folder.events = {};
-            _collection_2 = folder.eventItems;
-            for (id of _collection_2) {
+            for (id of folder.eventItems) {
                 item = folder.items[id];
                 if (item.type === 'select') {
                     addSelectEvent(folder, item, id);
